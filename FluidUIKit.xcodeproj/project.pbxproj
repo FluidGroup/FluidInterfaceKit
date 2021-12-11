@@ -19,6 +19,8 @@
 		4B959B252764F8470003FFB6 /* FluidUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959AF82764F7180003FFB6 /* FluidUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4B959B2B2764F8620003FFB6 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B2A2764F8620003FFB6 /* MondrianLayout */; };
 		4B959B2D2764F8950003FFB6 /* ZStackContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2C2764F8950003FFB6 /* ZStackContainerViewController.swift */; };
+		4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2E2764FFCD0003FFB6 /* Logger.swift */; };
+		4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B30276503C30003FFB6 /* DemoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		4B959B1F2764F8200003FFB6 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		4B959B212764F8300003FFB6 /* RootContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootContainerViewController.swift; sourceTree = "<group>"; };
 		4B959B2C2764F8950003FFB6 /* ZStackContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZStackContainerViewController.swift; sourceTree = "<group>"; };
+		4B959B2E2764FFCD0003FFB6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				4B959B2C2764F8950003FFB6 /* ZStackContainerViewController.swift */,
+				4B959B2E2764FFCD0003FFB6 /* Logger.swift */,
 			);
 			path = FluidUIKit;
 			sourceTree = "<group>";
@@ -112,6 +117,7 @@
 			children = (
 				4B959B082764F77E0003FFB6 /* AppDelegate.swift */,
 				4B959B1F2764F8200003FFB6 /* Book.swift */,
+				4B959B30276503C30003FFB6 /* DemoViewController.swift */,
 				4B959B212764F8300003FFB6 /* RootContainerViewController.swift */,
 				4B959B0C2764F77E0003FFB6 /* ViewController.swift */,
 				4B959B112764F77F0003FFB6 /* Assets.xcassets */,
@@ -250,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B959B2D2764F8950003FFB6 /* ZStackContainerViewController.swift in Sources */,
+				4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +268,7 @@
 				4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */,
 				4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */,
 				4B959B202764F8200003FFB6 /* Book.swift in Sources */,
+				4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

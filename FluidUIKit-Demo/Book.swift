@@ -1,5 +1,10 @@
 import StorybookKit
 
 let book = Book(title: "MyBook") {
-  BookText("Hello, MyBook")
+
+  BookNavigationLink(title: "Demo") {
+    BookPush(title: "Demo") {
+      DemoViewController()
+    }
+  }
 }
