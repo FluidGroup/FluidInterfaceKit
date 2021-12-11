@@ -1,6 +1,19 @@
 
 import UIKit
 
+//final class ReentrancyChecker {
+//  var count: UInt64 = 0
+//
+//  func enter() {
+//    assert(count == 0)
+//    count &+= 1
+//  }
+//
+//  func leave() {
+//    count &-= 1
+//  }
+//}
+
 open class ZStackContainerViewController: UIViewController {
 
   private let __rootView: UIView?
@@ -27,14 +40,20 @@ open class ZStackContainerViewController: UIViewController {
 
   public func addContentViewController(_ viewController: UIViewController) {
 
+    assert(Thread.isMainThread)
+
     guard stackingViewControllers.contains(viewController) == false else {
       Log.error(.zStack, "\(viewController) has been already added in ZStackViewController")
       return
     }
-    
+
+//    let backViewController = stackingViewControllers.last
+
     stackingViewControllers.append(viewController)
 
     viewController.zStackViewControllerContext = .init(zStackViewController: self)
+
+//    backViewController?.view.removeFromSuperview()
 
     addChild(viewController)
 
@@ -46,11 +65,17 @@ open class ZStackContainerViewController: UIViewController {
   }
 
   public func addContentView(_ view: UIView) {
+
+    assert(Thread.isMainThread)
+
     let viewController = AnonymousViewController(view: view)
     addContentViewController(viewController)
   }
 
   public func removeLastViewController() {
+
+    assert(Thread.isMainThread)
+
     guard let viewControllerToRemove = stackingViewControllers.last else {
       Log.error(.zStack, "The last view controller was not found to remove")
       return
@@ -62,6 +87,8 @@ open class ZStackContainerViewController: UIViewController {
   }
 
   public func removeViewController(_ viewController: UIViewController) {
+
+    assert(Thread.isMainThread)
 
     guard let index = stackingViewControllers.firstIndex(of: viewController) else {
       Log.error(.zStack, "\(viewController) was not found to remove")
