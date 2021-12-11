@@ -51,6 +51,30 @@ final class ContentViewController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    print("viewWillAppear: \(self)")
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+
+    print("viewDidAppear: \(self)")
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+
+    print("viewWillDisappear: \(self)")
+  }
+
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    
+    print("viewDidDisappear: \(self)")
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
