@@ -11,7 +11,7 @@ import FluidUIKit
 import UIKit
 import StorybookKit
 
-final class DemoViewController: ZStackContainerViewController {
+final class DemoViewController: ZStackViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
