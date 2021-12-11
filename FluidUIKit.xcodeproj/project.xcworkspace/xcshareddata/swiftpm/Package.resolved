@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "MondrianLayout",
+        "repositoryURL": "https://github.com/muukii/MondrianLayout.git",
+        "state": {
+          "branch": null,
+          "revision": "ff3e642aeb95ffc6e494474b63403b99cccd6c8c",
+          "version": "0.5.0"
+        }
+      },
+      {
+        "package": "Storybook",
+        "repositoryURL": "git@github.com:eure/Storybook-ios.git",
+        "state": {
+          "branch": null,
+          "revision": "e15ea90fd59c8351e9742b2b8837d05ed462bd74",
+          "version": "1.8.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
