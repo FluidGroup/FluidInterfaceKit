@@ -23,9 +23,9 @@ public final class ZStackViewControllerAddingTransitionContext: Equatable {
 
 }
 
-public final class ZStackViewControllerRemovingTransitionContext: Equatable {
+public final class ZStackViewControllerBatchRemovingTransitionContext: Equatable {
 
-  public static func == (lhs: ZStackViewControllerRemovingTransitionContext, rhs: ZStackViewControllerRemovingTransitionContext) -> Bool {
+  public static func == (lhs: ZStackViewControllerBatchRemovingTransitionContext, rhs: ZStackViewControllerBatchRemovingTransitionContext) -> Bool {
     lhs === rhs
   }
 
@@ -40,6 +40,27 @@ public final class ZStackViewControllerRemovingTransitionContext: Equatable {
   ) {
     self.contentView = contentView
     self.fromViewControllers = fromViewControllers
+    self.toViewController = toViewController
+  }
+}
+
+public final class ZStackViewControllerRemovingTransitionContext: Equatable {
+
+  public static func == (lhs: ZStackViewControllerRemovingTransitionContext, rhs: ZStackViewControllerRemovingTransitionContext) -> Bool {
+    lhs === rhs
+  }
+
+  public let contentView: UIView
+  public let fromViewController: UIViewController
+  public let toViewController: UIViewController?
+
+  init(
+    contentView: UIView,
+    fromViewController: UIViewController,
+    toViewController: UIViewController?
+  ) {
+    self.contentView = contentView
+    self.fromViewController = fromViewController
     self.toViewController = toViewController
   }
 }
@@ -102,6 +123,51 @@ public struct AnyZStackViewControllerRemovingTransition {
 }
 
 extension AnyZStackViewControllerRemovingTransition {
+
+  public static func vanishing(duration: TimeInterval = 0.6) -> Self {
+
+    return .init { context in
+
+      let topViewController = context.fromViewController
+
+      let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+
+        topViewController.view.alpha = 0
+
+        context.toViewController?.view.transform = .identity
+        context.toViewController?.view.alpha = 1
+
+      }
+
+      animator.addCompletion { _ in
+        topViewController.view.alpha = 1
+        topViewController.view.removeFromSuperview()
+      }
+
+      animator.startAnimation()
+
+    }
+
+  }
+
+}
+
+public struct AnyZStackViewControllerBatchRemovingTransition {
+
+  private let _startTransition: (ZStackViewControllerBatchRemovingTransitionContext) -> Void
+
+  public init(
+    startTransition: @escaping (ZStackViewControllerBatchRemovingTransitionContext) -> Void
+  ) {
+    self._startTransition = startTransition
+  }
+
+  public func startTransition(context: ZStackViewControllerBatchRemovingTransitionContext) {
+    _startTransition(context)
+  }
+}
+
+extension AnyZStackViewControllerBatchRemovingTransition {
 
   public static func vanishing(duration: TimeInterval = 0.6) -> Self {
 

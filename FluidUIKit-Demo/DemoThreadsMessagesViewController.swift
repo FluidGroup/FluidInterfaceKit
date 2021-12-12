@@ -10,6 +10,7 @@ import MondrianLayout
 import FluidUIKit
 import UIKit
 import CompositionKit
+import StorybookKit
 
 final class DemoThreadsMessagesViewController: ZStackViewController {
 
@@ -91,7 +92,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
 
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    view.backgroundColor = BookGenerator.randomColor()
 
     let footerView: UIView = {
 

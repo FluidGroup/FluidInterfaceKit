@@ -1,0 +1,6 @@
+[submodule "submodules/MatchedTransition"]
+	path = submodules/MatchedTransition
+	url = git@github.com:muukii/MatchedTransition.git
+[submodule "submodules/CompositionKit"]
+	path = submodules/CompositionKit
+	url = git@github.com:muukii/CompositionKit.git

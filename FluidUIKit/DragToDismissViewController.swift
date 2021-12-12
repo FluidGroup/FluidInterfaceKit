@@ -276,8 +276,6 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
   @objc
   private func handleEdgeLeftPanGesture(_ gesture: _EdgePanGestureRecognizer) {
 
-//    guard parent == nil else { return }
-
     switch gesture.state {
     case .possible:
       break
@@ -334,8 +332,6 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
 
   @objc
   private func handlePanGesture(_ gesture: _PanGestureRecognizer) {
-
-//    guard parent == nil else { return }
 
     switch gesture.state {
     case .possible:
@@ -412,6 +408,8 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
             animator: animator
           )
 
+          zStackViewControllerContext?.reserveWillRemoveSelf()
+
           scrollController.lockScrolling()
         }
       }
@@ -444,11 +442,12 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
         )
       } else {
 
+        zStackViewControllerContext?.cancelWillRemoveSelf()
+
         context.animator.stopAnimation(true)
         let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
           self.view.transform = .identity
         }
-
           .startAnimation()
 
 //        context.animator.isReversed = true
@@ -468,6 +467,7 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
       scrollController.endTracking()
 
       leftToRightTrackingContext = nil
+      zStackViewControllerContext?.cancelWillRemoveSelf()
 
       /// restore view state
     @unknown default:
