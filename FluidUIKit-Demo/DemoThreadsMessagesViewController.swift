@@ -9,6 +9,7 @@ import Foundation
 import MondrianLayout
 import FluidUIKit
 import UIKit
+import CompositionKit
 
 final class DemoThreadsMessagesViewController: ZStackViewController {
 
@@ -66,7 +67,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
           makeCell(onTap: { [unowned self] cell in
             print(cell)
 
-            addContentViewController(DemoThreadsDetailViewController(), transition: nil)
+            addContentViewController(DemoThreadsDetailViewController(), transition: .popup())
 
           })
         }

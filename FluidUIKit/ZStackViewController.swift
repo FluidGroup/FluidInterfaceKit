@@ -21,7 +21,7 @@ public final class ZStackViewControllerAddingTransitionContext: Equatable {
 
   public let contentView: UIView
   public let fromViewController: UIViewController?
-  public let toViewController: UIViewController?
+  public let toViewController: UIViewController
 
   private let _notifyTransitionCompleted: () -> Void
   private let _notifyTransitionCancelled: () -> Void
@@ -29,7 +29,7 @@ public final class ZStackViewControllerAddingTransitionContext: Equatable {
   init(
     contentView: UIView,
     fromViewController: UIViewController?,
-    toViewController: UIViewController?,
+    toViewController: UIViewController,
     onCompleted: @escaping () -> Void,
     onCancelled: @escaping () -> Void
   ) {
@@ -112,6 +112,34 @@ public struct AnyZStackViewControllerTransition: ZStackViewControllerAddingTrans
   }
 }
 
+extension AnyZStackViewControllerTransition {
+
+  public static func popup() -> Self {
+
+    return .init { context in
+
+      context.toViewController.view.transform = .init(scaleX: 0.8, y: 0.8)
+      context.toViewController.view.alpha = 0
+
+      let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+
+        context.toViewController.view.transform = .identity
+        context.toViewController.view.alpha = 1
+
+      }
+
+      animator.addCompletion { _ in
+        context.notifyTransitionCompleted()
+      }
+
+      animator.startAnimation()
+
+    }
+
+  }
+
+}
+
 open class ZStackViewController: UIViewController {
 
   private struct State: Equatable {
@@ -148,7 +176,7 @@ open class ZStackViewController: UIViewController {
 
   public func addContentViewController(
     _ frontViewController: UIViewController,
-    transition: ZStackViewControllerAddingTransitioning?
+    transition: AnyZStackViewControllerTransition?
   ) {
 
     assert(Thread.isMainThread)
@@ -224,7 +252,7 @@ open class ZStackViewController: UIViewController {
 
   }
 
-  public func addContentView(_ view: UIView, transition: ZStackViewControllerAddingTransitioning?) {
+  public func addContentView(_ view: UIView, transition: AnyZStackViewControllerTransition?) {
 
     assert(Thread.isMainThread)
 
@@ -279,6 +307,7 @@ open class ZStackViewController: UIViewController {
 
       })
 
+    /*
     while(stackingViewControllers.last != targetTopViewController) {
 
       let viewControllerToRemove = stackingViewControllers.last!
@@ -347,6 +376,7 @@ open class ZStackViewController: UIViewController {
 
       }
     }
+     */
 
   }
 
@@ -358,12 +388,12 @@ public struct ZStackViewControllerContext {
 
   public func addContentViewController(
     _ viewController: UIViewController,
-    transition: ZStackViewControllerAddingTransitioning?
+    transition: AnyZStackViewControllerTransition?
   ) {
     zStackViewController?.addContentViewController(viewController, transition: transition)
   }
 
-  public func addContentView(_ view: UIView, transition: ZStackViewControllerAddingTransitioning?) {
+  public func addContentView(_ view: UIView, transition: AnyZStackViewControllerTransition?) {
     zStackViewController?.addContentView(view, transition: transition)
   }
 

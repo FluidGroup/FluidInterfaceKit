@@ -23,8 +23,8 @@
 		4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B30276503C30003FFB6 /* DemoViewController.swift */; };
 		4B959B34276507F50003FFB6 /* RevealServer.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959B32276507EE0003FFB6 /* RevealServer.xcframework */; };
 		4B959B35276507F50003FFB6 /* RevealServer.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959B32276507EE0003FFB6 /* RevealServer.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4BBDECCE2765C87600982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECCD2765C87600982229 /* CompositionKit */; };
 		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
-		4BE1935B2765B8350008626E /* CompositionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1935A2765B8350008626E /* CompositionKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4B7842C22765C7580054CE7C /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = ../CompositionKit; sourceTree = "<group>"; };
 		4B959AF82764F7180003FFB6 /* FluidUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluidUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B062764F77E0003FFB6 /* FluidUIKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidUIKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B082764F77E0003FFB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,7 +68,6 @@
 		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		4B959B32276507EE0003FFB6 /* RevealServer.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RevealServer.xcframework; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
-		4BE1935A2765B8350008626E /* CompositionKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +86,7 @@
 				4B959B34276507F50003FFB6 /* RevealServer.xcframework in Frameworks */,
 				4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */,
 				4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */,
+				4BBDECCE2765C87600982229 /* CompositionKit in Frameworks */,
 				4B959B242764F8470003FFB6 /* FluidUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,9 +94,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B7842C12765C7580054CE7C /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				4B7842C22765C7580054CE7C /* CompositionKit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		4B959AEE2764F7180003FFB6 = {
 			isa = PBXGroup;
 			children = (
+				4B7842C12765C7580054CE7C /* Packages */,
 				4B959B32276507EE0003FFB6 /* RevealServer.xcframework */,
 				4B959AFA2764F7180003FFB6 /* FluidUIKit */,
 				4B959B072764F77E0003FFB6 /* FluidUIKit-Demo */,
@@ -134,7 +144,6 @@
 				4B959B112764F77F0003FFB6 /* Assets.xcassets */,
 				4B959B132764F77F0003FFB6 /* LaunchScreen.storyboard */,
 				4B959B162764F77F0003FFB6 /* Info.plist */,
-				4BE1935A2765B8350008626E /* CompositionKit.swift */,
 			);
 			path = "FluidUIKit-Demo";
 			sourceTree = "<group>";
@@ -196,6 +205,7 @@
 				4B959B1B2764F7B30003FFB6 /* StorybookKit */,
 				4B959B1D2764F7B30003FFB6 /* StorybookUI */,
 				4B959B2A2764F8620003FFB6 /* MondrianLayout */,
+				4BBDECCD2765C87600982229 /* CompositionKit */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidUIKit-Demo.app */;
@@ -282,7 +292,6 @@
 				4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */,
 				4B959B202764F8200003FFB6 /* Book.swift in Sources */,
 				4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */,
-				4BE1935B2765B8350008626E /* CompositionKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +618,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4B959B292764F8620003FFB6 /* XCRemoteSwiftPackageReference "MondrianLayout" */;
 			productName = MondrianLayout;
+		};
+		4BBDECCD2765C87600982229 /* CompositionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CompositionKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
