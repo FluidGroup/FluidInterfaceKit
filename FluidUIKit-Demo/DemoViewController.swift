@@ -35,7 +35,7 @@ final class DemoViewController: ZStackViewController {
   }
 
   @objc private func onTapStartButton() {
-    addContentViewController(ContentViewController(color: BookGenerator.randomColor()))
+    addContentViewController(ContentViewController(color: BookGenerator.randomColor()), transition: nil)
   }
 
 }
@@ -102,10 +102,13 @@ final class ContentViewController: UIViewController {
   }
 
   @objc private func onTapStartButton() {
-    zStackViewControllerContext?.addContentViewController(ContentViewController(color: BookGenerator.randomColor()))
+    zStackViewControllerContext?.addContentViewController(
+      ContentViewController(color: BookGenerator.randomColor()),
+      transition: nil
+    )
   }
 
   @objc private func onTapDismissButton() {
-    zStackViewControllerContext?.removeSelf()
+    zStackViewControllerContext?.removeSelf(transition: nil)
   }
 }

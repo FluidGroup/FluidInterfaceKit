@@ -6,5 +6,8 @@ let book = Book(title: "MyBook") {
     BookPush(title: "Demo") {
       DemoViewController()
     }
+    BookPush(title: "Threads") {
+      DemoThreadsMessagesViewController()
+    }
   }
 }

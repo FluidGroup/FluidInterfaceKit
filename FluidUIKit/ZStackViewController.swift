@@ -13,9 +13,9 @@ import UIKit
 //  }
 //}
 
-public final class ZStackViewControllerTransitionContext: Equatable {
+public final class ZStackViewControllerAddingTransitionContext: Equatable {
 
-  public static func == (lhs: ZStackViewControllerTransitionContext, rhs: ZStackViewControllerTransitionContext) -> Bool {
+  public static func == (lhs: ZStackViewControllerAddingTransitionContext, rhs: ZStackViewControllerAddingTransitionContext) -> Bool {
     lhs === rhs
   }
 
@@ -49,23 +49,65 @@ public final class ZStackViewControllerTransitionContext: Equatable {
   }
 }
 
-public protocol ZStackViewControllerTransitioning {
+public final class ZStackViewControllerRemovingTransitionContext: Equatable {
 
-  func startTransition(context: ZStackViewControllerTransitionContext)
+  public static func == (lhs: ZStackViewControllerRemovingTransitionContext, rhs: ZStackViewControllerRemovingTransitionContext) -> Bool {
+    lhs === rhs
+  }
+
+  public let contentView: UIView
+  public let fromViewControllers: [UIViewController]
+  public let toViewController: UIViewController?
+
+  private let _notifyTransitionCompleted: () -> Void
+  private let _notifyTransitionCancelled: () -> Void
+
+  init(
+    contentView: UIView,
+    fromViewControllers: [UIViewController],
+    toViewController: UIViewController?,
+    onCompleted: @escaping () -> Void,
+    onCancelled: @escaping () -> Void
+  ) {
+    self.contentView = contentView
+    self.fromViewControllers = fromViewControllers
+    self.toViewController = toViewController
+    self._notifyTransitionCompleted = onCompleted
+    self._notifyTransitionCancelled = onCancelled
+  }
+
+  public func notifyTransitionCompleted() {
+    _notifyTransitionCompleted()
+  }
+
+  public func notifyTransitionCancelled() {
+    _notifyTransitionCancelled()
+  }
+}
+
+public protocol ZStackViewControllerAddingTransitioning {
+
+  func startTransition(context: ZStackViewControllerAddingTransitionContext)
 
 }
 
-public struct AnyZStackViewControllerTransition: ZStackViewControllerTransitioning {
+public protocol ZStackViewControllerRemovingTransitioning {
 
-  private let _startTransition: (ZStackViewControllerTransitionContext) -> Void
+  func startTransition(context: ZStackViewControllerRemovingTransitionContext)
+
+}
+
+public struct AnyZStackViewControllerTransition: ZStackViewControllerAddingTransitioning {
+
+  private let _startTransition: (ZStackViewControllerAddingTransitionContext) -> Void
 
   public init(
-    startTransition: @escaping (ZStackViewControllerTransitionContext) -> Void
+    startTransition: @escaping (ZStackViewControllerAddingTransitionContext) -> Void
   ) {
     self._startTransition = startTransition
   }
 
-  public func startTransition(context: ZStackViewControllerTransitionContext) {
+  public func startTransition(context: ZStackViewControllerAddingTransitionContext) {
     _startTransition(context)
   }
 }
@@ -74,7 +116,7 @@ open class ZStackViewController: UIViewController {
 
   private struct State: Equatable {
 
-    var currentTransition: ZStackViewControllerTransitionContext?
+    var currentTransition: ZStackViewControllerAddingTransitionContext?
   }
 
   private var state: State = .init()
@@ -106,7 +148,7 @@ open class ZStackViewController: UIViewController {
 
   public func addContentViewController(
     _ frontViewController: UIViewController,
-    transition: ZStackViewControllerTransitioning?
+    transition: ZStackViewControllerAddingTransitioning?
   ) {
 
     assert(Thread.isMainThread)
@@ -134,7 +176,7 @@ open class ZStackViewController: UIViewController {
       frontViewController.view.frame = self.view.bounds
       frontViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-      let transitionContext = ZStackViewControllerTransitionContext(
+      let transitionContext = ZStackViewControllerAddingTransitionContext(
         contentView: self.view,
         fromViewController: backViewController,
         toViewController: frontViewController,
@@ -182,7 +224,7 @@ open class ZStackViewController: UIViewController {
 
   }
 
-  public func addContentView(_ view: UIView, transition: ZStackViewControllerTransitioning?) {
+  public func addContentView(_ view: UIView, transition: ZStackViewControllerAddingTransitioning?) {
 
     assert(Thread.isMainThread)
 
@@ -190,7 +232,7 @@ open class ZStackViewController: UIViewController {
     addContentViewController(viewController, transition: transition)
   }
 
-  public func removeLastViewController() {
+  public func removeLastViewController(transition: ZStackViewControllerRemovingTransitioning?) {
 
     assert(Thread.isMainThread)
 
@@ -201,10 +243,13 @@ open class ZStackViewController: UIViewController {
 
     viewControllerToRemove.zStackViewControllerContext = nil
 
-    removeViewController(viewControllerToRemove)
+    removeViewController(viewControllerToRemove, transitionProvider: { _ in transition })
   }
 
-  public func removeViewController(_ viewController: UIViewController) {
+  public func removeViewController(
+    _ viewController: UIViewController,
+    transitionProvider: (UIViewController) -> ZStackViewControllerRemovingTransitioning?
+  ) {
 
     assert(Thread.isMainThread)
 
@@ -213,16 +258,94 @@ open class ZStackViewController: UIViewController {
       return
     }
 
-    let viewControllersToRemove = stackingViewControllers[
+    let targetTopViewController: UIViewController? = stackingViewControllers[0..<(index)].last
+
+    let viewControllersToRemove = Array(stackingViewControllers[
       index...stackingViewControllers.indices.last!
-    ]
+    ])
+
+    let previousStack = stackingViewControllers
 
     stackingViewControllers = Array(stackingViewControllers[0..<(index)])
 
-    for viewControllerToRemove in viewControllersToRemove {
-      viewControllerToRemove.willMove(toParent: nil)
-      viewControllerToRemove.view.removeFromSuperview()
-      viewControllerToRemove.removeFromParent()
+    ZStackViewControllerRemovingTransitionContext(
+      contentView: view,
+      fromViewControllers: viewControllersToRemove,
+      toViewController: targetTopViewController,
+      onCompleted: {
+
+      },
+      onCancelled: {
+
+      })
+
+    while(stackingViewControllers.last != targetTopViewController) {
+
+      let viewControllerToRemove = stackingViewControllers.last!
+
+      if let transition = transitionProvider(viewControllerToRemove) {
+
+        let index = previousStack.firstIndex(of: viewControllerToRemove)!
+        let toViewController: UIViewController? = {
+          let targetIndex = index.advanced(by: -1)
+          if previousStack.indices.contains(targetIndex) {
+            return previousStack[targetIndex]
+          }
+          return nil
+        }()
+
+        var isTransitioning = true
+        var breaks = false
+
+        let transitionContext = ZStackViewControllerAddingTransitionContext(
+          contentView: self.view,
+          fromViewController: viewControllerToRemove,
+          toViewController: toViewController,
+          onCompleted: { [weak self] in
+
+            guard let self = self else { return }
+
+            self.state.currentTransition = nil
+
+            viewControllerToRemove.willMove(toParent: nil)
+            viewControllerToRemove.view.removeFromSuperview()
+            viewControllerToRemove.removeFromParent()
+
+            isTransitioning = false
+          },
+          onCancelled: { [weak self] in
+
+            guard let self = self else { return }
+
+            self.state.currentTransition = nil
+
+            breaks = true
+            isTransitioning = false
+          }
+        )
+
+        state.currentTransition = transitionContext
+//        transition.startTransition(context: transitionContext)
+
+        while(isTransitioning) {
+          RunLoop.current.run(mode: .default, before: Date(timeIntervalSinceNow: 0.001))
+        }
+
+        if breaks {
+          break
+        }
+
+      } else {
+
+        assert(stackingViewControllers.last == viewControllerToRemove)
+
+        viewControllerToRemove.willMove(toParent: nil)
+        viewControllerToRemove.view.removeFromSuperview()
+        viewControllerToRemove.removeFromParent()
+
+        stackingViewControllers.removeLast()
+
+      }
     }
 
   }
@@ -235,17 +358,17 @@ public struct ZStackViewControllerContext {
 
   public func addContentViewController(
     _ viewController: UIViewController,
-    transition: ZStackViewControllerTransitioning?
+    transition: ZStackViewControllerAddingTransitioning?
   ) {
     zStackViewController?.addContentViewController(viewController, transition: transition)
   }
 
-  public func addContentView(_ view: UIView, transition: ZStackViewControllerTransitioning?) {
+  public func addContentView(_ view: UIView, transition: ZStackViewControllerAddingTransitioning?) {
     zStackViewController?.addContentView(view, transition: transition)
   }
 
-  public func removeSelf() {
-    zStackViewController?.removeLastViewController()
+  public func removeSelf(transition: ZStackViewControllerRemovingTransitioning?) {
+    zStackViewController?.removeLastViewController(transition: transition)
   }
 }
 
