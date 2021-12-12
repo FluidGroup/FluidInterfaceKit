@@ -24,6 +24,10 @@
 		4B959B34276507F50003FFB6 /* RevealServer.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959B32276507EE0003FFB6 /* RevealServer.xcframework */; };
 		4B959B35276507F50003FFB6 /* RevealServer.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959B32276507EE0003FFB6 /* RevealServer.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4BBDECCE2765C87600982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECCD2765C87600982229 /* CompositionKit */; };
+		4BBDECD12766238B00982229 /* Chain in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECD02766238B00982229 /* Chain */; };
+		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
+		4BBDECD52766286400982229 /* DragToDismissViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* DragToDismissViewController.swift */; };
+		4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD62766291400982229 /* ScrollView+Handling.swift */; };
 		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +71,9 @@
 		4B959B2E2764FFCD0003FFB6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		4B959B32276507EE0003FFB6 /* RevealServer.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RevealServer.xcframework; sourceTree = "<group>"; };
+		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
+		4BBDECD42766286400982229 /* DragToDismissViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissViewController.swift; sourceTree = "<group>"; };
+		4BBDECD62766291400982229 /* ScrollView+Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Handling.swift"; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,6 +92,7 @@
 				4B959B2B2764F8620003FFB6 /* MondrianLayout in Frameworks */,
 				4B959B34276507F50003FFB6 /* RevealServer.xcframework in Frameworks */,
 				4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */,
+				4BBDECD12766238B00982229 /* Chain in Frameworks */,
 				4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */,
 				4BBDECCE2765C87600982229 /* CompositionKit in Frameworks */,
 				4B959B242764F8470003FFB6 /* FluidUIKit.framework in Frameworks */,
@@ -127,6 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */,
+				4BBDECD42766286400982229 /* DragToDismissViewController.swift */,
+				4BBDECD62766291400982229 /* ScrollView+Handling.swift */,
 				4B959B2E2764FFCD0003FFB6 /* Logger.swift */,
 			);
 			path = FluidUIKit;
@@ -144,6 +154,7 @@
 				4B959B112764F77F0003FFB6 /* Assets.xcassets */,
 				4B959B132764F77F0003FFB6 /* LaunchScreen.storyboard */,
 				4B959B162764F77F0003FFB6 /* Info.plist */,
+				4BBDECD22766241200982229 /* UIControl+Closure.swift */,
 			);
 			path = "FluidUIKit-Demo";
 			sourceTree = "<group>";
@@ -206,6 +217,7 @@
 				4B959B1D2764F7B30003FFB6 /* StorybookUI */,
 				4B959B2A2764F8620003FFB6 /* MondrianLayout */,
 				4BBDECCD2765C87600982229 /* CompositionKit */,
+				4BBDECD02766238B00982229 /* Chain */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidUIKit-Demo.app */;
@@ -242,6 +254,7 @@
 			packageReferences = (
 				4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */,
 				4B959B292764F8620003FFB6 /* XCRemoteSwiftPackageReference "MondrianLayout" */,
+				4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */,
 			);
 			productRefGroup = 4B959AF92764F7180003FFB6 /* Products */;
 			projectDirPath = "";
@@ -277,7 +290,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BBDECD52766286400982229 /* DragToDismissViewController.swift in Sources */,
 				4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */,
+				4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */,
 				4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */,
+				4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */,
 				4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */,
 				4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */,
 				4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */,
@@ -601,6 +617,14 @@
 				minimumVersion = 0.5.0;
 			};
 		};
+		4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/VergeGroup/Wrap.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -622,6 +646,11 @@
 		4BBDECCD2765C87600982229 /* CompositionKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CompositionKit;
+		};
+		4BBDECD02766238B00982229 /* Chain */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */;
+			productName = Chain;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

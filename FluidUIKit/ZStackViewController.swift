@@ -194,9 +194,10 @@ open class ZStackViewController: UIViewController {
     let backViewController = stackingViewControllers.last
     stackingViewControllers.append(frontViewController)
 
-    if let transition = transition {
+    /// set context
+    frontViewController.zStackViewControllerContext = .init(zStackViewController: self)
 
-      frontViewController.zStackViewControllerContext = .init(zStackViewController: self)
+    if let transition = transition {
 
       addChild(frontViewController)
 
@@ -238,8 +239,6 @@ open class ZStackViewController: UIViewController {
 
     } else {
 
-      frontViewController.zStackViewControllerContext = .init(zStackViewController: self)
-
       addChild(frontViewController)
 
       self.view.addSubview(frontViewController.view)
@@ -269,9 +268,9 @@ open class ZStackViewController: UIViewController {
       return
     }
 
-    viewControllerToRemove.zStackViewControllerContext = nil
-
     removeViewController(viewControllerToRemove, transitionProvider: { _ in transition })
+
+    viewControllerToRemove.zStackViewControllerContext = nil
   }
 
   public func removeViewController(
@@ -294,8 +293,6 @@ open class ZStackViewController: UIViewController {
 
     let previousStack = stackingViewControllers
 
-    stackingViewControllers = Array(stackingViewControllers[0..<(index)])
-
     ZStackViewControllerRemovingTransitionContext(
       contentView: view,
       fromViewControllers: viewControllersToRemove,
@@ -307,11 +304,11 @@ open class ZStackViewController: UIViewController {
 
       })
 
-    /*
     while(stackingViewControllers.last != targetTopViewController) {
 
       let viewControllerToRemove = stackingViewControllers.last!
 
+      /*
       if let transition = transitionProvider(viewControllerToRemove) {
 
         let index = previousStack.firstIndex(of: viewControllerToRemove)!
@@ -366,6 +363,7 @@ open class ZStackViewController: UIViewController {
 
       } else {
 
+       */
         assert(stackingViewControllers.last == viewControllerToRemove)
 
         viewControllerToRemove.willMove(toParent: nil)
@@ -374,9 +372,9 @@ open class ZStackViewController: UIViewController {
 
         stackingViewControllers.removeLast()
 
-      }
+//      }
     }
-     */
+
 
   }
 
@@ -410,7 +408,7 @@ extension UIViewController {
     get {
 
       guard let object = objc_getAssociatedObject(self, &ref) as? ZStackViewControllerContext else {
-        return nil
+        return parent?.zStackViewControllerContext
       }
       return object
 

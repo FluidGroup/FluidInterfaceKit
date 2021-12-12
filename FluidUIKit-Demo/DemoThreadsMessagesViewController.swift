@@ -67,7 +67,9 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
           makeCell(onTap: { [unowned self] cell in
             print(cell)
 
-            addContentViewController(DemoThreadsDetailViewController(), transition: .popup())
+            let controller = DragToDismissViewController(bodyViewController: DemoThreadsDetailViewController())
+
+            addContentViewController(controller, transition: .popup())
 
           })
         }
@@ -95,11 +97,22 @@ final class DemoThreadsDetailViewController: ZStackViewController {
       let label = UILabel()
       label.text = "Hello"
 
+      let button = UIButton(type: .system)&>.do {
+        $0.setTitle("Dismiss", for: .normal)
+        $0.onTap { [unowned self] in
+          self.zStackViewControllerContext?.removeSelf(transition: nil)
+        }
+      }
+
       return AnyView { _ in
         HStackBlock {
           label
             .viewBlock
             .padding(8)
+
+          StackingSpacer(minLength: 0)
+
+          button
         }
       }
 

@@ -1,5 +1,7 @@
 import UIKit
 
+@_exported import Chain
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
