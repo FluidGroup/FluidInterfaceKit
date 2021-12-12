@@ -434,10 +434,11 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
       let velocity = gesture.velocity(in: gesture.view)
 
       if progress > 0.5 || velocity.x > 300 {
+        let velocityX = context.normalizedVelocity(gesture: gesture)
         context.animator.continueAnimation(
           withTimingParameters: UISpringTimingParameters(
             dampingRatio: 1,
-            initialVelocity: .init(dx: velocity.x, dy: 0)
+            initialVelocity: .init(dx: velocityX, dy: 0)
           ),
           durationFactor: 1
         )

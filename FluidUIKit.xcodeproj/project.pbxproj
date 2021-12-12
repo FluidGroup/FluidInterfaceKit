@@ -28,6 +28,7 @@
 		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
 		4BBDECD52766286400982229 /* DragToDismissViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* DragToDismissViewController.swift */; };
 		4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD62766291400982229 /* ScrollView+Handling.swift */; };
+		4BBDECD92766350E00982229 /* ZStackViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */; };
 		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
 		4BBDECD42766286400982229 /* DragToDismissViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissViewController.swift; sourceTree = "<group>"; };
 		4BBDECD62766291400982229 /* ScrollView+Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Handling.swift"; sourceTree = "<group>"; };
+		4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZStackViewControllerTransition.swift; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +136,7 @@
 		4B959AFA2764F7180003FFB6 /* FluidUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */,
 				4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */,
 				4BBDECD42766286400982229 /* DragToDismissViewController.swift */,
 				4BBDECD62766291400982229 /* ScrollView+Handling.swift */,
@@ -293,6 +296,7 @@
 				4BBDECD52766286400982229 /* DragToDismissViewController.swift in Sources */,
 				4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */,
 				4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */,
+				4BBDECD92766350E00982229 /* ZStackViewControllerTransition.swift in Sources */,
 				4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

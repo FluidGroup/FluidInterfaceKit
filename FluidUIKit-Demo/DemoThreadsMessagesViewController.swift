@@ -70,7 +70,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
             let controller = DragToDismissViewController(bodyViewController: DemoThreadsDetailViewController())
             controller.setIdiom(.navigationPush(isScreenGestureEnabled: true))
 
-            addContentViewController(controller, transition: .popup())
+            addContentViewController(controller, transition: .popup(duration: 2))
 
           })
         }
@@ -101,7 +101,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
       let button = UIButton(type: .system)&>.do {
         $0.setTitle("Dismiss", for: .normal)
         $0.onTap { [unowned self] in
-          self.zStackViewControllerContext?.removeSelf(transition: nil)
+          self.zStackViewControllerContext?.removeSelf(transition: .vanishing())
         }
       }
 
