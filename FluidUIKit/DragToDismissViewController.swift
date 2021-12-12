@@ -276,7 +276,7 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
   @objc
   private func handleEdgeLeftPanGesture(_ gesture: _EdgePanGestureRecognizer) {
 
-    guard parent == nil else { return }
+//    guard parent == nil else { return }
 
     switch gesture.state {
     case .possible:
@@ -291,26 +291,41 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
           scrollController.lockScrolling()
         }
 
+        let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
+
+          self.view.transform = .init(translationX: self.view.bounds.width, y: 0)
+
+          // 0.02 is workaround value to enable grabbing the view from the gesture.
+          // Since, alpha 0 ignores touches.
+          //            view.alpha = 0.02
+          //            toView.transform = .identity
+          //            toView.alpha = 1
+        }
+
         leftToRightTrackingContext = .init(
           viewFrame: view.bounds,
-          beganPoint: gesture.location(in: view)
+          beganPoint: gesture.location(in: view),
+          animator: animator
         )
 
         dismiss(animated: true, completion: nil)
       }
 
     case .changed:
-      leftToRightTrackingContext?.handleChanged(gesture: gesture)
+
+      let context = leftToRightTrackingContext!
+      let progress = context.calulateProgress(gesture: gesture)
+
+      print(progress)
+
     case .ended:
       scrollController.unlockScrolling()
       scrollController.endTracking()
-      leftToRightTrackingContext?.handleEnded(gesture: gesture)
-      leftToRightTrackingContext = nil
+
     case .cancelled, .failed:
       scrollController.unlockScrolling()
       scrollController.endTracking()
-      leftToRightTrackingContext?.handleCancel(gesture: gesture)
-      leftToRightTrackingContext = nil
+
     @unknown default:
       break
     }
@@ -320,7 +335,7 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
   @objc
   private func handlePanGesture(_ gesture: _PanGestureRecognizer) {
 
-    guard parent == nil else { return }
+//    guard parent == nil else { return }
 
     switch gesture.state {
     case .possible:
@@ -360,30 +375,100 @@ open class DragToDismissViewController: UIViewController, UIGestureRecognizerDel
 
           }
 
+          let currentTransform = self.view.layer.presentation().map {
+            CATransform3DGetAffineTransform($0.transform)
+          } ?? .identity
+
+          self.view.transform = currentTransform
+
+          let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
+
+            self.view.transform = currentTransform.translatedBy(x: self.view.bounds.width, y: 0)
+
+            // 0.02 is workaround value to enable grabbing the view from the gesture.
+            // Since, alpha 0 ignores touches.
+            //            view.alpha = 0.02
+            //            toView.transform = .identity
+            //            toView.alpha = 1
+          }
+
+          animator.addCompletion { [self] position in
+            switch position {
+            case .end:
+              self.zStackViewControllerContext?.removeSelf(transition: nil)
+            case .start:
+              break
+            case .current:
+              assertionFailure("")
+              break
+            @unknown default:
+              assertionFailure("")
+            }
+          }
+
           leftToRightTrackingContext = .init(
             viewFrame: view.bounds,
-            beganPoint: gesture.location(in: view)
+            beganPoint: gesture.location(in: view),
+            animator: animator
           )
 
           scrollController.lockScrolling()
-          dismiss(animated: true, completion: {
-            /// Transition was completed or cancelled.
-            self.leftToRightTrackingContext = nil
-          })
         }
       }
 
-      if isBeingDismissed {
-        leftToRightTrackingContext?.handleChanged(gesture: gesture)
+      if let context = leftToRightTrackingContext {
+        let progress = context.calulateProgress(gesture: gesture)
+        context.animator.fractionComplete = progress
       }
+
     case .ended:
+
       scrollController.unlockScrolling()
       scrollController.endTracking()
-      leftToRightTrackingContext?.handleEnded(gesture: gesture)
+
+      guard let context = leftToRightTrackingContext else {
+        return
+      }
+
+      let progress = context.calulateProgress(gesture: gesture)
+      let velocity = gesture.velocity(in: gesture.view)
+
+      if progress > 0.5 || velocity.x > 300 {
+        context.animator.continueAnimation(
+          withTimingParameters: UISpringTimingParameters(
+            dampingRatio: 1,
+            initialVelocity: .init(dx: velocity.x, dy: 0)
+          ),
+          durationFactor: 1
+        )
+      } else {
+
+        context.animator.stopAnimation(true)
+        let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
+          self.view.transform = .identity
+        }
+
+          .startAnimation()
+
+//        context.animator.isReversed = true
+//        context.animator.continueAnimation(
+//          withTimingParameters: UISpringTimingParameters(
+//            dampingRatio: 1,
+//            initialVelocity: .zero
+//          ),
+//          durationFactor: 1
+//        )
+      }
+
+      leftToRightTrackingContext = nil
+
     case .cancelled, .failed:
       scrollController.unlockScrolling()
       scrollController.endTracking()
-      leftToRightTrackingContext?.handleCancel(gesture: gesture)
+
+      leftToRightTrackingContext = nil
+
+      /// restore view state
     @unknown default:
       break
     }
@@ -408,42 +493,24 @@ extension DragToDismissViewController {
 
     let viewFrame: CGRect
     let beganPoint: CGPoint
+    let animator: UIViewPropertyAnimator
 
     init(
       viewFrame: CGRect,
-      beganPoint: CGPoint
+      beganPoint: CGPoint,
+      animator: UIViewPropertyAnimator
     ) {
       self.viewFrame = viewFrame
       self.beganPoint = beganPoint
+      self.animator = animator
     }
 
-    func handleChanged(gesture: UIPanGestureRecognizer) {
-      let progress = calulateProgress(gesture: gesture)
-    }
-
-    func handleEnded(gesture: UIPanGestureRecognizer) {
-
-      let progress = calulateProgress(gesture: gesture)
-      let velocity = gesture.velocity(in: gesture.view)
-
-//      if progress > 0.5 || velocity.x > 300 {
-//        controller.finishInteractiveTransition(velocityX: normalizedVelocity(gesture: gesture))
-//      } else {
-//        controller.cancelInteractiveTransition()
-//      }
-
-    }
-
-    func handleCancel(gesture: UIPanGestureRecognizer) {
-//      controller.cancelInteractiveTransition()
-    }
-
-    private func normalizedVelocity(gesture: UIPanGestureRecognizer) -> CGFloat {
+    func normalizedVelocity(gesture: UIPanGestureRecognizer) -> CGFloat {
       let velocityX = gesture.velocity(in: gesture.view).x
       return velocityX / viewFrame.width
     }
 
-    private func calulateProgress(gesture: UIPanGestureRecognizer) -> CGFloat {
+    func calulateProgress(gesture: UIPanGestureRecognizer) -> CGFloat {
       let targetView = gesture.view!
       let t = targetView.transform
       targetView.transform = .identity

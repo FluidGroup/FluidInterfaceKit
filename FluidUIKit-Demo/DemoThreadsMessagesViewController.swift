@@ -68,6 +68,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
             print(cell)
 
             let controller = DragToDismissViewController(bodyViewController: DemoThreadsDetailViewController())
+            controller.setIdiom(.navigationPush(isScreenGestureEnabled: true))
 
             addContentViewController(controller, transition: .popup())
 
