@@ -9,5 +9,8 @@ let book = Book(title: "MyBook") {
     BookPush(title: "Threads") {
       DemoThreadsMessagesViewController()
     }
+    BookPush(title: "ControlCenter") {
+      DemoControlCenterViewController()
+    }
   }
 }

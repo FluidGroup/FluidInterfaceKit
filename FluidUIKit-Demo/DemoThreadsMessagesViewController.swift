@@ -52,9 +52,9 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
         .padding(16)
       }
 
-      let cell = InteractiveView(content: body)
+      let cell = InteractiveView(animation: .bodyShrink, contentView: body)
 
-      cell.onTap = { [unowned cell] in
+      cell.handlers.onTap = { [unowned cell] in
         onTap(cell)
       }
 
@@ -71,7 +71,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
             let controller = DragToDismissViewController(bodyViewController: DemoThreadsDetailViewController())
             controller.setIdiom(.navigationPush(isScreenGestureEnabled: true))
 
-            addContentViewController(controller, transition: .popup(duration: 2))
+            addContentViewController(controller, transition: .popupContextual(from: cell))
 
           })
         }
