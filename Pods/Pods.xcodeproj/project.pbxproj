@@ -20,13 +20,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		177C412958C0CE5FE3F818A08B1F2028 /* Pods-FluidUIKit-Demo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1048B11BDEE407D060A0FEE82D201BFD /* Pods-FluidUIKit-Demo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A5A8A7CE928C6FF01669C96797FD0E0F /* Pods-FluidUIKit-Demo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9672355F683EA71B529F5F7B1F8017 /* Pods-FluidUIKit-Demo-dummy.m */; };
-		DFC541E110AF20F3DC75A1D338A8D35B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		170D741CBEB8134470D1BD0586086C2B /* Pods-FluidInterfaceKit-Demo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1298A1F64BE1611654996711DC5A99EB /* Pods-FluidInterfaceKit-Demo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		65F9A3E6E56F07E4B6E28022A7688495 /* Pods-FluidInterfaceKit-Demo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4FA9D79DB00D48DB52CEB20299BCD5 /* Pods-FluidInterfaceKit-Demo-dummy.m */; };
+		98119077E531D083B3E7CC70446CBCCB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4491C0B418E5BC68FF64ECA8682FCAE9 /* PBXContainerItemProxy */ = {
+		D42B0FAC541086D44FB9D4C3FD5E1160 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -36,36 +36,44 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		032EBD415AA3A3E8C041C16747B022F5 /* Pods-FluidUIKit-Demo */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-FluidUIKit-Demo"; path = Pods_FluidUIKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0436EAFB9864ADD8CC8A4C91EDB33528 /* Reveal-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Reveal-SDK.debug.xcconfig"; sourceTree = "<group>"; };
-		08025EB1FBD2BF0F94F3B47C777481BE /* Pods-FluidUIKit-Demo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FluidUIKit-Demo-Info.plist"; sourceTree = "<group>"; };
-		1048B11BDEE407D060A0FEE82D201BFD /* Pods-FluidUIKit-Demo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FluidUIKit-Demo-umbrella.h"; sourceTree = "<group>"; };
-		24AF44ADE763533E64CA0B3BA7B03322 /* Pods-FluidUIKit-Demo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FluidUIKit-Demo-frameworks.sh"; sourceTree = "<group>"; };
-		2ED8B639D9F3A0D11C133675335E1E1D /* Pods-FluidUIKit-Demo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FluidUIKit-Demo.modulemap"; sourceTree = "<group>"; };
-		4B1A3E5709EC8BEC15FBF690A3969C9E /* Pods-FluidUIKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluidUIKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
-		5D6EEB6B35D61C19F96115CEBC1EBF49 /* Pods-FluidUIKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluidUIKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
-		5EB56BF1D9750891B6B147C79C5824A3 /* Pods-FluidUIKit-Demo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FluidUIKit-Demo-acknowledgements.plist"; sourceTree = "<group>"; };
+		05781F616373C8EF9F07519C4DFFA2FA /* Pods-FluidInterfaceKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluidInterfaceKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
+		122A2AB7FB576E54DB6D07B126F428DB /* Pods-FluidInterfaceKit-Demo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FluidInterfaceKit-Demo.modulemap"; sourceTree = "<group>"; };
+		1298A1F64BE1611654996711DC5A99EB /* Pods-FluidInterfaceKit-Demo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FluidInterfaceKit-Demo-umbrella.h"; sourceTree = "<group>"; };
+		46CA7DB991051D936A6C37924AAFC7F3 /* Pods-FluidInterfaceKit-Demo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FluidInterfaceKit-Demo-Info.plist"; sourceTree = "<group>"; };
+		4DA8E4E1E2B09FAE84BBD3A66C29E192 /* Pods-FluidInterfaceKit-Demo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FluidInterfaceKit-Demo-frameworks.sh"; sourceTree = "<group>"; };
+		54ECA2C7AE268E6DB60305E05CEC3FBA /* Pods-FluidInterfaceKit-Demo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FluidInterfaceKit-Demo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		75CB5252B7C14CEE17A8684E10577185 /* Pods-FluidInterfaceKit-Demo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FluidInterfaceKit-Demo-acknowledgements.plist"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B127862DA74A46CCBA1CC804E3BCACE3 /* Reveal-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Reveal-SDK.release.xcconfig"; sourceTree = "<group>"; };
 		B4C702B034EBD0C246E6B5FBFA2516EB /* RevealServer.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = RevealServer.xcframework; path = RevealServer/RevealServer.xcframework; sourceTree = "<group>"; };
-		CA9672355F683EA71B529F5F7B1F8017 /* Pods-FluidUIKit-Demo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FluidUIKit-Demo-dummy.m"; sourceTree = "<group>"; };
 		CE3A9E7F7309B6B501870D175E78714C /* Reveal-SDK-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Reveal-SDK-xcframeworks.sh"; sourceTree = "<group>"; };
-		FEE7E5F26DEA772329D42D5B8E1D0BFE /* Pods-FluidUIKit-Demo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FluidUIKit-Demo-acknowledgements.markdown"; sourceTree = "<group>"; };
+		DC6D06C0E4D59888770A066EAE85EC11 /* Pods-FluidInterfaceKit-Demo */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-FluidInterfaceKit-Demo"; path = Pods_FluidInterfaceKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD4FA9D79DB00D48DB52CEB20299BCD5 /* Pods-FluidInterfaceKit-Demo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FluidInterfaceKit-Demo-dummy.m"; sourceTree = "<group>"; };
+		F9F2DF7DD217E51B40E977F341D251C0 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluidInterfaceKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		472FF4F3D2737FFA919EECDB5B5E44FA /* Frameworks */ = {
+		B9E17C70F7583BDD3FDB8A8DB6E03F5F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFC541E110AF20F3DC75A1D338A8D35B /* Foundation.framework in Frameworks */,
+				98119077E531D083B3E7CC70446CBCCB /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A35396DA8170CCBE089367DCA253742 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8172435C53FFB4AE46BA621B726CB880 /* Pods-FluidInterfaceKit-Demo */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
 		49E4B85E586C360289D135A0F5364F3A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,12 +100,29 @@
 			path = "Reveal-SDK";
 			sourceTree = "<group>";
 		};
-		6436FE6AE70FD3B1C280F81A7A388EA7 /* Products */ = {
+		7B18895774229DD21F68EA4BC44C46EA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				032EBD415AA3A3E8C041C16747B022F5 /* Pods-FluidUIKit-Demo */,
+				DC6D06C0E4D59888770A066EAE85EC11 /* Pods-FluidInterfaceKit-Demo */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8172435C53FFB4AE46BA621B726CB880 /* Pods-FluidInterfaceKit-Demo */ = {
+			isa = PBXGroup;
+			children = (
+				122A2AB7FB576E54DB6D07B126F428DB /* Pods-FluidInterfaceKit-Demo.modulemap */,
+				54ECA2C7AE268E6DB60305E05CEC3FBA /* Pods-FluidInterfaceKit-Demo-acknowledgements.markdown */,
+				75CB5252B7C14CEE17A8684E10577185 /* Pods-FluidInterfaceKit-Demo-acknowledgements.plist */,
+				DD4FA9D79DB00D48DB52CEB20299BCD5 /* Pods-FluidInterfaceKit-Demo-dummy.m */,
+				4DA8E4E1E2B09FAE84BBD3A66C29E192 /* Pods-FluidInterfaceKit-Demo-frameworks.sh */,
+				46CA7DB991051D936A6C37924AAFC7F3 /* Pods-FluidInterfaceKit-Demo-Info.plist */,
+				1298A1F64BE1611654996711DC5A99EB /* Pods-FluidInterfaceKit-Demo-umbrella.h */,
+				F9F2DF7DD217E51B40E977F341D251C0 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */,
+				05781F616373C8EF9F07519C4DFFA2FA /* Pods-FluidInterfaceKit-Demo.release.xcconfig */,
+			);
+			name = "Pods-FluidInterfaceKit-Demo";
+			path = "Target Support Files/Pods-FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
 		};
 		8A618790A4A92E1260FCAB264596BD66 /* Frameworks */ = {
@@ -108,22 +133,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CE1612294888A0E655CEE56856BD2D3B /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				FE62A297C95CE83421731036C0BD3D3C /* Pods-FluidUIKit-Demo */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
 				49E4B85E586C360289D135A0F5364F3A /* Pods */,
-				6436FE6AE70FD3B1C280F81A7A388EA7 /* Products */,
-				CE1612294888A0E655CEE56856BD2D3B /* Targets Support Files */,
+				7B18895774229DD21F68EA4BC44C46EA /* Products */,
+				2A35396DA8170CCBE089367DCA253742 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,54 +163,37 @@
 			path = "../Target Support Files/Reveal-SDK";
 			sourceTree = "<group>";
 		};
-		FE62A297C95CE83421731036C0BD3D3C /* Pods-FluidUIKit-Demo */ = {
-			isa = PBXGroup;
-			children = (
-				2ED8B639D9F3A0D11C133675335E1E1D /* Pods-FluidUIKit-Demo.modulemap */,
-				FEE7E5F26DEA772329D42D5B8E1D0BFE /* Pods-FluidUIKit-Demo-acknowledgements.markdown */,
-				5EB56BF1D9750891B6B147C79C5824A3 /* Pods-FluidUIKit-Demo-acknowledgements.plist */,
-				CA9672355F683EA71B529F5F7B1F8017 /* Pods-FluidUIKit-Demo-dummy.m */,
-				24AF44ADE763533E64CA0B3BA7B03322 /* Pods-FluidUIKit-Demo-frameworks.sh */,
-				08025EB1FBD2BF0F94F3B47C777481BE /* Pods-FluidUIKit-Demo-Info.plist */,
-				1048B11BDEE407D060A0FEE82D201BFD /* Pods-FluidUIKit-Demo-umbrella.h */,
-				4B1A3E5709EC8BEC15FBF690A3969C9E /* Pods-FluidUIKit-Demo.debug.xcconfig */,
-				5D6EEB6B35D61C19F96115CEBC1EBF49 /* Pods-FluidUIKit-Demo.release.xcconfig */,
-			);
-			name = "Pods-FluidUIKit-Demo";
-			path = "Target Support Files/Pods-FluidUIKit-Demo";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		00AD5FF233D3D3978FEE03A8F33CF40A /* Headers */ = {
+		29A90653607FB5090972E1CEDDDD482C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				177C412958C0CE5FE3F818A08B1F2028 /* Pods-FluidUIKit-Demo-umbrella.h in Headers */,
+				170D741CBEB8134470D1BD0586086C2B /* Pods-FluidInterfaceKit-Demo-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		E7644E0267D115BC9C11EF8CCC817188 /* Pods-FluidUIKit-Demo */ = {
+		326764DBD6331E8E22A3FDE1C52B97CE /* Pods-FluidInterfaceKit-Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9F530E7964147C824134F2241F770880 /* Build configuration list for PBXNativeTarget "Pods-FluidUIKit-Demo" */;
+			buildConfigurationList = B861AA6AEE31741FF5487EE95867E7A6 /* Build configuration list for PBXNativeTarget "Pods-FluidInterfaceKit-Demo" */;
 			buildPhases = (
-				00AD5FF233D3D3978FEE03A8F33CF40A /* Headers */,
-				A60B490559D0A617F98A9B925E76EA6C /* Sources */,
-				472FF4F3D2737FFA919EECDB5B5E44FA /* Frameworks */,
-				18D7847D54615D8F8B7A9CBA6561D91E /* Resources */,
+				29A90653607FB5090972E1CEDDDD482C /* Headers */,
+				46B0BE16FFE3880F5D3A5C051AEBBF2A /* Sources */,
+				B9E17C70F7583BDD3FDB8A8DB6E03F5F /* Frameworks */,
+				74380E735B9BDF82DF82ACFE9049E466 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				86142E8B0C57C6CE81E88B8EA2034665 /* PBXTargetDependency */,
+				13193F4FC18CBBF89620DB4789F9429A /* PBXTargetDependency */,
 			);
-			name = "Pods-FluidUIKit-Demo";
-			productName = Pods_FluidUIKit_Demo;
-			productReference = 032EBD415AA3A3E8C041C16747B022F5 /* Pods-FluidUIKit-Demo */;
+			name = "Pods-FluidInterfaceKit-Demo";
+			productName = Pods_FluidInterfaceKit_Demo;
+			productReference = DC6D06C0E4D59888770A066EAE85EC11 /* Pods-FluidInterfaceKit-Demo */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -214,18 +214,18 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 6436FE6AE70FD3B1C280F81A7A388EA7 /* Products */;
+			productRefGroup = 7B18895774229DD21F68EA4BC44C46EA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E7644E0267D115BC9C11EF8CCC817188 /* Pods-FluidUIKit-Demo */,
+				326764DBD6331E8E22A3FDE1C52B97CE /* Pods-FluidInterfaceKit-Demo */,
 				DD0B0FC4388FC5A75BAC950EECAB2864 /* Reveal-SDK */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		18D7847D54615D8F8B7A9CBA6561D91E /* Resources */ = {
+		74380E735B9BDF82DF82ACFE9049E466 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -255,22 +255,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A60B490559D0A617F98A9B925E76EA6C /* Sources */ = {
+		46B0BE16FFE3880F5D3A5C051AEBBF2A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5A8A7CE928C6FF01669C96797FD0E0F /* Pods-FluidUIKit-Demo-dummy.m in Sources */,
+				65F9A3E6E56F07E4B6E28022A7688495 /* Pods-FluidInterfaceKit-Demo-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		86142E8B0C57C6CE81E88B8EA2034665 /* PBXTargetDependency */ = {
+		13193F4FC18CBBF89620DB4789F9429A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Reveal-SDK";
 			target = DD0B0FC4388FC5A75BAC950EECAB2864 /* Reveal-SDK */;
-			targetProxy = 4491C0B418E5BC68FF64ECA8682FCAE9 /* PBXContainerItemProxy */;
+			targetProxy = D42B0FAC541086D44FB9D4C3FD5E1160 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -341,9 +341,9 @@
 			};
 			name = Debug;
 		};
-		420995EAAF23C62FE25618D79E5E9240 /* Debug */ = {
+		3B190100DA7979B7BF62098786698AEA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B1A3E5709EC8BEC15FBF690A3969C9E /* Pods-FluidUIKit-Demo.debug.xcconfig */;
+			baseConfigurationReference = F9F2DF7DD217E51B40E977F341D251C0 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -355,7 +355,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -364,7 +364,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -377,6 +377,44 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
+		};
+		4D11DAAFC709AF59C23F20FFD3CB0070 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 05781F616373C8EF9F07519C4DFFA2FA /* Pods-FluidInterfaceKit-Demo.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
 		};
 		63FAF33E1C55B71A5F5A8B3CC8749F99 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -456,44 +494,6 @@
 			};
 			name = Debug;
 		};
-		CBE1E8B45640D3FF3D33F541A5157382 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D6EEB6B35D61C19F96115CEBC1EBF49 /* Pods-FluidUIKit-Demo.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		D8514FC91944E774E1FC6591AA4A2906 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B127862DA74A46CCBA1CC804E3BCACE3 /* Reveal-SDK.release.xcconfig */;
@@ -532,11 +532,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9F530E7964147C824134F2241F770880 /* Build configuration list for PBXNativeTarget "Pods-FluidUIKit-Demo" */ = {
+		B861AA6AEE31741FF5487EE95867E7A6 /* Build configuration list for PBXNativeTarget "Pods-FluidInterfaceKit-Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				420995EAAF23C62FE25618D79E5E9240 /* Debug */,
-				CBE1E8B45640D3FF3D33F541A5157382 /* Release */,
+				3B190100DA7979B7BF62098786698AEA /* Debug */,
+				4D11DAAFC709AF59C23F20FFD3CB0070 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

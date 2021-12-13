@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20922E01E3BAA69D444AA7D3 /* Pods_FluidInterfaceKit_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */; };
 		4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B082764F77E0003FFB6 /* AppDelegate.swift */; };
 		4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B0C2764F77E0003FFB6 /* ViewController.swift */; };
 		4B959B122764F77F0003FFB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B959B112764F77F0003FFB6 /* Assets.xcassets */; };
@@ -15,8 +16,8 @@
 		4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B1D2764F7B30003FFB6 /* StorybookUI */; };
 		4B959B202764F8200003FFB6 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B1F2764F8200003FFB6 /* Book.swift */; };
 		4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B212764F8300003FFB6 /* RootContainerViewController.swift */; };
-		4B959B242764F8470003FFB6 /* FluidUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959AF82764F7180003FFB6 /* FluidUIKit.framework */; };
-		4B959B252764F8470003FFB6 /* FluidUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959AF82764F7180003FFB6 /* FluidUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4B959B242764F8470003FFB6 /* FluidInterfaceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */; };
+		4B959B252764F8470003FFB6 /* FluidInterfaceKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4B959B2B2764F8620003FFB6 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B2A2764F8620003FFB6 /* MondrianLayout */; };
 		4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */; };
 		4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2E2764FFCD0003FFB6 /* Logger.swift */; };
@@ -30,7 +31,6 @@
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
 		4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */; };
 		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
-		D7B365B090A9B5B8A2670429 /* Pods_FluidUIKit_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8BCD6EB5B36D393FCC19C95 /* Pods_FluidUIKit_Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +50,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4B959B252764F8470003FFB6 /* FluidUIKit.framework in Embed Frameworks */,
+				4B959B252764F8470003FFB6 /* FluidInterfaceKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -58,8 +58,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4B959AF82764F7180003FFB6 /* FluidUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluidUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B959B062764F77E0003FFB6 /* FluidUIKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidUIKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluidInterfaceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B082764F77E0003FFB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B959B0C2764F77E0003FFB6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4B959B112764F77F0003FFB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -78,8 +79,9 @@
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
 		4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlCenterViewController.swift; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
+		4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluidInterfaceKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
-		C8BCD6EB5B36D393FCC19C95 /* Pods_FluidUIKit_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluidUIKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB1DA1EA46A5FB2FB5D1BF72 /* Pods-FluidInterfaceKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		EE08FE0D4685BA4EAC1538F3 /* Pods-FluidUIKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,9 +102,9 @@
 				4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */,
 				4BBDECD12766238B00982229 /* Chain in Frameworks */,
 				4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */,
-				4B959B242764F8470003FFB6 /* FluidUIKit.framework in Frameworks */,
+				4B959B242764F8470003FFB6 /* FluidInterfaceKit.framework in Frameworks */,
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
-				D7B365B090A9B5B8A2670429 /* Pods_FluidUIKit_Demo.framework in Frameworks */,
+				20922E01E3BAA69D444AA7D3 /* Pods_FluidInterfaceKit_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,8 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				4BBDECDC276646E300982229 /* Packages */,
-				4B959AFA2764F7180003FFB6 /* FluidUIKit */,
-				4B959B072764F77E0003FFB6 /* FluidUIKit-Demo */,
+				4B959AFA2764F7180003FFB6 /* FluidInterfaceKit */,
+				4B959B072764F77E0003FFB6 /* FluidInterfaceKit-Demo */,
 				4B959AF92764F7180003FFB6 /* Products */,
 				4B959B232764F8470003FFB6 /* Frameworks */,
 				C02325CD87C65355479CBC07 /* Pods */,
@@ -124,13 +126,13 @@
 		4B959AF92764F7180003FFB6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4B959AF82764F7180003FFB6 /* FluidUIKit.framework */,
-				4B959B062764F77E0003FFB6 /* FluidUIKit-Demo.app */,
+				4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */,
+				4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4B959AFA2764F7180003FFB6 /* FluidUIKit */ = {
+		4B959AFA2764F7180003FFB6 /* FluidInterfaceKit */ = {
 			isa = PBXGroup;
 			children = (
 				4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */,
@@ -139,10 +141,10 @@
 				4BBDECD62766291400982229 /* ScrollView+Handling.swift */,
 				4B959B2E2764FFCD0003FFB6 /* Logger.swift */,
 			);
-			path = FluidUIKit;
+			path = FluidInterfaceKit;
 			sourceTree = "<group>";
 		};
-		4B959B072764F77E0003FFB6 /* FluidUIKit-Demo */ = {
+		4B959B072764F77E0003FFB6 /* FluidInterfaceKit-Demo */ = {
 			isa = PBXGroup;
 			children = (
 				4B959B082764F77E0003FFB6 /* AppDelegate.swift */,
@@ -157,13 +159,13 @@
 				4B959B162764F77F0003FFB6 /* Info.plist */,
 				4BBDECD22766241200982229 /* UIControl+Closure.swift */,
 			);
-			path = "FluidUIKit-Demo";
+			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
 		};
 		4B959B232764F8470003FFB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C8BCD6EB5B36D393FCC19C95 /* Pods_FluidUIKit_Demo.framework */,
+				4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -182,6 +184,8 @@
 			children = (
 				EE08FE0D4685BA4EAC1538F3 /* Pods-FluidUIKit-Demo.debug.xcconfig */,
 				62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */,
+				082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */,
+				CB1DA1EA46A5FB2FB5D1BF72 /* Pods-FluidInterfaceKit-Demo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -199,9 +203,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4B959AF72764F7180003FFB6 /* FluidUIKit */ = {
+		4B959AF72764F7180003FFB6 /* FluidInterfaceKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4B959AFF2764F7180003FFB6 /* Build configuration list for PBXNativeTarget "FluidUIKit" */;
+			buildConfigurationList = 4B959AFF2764F7180003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit" */;
 			buildPhases = (
 				4B959AF32764F7180003FFB6 /* Headers */,
 				4B959AF42764F7180003FFB6 /* Sources */,
@@ -212,14 +216,14 @@
 			);
 			dependencies = (
 			);
-			name = FluidUIKit;
+			name = FluidInterfaceKit;
 			productName = FluidUIKit;
-			productReference = 4B959AF82764F7180003FFB6 /* FluidUIKit.framework */;
+			productReference = 4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		4B959B052764F77E0003FFB6 /* FluidUIKit-Demo */ = {
+		4B959B052764F77E0003FFB6 /* FluidInterfaceKit-Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4B959B172764F77F0003FFB6 /* Build configuration list for PBXNativeTarget "FluidUIKit-Demo" */;
+			buildConfigurationList = 4B959B172764F77F0003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit-Demo" */;
 			buildPhases = (
 				FDEAD7A9E8AD8DB9FD9E828A /* [CP] Check Pods Manifest.lock */,
 				4B959B022764F77E0003FFB6 /* Sources */,
@@ -233,7 +237,7 @@
 			dependencies = (
 				4B959B272764F8470003FFB6 /* PBXTargetDependency */,
 			);
-			name = "FluidUIKit-Demo";
+			name = "FluidInterfaceKit-Demo";
 			packageProductDependencies = (
 				4B959B1B2764F7B30003FFB6 /* StorybookKit */,
 				4B959B1D2764F7B30003FFB6 /* StorybookUI */,
@@ -243,7 +247,7 @@
 				4BBDECE1276648FD00982229 /* MatchedTransition */,
 			);
 			productName = "FluidUIKit-Demo";
-			productReference = 4B959B062764F77E0003FFB6 /* FluidUIKit-Demo.app */;
+			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -265,7 +269,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4B959AF22764F7180003FFB6 /* Build configuration list for PBXProject "FluidUIKit" */;
+			buildConfigurationList = 4B959AF22764F7180003FFB6 /* Build configuration list for PBXProject "FluidInterfaceKit" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -283,8 +287,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4B959AF72764F7180003FFB6 /* FluidUIKit */,
-				4B959B052764F77E0003FFB6 /* FluidUIKit-Demo */,
+				4B959AF72764F7180003FFB6 /* FluidInterfaceKit */,
+				4B959B052764F77E0003FFB6 /* FluidInterfaceKit-Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -315,15 +319,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FDEAD7A9E8AD8DB9FD9E828A /* [CP] Check Pods Manifest.lock */ = {
@@ -341,7 +345,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FluidUIKit-Demo-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-FluidInterfaceKit-Demo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -383,7 +387,7 @@
 /* Begin PBXTargetDependency section */
 		4B959B272764F8470003FFB6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4B959AF72764F7180003FFB6 /* FluidUIKit */;
+			target = 4B959AF72764F7180003FFB6 /* FluidInterfaceKit */;
 			targetProxy = 4B959B262764F8470003FFB6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -541,7 +545,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.muukii.FluidUIKit;
+				PRODUCT_BUNDLE_IDENTIFIER = app.muukii.FluidInterfaceKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -570,7 +574,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.muukii.FluidUIKit;
+				PRODUCT_BUNDLE_IDENTIFIER = app.muukii.FluidInterfaceKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -581,7 +585,7 @@
 		};
 		4B959B182764F77F0003FFB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE08FE0D4685BA4EAC1538F3 /* Pods-FluidUIKit-Demo.debug.xcconfig */;
+			baseConfigurationReference = 082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -611,7 +615,7 @@
 		};
 		4B959B192764F77F0003FFB6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */;
+			baseConfigurationReference = CB1DA1EA46A5FB2FB5D1BF72 /* Pods-FluidInterfaceKit-Demo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -642,7 +646,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4B959AF22764F7180003FFB6 /* Build configuration list for PBXProject "FluidUIKit" */ = {
+		4B959AF22764F7180003FFB6 /* Build configuration list for PBXProject "FluidInterfaceKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4B959AFD2764F7180003FFB6 /* Debug */,
@@ -651,7 +655,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4B959AFF2764F7180003FFB6 /* Build configuration list for PBXNativeTarget "FluidUIKit" */ = {
+		4B959AFF2764F7180003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4B959B002764F7180003FFB6 /* Debug */,
@@ -660,7 +664,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4B959B172764F77F0003FFB6 /* Build configuration list for PBXNativeTarget "FluidUIKit-Demo" */ = {
+		4B959B172764F77F0003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit-Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4B959B182764F77F0003FFB6 /* Debug */,

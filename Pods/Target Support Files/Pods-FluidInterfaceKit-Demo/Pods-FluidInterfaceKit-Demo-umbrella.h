@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_FluidUIKit_DemoVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_FluidUIKit_DemoVersionString[];
+FOUNDATION_EXPORT double Pods_FluidInterfaceKit_DemoVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_FluidInterfaceKit_DemoVersionString[];
 
