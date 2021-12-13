@@ -25,7 +25,7 @@
 		4B959B35276507F50003FFB6 /* RevealServer.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959B32276507EE0003FFB6 /* RevealServer.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4BBDECD12766238B00982229 /* Chain in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECD02766238B00982229 /* Chain */; };
 		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
-		4BBDECD52766286400982229 /* DragToDismissViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* DragToDismissViewController.swift */; };
+		4BBDECD52766286400982229 /* InteractiveDismissalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* InteractiveDismissalViewController.swift */; };
 		4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD62766291400982229 /* ScrollView+Handling.swift */; };
 		4BBDECD92766350E00982229 /* ZStackViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */; };
 		4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECDF276648FD00982229 /* CompositionKit */; };
@@ -74,7 +74,7 @@
 		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		4B959B32276507EE0003FFB6 /* RevealServer.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RevealServer.xcframework; sourceTree = "<group>"; };
 		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
-		4BBDECD42766286400982229 /* DragToDismissViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragToDismissViewController.swift; sourceTree = "<group>"; };
+		4BBDECD42766286400982229 /* InteractiveDismissalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalViewController.swift; sourceTree = "<group>"; };
 		4BBDECD62766291400982229 /* ScrollView+Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Handling.swift"; sourceTree = "<group>"; };
 		4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZStackViewControllerTransition.swift; sourceTree = "<group>"; };
 		4BBDECDD276646E300982229 /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = submodules/CompositionKit; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 			children = (
 				4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */,
 				4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */,
-				4BBDECD42766286400982229 /* DragToDismissViewController.swift */,
+				4BBDECD42766286400982229 /* InteractiveDismissalViewController.swift */,
 				4BBDECD62766291400982229 /* ScrollView+Handling.swift */,
 				4B959B2E2764FFCD0003FFB6 /* Logger.swift */,
 			);
@@ -301,7 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BBDECD52766286400982229 /* DragToDismissViewController.swift in Sources */,
+				4BBDECD52766286400982229 /* InteractiveDismissalViewController.swift in Sources */,
 				4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */,
 				4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */,
 				4BBDECD92766350E00982229 /* ZStackViewControllerTransition.swift in Sources */,

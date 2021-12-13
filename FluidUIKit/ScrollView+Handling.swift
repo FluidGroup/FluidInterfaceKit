@@ -24,29 +24,13 @@ import UIKit
 
 final class ScrollController {
 
-  private var scrollObserver: NSKeyValueObservation?
-  private var shouldStop: Bool = false
+  private var scrollObserver: NSKeyValueObservation!
+  private(set) var isLocking: Bool = false
   private var previousValue: CGPoint?
-  private weak var trackingScrollView: UIScrollView?
-  private var originalShowsVerticalScrollIndicator = true
+  let scrollView: UIScrollView
 
-  init() {
-
-  }
-
-  func lockScrolling() {
-    shouldStop = true
-  }
-
-  func unlockScrolling() {
-    shouldStop = false
-  }
-
-  func startTracking(scrollView: UIScrollView) {
-    self.trackingScrollView = scrollView
-    self.originalShowsVerticalScrollIndicator = scrollView.showsVerticalScrollIndicator
-
-    scrollObserver?.invalidate()
+  init(scrollView: UIScrollView) {
+    self.scrollView = scrollView
     scrollObserver = scrollView.observe(\.contentOffset, options: .old) { [weak self, weak _scrollView = scrollView] scrollView, change in
 
       guard let scrollView = _scrollView else { return }
@@ -55,51 +39,55 @@ final class ScrollController {
     }
   }
 
+  deinit {
+    endTracking()
+  }
+
+  func lockScrolling() {
+    isLocking = true
+  }
+
+  func unlockScrolling() {
+    isLocking = false
+  }
+
+  func setShowsVerticalScrollIndicator(_ flag: Bool) {
+    scrollView.showsVerticalScrollIndicator = flag
+  }
+
   func endTracking() {
-    scrollObserver?.invalidate()
-    trackingScrollView?.showsVerticalScrollIndicator = originalShowsVerticalScrollIndicator
-    scrollObserver = nil
+    unlockScrolling()
+    scrollObserver.invalidate()
+  }
+
+  func setContentOffset(_ offset: CGPoint) {
+    isLocking = false
+    defer {
+      isLocking = true
+    }
+    scrollView.contentOffset = offset
   }
 
   private func handleScrollViewEvent(scrollView: UIScrollView, change: NSKeyValueObservedChange<CGPoint>) {
 
-    guard var proposedValue = change.oldValue else { return }
+    // For debugging
 
-    guard shouldStop else {
-      scrollView.showsVerticalScrollIndicator = true
+    guard let oldValue = change.oldValue else { return }
+
+    guard isLocking else {
       return
     }
 
-    guard scrollView.contentOffset != proposedValue else { return }
+    guard scrollView.contentOffset != oldValue else { return }
 
-    guard proposedValue != previousValue else { return }
-
-    let representation = ScrollViewRepresentation(from: scrollView)
-
-    if representation.isReachedToEdge(.top) {
-      proposedValue = representation.contentOffsetFitToEdge(.top, contentOffset: proposedValue)
-    }
-
-    if representation.isReachedToEdge(.right) {
-      proposedValue = representation.contentOffsetFitToEdge(.right, contentOffset: proposedValue)
-    }
-
-    if representation.isReachedToEdge(.left) {
-      proposedValue = representation.contentOffsetFitToEdge(.left, contentOffset: proposedValue)
-    }
-
-    if representation.isReachedToEdge(.bottom) {
-      proposedValue = representation.contentOffsetFitToEdge(.bottom, contentOffset: proposedValue)
-    }
+    guard oldValue != previousValue else { return }
 
     previousValue = scrollView.contentOffset
 
-    scrollView.setContentOffset(proposedValue, animated: false)
-    scrollView.showsVerticalScrollIndicator = false
+    scrollView.setContentOffset(oldValue, animated: false)
   }
 
 }
-
 struct ScrollViewRepresentation {
 
   enum Edge {

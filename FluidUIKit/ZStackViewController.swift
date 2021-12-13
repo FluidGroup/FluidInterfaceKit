@@ -9,7 +9,6 @@ open class ZStackViewController: UIViewController {
   private let __rootView: UIView?
 
   public var stackingViewControllers: [UIViewController] = []
-  public var reservedRemovingViewControllers: Set<UIViewController> = .init()
 
   open override func loadView() {
     if let __rootView = __rootView {
@@ -98,16 +97,6 @@ open class ZStackViewController: UIViewController {
     viewControllerToRemove.zStackViewControllerContext = nil
   }
 
-  public func reserveWillRemove(viewController: UIViewController) {
-    assert(Thread.isMainThread)
-    reservedRemovingViewControllers.insert(viewController)
-  }
-
-  public func cancelWillRemove(viewController: UIViewController) {
-    assert(Thread.isMainThread)
-    reservedRemovingViewControllers.remove(viewController)
-  }
-
   public func removeViewController(
     _ viewController: UIViewController,
     transition: AnyZStackViewControllerRemovingTransition?
@@ -161,17 +150,12 @@ open class ZStackViewController: UIViewController {
       return
     }
 
-    reservedRemovingViewControllers.remove(viewController)
-
     let targetTopViewController: UIViewController? = stackingViewControllers[0..<(index)].last
 
     let viewControllersToRemove = Array(
       stackingViewControllers[
         index...stackingViewControllers.indices.last!
       ]
-        .filter {
-          reservedRemovingViewControllers.contains($0) == false
-        }
     )
 
     if let transition = transition {
@@ -236,19 +220,6 @@ public struct ZStackViewControllerContext {
     zStackViewController?.removeViewController(targetViewController, transition: transition)
   }
 
-  public func reserveWillRemoveSelf() {
-    guard let targetViewController = targetViewController else {
-      return
-    }
-    zStackViewController?.reserveWillRemove(viewController: targetViewController)
-  }
-
-  public func cancelWillRemoveSelf() {
-    guard let targetViewController = targetViewController else {
-      return
-    }
-    zStackViewController?.cancelWillRemove(viewController: targetViewController)
-  }
 }
 
 var ref: Void?

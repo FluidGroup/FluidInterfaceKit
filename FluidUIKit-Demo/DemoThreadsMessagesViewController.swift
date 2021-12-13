@@ -68,8 +68,11 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
           makeCell(onTap: { [unowned self] cell in
             print(cell)
 
-            let controller = DragToDismissViewController(bodyViewController: DemoThreadsDetailViewController())
-            controller.setIdiom(.navigationPush(isScreenGestureEnabled: true))
+            let controller = InteractiveDismissalViewController(
+              bodyViewController: DemoThreadsDetailViewController(),
+//              interaction: .leftToRight()
+              interaction: .horizontalDragging()
+            )
 
             addContentViewController(controller, transition: .popupContextual(from: cell))
 
