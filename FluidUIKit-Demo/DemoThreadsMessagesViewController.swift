@@ -71,7 +71,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
             let controller = InteractiveDismissalViewController(
               bodyViewController: DemoThreadsDetailViewController(),
 //              interaction: .leftToRight()
-              interaction: .horizontalDragging()
+              interaction: .horizontalDragging(backTo: cell)
             )
 
             addContentViewController(controller, transition: .popupContextual(from: cell))

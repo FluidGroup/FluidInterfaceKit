@@ -24,61 +24,6 @@ import UIKit
 
 open class InteractiveDismissalViewController: UIViewController, UIGestureRecognizerDelegate {
 
-  /// Indicating the transition how it animates.
-  public enum Idiom {
-    case presentation
-    case navigationPush(isScreenGestureEnabled: Bool)
-
-    public static var navigationPush: Self {
-      .navigationPush(isScreenGestureEnabled: false)
-    }
-  }
-
-  /**
-   - Warning: Under constructions
-   */
-  public enum DismissingTransition {
-
-    public enum SlideOutTo: Hashable {
-      case right
-      case bottom
-    }
-
-    case slideOut(to: SlideOutTo)
-    case custom(using: () -> UIViewControllerAnimatedTransitioning)
-  }
-
-  /**
-   - Warning: Under constructions
-   */
-  public struct DismissingIntereaction: Hashable {
-
-    public enum Trigger: Hashable {
-
-      /// Available dismissing gesture in the edge of the screen.
-      case edge
-
-      /// Available dismissing gesture in screen anywhere.
-      case screen
-    }
-
-    public enum StartFrom: Hashable {
-      case left
-    }
-
-    public let trigger: Trigger
-    public let startFrom: StartFrom
-
-    public init(
-      trigger: DismissingIntereaction.Trigger,
-      startFrom: DismissingIntereaction.StartFrom
-    ) {
-      self.trigger = trigger
-      self.startFrom = startFrom
-    }
-
-  }
-
   // MARK: - Properties
 
   public override var childForStatusBarStyle: UIViewController? {
@@ -205,58 +150,6 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
 
         handler(gesture, .init(viewController: self))
 
-//        switch gesture.state {
-//        case .possible:
-//          break
-//        case .began:
-//
-//          if leftToRightTrackingContext == nil {
-//
-//            if let scrollView = gesture.trackingScrollView {
-//
-//              scrollController.startTracking(scrollView: scrollView)
-//              scrollController.lockScrolling()
-//            }
-//
-//            let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
-//
-//              self.view.transform = .init(translationX: self.view.bounds.width, y: 0)
-//
-//              // 0.02 is workaround value to enable grabbing the view from the gesture.
-//              // Since, alpha 0 ignores touches.
-//              //            view.alpha = 0.02
-//              //            toView.transform = .identity
-//              //            toView.alpha = 1
-//            }
-//
-//            leftToRightTrackingContext = .init(
-//              viewFrame: view.bounds,
-//              beganPoint: gesture.location(in: view),
-//              animator: animator
-//            )
-//
-//            dismiss(animated: true, completion: nil)
-//          }
-//
-//        case .changed:
-//
-//          let context = leftToRightTrackingContext!
-//          let progress = context.calulateProgress(gesture: gesture)
-//
-//          print(progress)
-//
-//        case .ended:
-//          scrollController.unlockScrolling()
-//          scrollController.endTracking()
-//
-//        case .cancelled, .failed:
-//          scrollController.unlockScrolling()
-//          scrollController.endTracking()
-//
-//        @unknown default:
-//          break
-//        }
-
       }
     }
 
@@ -270,8 +163,6 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
         handler(gesture, .init(viewController: self))
       }
     }
-
-
 
   }
 
@@ -507,7 +398,8 @@ extension AnyInteraction {
 
       func normalizedVelocity(gesture: UIPanGestureRecognizer) -> CGVector {
         let velocity = gesture.velocity(in: gesture.view)
-        return  .init(dx: velocity.x / viewFrame.width, dy: velocity.y / viewFrame.height)
+        let screenBounds = UIScreen.main.bounds
+        return .init(dx: velocity.x / screenBounds.width, dy: velocity.y / screenBounds.height)
       }
 
       func calulateProgress(gesture: UIPanGestureRecognizer) -> CGFloat {
@@ -611,20 +503,85 @@ extension AnyInteraction {
               _trackingContext.scrollController?.unlockScrolling()
               _trackingContext.scrollController?.endTracking()
 
-              let animator = UIViewPropertyAnimator(
-                duration: 0.62,
-                timingParameters: UISpringTimingParameters(
-                  dampingRatio: 1,
-                  initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
+              let velocity = gesture.velocity(in: gesture.view)
+
+              let originalCenter = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
+              let distanceFromCenter = CGPoint(x: view.center.x - originalCenter.x, y: view.center.y - originalCenter.y)
+
+              if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 50 || abs(velocity.y) > 50 {
+
+                if let containerView = context.viewController.zStackViewControllerContext?.zStackViewController?.view {
+
+                  let animator = UIViewPropertyAnimator(
+                    duration: 0.4,
+                    timingParameters: UISpringTimingParameters(
+                      dampingRatio: 1,
+                      initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
+                    )
+                  )
+
+                  var targetRect = rectThatAspectFit(
+                    aspectRatio: view.bounds.size,
+                    boundingRect: destinationCoordinateSpace.convert(destinationCoordinateSpace.bounds, to: containerView)
+                  )
+
+                  targetRect = targetRect.insetBy(dx: targetRect.width / 2, dy: targetRect.height / 2)
+                  targetRect.size = .init(width: 1, height: 1)
+
+                  animator.addAnimations {
+                    view.center = .init(x: view.bounds.width / 2, y: view.bounds.height / 2)
+                    view.transform = makeCGAffineTransform(from: view.bounds, to: targetRect)
+                  }
+
+                  animator.addCompletion { _ in
+                    context.viewController.zStackViewControllerContext?.removeSelf(transition: nil)
+                    view.transform = .identity
+                  }
+
+                  animator.startAnimation()
+                } else {
+                  /// fallback
+
+                  let animator = UIViewPropertyAnimator(
+                    duration: 0.62,
+                    timingParameters: UISpringTimingParameters(
+                      dampingRatio: 1,
+                      initialVelocity: .zero
+                    )
+                  )
+
+                  animator.addAnimations {
+                    view.transform = .init(scaleX: 0.8, y: 0.8)
+                    view.alpha = 0
+                  }
+
+                  animator.addCompletion { _ in
+                    context.viewController.zStackViewControllerContext?.removeSelf(transition: nil)
+                    view.transform = .identity
+                    view.alpha = 1
+                  }
+
+                  animator.startAnimation()
+                }
+
+
+              } else {
+
+                let animator = UIViewPropertyAnimator(
+                  duration: 0.62,
+                  timingParameters: UISpringTimingParameters(
+                    dampingRatio: 1,
+                    initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
+                  )
                 )
-              )
 
-              animator.addAnimations {
-                view.center = .init(x: view.bounds.width / 2, y: view.bounds.height / 2)
-                view.transform = .identity
+                animator.addAnimations {
+                  view.center = .init(x: view.bounds.width / 2, y: view.bounds.height / 2)
+                  view.transform = .identity
+                }
+
+                animator.startAnimation()
               }
-
-              animator.startAnimation()
 
               trackingContext = nil
 
