@@ -21,8 +21,6 @@
 		4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */; };
 		4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2E2764FFCD0003FFB6 /* Logger.swift */; };
 		4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B30276503C30003FFB6 /* DemoViewController.swift */; };
-		4B959B34276507F50003FFB6 /* RevealServer.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959B32276507EE0003FFB6 /* RevealServer.xcframework */; };
-		4B959B35276507F50003FFB6 /* RevealServer.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959B32276507EE0003FFB6 /* RevealServer.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4BBDECD12766238B00982229 /* Chain in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECD02766238B00982229 /* Chain */; };
 		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
 		4BBDECD52766286400982229 /* InteractiveDismissalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* InteractiveDismissalViewController.swift */; };
@@ -32,6 +30,7 @@
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
 		4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */; };
 		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
+		D7B365B090A9B5B8A2670429 /* Pods_FluidUIKit_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8BCD6EB5B36D393FCC19C95 /* Pods_FluidUIKit_Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +51,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				4B959B252764F8470003FFB6 /* FluidUIKit.framework in Embed Frameworks */,
-				4B959B35276507F50003FFB6 /* RevealServer.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,7 +70,6 @@
 		4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZStackViewController.swift; sourceTree = "<group>"; };
 		4B959B2E2764FFCD0003FFB6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
-		4B959B32276507EE0003FFB6 /* RevealServer.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RevealServer.xcframework; sourceTree = "<group>"; };
 		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
 		4BBDECD42766286400982229 /* InteractiveDismissalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalViewController.swift; sourceTree = "<group>"; };
 		4BBDECD62766291400982229 /* ScrollView+Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Handling.swift"; sourceTree = "<group>"; };
@@ -81,6 +78,9 @@
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
 		4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlCenterViewController.swift; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
+		62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
+		C8BCD6EB5B36D393FCC19C95 /* Pods_FluidUIKit_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluidUIKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE08FE0D4685BA4EAC1538F3 /* Pods-FluidUIKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,13 +96,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B959B2B2764F8620003FFB6 /* MondrianLayout in Frameworks */,
-				4B959B34276507F50003FFB6 /* RevealServer.xcframework in Frameworks */,
 				4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */,
 				4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */,
 				4BBDECD12766238B00982229 /* Chain in Frameworks */,
 				4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */,
 				4B959B242764F8470003FFB6 /* FluidUIKit.framework in Frameworks */,
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
+				D7B365B090A9B5B8A2670429 /* Pods_FluidUIKit_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,11 +113,11 @@
 			isa = PBXGroup;
 			children = (
 				4BBDECDC276646E300982229 /* Packages */,
-				4B959B32276507EE0003FFB6 /* RevealServer.xcframework */,
 				4B959AFA2764F7180003FFB6 /* FluidUIKit */,
 				4B959B072764F77E0003FFB6 /* FluidUIKit-Demo */,
 				4B959AF92764F7180003FFB6 /* Products */,
 				4B959B232764F8470003FFB6 /* Frameworks */,
+				C02325CD87C65355479CBC07 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -163,6 +163,7 @@
 		4B959B232764F8470003FFB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C8BCD6EB5B36D393FCC19C95 /* Pods_FluidUIKit_Demo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -174,6 +175,15 @@
 				4BBDECDE276646EE00982229 /* MatchedTransition */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		C02325CD87C65355479CBC07 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EE08FE0D4685BA4EAC1538F3 /* Pods-FluidUIKit-Demo.debug.xcconfig */,
+				62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,10 +221,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B959B172764F77F0003FFB6 /* Build configuration list for PBXNativeTarget "FluidUIKit-Demo" */;
 			buildPhases = (
+				FDEAD7A9E8AD8DB9FD9E828A /* [CP] Check Pods Manifest.lock */,
 				4B959B022764F77E0003FFB6 /* Sources */,
 				4B959B032764F77E0003FFB6 /* Frameworks */,
 				4B959B042764F77E0003FFB6 /* Resources */,
 				4B959B282764F8470003FFB6 /* Embed Frameworks */,
+				8E2ABBB7831D900A0B079DDE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -295,6 +307,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8E2ABBB7831D900A0B079DDE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDEAD7A9E8AD8DB9FD9E828A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FluidUIKit-Demo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4B959AF42764F7180003FFB6 /* Sources */ = {
@@ -527,6 +581,7 @@
 		};
 		4B959B182764F77F0003FFB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EE08FE0D4685BA4EAC1538F3 /* Pods-FluidUIKit-Demo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -556,6 +611,7 @@
 		};
 		4B959B192764F77F0003FFB6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

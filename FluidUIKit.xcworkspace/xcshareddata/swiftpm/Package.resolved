@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "MondrianLayout",
+        "repositoryURL": "https://github.com/muukii/MondrianLayout.git",
+        "state": {
+          "branch": null,
+          "revision": "ff3e642aeb95ffc6e494474b63403b99cccd6c8c",
+          "version": "0.5.0"
+        }
+      },
+      {
+        "package": "Storybook",
+        "repositoryURL": "git@github.com:eure/Storybook-ios.git",
+        "state": {
+          "branch": null,
+          "revision": "e15ea90fd59c8351e9742b2b8837d05ed462bd74",
+          "version": "1.8.1"
+        }
+      },
+      {
+        "package": "Chain",
+        "repositoryURL": "https://github.com/VergeGroup/Wrap.git",
+        "state": {
+          "branch": null,
+          "revision": "179f64cf0e421b071745388eb84043aaf73a4a0f",
+          "version": "1.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
