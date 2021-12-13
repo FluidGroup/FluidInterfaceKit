@@ -49,7 +49,7 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
 
   private let customView: UIView?
 
-  private let interaction: AnyInteraction
+  private var interaction: AnyInteraction?
 
   // MARK: - Initializers
 
@@ -60,7 +60,7 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
   ///   - bodyViewController: a view controller that displays as a child view controller. It helps a case of can't create a subclass of FluidViewController.
   public init(
     bodyViewController: UIViewController,
-    interaction: AnyInteraction
+    interaction: AnyInteraction? = nil
   ) {
     self.interaction = interaction
     self.bodyViewController = bodyViewController
@@ -70,7 +70,7 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
 
   public init(
     view: UIView,
-    interaction: AnyInteraction
+    interaction: AnyInteraction? = nil
   ) {
 
     self.interaction = interaction
@@ -115,12 +115,21 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
     }
   }
 
+  public func setInteraction(_ newInteraction: AnyInteraction) {
+    interaction = newInteraction
+    setupGestures()
+  }
+
   private func setupGestures() {
 
     registeredGestures.forEach {
       view.removeGestureRecognizer($0)
     }
     registeredGestures = []
+
+    guard let interaction = interaction else {
+      return
+    }
 
     for handler in interaction.handlers {
       switch handler {
@@ -145,6 +154,10 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
   @objc
   private func handleEdgeLeftPanGesture(_ gesture: _EdgePanGestureRecognizer) {
 
+    guard let interaction = interaction else {
+      return
+    }
+
     for handler in interaction.handlers {
       if case .leftEdge(let handler) = handler {
 
@@ -157,6 +170,10 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
 
   @objc
   private func handlePanGesture(_ gesture: _PanGestureRecognizer) {
+
+    guard let interaction = interaction else {
+      return
+    }
 
     for handler in interaction.handlers {
       if case .screen(let handler) = handler {
