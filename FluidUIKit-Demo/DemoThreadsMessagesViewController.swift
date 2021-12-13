@@ -52,7 +52,11 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
         .padding(16)
       }
 
-      let cell = InteractiveView(animation: .bodyShrink, contentView: body)
+      let cell = InteractiveView(
+        animation: .bodyShrink,
+        haptics: .impactOnTouchUpInside(style: .light),
+        contentView: body
+      )
 
       cell.handlers.onTap = { [unowned cell] in
         onTap(cell)

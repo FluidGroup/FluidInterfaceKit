@@ -419,16 +419,6 @@ extension AnyInteraction {
         return .init(dx: velocity.x / screenBounds.width, dy: velocity.y / screenBounds.height)
       }
 
-      func calulateProgress(gesture: UIPanGestureRecognizer) -> CGFloat {
-        let targetView = gesture.view!
-        let t = targetView.transform
-        targetView.transform = .identity
-        let position = gesture.location(in: targetView)
-        targetView.transform = t
-
-        let progress = (position.x - beganPoint.x) / viewFrame.width
-        return progress
-      }
     }
 
     var trackingContext: TrackingContext?
@@ -451,19 +441,10 @@ extension AnyInteraction {
 
               if trackingContext == nil {
 
-                if abs(gesture.translation(in: view).y) > 5 {
+                if abs(gesture.translation(in: view).y) > 10 {
                   gesture.state = .failed
                   return
                 }
-
-                if gesture.translation(in: view).x < -5 {
-                  gesture.state = .failed
-                  return
-                }
-
-//                guard gesture.translation(in: view).x > 0 else {
-//                  return
-//                }
 
                 /**
                  Prepare to interact
@@ -508,6 +489,14 @@ extension AnyInteraction {
                 let translation = gesture.translation(in: gesture.view)
                 gesture.view!.center.x += translation.x
                 gesture.view!.center.y += translation.y
+
+                gesture.view!.layer.cornerRadius = 24
+                if #available(iOS 13.0, *) {
+                  gesture.view!.layer.cornerCurve = .continuous
+                } else {
+                  // Fallback on earlier versions
+                }
+
                 gesture.setTranslation(.zero, in: gesture.view)
               }
 
@@ -610,6 +599,10 @@ extension AnyInteraction {
 
               _trackingContext.scrollController?.unlockScrolling()
               _trackingContext.scrollController?.endTracking()
+
+              view.center = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
+              view.transform = .identity
+              view.layer.cornerRadius = 0
 
               trackingContext = nil
 
