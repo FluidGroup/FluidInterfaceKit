@@ -228,7 +228,7 @@ public struct AnyInteraction {
 
 extension AnyInteraction {
 
-  public static func leftToRight() -> Self {
+  public static func leftToRight(dismiss: @escaping (InteractiveDismissalViewController) -> Void) -> Self {
 
     struct TrackingContext {
 
@@ -305,7 +305,7 @@ extension AnyInteraction {
                 animator.addCompletion { position in
                   switch position {
                   case .end:
-                    context.viewController.zStackViewControllerContext?.removeSelf(transition: nil)
+                    dismiss(context.viewController)
                   case .start:
                     break
                   case .current:
@@ -405,7 +405,10 @@ extension AnyInteraction {
     )
   }
 
-  public static func horizontalDragging(backTo destinationCoordinateSpace: UICoordinateSpace) -> Self {
+  public static func horizontalDragging(
+    backTo destinationCoordinateSpace: UICoordinateSpace,
+    dismiss: @escaping (InteractiveDismissalViewController) -> Void
+  ) -> Self {
 
     struct TrackingContext {
 
@@ -514,8 +517,9 @@ extension AnyInteraction {
               let originalCenter = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
               let distanceFromCenter = CGPoint(x: view.center.x - originalCenter.x, y: view.center.y - originalCenter.y)
 
-              if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 50 || abs(velocity.y) > 50 {
+              if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
 
+                // TODO: Remove dependency to ZStackViewController
                 if let containerView = context.viewController.zStackViewControllerContext?.zStackViewController?.view {
 
                   let animator = UIViewPropertyAnimator(
@@ -540,7 +544,7 @@ extension AnyInteraction {
                   }
 
                   animator.addCompletion { _ in
-                    context.viewController.zStackViewControllerContext?.removeSelf(transition: nil)
+                    dismiss(context.viewController)
                     view.transform = .identity
                   }
 

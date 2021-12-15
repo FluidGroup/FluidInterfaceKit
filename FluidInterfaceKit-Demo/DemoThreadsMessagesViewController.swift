@@ -21,6 +21,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
     super.viewDidLoad()
 
     view.backgroundColor = .white
+    scrollableContainerView.delaysContentTouches = false
 
     view.mondrian.buildSubviews {
       ZStackBlock(alignment: .attach(.all)) {
@@ -49,13 +50,14 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
             .padding(24)
         }
         .background(backgroundView)
-        .padding(16)
       }
 
+      let circularView = CircularClippingView(body)
+
       let cell = InteractiveView(
-        animation: .bodyShrink,
+        animation: .customBodyShrink(shrinkingScale: 0.7),
         haptics: .impactOnTouchUpInside(style: .light),
-        contentView: body
+        contentView: circularView
       )
 
       cell.handlers.onTap = { [unowned cell] in
@@ -67,15 +69,23 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
     }
 
     let content = CompositionKit.AnyView.init { view in
-      VStackBlock {
+
+      VGridBlock(columns: [
+        .init(.flexible(), spacing: 24),
+        .init(.flexible(), spacing: 24),
+      ], spacing: 24) {
         (0..<10).map { _ in
           makeCell(onTap: { [unowned self] cell in
             print(cell)
 
             let controller = InteractiveDismissalViewController(
               bodyViewController: DemoThreadsDetailViewController(),
-//              interaction: .leftToRight()
-              interaction: .horizontalDragging(backTo: cell)
+              //              interaction: .leftToRight()
+              interaction: .horizontalDragging(
+                backTo: cell,
+                dismiss: { viewController in
+                  viewController.zStackViewControllerContext?.removeSelf(transition: nil)
+              })
             )
 
             addContentViewController(controller, transition: .popupContextual(from: cell))
@@ -83,6 +93,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
           })
         }
       }
+      .padding(.horizontal, 24)
     }
 
     scrollableContainerView.setContent(content)

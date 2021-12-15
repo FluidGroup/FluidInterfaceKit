@@ -6,8 +6,10 @@ let book = Book(title: "MyBook") {
     BookPush(title: "Demo") {
       DemoViewController()
     }
-    BookPush(title: "Threads") {
-      DemoThreadsMessagesViewController()
+    BookPresent(title: "Instagram Threads") {
+      let controller = DemoThreadsMessagesViewController()
+      controller.modalPresentationStyle = .fullScreen
+      return controller
     }
     BookPush(title: "ControlCenter") {
       DemoControlCenterViewController()
