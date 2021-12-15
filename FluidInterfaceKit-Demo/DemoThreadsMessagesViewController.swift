@@ -7,7 +7,7 @@
 
 import Foundation
 import MondrianLayout
-import FluidUIKit
+import FluidInterfaceKit
 import UIKit
 import CompositionKit
 import StorybookKit
@@ -66,7 +66,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
     }
 
-    let content = MondrianLayout.AnyView.init { view in
+    let content = CompositionKit.AnyView.init { view in
       VStackBlock {
         (0..<10).map { _ in
           makeCell(onTap: { [unowned self] cell in
@@ -174,7 +174,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
 
     }
 
-    let content = MondrianLayout.AnyView.init { view in
+    let content = CompositionKit.AnyView.init { view in
       VStackBlock {
         (0..<10).map { _ in
           makeCell()

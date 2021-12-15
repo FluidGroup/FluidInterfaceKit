@@ -7,7 +7,7 @@
 
 import Foundation
 import MondrianLayout
-import FluidUIKit
+import FluidInterfaceKit
 import UIKit
 import StorybookKit
 
