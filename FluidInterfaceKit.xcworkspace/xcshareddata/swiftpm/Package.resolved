@@ -20,12 +20,12 @@
         }
       },
       {
-        "package": "Chain",
+        "package": "Wrap",
         "repositoryURL": "https://github.com/VergeGroup/Wrap.git",
         "state": {
           "branch": null,
-          "revision": "179f64cf0e421b071745388eb84043aaf73a4a0f",
-          "version": "1.1.0"
+          "revision": "7c38486e599de7fce1695e2335c8d1aec0b88ae5",
+          "version": "2.0.0"
         }
       }
     ]

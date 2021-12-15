@@ -5,12 +5,12 @@
 //  Created by Muukii on 2021/12/12.
 //
 
+import CompositionKit
+import FluidInterfaceKit
 import Foundation
 import MondrianLayout
-import FluidInterfaceKit
-import UIKit
-import CompositionKit
 import StorybookKit
+import UIKit
 
 final class DemoThreadsMessagesViewController: ZStackViewController {
 
@@ -29,10 +29,48 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
       }
     }
 
+    func makeHeader() -> UIView {
+
+      let imageView = CircularClippingView(
+        UIView()+>.do {
+          $0.backgroundColor = BookGenerator.randomColor()
+        }
+      )
+
+      return AnyView { view in
+
+        ZStackBlock {
+          HStackBlock {
+
+            imageView
+              .viewBlock
+              .height(160)
+
+          }
+        }
+        .padding(.top, 80)
+
+      }
+
+    }
+
     func makeCell(onTap: @escaping (UIView) -> Void) -> UIView {
 
-      let label = UILabel()
-      label.text = "Hello"
+      let nameLabel = UILabel()+>.do {
+        $0.text = "Muukii"
+        $0.font = UIFont.preferredFont(forTextStyle: .headline)
+        $0.textColor = .black
+      }
+
+      let statusLabel = UILabel()+>.do {
+        $0.text = "Active now"
+        $0.font = UIFont.preferredFont(forTextStyle: .caption1)
+        $0.textColor = .darkGray
+      }
+
+      let imageView = UIView()+>.do {
+        $0.backgroundColor = BookGenerator.randomColor()
+      }
 
       let backgroundView = UIView()
       backgroundView.backgroundColor = .init(white: 0, alpha: 0.1)
@@ -44,20 +82,25 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
       backgroundView.layer.cornerRadius = 16
 
       let body = AnyView { _ in
-        HStackBlock {
-          label
-            .viewBlock
-            .padding(24)
-        }
-        .background(backgroundView)
-      }
 
-      let circularView = CircularClippingView(body)
+        VStackBlock {
+          CircularClippingView(imageView)
+
+          nameLabel
+            .viewBlock
+            .spacingBefore(8)
+
+          statusLabel
+            .viewBlock
+            .spacingBefore(4)
+        }
+
+      }
 
       let cell = InteractiveView(
         animation: .customBodyShrink(shrinkingScale: 0.7),
         haptics: .impactOnTouchUpInside(style: .light),
-        contentView: circularView
+        contentView: body
       )
 
       cell.handlers.onTap = { [unowned cell] in
@@ -68,32 +111,45 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
     }
 
+    let header = makeHeader()
+
     let content = CompositionKit.AnyView.init { view in
 
-      VGridBlock(columns: [
-        .init(.flexible(), spacing: 24),
-        .init(.flexible(), spacing: 24),
-      ], spacing: 24) {
-        (0..<10).map { _ in
-          makeCell(onTap: { [unowned self] cell in
-            print(cell)
+      VStackBlock(alignment: .fill) {
+        header
 
-            let controller = InteractiveDismissalViewController(
-              bodyViewController: DemoThreadsDetailViewController(),
-              //              interaction: .leftToRight()
-              interaction: .horizontalDragging(
-                backTo: cell,
-                dismiss: { viewController in
-                  viewController.zStackViewControllerContext?.removeSelf(transition: nil)
-              })
-            )
+        StackingSpacer(minLength: 64, expands: false)
 
-            addContentViewController(controller, transition: .popupContextual(from: cell))
+        VGridBlock(
+          columns: [
+            .init(.flexible(), spacing: 24),
+            .init(.flexible(), spacing: 24),
+            .init(.flexible(), spacing: 24),
+          ],
+          spacing: 24
+        ) {
+          (0..<10).map { _ in
+            makeCell(onTap: { [unowned self] cell in
+              print(cell)
 
-          })
+              let controller = InteractiveDismissalViewController(
+                bodyViewController: DemoThreadsDetailViewController(),
+                //              interaction: .leftToRight()
+                interaction: .horizontalDragging(
+                  backTo: cell,
+                  dismiss: { viewController in
+                    viewController.zStackViewControllerContext?.removeSelf(transition: nil)
+                  }
+                )
+              )
+
+              addContentViewController(controller, transition: .popupContextual(from: cell))
+
+            })
+          }
         }
+        .padding(.horizontal, 24)
       }
-      .padding(.horizontal, 24)
     }
 
     scrollableContainerView.setContent(content)
@@ -117,7 +173,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
       let label = UILabel()
       label.text = "Hello"
 
-      let button = UIButton(type: .system)&>.do {
+      let button = UIButton(type: .system)+>.do {
         $0.setTitle("Dismiss", for: .normal)
         $0.onTap { [unowned self] in
           self.zStackViewControllerContext?.removeSelf(transition: .vanishing())
@@ -169,7 +225,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
         HStackBlock {
 
           StackingSpacer(minLength: 0, expands: true)
-          
+
           HStackBlock {
 
             label

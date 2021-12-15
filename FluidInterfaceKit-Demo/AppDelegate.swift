@@ -1,6 +1,6 @@
 import UIKit
 
-@_exported import Chain
+@_exported import Wrap
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
