@@ -23,7 +23,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
     view.backgroundColor = .white
     scrollableContainerView.delaysContentTouches = false
 
-    view.mondrian.buildSubviews {
+    Mondrian.buildSubviews(on: view) {
       ZStackBlock(alignment: .attach(.all)) {
         scrollableContainerView
       }
@@ -194,7 +194,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
 
     }()
 
-    view.mondrian.buildSubviews {
+    Mondrian.buildSubviews(on: view) {
       ZStackBlock {
         scrollableContainerView
           .viewBlock

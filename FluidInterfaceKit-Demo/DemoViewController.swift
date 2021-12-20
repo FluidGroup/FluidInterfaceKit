@@ -22,8 +22,7 @@ final class DemoViewController: ZStackViewController {
     startButton.setTitle("Start", for: .normal)
     startButton.addTarget(self, action: #selector(onTapStartButton), for: .primaryActionTriggered)
 
-
-    view.mondrian.buildSubviews {
+    Mondrian.buildSubviews(on: view) {
       LayoutContainer(attachedSafeAreaEdges: .all) {
         ZStackBlock {
 
@@ -86,7 +85,7 @@ final class ContentViewController: UIViewController {
     addButton.setTitle("Add", for: .normal)
     addButton.addTarget(self, action: #selector(onTapStartButton), for: .primaryActionTriggered)
 
-    view.mondrian.buildSubviews {
+    Mondrian.buildSubviews(on: view) {
       LayoutContainer(attachedSafeAreaEdges: .all) {
         ZStackBlock {
           VStackBlock {
