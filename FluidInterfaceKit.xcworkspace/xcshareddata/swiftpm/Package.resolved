@@ -2,12 +2,30 @@
   "object": {
     "pins": [
       {
+        "package": "MockKit",
+        "repositoryURL": "https://github.com/muukii/MockKit.git",
+        "state": {
+          "branch": "main",
+          "revision": "265b774c79ec815c96719367055cf4519ae4eb3c",
+          "version": null
+        }
+      },
+      {
         "package": "MondrianLayout",
         "repositoryURL": "https://github.com/muukii/MondrianLayout.git",
         "state": {
           "branch": null,
-          "revision": "39e0b4d5a3883ea32f6abead763054d5c9723811",
-          "version": "0.7.0"
+          "revision": "45e8051dcd4bc0949a169e4214fafc0dbde66e50",
+          "version": "0.8.0"
+        }
+      },
+      {
+        "package": "Ne",
+        "repositoryURL": "https://github.com/muukii/Ne.git",
+        "state": {
+          "branch": null,
+          "revision": "6555f94596b634c14bd0818265ef8c86bb3005f3",
+          "version": "1.0.1"
         }
       },
       {

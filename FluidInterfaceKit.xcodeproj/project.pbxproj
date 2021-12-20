@@ -23,6 +23,8 @@
 		4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */; };
 		4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2E2764FFCD0003FFB6 /* Logger.swift */; };
 		4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B30276503C30003FFB6 /* DemoViewController.swift */; };
+		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
+		4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B31B277077EA00EE1028 /* MockKit */; };
 		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
 		4BBDECD52766286400982229 /* InteractiveDismissalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* InteractiveDismissalViewController.swift */; };
 		4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD62766291400982229 /* ScrollView+Handling.swift */; };
@@ -101,9 +103,11 @@
 				4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */,
 				4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */,
 				4B959B242764F8470003FFB6 /* FluidInterfaceKit.framework in Frameworks */,
+				4BB5B319277077CC00EE1028 /* Ne in Frameworks */,
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
 				4B658D0F276A59F700A17878 /* Wrap in Frameworks */,
 				20922E01E3BAA69D444AA7D3 /* Pods_FluidInterfaceKit_Demo.framework in Frameworks */,
+				4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +247,8 @@
 				4BBDECDF276648FD00982229 /* CompositionKit */,
 				4BBDECE1276648FD00982229 /* MatchedTransition */,
 				4B658D0E276A59F700A17878 /* Wrap */,
+				4BB5B318277077CC00EE1028 /* Ne */,
+				4BB5B31B277077EA00EE1028 /* MockKit */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -280,6 +286,8 @@
 				4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */,
 				4B959B292764F8620003FFB6 /* XCRemoteSwiftPackageReference "MondrianLayout" */,
 				4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */,
+				4BB5B317277077CC00EE1028 /* XCRemoteSwiftPackageReference "Ne" */,
+				4BB5B31A277077EA00EE1028 /* XCRemoteSwiftPackageReference "MockKit" */,
 			);
 			productRefGroup = 4B959AF92764F7180003FFB6 /* Products */;
 			projectDirPath = "";
@@ -688,6 +696,22 @@
 				minimumVersion = 0.5.0;
 			};
 		};
+		4BB5B317277077CC00EE1028 /* XCRemoteSwiftPackageReference "Ne" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/muukii/Ne.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		4BB5B31A277077EA00EE1028 /* XCRemoteSwiftPackageReference "MockKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/muukii/MockKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/VergeGroup/Wrap.git";
@@ -718,6 +742,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4B959B292764F8620003FFB6 /* XCRemoteSwiftPackageReference "MondrianLayout" */;
 			productName = MondrianLayout;
+		};
+		4BB5B318277077CC00EE1028 /* Ne */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BB5B317277077CC00EE1028 /* XCRemoteSwiftPackageReference "Ne" */;
+			productName = Ne;
+		};
+		4BB5B31B277077EA00EE1028 /* MockKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BB5B31A277077EA00EE1028 /* XCRemoteSwiftPackageReference "MockKit" */;
+			productName = MockKit;
 		};
 		4BBDECDF276648FD00982229 /* CompositionKit */ = {
 			isa = XCSwiftPackageProductDependency;
