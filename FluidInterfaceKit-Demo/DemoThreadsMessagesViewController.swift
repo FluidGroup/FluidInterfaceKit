@@ -264,6 +264,9 @@ final class DemoThreadsDetailViewController: ZStackViewController {
       let backButton = UIButton(type: .system)&>.do {
         $0.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         $0.tintColor = .appBlack
+        $0.onTap { [unowned self] in
+          self.zStackViewControllerContext?.removeSelf(transition: .vanishing())
+        }
       }
 
       HStackBlock {
@@ -272,22 +275,28 @@ final class DemoThreadsDetailViewController: ZStackViewController {
           .spacingBefore(8)
 
         HStackBlock {
+
           StyledEdgeView(
             cornerRadius: .circular,
             cornerRoundingStrategy: .mask,
             content: UIView()&>.do { $0.backgroundColor = .lightGray }
           )
 
-          VStackBlock {
+          VStackBlock(alignment: .leading) {
 
             UILabel.mockSingleline(text: "Muukii", textColor: .appBlack)&>.do {
               $0.font = UIFont.preferredFont(forTextStyle: .headline)
             }
 
-            UILabel.mockSingleline(text: "Active now", textColor: .lightGray)
+            UILabel.mockSingleline(text: "Active now", textColor: .lightGray)&>.do {
+              $0.font = UIFont.preferredFont(forTextStyle: .caption1)
+            }
           }
+          .spacingBefore(4)
 
         }
+        .spacingBefore(4)
+        .spacingAfter(4)
 
         StackingSpacer(minLength: 0)
       }
