@@ -22,7 +22,7 @@
 import Foundation
 import UIKit
 
-open class InteractiveDismissalViewController: WrapperViewController, UIGestureRecognizerDelegate {
+open class InteractiveDismissalTransitionViewController: TransitionViewController, UIGestureRecognizerDelegate {
 
   // MARK: - Properties
 
@@ -48,19 +48,21 @@ open class InteractiveDismissalViewController: WrapperViewController, UIGestureR
   ///   - bodyViewController: a view controller that displays as a child view controller. It helps a case of can't create a subclass of FluidViewController.
   public init(
     bodyViewController: UIViewController,
+    transition: TransitionPair,
     interaction: AnyInteraction? = nil
   ) {
     self.interaction = interaction
-    super.init(bodyViewController: bodyViewController)
+    super.init(bodyViewController: bodyViewController, transition: transition)
   }
 
   public init(
     view: UIView,
+    transition: TransitionPair,
     interaction: AnyInteraction? = nil
   ) {
 
     self.interaction = interaction
-    super.init(view: view)
+    super.init(view: view, transition: transition)
   }
 
   @available(*, unavailable)
@@ -76,24 +78,6 @@ open class InteractiveDismissalViewController: WrapperViewController, UIGestureR
     super.viewDidLoad()
 
     setupGestures()  
-  }
-
-  open override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-
-    if let presentingViewController = presentingViewController,
-       let presentationController = presentationController {
-
-      /// presenting as presentation
-
-      AnyZStackViewControllerAddingTransition.popup()
-        .startTransition(context: .init(
-          contentView: presentationController.containerView!,
-          fromViewController: presentingViewController,
-          toViewController: self
-        )
-        )
-    }
   }
 
   public func setInteraction(_ newInteraction: AnyInteraction) {
@@ -179,7 +163,7 @@ open class InteractiveDismissalViewController: WrapperViewController, UIGestureR
 public struct AnyInteraction {
 
   public struct Context {
-    public let viewController: InteractiveDismissalViewController
+    public let viewController: InteractiveDismissalTransitionViewController
   }
 
   public typealias Handler<Gesture> = (Gesture, Context) -> Void
@@ -209,7 +193,7 @@ public struct AnyInteraction {
 
 extension AnyInteraction {
 
-  public static func leftToRight(dismiss: @escaping (InteractiveDismissalViewController) -> Void) -> Self {
+  public static func leftToRight(dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void) -> Self {
 
     struct TrackingContext {
 
@@ -388,7 +372,7 @@ extension AnyInteraction {
 
   public static func horizontalDragging(
     backTo destinationCoordinateSpace: UICoordinateSpace,
-    dismiss: @escaping (InteractiveDismissalViewController) -> Void
+    dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
   ) -> Self {
 
     struct TrackingContext {

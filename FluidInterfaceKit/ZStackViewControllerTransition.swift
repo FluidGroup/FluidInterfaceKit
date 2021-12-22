@@ -73,6 +73,24 @@ public final class ZStackViewControllerRemovingTransitionContext: Equatable {
   }
 }
 
+public struct TransitionPair {
+
+  public var adding: AnyZStackViewControllerAddingTransition?
+  public var removing: AnyZStackViewControllerRemovingTransition?
+
+  public init(
+    adding: AnyZStackViewControllerAddingTransition?,
+    removing: AnyZStackViewControllerRemovingTransition?
+  ) {
+    self.adding = adding
+    self.removing = removing
+  }
+
+  public static var noTransition: Self {
+    return .init(adding: nil, removing: nil)
+  }
+}
+
 public struct AnyZStackViewControllerAddingTransition {
 
   private let _startTransition: (ZStackViewControllerAddingTransitionContext) -> Void
@@ -121,7 +139,10 @@ extension AnyZStackViewControllerAddingTransition {
 
       let frame = coordinateSpace.convert(coordinateSpace.bounds, to: context.contentView)
 
-      let fromFrame = rectThatAspectFit(aspectRatio: context.contentView.bounds.size, boundingRect: frame)
+      let fromFrame = rectThatAspectFit(
+        aspectRatio: context.contentView.bounds.size,
+        boundingRect: frame
+      )
 
       let t = makeCGAffineTransform(from: context.contentView.bounds, to: fromFrame)
 

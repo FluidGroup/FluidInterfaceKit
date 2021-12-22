@@ -5,11 +5,11 @@
 //  Created by Muukii on 2021/12/12.
 //
 
+import FluidInterfaceKit
 import Foundation
 import MondrianLayout
-import FluidInterfaceKit
-import UIKit
 import StorybookKit
+import UIKit
 
 final class DemoViewController: ZStackViewController {
 
@@ -34,19 +34,26 @@ final class DemoViewController: ZStackViewController {
   }
 
   @objc private func onTapStartButton() {
-    addContentViewController(ContentViewController(color: BookGenerator.randomColor()), transition: nil)
+    addContentViewController(
+      ContentViewController(color: BookGenerator.randomColor()),
+      transition: nil
+    )
   }
 
 }
 
 final class ContentViewController: UIViewController {
 
-  init(color: UIColor) {
+  init(
+    color: UIColor
+  ) {
     super.init(nibName: nil, bundle: nil)
     view.backgroundColor = color
   }
 
-  required init?(coder aDecoder: NSCoder) {
+  required init?(
+    coder aDecoder: NSCoder
+  ) {
     fatalError("init(coder:) has not been implemented")
   }
 
@@ -70,7 +77,7 @@ final class ContentViewController: UIViewController {
 
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    
+
     print("viewDidDisappear: \(self)")
   }
 
@@ -98,9 +105,12 @@ final class ContentViewController: UIViewController {
       $0.setTitle("Add Wrapper", for: .normal)
       $0.onTap { [unowned self] in
 
-
         zStackViewControllerContext?.addContentViewController(
-          InteractiveDismissalViewController(bodyViewController: ContentViewController(color: BookGenerator.randomColor()), interaction: nil),
+          InteractiveDismissalTransitionViewController(
+            bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
+            transition: .noTransition,
+            interaction: nil
+          ),
           transition: nil
         )
       }

@@ -58,15 +58,19 @@ open class ZStackViewController: UIViewController {
     frontViewController.view.frame = self.view.bounds
     frontViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
+    lazy var transitionContext = ZStackViewControllerAddingTransitionContext(
+      contentView: self.view,
+      fromViewController: backViewController,
+      toViewController: frontViewController
+    )
+
     if let transition = transition {
 
-      let transitionContext = ZStackViewControllerAddingTransitionContext(
-        contentView: self.view,
-        fromViewController: backViewController,
-        toViewController: frontViewController
-      )
-
       transition.startTransition(context: transitionContext)
+    } else {
+
+      (frontViewController as? TransitionViewController)?.startAddingTransition(context: transitionContext)
+
     }
 
     frontViewController.didMove(toParent: self)

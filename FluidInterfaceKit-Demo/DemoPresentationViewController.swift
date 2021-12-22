@@ -20,12 +20,16 @@ final class DemoPresentationViewController: UIViewController {
     presentButton.setTitle("Present", for: .normal)
     presentButton.onTap { [unowned self] in
 
-      let controller = InteractiveDismissalViewController(bodyViewController: PlaceholderViewController(), interaction: nil)
+      let controller = InteractiveDismissalTransitionViewController(
+        bodyViewController: PlaceholderViewController(),
+        transition: .init(adding: .popup(), removing: nil),
+        interaction: nil
+      )
 
       controller.modalPresentationStyle = .overCurrentContext
 
       present(controller, animated: false, completion: nil)
-      
+
     }
 
     Mondrian.buildSubviews(on: view) {

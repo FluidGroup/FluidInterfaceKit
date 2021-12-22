@@ -80,9 +80,9 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
             makeListCell(onTap: { [unowned self] cell in
               print(cell)
 
-              let controller = InteractiveDismissalViewController(
+              let controller = InteractiveDismissalTransitionViewController(
                 bodyViewController: DemoThreadsDetailViewController(),
-                //              interaction: .leftToRight()
+                transition: .init(adding: .popupContextual(from: cell), removing: nil),
                 interaction: .horizontalDragging(
                   backTo: cell,
                   dismiss: { viewController in
@@ -91,7 +91,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
                 )
               )
 
-              addContentViewController(controller, transition: .popupContextual(from: cell))
+              addContentViewController(controller, transition: nil)
 
             })
           }
