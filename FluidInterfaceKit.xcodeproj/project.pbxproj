@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20922E01E3BAA69D444AA7D3 /* Pods_FluidInterfaceKit_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */; };
+		4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
 		4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B082764F77E0003FFB6 /* AppDelegate.swift */; };
 		4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B0C2764F77E0003FFB6 /* ViewController.swift */; };
@@ -61,6 +62,7 @@
 
 /* Begin PBXFileReference section */
 		082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
 		4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluidInterfaceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B082764F77E0003FFB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				4B959B112764F77F0003FFB6 /* Assets.xcassets */,
 				4B959B132764F77F0003FFB6 /* LaunchScreen.storyboard */,
 				4BBDECD22766241200982229 /* UIControl+Closure.swift */,
+				4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */,
 			);
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */,
 				4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */,
 				4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */,
+				4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */,
 				4B959B202764F8200003FFB6 /* Book.swift in Sources */,
 				4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */,
 				4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */,
@@ -604,7 +608,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -633,7 +637,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -717,7 +721,7 @@
 			repositoryURL = "https://github.com/VergeGroup/Wrap.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

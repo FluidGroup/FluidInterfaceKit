@@ -12,6 +12,7 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 
+/// Message list
 final class DemoThreadsMessagesViewController: ZStackViewController {
 
   private let scrollableContainerView = ScrollableContainerView()
@@ -31,8 +32,10 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
     func makeHeader() -> UIView {
 
-      let imageView = CircularClippingView(
-        UIView()+>.do {
+      let imageView = StyledEdgeView(
+        cornerRadius: .circular,
+        cornerRoundingStrategy: .mask,
+        content: UIView()&>.do {
           $0.backgroundColor = BookGenerator.randomColor()
         }
       )
@@ -56,19 +59,19 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
     func makeCell(onTap: @escaping (UIView) -> Void) -> UIView {
 
-      let nameLabel = UILabel()+>.do {
+      let nameLabel = UILabel()&>.do {
         $0.text = "Muukii"
         $0.font = UIFont.preferredFont(forTextStyle: .headline)
         $0.textColor = .black
       }
 
-      let statusLabel = UILabel()+>.do {
+      let statusLabel = UILabel()&>.do {
         $0.text = "Active now"
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
       }
 
-      let imageView = UIView()+>.do {
+      let imageView = UIView()&>.do {
         $0.backgroundColor = BookGenerator.randomColor()
       }
 
@@ -84,7 +87,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
       let body = AnyView { _ in
 
         VStackBlock {
-          CircularClippingView(imageView)
+          StyledEdgeView(cornerRadius: .circular, cornerRoundingStrategy: .mask, content: imageView)
 
           nameLabel
             .viewBlock
@@ -158,9 +161,11 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
 }
 
+/// Detail
 final class DemoThreadsDetailViewController: ZStackViewController {
 
   private let scrollableContainerView = ScrollableContainerView()
+  private let navigationView = NavigationHostingView()
 
   override func viewDidLoad() {
 
@@ -173,7 +178,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
       let label = UILabel()
       label.text = "Hello"
 
-      let button = UIButton(type: .system)+>.do {
+      let button = UIButton(type: .system)&>.do {
         $0.setTitle("Dismiss", for: .normal)
         $0.onTap { [unowned self] in
           self.zStackViewControllerContext?.removeSelf(transition: .vanishing())
@@ -194,6 +199,53 @@ final class DemoThreadsDetailViewController: ZStackViewController {
 
     }()
 
+    /// cells
+    do {
+      func makeCell() -> UIView {
+
+        let label = UILabel()
+        label.text = "Message"
+
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .init(white: 0, alpha: 0.1)
+        if #available(iOS 13.0, *) {
+          backgroundView.layer.cornerCurve = .continuous
+        } else {
+          // Fallback on earlier versions
+        }
+        backgroundView.layer.cornerRadius = 16
+
+        let cell = AnyView { _ in
+          HStackBlock {
+
+            StackingSpacer(minLength: 0, expands: true)
+
+            HStackBlock {
+
+              label
+                .viewBlock
+                .padding(24)
+            }
+            .background(backgroundView)
+            .padding(16)
+          }
+        }
+
+        return cell
+
+      }
+
+      let content = CompositionKit.AnyView.init { view in
+        VStackBlock {
+          (0..<10).map { _ in
+            makeCell()
+          }
+        }
+      }
+
+      scrollableContainerView.setContent(content)
+    }
+
     Mondrian.buildSubviews(on: view) {
       ZStackBlock {
         scrollableContainerView
@@ -207,49 +259,43 @@ final class DemoThreadsDetailViewController: ZStackViewController {
       }
     }
 
-    func makeCell() -> UIView {
+    let navigationContentView = AnyView { view in
 
-      let label = UILabel()
-      label.text = "Message"
-
-      let backgroundView = UIView()
-      backgroundView.backgroundColor = .init(white: 0, alpha: 0.1)
-      if #available(iOS 13.0, *) {
-        backgroundView.layer.cornerCurve = .continuous
-      } else {
-        // Fallback on earlier versions
+      let backButton = UIButton(type: .system)&>.do {
+        $0.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        $0.tintColor = .appBlack
       }
-      backgroundView.layer.cornerRadius = 16
 
-      let cell = AnyView { _ in
+      HStackBlock {
+        backButton
+          .viewBlock
+          .spacingBefore(8)
+
         HStackBlock {
+          StyledEdgeView(
+            cornerRadius: .circular,
+            cornerRoundingStrategy: .mask,
+            content: UIView()&>.do { $0.backgroundColor = .lightGray }
+          )
 
-          StackingSpacer(minLength: 0, expands: true)
+          VStackBlock {
 
-          HStackBlock {
+            UILabel.mockSingleline(text: "Muukii", textColor: .appBlack)&>.do {
+              $0.font = UIFont.preferredFont(forTextStyle: .headline)
+            }
 
-            label
-              .viewBlock
-              .padding(24)
+            UILabel.mockSingleline(text: "Active now", textColor: .lightGray)
           }
-          .background(backgroundView)
-          .padding(16)
+
         }
-      }
 
-      return cell
-
-    }
-
-    let content = CompositionKit.AnyView.init { view in
-      VStackBlock {
-        (0..<10).map { _ in
-          makeCell()
-        }
+        StackingSpacer(minLength: 0)
       }
     }
 
-    scrollableContainerView.setContent(content)
+    navigationView.setContent(navigationContentView)
+    navigationView.setup(on: self)
+    navigationView.backgroundColor = .white
 
   }
 
