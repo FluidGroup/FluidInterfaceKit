@@ -32,7 +32,7 @@
 		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
 		4BBDECD52766286400982229 /* InteractiveDismissalTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */; };
 		4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD62766291400982229 /* ScrollView+Handling.swift */; };
-		4BBDECD92766350E00982229 /* ZStackViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */; };
+		4BBDECD92766350E00982229 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD82766350E00982229 /* Transition.swift */; };
 		4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECDF276648FD00982229 /* CompositionKit */; };
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
 		4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */; };
@@ -84,7 +84,7 @@
 		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
 		4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalTransitionViewController.swift; sourceTree = "<group>"; };
 		4BBDECD62766291400982229 /* ScrollView+Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Handling.swift"; sourceTree = "<group>"; };
-		4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZStackViewControllerTransition.swift; sourceTree = "<group>"; };
+		4BBDECD82766350E00982229 /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		4BBDECDD276646E300982229 /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = submodules/CompositionKit; sourceTree = "<group>"; };
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
 		4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlCenterViewController.swift; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 		4B959AFA2764F7180003FFB6 /* FluidInterfaceKit */ = {
 			isa = PBXGroup;
 			children = (
-				4BBDECD82766350E00982229 /* ZStackViewControllerTransition.swift */,
+				4BBDECD82766350E00982229 /* Transition.swift */,
 				4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */,
 				4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */,
 				4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */,
@@ -387,7 +387,7 @@
 				4B1561C3277371BD00C4DE07 /* WrapperViewController.swift in Sources */,
 				4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */,
 				4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */,
-				4BBDECD92766350E00982229 /* ZStackViewControllerTransition.swift in Sources */,
+				4BBDECD92766350E00982229 /* Transition.swift in Sources */,
 				4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */,
 				4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */,
 			);
