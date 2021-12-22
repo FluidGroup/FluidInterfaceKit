@@ -22,19 +22,9 @@
 import Foundation
 import UIKit
 
-open class InteractiveDismissalViewController: UIViewController, UIGestureRecognizerDelegate {
+open class InteractiveDismissalViewController: WrapperViewController, UIGestureRecognizerDelegate {
 
   // MARK: - Properties
-
-  public override var childForStatusBarStyle: UIViewController? {
-    return bodyViewController
-  }
-
-  public override var childForStatusBarHidden: UIViewController? {
-    return bodyViewController
-  }
-
-  public let bodyViewController: UIViewController?
 
   @available(*, unavailable, message: "Unsupported")
   open override var navigationController: UINavigationController? {
@@ -46,8 +36,6 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
   public var interactiveEdgeUnwindGestureRecognizer: UIScreenEdgePanGestureRecognizer?
 
   private var registeredGestures: [UIGestureRecognizer] = []
-
-  private let customView: UIView?
 
   private var interaction: AnyInteraction?
 
@@ -63,9 +51,7 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
     interaction: AnyInteraction? = nil
   ) {
     self.interaction = interaction
-    self.bodyViewController = bodyViewController
-    self.customView = nil
-    super.init(nibName: nil, bundle: nil)
+    super.init(bodyViewController: bodyViewController)
   }
 
   public init(
@@ -74,9 +60,7 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
   ) {
 
     self.interaction = interaction
-    self.bodyViewController = nil
-    self.customView = view
-    super.init(nibName: nil, bundle: nil)
+    super.init(view: view)
   }
 
   @available(*, unavailable)
@@ -88,30 +72,27 @@ open class InteractiveDismissalViewController: UIViewController, UIGestureRecogn
 
   // MARK: - Functions
 
-  open override func loadView() {
-    if let customView = customView {
-      view = customView
-    } else {
-      super.loadView()
-    }
-  }
-
   open override func viewDidLoad() {
     super.viewDidLoad()
 
-    setupGestures()
+    setupGestures()  
+  }
 
-    if let bodyViewController = bodyViewController {
-      addChild(bodyViewController)
-      view.addSubview(bodyViewController.view)
-      bodyViewController.view.translatesAutoresizingMaskIntoConstraints = false
-      NSLayoutConstraint.activate([
-        bodyViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
-        bodyViewController.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-        bodyViewController.view.leftAnchor.constraint(equalTo: view.leftAnchor),
-        bodyViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-      ])
-      bodyViewController.didMove(toParent: self)
+  open override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+
+    if let presentingViewController = presentingViewController,
+       let presentationController = presentationController {
+
+      /// presenting as presentation
+
+      AnyZStackViewControllerAddingTransition.popup()
+        .startTransition(context: .init(
+          contentView: presentationController.containerView!,
+          fromViewController: presentingViewController,
+          toViewController: self
+        )
+        )
     }
   }
 

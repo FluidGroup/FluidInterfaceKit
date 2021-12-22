@@ -57,62 +57,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
     }
 
-    func makeCell(onTap: @escaping (UIView) -> Void) -> UIView {
 
-      let nameLabel = UILabel()&>.do {
-        $0.text = "Muukii"
-        $0.font = UIFont.preferredFont(forTextStyle: .headline)
-        $0.textColor = .black
-      }
-
-      let statusLabel = UILabel()&>.do {
-        $0.text = "Active now"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption1)
-        $0.textColor = .darkGray
-      }
-
-      let imageView = UIView()&>.do {
-        $0.backgroundColor = BookGenerator.randomColor()
-      }
-
-      let backgroundView = UIView()
-      backgroundView.backgroundColor = .init(white: 0, alpha: 0.1)
-      if #available(iOS 13.0, *) {
-        backgroundView.layer.cornerCurve = .continuous
-      } else {
-        // Fallback on earlier versions
-      }
-      backgroundView.layer.cornerRadius = 16
-
-      let body = AnyView { _ in
-
-        VStackBlock {
-          StyledEdgeView(cornerRadius: .circular, cornerRoundingStrategy: .mask, content: imageView)
-
-          nameLabel
-            .viewBlock
-            .spacingBefore(8)
-
-          statusLabel
-            .viewBlock
-            .spacingBefore(4)
-        }
-
-      }
-
-      let cell = InteractiveView(
-        animation: .customBodyShrink(shrinkingScale: 0.7),
-        haptics: .impactOnTouchUpInside(style: .light),
-        contentView: body
-      )
-
-      cell.handlers.onTap = { [unowned cell] in
-        onTap(cell)
-      }
-
-      return cell
-
-    }
 
     let header = makeHeader()
 
@@ -132,7 +77,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
           spacing: 24
         ) {
           (0..<10).map { _ in
-            makeCell(onTap: { [unowned self] cell in
+            makeListCell(onTap: { [unowned self] cell in
               print(cell)
 
               let controller = InteractiveDismissalViewController(
@@ -158,6 +103,63 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
     scrollableContainerView.setContent(content)
 
   }
+
+}
+
+func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
+
+  let nameLabel = UILabel()&>.do {
+    $0.text = "Muukii"
+    $0.font = UIFont.preferredFont(forTextStyle: .headline)
+    $0.textColor = .black
+  }
+
+  let statusLabel = UILabel()&>.do {
+    $0.text = "Active now"
+    $0.font = UIFont.preferredFont(forTextStyle: .caption1)
+    $0.textColor = .darkGray
+  }
+
+  let imageView = UIView()&>.do {
+    $0.backgroundColor = BookGenerator.randomColor()
+  }
+
+  let backgroundView = UIView()
+  backgroundView.backgroundColor = .init(white: 0, alpha: 0.1)
+  if #available(iOS 13.0, *) {
+    backgroundView.layer.cornerCurve = .continuous
+  } else {
+    // Fallback on earlier versions
+  }
+  backgroundView.layer.cornerRadius = 16
+
+  let body = AnyView { _ in
+
+    VStackBlock {
+      StyledEdgeView(cornerRadius: .circular, cornerRoundingStrategy: .mask, content: imageView)
+
+      nameLabel
+        .viewBlock
+        .spacingBefore(8)
+
+      statusLabel
+        .viewBlock
+        .spacingBefore(4)
+    }
+
+  }
+
+  let cell = InteractiveView(
+    animation: .customBodyShrink(shrinkingScale: 0.7),
+    haptics: .impactOnTouchUpInside(style: .light),
+    contentView: body
+  )
+
+  cell.handlers.onTap = { [unowned cell] in
+    onTap(cell)
+  }
+
+  return cell
 
 }
 

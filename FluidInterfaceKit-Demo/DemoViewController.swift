@@ -77,13 +77,34 @@ final class ContentViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let dismissButton = UIButton(type: .system)
-    dismissButton.setTitle("Dimiss", for: .normal)
-    dismissButton.addTarget(self, action: #selector(onTapDismissButton), for: .primaryActionTriggered)
+    let dismissButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Dimiss", for: .normal)
+      $0.onTap { [unowned self] in
+        zStackViewControllerContext?.removeSelf(transition: nil)
+      }
+    }
 
-    let addButton = UIButton(type: .system)
-    addButton.setTitle("Add", for: .normal)
-    addButton.addTarget(self, action: #selector(onTapStartButton), for: .primaryActionTriggered)
+    let addButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Add", for: .normal)
+      $0.onTap { [unowned self] in
+        zStackViewControllerContext?.addContentViewController(
+          ContentViewController(color: BookGenerator.randomColor()),
+          transition: nil
+        )
+      }
+    }
+
+    let addInteractiveButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Add Wrapper", for: .normal)
+      $0.onTap { [unowned self] in
+
+
+        zStackViewControllerContext?.addContentViewController(
+          InteractiveDismissalViewController(bodyViewController: ContentViewController(color: BookGenerator.randomColor()), interaction: nil),
+          transition: nil
+        )
+      }
+    }
 
     Mondrian.buildSubviews(on: view) {
       LayoutContainer(attachedSafeAreaEdges: .all) {
@@ -91,6 +112,8 @@ final class ContentViewController: UIViewController {
           VStackBlock {
 
             addButton
+
+            addInteractiveButton
 
             dismissButton
           }
@@ -100,14 +123,4 @@ final class ContentViewController: UIViewController {
 
   }
 
-  @objc private func onTapStartButton() {
-    zStackViewControllerContext?.addContentViewController(
-      ContentViewController(color: BookGenerator.randomColor()),
-      transition: nil
-    )
-  }
-
-  @objc private func onTapDismissButton() {
-    zStackViewControllerContext?.removeSelf(transition: nil)
-  }
 }
