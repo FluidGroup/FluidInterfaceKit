@@ -33,7 +33,7 @@ open class TransitionViewController: WrapperViewController {
 
   }
 
-  func startAddingTransition(context: ZStackViewControllerAddingTransitionContext) {
+  func startAddingTransition(context: AddingTransitionContext) {
 
     guard let addingTransition = transition.adding else {
       return
@@ -45,7 +45,7 @@ open class TransitionViewController: WrapperViewController {
 
   }
 
-  func startRemovingTransition(context: ZStackViewControllerRemovingTransitionContext) {
+  func startRemovingTransition(context: RemovingTransitionContext) {
 
     guard let removingTransition = transition.removing else {
       view.removeFromSuperview()

@@ -1,10 +1,10 @@
 import UIKit
 
-public final class ZStackViewControllerAddingTransitionContext: Equatable {
+public final class AddingTransitionContext: Equatable {
 
   public static func == (
-    lhs: ZStackViewControllerAddingTransitionContext,
-    rhs: ZStackViewControllerAddingTransitionContext
+    lhs: AddingTransitionContext,
+    rhs: AddingTransitionContext
   ) -> Bool {
     lhs === rhs
   }
@@ -25,11 +25,11 @@ public final class ZStackViewControllerAddingTransitionContext: Equatable {
 
 }
 
-public final class ZStackViewControllerBatchRemovingTransitionContext: Equatable {
+public final class BatchRemovingTransitionContext: Equatable {
 
   public static func == (
-    lhs: ZStackViewControllerBatchRemovingTransitionContext,
-    rhs: ZStackViewControllerBatchRemovingTransitionContext
+    lhs: BatchRemovingTransitionContext,
+    rhs: BatchRemovingTransitionContext
   ) -> Bool {
     lhs === rhs
   }
@@ -49,11 +49,11 @@ public final class ZStackViewControllerBatchRemovingTransitionContext: Equatable
   }
 }
 
-public final class ZStackViewControllerRemovingTransitionContext: Equatable {
+public final class RemovingTransitionContext: Equatable {
 
   public static func == (
-    lhs: ZStackViewControllerRemovingTransitionContext,
-    rhs: ZStackViewControllerRemovingTransitionContext
+    lhs: RemovingTransitionContext,
+    rhs: RemovingTransitionContext
   ) -> Bool {
     lhs === rhs
   }
@@ -75,12 +75,12 @@ public final class ZStackViewControllerRemovingTransitionContext: Equatable {
 
 public struct TransitionPair {
 
-  public var adding: AnyZStackViewControllerAddingTransition?
-  public var removing: AnyZStackViewControllerRemovingTransition?
+  public var adding: AnyAddingTransition?
+  public var removing: AnyRemovingTransition?
 
   public init(
-    adding: AnyZStackViewControllerAddingTransition?,
-    removing: AnyZStackViewControllerRemovingTransition?
+    adding: AnyAddingTransition?,
+    removing: AnyRemovingTransition?
   ) {
     self.adding = adding
     self.removing = removing
@@ -91,22 +91,22 @@ public struct TransitionPair {
   }
 }
 
-public struct AnyZStackViewControllerAddingTransition {
+public struct AnyAddingTransition {
 
-  private let _startTransition: (ZStackViewControllerAddingTransitionContext) -> Void
+  private let _startTransition: (AddingTransitionContext) -> Void
 
   public init(
-    startTransition: @escaping (ZStackViewControllerAddingTransitionContext) -> Void
+    startTransition: @escaping (AddingTransitionContext) -> Void
   ) {
     self._startTransition = startTransition
   }
 
-  public func startTransition(context: ZStackViewControllerAddingTransitionContext) {
+  public func startTransition(context: AddingTransitionContext) {
     _startTransition(context)
   }
 }
 
-extension AnyZStackViewControllerAddingTransition {
+extension AnyAddingTransition {
 
   public static var noAnimation: Self {
     return .init { context in      
@@ -180,22 +180,22 @@ extension AnyZStackViewControllerAddingTransition {
 
 }
 
-public struct AnyZStackViewControllerRemovingTransition {
+public struct AnyRemovingTransition {
 
-  private let _startTransition: (ZStackViewControllerRemovingTransitionContext) -> Void
+  private let _startTransition: (RemovingTransitionContext) -> Void
 
   public init(
-    startTransition: @escaping (ZStackViewControllerRemovingTransitionContext) -> Void
+    startTransition: @escaping (RemovingTransitionContext) -> Void
   ) {
     self._startTransition = startTransition
   }
 
-  public func startTransition(context: ZStackViewControllerRemovingTransitionContext) {
+  public func startTransition(context: RemovingTransitionContext) {
     _startTransition(context)
   }
 }
 
-extension AnyZStackViewControllerRemovingTransition {
+extension AnyRemovingTransition {
 
   public static var noAnimation: Self {
     return .init { context in
@@ -231,22 +231,22 @@ extension AnyZStackViewControllerRemovingTransition {
 
 }
 
-public struct AnyZStackViewControllerBatchRemovingTransition {
+public struct AnyBatchRemovingTransition {
 
-  private let _startTransition: (ZStackViewControllerBatchRemovingTransitionContext) -> Void
+  private let _startTransition: (BatchRemovingTransitionContext) -> Void
 
   public init(
-    startTransition: @escaping (ZStackViewControllerBatchRemovingTransitionContext) -> Void
+    startTransition: @escaping (BatchRemovingTransitionContext) -> Void
   ) {
     self._startTransition = startTransition
   }
 
-  public func startTransition(context: ZStackViewControllerBatchRemovingTransitionContext) {
+  public func startTransition(context: BatchRemovingTransitionContext) {
     _startTransition(context)
   }
 }
 
-extension AnyZStackViewControllerBatchRemovingTransition {
+extension AnyBatchRemovingTransition {
 
   public static func vanishing(duration: TimeInterval = 0.6) -> Self {
 

@@ -34,7 +34,7 @@ open class ZStackViewController: UIViewController {
 
   public func addContentViewController(
     _ frontViewController: UIViewController,
-    transition: AnyZStackViewControllerAddingTransition?
+    transition: AnyAddingTransition?
   ) {
 
     assert(Thread.isMainThread)
@@ -58,7 +58,7 @@ open class ZStackViewController: UIViewController {
     frontViewController.view.frame = self.view.bounds
     frontViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-    lazy var transitionContext = ZStackViewControllerAddingTransitionContext(
+    lazy var transitionContext = AddingTransitionContext(
       contentView: self.view,
       fromViewController: backViewController,
       toViewController: frontViewController
@@ -78,7 +78,7 @@ open class ZStackViewController: UIViewController {
     Log.debug(.zStack, "Added: \(children)")
   }
 
-  public func addContentView(_ view: UIView, transition: AnyZStackViewControllerAddingTransition?) {
+  public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {
 
     assert(Thread.isMainThread)
 
@@ -87,7 +87,7 @@ open class ZStackViewController: UIViewController {
 
   }
 
-  public func removeLastViewController(transition: AnyZStackViewControllerRemovingTransition?) {
+  public func removeLastViewController(transition: AnyRemovingTransition?) {
 
     assert(Thread.isMainThread)
 
@@ -103,7 +103,7 @@ open class ZStackViewController: UIViewController {
 
   public func removeViewController(
     _ viewController: UIViewController,
-    transition: AnyZStackViewControllerRemovingTransition?
+    transition: AnyRemovingTransition?
   ) {
 
     guard let index = stackingViewControllers.firstIndex(of: viewController) else {
@@ -123,7 +123,7 @@ open class ZStackViewController: UIViewController {
     viewController.willMove(toParent: nil)
     viewController.removeFromParent()
 
-    lazy var context = ZStackViewControllerRemovingTransitionContext(
+    lazy var context = RemovingTransitionContext(
       contentView: view,
       fromViewController: viewController,
       toViewController: backViewController
@@ -144,7 +144,7 @@ open class ZStackViewController: UIViewController {
 
   public func removeAllViewController(
     from viewController: UIViewController,
-    transition: AnyZStackViewControllerBatchRemovingTransition?
+    transition: AnyBatchRemovingTransition?
   ) {
 
     Log.debug(.zStack, "Remove \(viewController) from \(stackingViewControllers)")
@@ -171,7 +171,7 @@ open class ZStackViewController: UIViewController {
         $0.removeFromParent()
       }
 
-      let context = ZStackViewControllerBatchRemovingTransitionContext(
+      let context = BatchRemovingTransitionContext(
         contentView: view,
         fromViewControllers: viewControllersToRemove,
         toViewController: targetTopViewController
@@ -210,16 +210,16 @@ public struct ZStackViewControllerContext {
 
   public func addContentViewController(
     _ viewController: UIViewController,
-    transition: AnyZStackViewControllerAddingTransition?
+    transition: AnyAddingTransition?
   ) {
     zStackViewController?.addContentViewController(viewController, transition: transition)
   }
 
-  public func addContentView(_ view: UIView, transition: AnyZStackViewControllerAddingTransition?) {
+  public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {
     zStackViewController?.addContentView(view, transition: transition)
   }
 
-  public func removeSelf(transition: AnyZStackViewControllerRemovingTransition?) {
+  public func removeSelf(transition: AnyRemovingTransition?) {
     guard let targetViewController = targetViewController else {
       return
     }
