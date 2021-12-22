@@ -57,9 +57,9 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
     }
 
-
-
     let header = makeHeader()
+
+    var viewControllerCache: [Int : UIViewController] = [:]
 
     let content = CompositionKit.AnyView.init { view in
 
@@ -76,22 +76,32 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
           ],
           spacing: 24
         ) {
-          (0..<10).map { _ in
+          (0..<10).map { index in
             makeListCell(onTap: { [unowned self] cell in
               print(cell)
 
-              let controller = InteractiveDismissalTransitionViewController(
-                bodyViewController: DemoThreadsDetailViewController(),
-                transition: .init(adding: .popupContextual(from: cell), removing: nil),
-                interaction: .horizontalDragging(
-                  backTo: cell,
-                  dismiss: { viewController in
-                    viewController.zStackViewControllerContext?.removeSelf(transition: nil)
-                  }
-                )
-              )
+              if let cached = viewControllerCache[index] {
 
-              addContentViewController(controller, transition: nil)
+                addContentViewController(cached, transition: nil)
+                
+              } else {
+                let controller = InteractiveDismissalTransitionViewController(
+                  bodyViewController: DemoThreadsDetailViewController(),
+                  transition: .init(adding: .popupContextual(from: cell), removing: nil),
+                  interaction: .horizontalDragging(
+                    backTo: cell,
+                    dismiss: { viewController in
+                      viewController.zStackViewControllerContext?.removeSelf(transition: nil)
+                    }
+                  )
+                )
+
+                viewControllerCache[index] = controller
+
+                addContentViewController(controller, transition: nil)
+
+              }
+
 
             })
           }

@@ -12,6 +12,8 @@
 		4B1561C3277371BD00C4DE07 /* WrapperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */; };
 		4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */; };
 		4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C627737F4100C4DE07 /* TransitionViewController.swift */; };
+		4B1561C92773A99800C4DE07 /* Transition+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C82773A99800C4DE07 /* Transition+Presets.swift */; };
+		4B1561CB2773AC4600C4DE07 /* RunLoopActivityObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561CA2773AC4600C4DE07 /* RunLoopActivityObserving.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
 		4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B082764F77E0003FFB6 /* AppDelegate.swift */; };
 		4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B0C2764F77E0003FFB6 /* ViewController.swift */; };
@@ -70,6 +72,8 @@
 		4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperViewController.swift; sourceTree = "<group>"; };
 		4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPresentationViewController.swift; sourceTree = "<group>"; };
 		4B1561C627737F4100C4DE07 /* TransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionViewController.swift; sourceTree = "<group>"; };
+		4B1561C82773A99800C4DE07 /* Transition+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Presets.swift"; sourceTree = "<group>"; };
+		4B1561CA2773AC4600C4DE07 /* RunLoopActivityObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunLoopActivityObserving.swift; sourceTree = "<group>"; };
 		4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluidInterfaceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B082764F77E0003FFB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,12 +152,14 @@
 			isa = PBXGroup;
 			children = (
 				4BBDECD82766350E00982229 /* Transition.swift */,
+				4B1561C82773A99800C4DE07 /* Transition+Presets.swift */,
 				4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */,
 				4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */,
 				4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */,
 				4B1561C627737F4100C4DE07 /* TransitionViewController.swift */,
 				4BBDECD62766291400982229 /* ScrollView+Handling.swift */,
 				4B959B2E2764FFCD0003FFB6 /* Logger.swift */,
+				4B1561CA2773AC4600C4DE07 /* RunLoopActivityObserving.swift */,
 			);
 			path = FluidInterfaceKit;
 			sourceTree = "<group>";
@@ -390,6 +396,8 @@
 				4BBDECD92766350E00982229 /* Transition.swift in Sources */,
 				4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */,
 				4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */,
+				4B1561CB2773AC4600C4DE07 /* RunLoopActivityObserving.swift in Sources */,
+				4B1561C92773A99800C4DE07 /* Transition+Presets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

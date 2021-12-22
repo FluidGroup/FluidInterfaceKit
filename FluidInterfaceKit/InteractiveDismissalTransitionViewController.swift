@@ -424,6 +424,8 @@ extension AnyInteraction {
 
                 view.transform = currentTransform
 
+                view.layer.removeAllAnimations()
+
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
                   viewFrame: view.bounds,
@@ -508,9 +510,18 @@ extension AnyInteraction {
                     view.transform = makeCGAffineTransform(from: view.bounds, to: targetRect)
                   }
 
-                  animator.addCompletion { _ in
-                    dismiss(context.viewController)
-                    view.transform = .identity
+                  animator.addCompletion { position in
+                    switch position {
+                    case .end:
+                      dismiss(context.viewController)
+                      view.transform = .identity
+                    case .start:
+                      break
+                    case .current:
+                      break
+                    @unknown default:
+                      assertionFailure()
+                    }
                   }
 
                   animator.startAnimation()

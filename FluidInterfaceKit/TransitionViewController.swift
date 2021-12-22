@@ -76,7 +76,10 @@ open class TransitionViewController: WrapperViewController {
           context: .init(
             contentView: presentationController.containerView!,
             fromViewController: presentingViewController,
-            toViewController: self
+            toViewController: self,
+            onCompleted: {
+              
+            }
           )
         )
 

@@ -3,12 +3,36 @@ import UIKit
 open class ZStackViewController: UIViewController {
 
   private struct State: Equatable {
+
   }
 
   private var state: State = .init()
   private let __rootView: UIView?
 
   public var stackingViewControllers: [UIViewController] = []
+
+  final class ViewControllerStateToken: Equatable {
+
+    static func == (lhs: ZStackViewController.ViewControllerStateToken, rhs: ZStackViewController.ViewControllerStateToken) -> Bool {
+      lhs === rhs
+    }
+
+    let state: ViewControllerState
+
+    init(state: ViewControllerState) {
+      self.state = state
+    }
+  }
+
+  enum ViewControllerState: Int {
+    case removed
+    case adding
+    case added
+    case removing
+  }
+
+  private var viewControllerStateMap: NSMapTable<UIViewController, ViewControllerStateToken> =
+    .weakToStrongObjects()
 
   open override func loadView() {
     if let __rootView = __rootView {
@@ -32,50 +56,12 @@ open class ZStackViewController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
-  public func addContentViewController(
-    _ frontViewController: UIViewController,
-    transition: AnyAddingTransition?
-  ) {
+  open override func viewDidLoad() {
+    super.viewDidLoad()
 
-    assert(Thread.isMainThread)
-
-    guard stackingViewControllers.contains(frontViewController) == false else {
-      Log.error(.zStack, "\(frontViewController) has been already added in ZStackViewController")
-      return
-    }
-
-    let backViewController = stackingViewControllers.last
-    stackingViewControllers.append(frontViewController)
-
-    /// set context
-    frontViewController.zStackViewControllerContext = .init(
-      zStackViewController: self,
-      targetViewController: frontViewController
-    )
-
-    addChild(frontViewController)
-    view.addSubview(frontViewController.view)
-    frontViewController.view.frame = self.view.bounds
-    frontViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-    lazy var transitionContext = AddingTransitionContext(
-      contentView: self.view,
-      fromViewController: backViewController,
-      toViewController: frontViewController
-    )
-
-    if let transition = transition {
-
-      transition.startTransition(context: transitionContext)
-    } else {
-
-      (frontViewController as? TransitionViewController)?.startAddingTransition(context: transitionContext)
-
-    }
-
-    frontViewController.didMove(toParent: self)
-
-    Log.debug(.zStack, "Added: \(children)")
+    //    RunLoopActivityObserving.addObserver(acitivity: .beforeWaiting) { activity in
+    //      print("Activity", activity, Date())
+    //    }
   }
 
   public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {
@@ -101,13 +87,83 @@ open class ZStackViewController: UIViewController {
     viewControllerToRemove.zStackViewControllerContext = nil
   }
 
+  public func addContentViewController(
+    _ viewControllerToAdd: UIViewController,
+    transition: AnyAddingTransition?
+  ) {
+
+    assert(Thread.isMainThread)
+
+//    guard stackingViewControllers.contains(viewControllerToAdd) == false else {
+//      Log.error(.zStack, "\(viewControllerToAdd) has been already added in ZStackViewController")
+//      return
+//    }
+
+    let backViewController = stackingViewControllers.last
+    stackingViewControllers.removeAll { $0 == viewControllerToAdd }
+    stackingViewControllers.append(viewControllerToAdd)
+
+    /// set context
+    viewControllerToAdd.zStackViewControllerContext = .init(
+      zStackViewController: self,
+      targetViewController: viewControllerToAdd
+    )
+
+    let addingToken = ViewControllerStateToken(state: .adding)
+    setViewControllerState(viewController: viewControllerToAdd, token: addingToken)
+
+    if viewControllerToAdd.parent != self {
+      addChild(viewControllerToAdd)
+      view.addSubview(viewControllerToAdd.view)
+      viewControllerToAdd.view.frame = self.view.bounds
+      viewControllerToAdd.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      viewControllerToAdd.didMove(toParent: self)
+    } else {
+      if viewControllerToAdd.view.superview == nil {
+        view.addSubview(viewControllerToAdd.view)
+      }
+    }
+
+    lazy var transitionContext = AddingTransitionContext(
+      contentView: self.view,
+      fromViewController: backViewController,
+      toViewController: viewControllerToAdd,
+      onCompleted: { [weak self] in
+
+        guard let self = self else { return }
+
+        guard self.viewControllerState(viewController: viewControllerToAdd) == addingToken else {
+          return
+        }
+
+        self.setViewControllerState(viewController: viewControllerToAdd, token: .init(state: .added))
+
+      }
+    )
+
+    if let transition = transition {
+
+      transition.startTransition(context: transitionContext)
+    } else if let transitionViewController = viewControllerToAdd as? TransitionViewController {
+
+      transitionViewController.startAddingTransition(
+        context: transitionContext
+      )
+
+    } else {
+      setViewControllerState(viewController: viewControllerToAdd, token: .init(state: .added))
+    }
+
+    Log.debug(.zStack, "Added: \(children)")
+  }
+
   public func removeViewController(
-    _ viewController: UIViewController,
+    _ viewControllerToRemove: UIViewController,
     transition: AnyRemovingTransition?
   ) {
 
-    guard let index = stackingViewControllers.firstIndex(of: viewController) else {
-      Log.error(.zStack, "\(viewController) was not found to remove")
+    guard let index = stackingViewControllers.firstIndex(of: viewControllerToRemove) else {
+      Log.error(.zStack, "\(viewControllerToRemove) was not found to remove")
       return
     }
 
@@ -120,22 +176,41 @@ open class ZStackViewController: UIViewController {
       }
     }()
 
-    viewController.willMove(toParent: nil)
-    viewController.removeFromParent()
+    stackingViewControllers.remove(at: index)
+    viewControllerToRemove.zStackViewControllerContext = nil
+
+    let removingToken = ViewControllerStateToken(state: .removing)
+    setViewControllerState(viewController: viewControllerToRemove, token: removingToken)
 
     lazy var context = RemovingTransitionContext(
       contentView: view,
-      fromViewController: viewController,
-      toViewController: backViewController
+      fromViewController: viewControllerToRemove,
+      toViewController: backViewController,
+      onCompleted: { [weak self] in
+
+        guard let self = self else { return }
+
+        guard self.viewControllerState(viewController: viewControllerToRemove) == removingToken else {
+          return
+        }
+
+        self.setViewControllerState(viewController: viewControllerToRemove, token: .init(state: .removed))
+
+        viewControllerToRemove.willMove(toParent: nil)
+        viewControllerToRemove.view.removeFromSuperview()
+        viewControllerToRemove.removeFromParent()
+
+      }
     )
 
     if let transition = transition {
 
       transition.startTransition(context: context)
-    } else if let transitionViewController = viewController as? TransitionViewController {
+    } else if let transitionViewController = viewControllerToRemove as? TransitionViewController {
       transitionViewController.startRemovingTransition(context: context)
     } else {
-      viewController.view.removeFromSuperview()
+      viewControllerToRemove.view.removeFromSuperview()
+      self.setViewControllerState(viewController: viewControllerToRemove, token: .init(state: .removed))
     }
 
     Log.debug(.zStack, "Removed => \(children)")
@@ -174,7 +249,10 @@ open class ZStackViewController: UIViewController {
       let context = BatchRemovingTransitionContext(
         contentView: view,
         fromViewControllers: viewControllersToRemove,
-        toViewController: targetTopViewController
+        toViewController: targetTopViewController,
+        onCompleted: { [weak self] in
+
+        }
       )
 
       transition.startTransition(context: context)
@@ -201,6 +279,14 @@ open class ZStackViewController: UIViewController {
 
   }
 
+  private func setViewControllerState(viewController: UIViewController, token: ViewControllerStateToken)
+  {
+    viewControllerStateMap.setObject(token, forKey: viewController)
+  }
+
+  private func viewControllerState(viewController: UIViewController) -> ViewControllerStateToken? {
+    viewControllerStateMap.object(forKey: viewController)
+  }
 }
 
 public struct ZStackViewControllerContext {
