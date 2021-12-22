@@ -4,3 +4,6 @@
 [submodule "submodules/CompositionKit"]
 	path = submodules/CompositionKit
 	url = git@github.com:muukii/CompositionKit.git
+[submodule "submodules/ViewRepresentationKit"]
+	path = submodules/ViewRepresentationKit
+	url = git@github.com:muukii/ViewRepresentationKit.git
