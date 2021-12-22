@@ -45,6 +45,16 @@ open class TransitionViewController: WrapperViewController {
 
   }
 
+  func startRemovingTransition(context: ZStackViewControllerRemovingTransitionContext) {
+
+    guard let removingTransition = transition.removing else {
+      view.removeFromSuperview()
+      return
+    }
+
+    removingTransition.startTransition(context: context)
+  }
+
   open override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
 
@@ -74,5 +84,13 @@ open class TransitionViewController: WrapperViewController {
 
     }
   }
+
+//  open override func viewWillDisappear(_ animated: Bool) {
+//    super.viewWillDisappear(animated)
+//  }
+//
+//  open func remove(overrideTransition: AnyZStackViewControllerRemovingTransition? = nil) {
+//
+//  }
 
 }

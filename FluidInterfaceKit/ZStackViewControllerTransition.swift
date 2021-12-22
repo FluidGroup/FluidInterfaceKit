@@ -108,6 +108,11 @@ public struct AnyZStackViewControllerAddingTransition {
 
 extension AnyZStackViewControllerAddingTransition {
 
+  public static var noAnimation: Self {
+    return .init { context in      
+    }
+  }
+
   public static func popup(
     duration: TimeInterval = 0.6
   ) -> Self {
@@ -191,6 +196,12 @@ public struct AnyZStackViewControllerRemovingTransition {
 }
 
 extension AnyZStackViewControllerRemovingTransition {
+
+  public static var noAnimation: Self {
+    return .init { context in
+      context.fromViewController.view.removeFromSuperview()
+    }
+  }
 
   public static func vanishing(duration: TimeInterval = 0.6) -> Self {
 

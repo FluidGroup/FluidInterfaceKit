@@ -123,15 +123,17 @@ open class ZStackViewController: UIViewController {
     viewController.willMove(toParent: nil)
     viewController.removeFromParent()
 
+    lazy var context = ZStackViewControllerRemovingTransitionContext(
+      contentView: view,
+      fromViewController: viewController,
+      toViewController: backViewController
+    )
+
     if let transition = transition {
 
-      let context = ZStackViewControllerRemovingTransitionContext(
-        contentView: view,
-        fromViewController: viewController,
-        toViewController: backViewController
-      )
-
       transition.startTransition(context: context)
+    } else if let transitionViewController = viewController as? TransitionViewController {
+      transitionViewController.startRemovingTransition(context: context)
     } else {
       viewController.view.removeFromSuperview()
     }

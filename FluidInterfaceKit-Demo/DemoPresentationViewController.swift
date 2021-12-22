@@ -46,6 +46,22 @@ fileprivate final class PlaceholderViewController: UIViewController {
     super.viewDidLoad()
 
     view.backgroundColor = BookGenerator.randomColor()
+
+    let dismissButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Dismiss", for: .normal)
+      $0.onTap { [unowned self] in
+        dismiss(animated: false)
+      }
+    }
+
+    Mondrian.buildSubviews(on: view) {
+      ZStackBlock {
+        VStackBlock {
+          dismissButton
+        }
+      }
+    }
+
   }
 
 }

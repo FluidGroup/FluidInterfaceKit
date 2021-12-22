@@ -87,7 +87,7 @@ final class ContentViewController: UIViewController {
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Dimiss", for: .normal)
       $0.onTap { [unowned self] in
-        zStackViewControllerContext?.removeSelf(transition: nil)
+        zStackViewControllerContext?.removeSelf(transition: .vanishing())
       }
     }
 
