@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 extension AnyAddingTransition {
 
@@ -33,11 +34,11 @@ extension AnyAddingTransition {
 
   }
 
-  public static func popupContextual(from coordinateSpace: UICoordinateSpace) -> Self {
+  public static func popupContextual(from coordinateSpace: UIView) -> Self {
 
     return .init { context in
 
-      if (context.toViewController.view.layer.animationKeys() ?? []).isEmpty {
+      if context.toViewController.view.transform == .identity {
 
         let frame = coordinateSpace.convert(coordinateSpace.bounds, to: context.contentView)
 
@@ -60,8 +61,17 @@ extension AnyAddingTransition {
         context.toViewController.view.alpha = 1
       }
 
-      let animator = UIViewPropertyAnimator(duration: ._matchedTransition_debuggable(0.6), dampingRatio: 1) {
+      context.toViewController.view.isUserInteractionEnabled = true
 
+      let animator = UIViewPropertyAnimator(
+        duration: 0.6,
+        timingParameters: UISpringTimingParameters(
+          dampingRatio: 1,
+          initialVelocity: .zero
+        )
+      )
+
+      animator.addAnimations {
         context.toViewController.view.transform = .identity
         context.toViewController.view.alpha = 1
         context.toViewController.view.layer.cornerRadius = 0
@@ -72,8 +82,6 @@ extension AnyAddingTransition {
       }
 
       animator.startAnimation()
-
-//      context.toViewController.view.layer.dumpAllAnimations()
 
     }
 

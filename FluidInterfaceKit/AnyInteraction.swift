@@ -276,10 +276,9 @@ extension AnyInteraction {
               if let _ = trackingContext {
 
                 let translation = gesture.translation(in: gesture.view)
-//                  .applying(gesture.view?.transform ?? .identity)
 
-                gesture.view!.transform.tx += translation.x
-                gesture.view!.transform.ty += translation.y
+                gesture.view!.transform.tx += translation.x * gesture.view!.transform.a
+                gesture.view!.transform.ty += translation.y * gesture.view!.transform.d
 
                 gesture.view!.layer.cornerRadius = 24
                 if #available(iOS 13.0, *) {
@@ -304,49 +303,38 @@ extension AnyInteraction {
 
               if abs(view.transform.tx) > 80 || abs(view.transform.ty) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
 
-                // TODO: Remove dependency to ZStackViewController
+                // FIXME: Remove dependency to ZStackViewController
                 if let containerView = context.viewController.zStackViewControllerContext?.zStackViewController?.view {
 
                   let positionAnimator = UIViewPropertyAnimator(
-                    duration: ._matchedTransition_debuggable(0.4),
+                    duration: 0.4,
                     timingParameters: UISpringTimingParameters(
-                      dampingRatio: 100,
-                      initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
+                      dampingRatio: 1,
+//                      initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
+                      initialVelocity: .zero
                     )
                   )
 
-//                  let transformAnimator = UIViewPropertyAnimator(
-//                    duration: ._matchedTransition_debuggable(0.4),
-//                    timingParameters: UISpringTimingParameters(
-//                      dampingRatio: 1,
-//                      initialVelocity: .zero
-//                    )
-//                  )
-
                   var targetRect = rectThatAspectFit(
                     aspectRatio: view.bounds.size,
-                    boundingRect: destinationView._matchedTransition_relativeFrame(in: containerView, ignoresTransform: true)
+                    boundingRect: destinationView._matchedTransition_relativeFrame(in: containerView, ignoresTransform: false)
                   )
+
+                  positionAnimator.addMovingAnimation(from: view, to: destinationView, sourceView: view, isReversed: false, in: containerView)
 
                   targetRect = targetRect.insetBy(dx: targetRect.width / 3, dy: targetRect.height / 3)
 
                   let transform = makeCGAffineTransform(from: view.bounds, to: targetRect)
-//
-//                  transformAnimator.addAnimations {
-//                    view.transform.a = transform.a
-//                    view.transform.b = transform.b
-//                    view.transform.c = transform.c
-//                    view.transform.d = transform.d
-//                  }
 
-                  positionAnimator.addAnimations {
-                    view.transform = transform
-                  }
+//                  positionAnimator.addAnimations {
+//                    view.transform = transform
+//                  }
 
                   positionAnimator.addCompletion { position in
                     switch position {
                     case .end:
 
+                      // FIXME:
                       _trackingContext.transitionContext.notifyCompleted()
 //                      dismiss(context.viewController)
                     case .start:
@@ -358,7 +346,7 @@ extension AnyInteraction {
                     }
                   }
 
-                  positionAnimator.isUserInteractionEnabled = true
+                  view.isUserInteractionEnabled = false
                   positionAnimator.startAnimation()
 
                 } else {
