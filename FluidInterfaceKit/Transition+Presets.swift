@@ -37,7 +37,7 @@ extension AnyAddingTransition {
 
     return .init { context in
 
-      if context.toViewController.view.transform == .identity {
+      if (context.toViewController.view.layer.animationKeys() ?? []).isEmpty {
 
         let frame = coordinateSpace.convert(coordinateSpace.bounds, to: context.contentView)
 
@@ -46,10 +46,9 @@ extension AnyAddingTransition {
           boundingRect: frame
         )
 
-        let translation = makeTranslation(from: context.contentView.bounds, to: fromFrame)
+        let transform = makeCGAffineTransform(from: context.contentView.bounds, to: fromFrame)
 
-        context.toViewController.view.transform = translation.transform
-        context.toViewController.view.center = translation.center
+        context.toViewController.view.transform = transform
 
         if #available(iOS 13.0, *) {
           context.toViewController.view.layer.cornerCurve = .continuous
@@ -63,7 +62,6 @@ extension AnyAddingTransition {
 
       let animator = UIViewPropertyAnimator(duration: ._matchedTransition_debuggable(0.6), dampingRatio: 1) {
 
-        context.toViewController.view.center = context.contentView.bounds.center
         context.toViewController.view.transform = .identity
         context.toViewController.view.alpha = 1
         context.toViewController.view.layer.cornerRadius = 0

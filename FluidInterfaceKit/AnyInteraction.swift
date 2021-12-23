@@ -276,10 +276,10 @@ extension AnyInteraction {
               if let _ = trackingContext {
 
                 let translation = gesture.translation(in: gesture.view)
-                  .applying(gesture.view?.transform ?? .identity)
+//                  .applying(gesture.view?.transform ?? .identity)
 
-                gesture.view!.center.x += translation.x
-                gesture.view!.center.y += translation.y
+                gesture.view!.transform.tx += translation.x
+                gesture.view!.transform.ty += translation.y
 
                 gesture.view!.layer.cornerRadius = 24
                 if #available(iOS 13.0, *) {
@@ -302,10 +302,7 @@ extension AnyInteraction {
 
               let velocity = gesture.velocity(in: gesture.view)
 
-              let originalCenter = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
-              let distanceFromCenter = CGPoint(x: view.center.x - originalCenter.x, y: view.center.y - originalCenter.y)
-
-              if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
+              if abs(view.transform.tx) > 80 || abs(view.transform.ty) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
 
                 // TODO: Remove dependency to ZStackViewController
                 if let containerView = context.viewController.zStackViewControllerContext?.zStackViewController?.view {
@@ -313,18 +310,18 @@ extension AnyInteraction {
                   let positionAnimator = UIViewPropertyAnimator(
                     duration: ._matchedTransition_debuggable(0.4),
                     timingParameters: UISpringTimingParameters(
-                      dampingRatio: 1,
+                      dampingRatio: 100,
                       initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
                     )
                   )
 
-                  let transformAnimator = UIViewPropertyAnimator(
-                    duration: ._matchedTransition_debuggable(0.4),
-                    timingParameters: UISpringTimingParameters(
-                      dampingRatio: 1,
-                      initialVelocity: .zero
-                    )
-                  )
+//                  let transformAnimator = UIViewPropertyAnimator(
+//                    duration: ._matchedTransition_debuggable(0.4),
+//                    timingParameters: UISpringTimingParameters(
+//                      dampingRatio: 1,
+//                      initialVelocity: .zero
+//                    )
+//                  )
 
                   var targetRect = rectThatAspectFit(
                     aspectRatio: view.bounds.size,
@@ -333,14 +330,17 @@ extension AnyInteraction {
 
                   targetRect = targetRect.insetBy(dx: targetRect.width / 3, dy: targetRect.height / 3)
 
-                  let translation = makeTranslation(from: view.bounds, to: targetRect)
-
-                  transformAnimator.addAnimations {
-                    view.transform = translation.transform
-                  }
+                  let transform = makeCGAffineTransform(from: view.bounds, to: targetRect)
+//
+//                  transformAnimator.addAnimations {
+//                    view.transform.a = transform.a
+//                    view.transform.b = transform.b
+//                    view.transform.c = transform.c
+//                    view.transform.d = transform.d
+//                  }
 
                   positionAnimator.addAnimations {
-                    view.center = translation.center
+                    view.transform = transform
                   }
 
                   positionAnimator.addCompletion { position in
@@ -358,7 +358,7 @@ extension AnyInteraction {
                     }
                   }
 
-                  transformAnimator.startAnimation()
+                  positionAnimator.isUserInteractionEnabled = true
                   positionAnimator.startAnimation()
 
                 } else {

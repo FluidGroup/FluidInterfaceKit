@@ -187,7 +187,7 @@ open class ZStackViewController: UIViewController {
 
         self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
 
-        self.stackingViewControllers.remove(at: index)
+        self.stackingViewControllers.removeAll { $0 == viewControllerToRemove }
         viewControllerToRemove.zStackViewControllerContext = nil
 
         viewControllerToRemove.willMove(toParent: nil)
