@@ -157,6 +157,13 @@ open class ZStackViewController: UIViewController {
     Log.debug(.zStack, "Added: \(children)")
   }
 
+  public func setRemovingState(_ viewControllerToRemove: UIViewController) {
+
+    let removingToken = ViewControllerStateToken(state: .removing)
+    setViewControllerState(viewController: viewControllerToRemove, token: removingToken)
+
+  }
+
   public func removeViewController(
     _ viewControllerToRemove: UIViewController,
     transition: AnyRemovingTransition?
@@ -176,9 +183,6 @@ open class ZStackViewController: UIViewController {
       }
     }()
 
-    stackingViewControllers.remove(at: index)
-    viewControllerToRemove.zStackViewControllerContext = nil
-
     let removingToken = ViewControllerStateToken(state: .removing)
     setViewControllerState(viewController: viewControllerToRemove, token: removingToken)
 
@@ -196,6 +200,9 @@ open class ZStackViewController: UIViewController {
 
         self.setViewControllerState(viewController: viewControllerToRemove, token: .init(state: .removed))
 
+        self.stackingViewControllers.remove(at: index)
+        viewControllerToRemove.zStackViewControllerContext = nil
+
         viewControllerToRemove.willMove(toParent: nil)
         viewControllerToRemove.view.removeFromSuperview()
         viewControllerToRemove.removeFromParent()
@@ -211,6 +218,8 @@ open class ZStackViewController: UIViewController {
     } else {
       viewControllerToRemove.view.removeFromSuperview()
       self.setViewControllerState(viewController: viewControllerToRemove, token: .init(state: .removed))
+      self.stackingViewControllers.remove(at: index)
+      viewControllerToRemove.zStackViewControllerContext = nil
     }
 
     Log.debug(.zStack, "Removed => \(children)")
@@ -310,6 +319,13 @@ public struct ZStackViewControllerContext {
       return
     }
     zStackViewController?.removeViewController(targetViewController, transition: transition)
+  }
+
+  public func setRemovingState() {
+    guard let targetViewController = targetViewController else {
+      return
+    }
+    zStackViewController?.setRemovingState(targetViewController)
   }
 
 }

@@ -24,7 +24,7 @@ extension AnyAddingTransition {
       }
 
       animator.addCompletion { _ in
-
+        context.notifyCompleted()
       }
 
       animator.startAnimation()
@@ -37,30 +37,31 @@ extension AnyAddingTransition {
 
     return .init { context in
 
-      let frame = coordinateSpace.convert(coordinateSpace.bounds, to: context.contentView)
+      if context.toViewController.view.transform == .identity {
 
-      let fromFrame = rectThatAspectFit(
-        aspectRatio: context.contentView.bounds.size,
-        boundingRect: frame
-      )
+        let frame = coordinateSpace.convert(coordinateSpace.bounds, to: context.contentView)
 
-      context.toViewController.view.layer.removeAllAnimations()
+        let fromFrame = rectThatAspectFit(
+          aspectRatio: context.contentView.bounds.size,
+          boundingRect: frame
+        )
 
-      let t = makeCGAffineTransform(from: context.contentView.bounds, to: fromFrame)
+        let t = makeCGAffineTransform(from: context.contentView.bounds, to: fromFrame)
 
-      context.toViewController.view.transform = t
-      if #available(iOS 13.0, *) {
-        context.toViewController.view.layer.cornerCurve = .continuous
-      } else {
-        // Fallback on earlier versions
+        context.toViewController.view.transform = t
+        if #available(iOS 13.0, *) {
+          context.toViewController.view.layer.cornerCurve = .continuous
+        } else {
+          // Fallback on earlier versions
+        }
+        context.toViewController.view.layer.cornerRadius = 80
+        context.toViewController.view.layer.masksToBounds = true
+        context.toViewController.view.alpha = 1
       }
-      context.toViewController.view.layer.cornerRadius = 80
-      context.toViewController.view.layer.masksToBounds = true
-
-      context.toViewController.view.alpha = 1
 
       let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
 
+        context.toViewController.view.center = .init(x: context.contentView.bounds.width / 2, y: context.contentView.bounds.height / 2)
         context.toViewController.view.transform = .identity
         context.toViewController.view.alpha = 1
         context.toViewController.view.layer.cornerRadius = 0
@@ -73,6 +74,8 @@ extension AnyAddingTransition {
       }
 
       animator.startAnimation()
+
+      context.toViewController.view.layer.dumpAllAnimations()
 
     }
 
@@ -104,8 +107,7 @@ extension AnyRemovingTransition {
       }
 
       animator.addCompletion { _ in
-        topViewController.view.alpha = 1
-        topViewController.view.removeFromSuperview()
+        context.notifyCompleted()
       }
 
       animator.startAnimation()
@@ -139,6 +141,9 @@ extension AnyBatchRemovingTransition {
       }
 
       animator.addCompletion { _ in
+
+        context.notifyCompleted()
+        
         topViewController.view.alpha = 1
         middleViewControllers.forEach {
           $0.view.isHidden = false

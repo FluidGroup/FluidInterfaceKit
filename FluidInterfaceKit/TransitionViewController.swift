@@ -48,7 +48,7 @@ open class TransitionViewController: WrapperViewController {
   func startRemovingTransition(context: RemovingTransitionContext) {
 
     guard let removingTransition = transition.removing else {
-      view.removeFromSuperview()
+//      context.notifyCompleted()
       return
     }
 

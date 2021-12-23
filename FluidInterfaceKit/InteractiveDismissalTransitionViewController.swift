@@ -21,6 +21,7 @@
 
 import Foundation
 import UIKit
+import MatchedTransition
 
 open class InteractiveDismissalTransitionViewController: TransitionViewController, UIGestureRecognizerDelegate {
 
@@ -371,7 +372,7 @@ extension AnyInteraction {
   }
 
   public static func horizontalDragging(
-    backTo destinationCoordinateSpace: UICoordinateSpace,
+    backTo destinationView: UIView,
     dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
   ) -> Self {
 
@@ -418,13 +419,15 @@ extension AnyInteraction {
                  Prepare to interact
                  */
 
+                view.layer.removeAllAnimations()
+
+                context.viewController.zStackViewControllerContext?.setRemovingState()
+
                 let currentTransform = view.layer.presentation().map {
                   CATransform3DGetAffineTransform($0.transform)
                 } ?? .identity
 
                 view.transform = currentTransform
-
-                view.layer.removeAllAnimations()
 
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
@@ -499,15 +502,15 @@ extension AnyInteraction {
 
                   var targetRect = rectThatAspectFit(
                     aspectRatio: view.bounds.size,
-                    boundingRect: destinationCoordinateSpace.convert(destinationCoordinateSpace.bounds, to: containerView)
+                    boundingRect: destinationView._matchedTransition_relativeFrame(in: containerView, ignoresTransform: true)
                   )
 
-                  targetRect = targetRect.insetBy(dx: targetRect.width / 2, dy: targetRect.height / 2)
-                  targetRect.size = .init(width: 1, height: 1)
+                  targetRect = targetRect.insetBy(dx: targetRect.width / 3, dy: targetRect.height / 3)
 
                   animator.addAnimations {
+                    let targetTransform = makeCGAffineTransform(from: view.bounds, to: targetRect)
                     view.center = .init(x: view.bounds.width / 2, y: view.bounds.height / 2)
-                    view.transform = makeCGAffineTransform(from: view.bounds, to: targetRect)
+                    view.transform = targetTransform
                   }
 
                   animator.addCompletion { position in
