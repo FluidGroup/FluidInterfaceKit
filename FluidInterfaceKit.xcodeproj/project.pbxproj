@@ -13,7 +13,6 @@
 		4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */; };
 		4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C627737F4100C4DE07 /* TransitionViewController.swift */; };
 		4B1561C92773A99800C4DE07 /* Transition+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C82773A99800C4DE07 /* Transition+Presets.swift */; };
-		4B1561CB2773AC4600C4DE07 /* RunLoopActivityObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561CA2773AC4600C4DE07 /* RunLoopActivityObserving.swift */; };
 		4B1561CD27744D4800C4DE07 /* Debugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561CC27744D4800C4DE07 /* Debugging.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
 		4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B082764F77E0003FFB6 /* AppDelegate.swift */; };
@@ -25,7 +24,6 @@
 		4B959B202764F8200003FFB6 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B1F2764F8200003FFB6 /* Book.swift */; };
 		4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B212764F8300003FFB6 /* RootContainerViewController.swift */; };
 		4B959B242764F8470003FFB6 /* FluidInterfaceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */; };
-		4B959B252764F8470003FFB6 /* FluidInterfaceKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4B959B2B2764F8620003FFB6 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B2A2764F8620003FFB6 /* MondrianLayout */; };
 		4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */; };
 		4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2E2764FFCD0003FFB6 /* Logger.swift */; };
@@ -52,20 +50,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		4B959B282764F8470003FFB6 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				4B959B252764F8470003FFB6 /* FluidInterfaceKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
@@ -74,7 +58,6 @@
 		4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPresentationViewController.swift; sourceTree = "<group>"; };
 		4B1561C627737F4100C4DE07 /* TransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionViewController.swift; sourceTree = "<group>"; };
 		4B1561C82773A99800C4DE07 /* Transition+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Presets.swift"; sourceTree = "<group>"; };
-		4B1561CA2773AC4600C4DE07 /* RunLoopActivityObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunLoopActivityObserving.swift; sourceTree = "<group>"; };
 		4B1561CC27744D4800C4DE07 /* Debugging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debugging.swift; sourceTree = "<group>"; };
 		4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluidInterfaceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,7 +144,6 @@
 				4B1561C627737F4100C4DE07 /* TransitionViewController.swift */,
 				4BBDECD62766291400982229 /* ScrollView+Handling.swift */,
 				4B959B2E2764FFCD0003FFB6 /* Logger.swift */,
-				4B1561CA2773AC4600C4DE07 /* RunLoopActivityObserving.swift */,
 				4B1561CC27744D4800C4DE07 /* Debugging.swift */,
 			);
 			path = FluidInterfaceKit;
@@ -258,7 +240,6 @@
 				4B959B022764F77E0003FFB6 /* Sources */,
 				4B959B032764F77E0003FFB6 /* Frameworks */,
 				4B959B042764F77E0003FFB6 /* Resources */,
-				4B959B282764F8470003FFB6 /* Embed Frameworks */,
 				8E2ABBB7831D900A0B079DDE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -400,7 +381,6 @@
 				4BBDECD92766350E00982229 /* Transition.swift in Sources */,
 				4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */,
 				4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */,
-				4B1561CB2773AC4600C4DE07 /* RunLoopActivityObserving.swift in Sources */,
 				4B1561C92773A99800C4DE07 /* Transition+Presets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -578,7 +558,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -608,7 +587,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -637,7 +615,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -666,7 +643,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CB1DA1EA46A5FB2FB5D1BF72 /* Pods-FluidInterfaceKit-Demo.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;

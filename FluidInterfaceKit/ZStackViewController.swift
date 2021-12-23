@@ -58,10 +58,6 @@ open class ZStackViewController: UIViewController {
 
   open override func viewDidLoad() {
     super.viewDidLoad()
-
-    //    RunLoopActivityObserving.addObserver(acitivity: .beforeWaiting) { activity in
-    //      print("Activity", activity, Date())
-    //    }
   }
 
   public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {

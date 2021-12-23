@@ -171,6 +171,22 @@ func makeCGAffineTransform(from: CGRect, to: CGRect) -> CGAffineTransform {
   )
 }
 
+func makeTranslation(from: CGRect, to: CGRect) -> (center: CGPoint, transform: CGAffineTransform) {
+  
+  return (
+    center: to.center,
+    transform: .init(
+      a: to.width / from.width,
+      b: 0,
+      c: 0,
+      d: to.height / from.height,
+      tx: 0,
+      ty: 0
+    )
+  )
+
+}
+
 /// From Brightroom
 func sizeThatAspectFit(aspectRatio: CGSize, boundingSize: CGSize) -> CGSize {
   let widthRatio = boundingSize.width / aspectRatio.width
@@ -196,4 +212,12 @@ func rectThatAspectFit(aspectRatio: CGSize, boundingRect: CGRect) -> CGRect {
   origin.x += (boundingRect.size.width - size.width) / 2.0
   origin.y += (boundingRect.size.height - size.height) / 2.0
   return CGRect(origin: origin, size: size)
+}
+
+extension CGRect {
+  // MARK: Public
+
+  var center: CGPoint {
+    return CGPoint(x: self.midX, y: self.midY)
+  }
 }

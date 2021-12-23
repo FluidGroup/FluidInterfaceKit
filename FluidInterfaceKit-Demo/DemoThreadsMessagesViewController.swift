@@ -83,7 +83,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
               if let cached = viewControllerCache[index] {
 
                 addContentViewController(cached, transition: nil)
-                
+
               } else {
                 let controller = InteractiveDismissalTransitionViewController(
                   bodyViewController: DemoThreadsDetailViewController(),
@@ -259,15 +259,17 @@ final class DemoThreadsDetailViewController: ZStackViewController {
     }
 
     Mondrian.buildSubviews(on: view) {
-      ZStackBlock {
-        scrollableContainerView
-          .viewBlock
-          .alignSelf(.attach(.all))
+      LayoutContainer(attachedSafeAreaEdges: .all) {
+        ZStackBlock {
+          scrollableContainerView
+            .viewBlock
+            .alignSelf(.attach(.all))
 
-        footerView
-          .viewBlock
-          .huggingPriority(.vertical)
-          .relative([.bottom, .horizontal], 0)
+          footerView
+            .viewBlock
+            .huggingPriority(.vertical)
+            .relative([.bottom, .horizontal], 0)
+        }
       }
     }
 
@@ -316,7 +318,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
 
     navigationView.setContent(navigationContentView)
     navigationView.setup(on: self)
-    navigationView.backgroundColor = .white
+    navigationView.backgroundColor = .init(white: 0.95, alpha: 1)
 
   }
 

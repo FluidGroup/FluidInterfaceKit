@@ -381,11 +381,15 @@ extension AnyInteraction {
       var scrollController: ScrollController?
       let viewFrame: CGRect
       let beganPoint: CGPoint
+      var transform: CGAffineTransform = .identity
 
       func normalizedVelocity(gesture: UIPanGestureRecognizer) -> CGVector {
+        // TODO: Fix calclulation
         let velocity = gesture.velocity(in: gesture.view)
         let screenBounds = UIScreen.main.bounds
-        return .init(dx: velocity.x / screenBounds.width, dy: velocity.y / screenBounds.height)
+        let vector = CGVector.init(dx: velocity.x / screenBounds.width * 4, dy: velocity.y / screenBounds.height * 4)
+        Log.debug(.default, "velocity: \(vector)")
+        return vector
       }
 
     }
@@ -398,6 +402,7 @@ extension AnyInteraction {
           handler: { gesture, context in
 
             let view = context.viewController.view!
+            assert(view == gesture.view)
 
             switch gesture.state {
             case .possible:
@@ -419,20 +424,23 @@ extension AnyInteraction {
                  Prepare to interact
                  */
 
-                view.layer.removeAllAnimations()
-
                 context.viewController.zStackViewControllerContext?.setRemovingState()
 
                 let currentTransform = view.layer.presentation().map {
                   CATransform3DGetAffineTransform($0.transform)
                 } ?? .identity
 
-                view.transform = currentTransform
+                Log.debug(.default, "currentTransform: \(currentTransform)")
+
+                view.layer.removeAllAnimations()
+
+                gesture.view!.transform = currentTransform
 
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
                   viewFrame: view.bounds,
-                  beganPoint: gesture.location(in: view)
+                  beganPoint: gesture.location(in: view),
+                  transform: currentTransform
                 )
 
                 if let scrollView = gesture.trackingScrollView {
@@ -457,9 +465,11 @@ extension AnyInteraction {
 
               }
 
-              if let _ = trackingContext {
+              if let trackingContext = trackingContext {
 
                 let translation = gesture.translation(in: gesture.view)
+                  .applying(gesture.view?.transform ?? .identity)
+
                 gesture.view!.center.x += translation.x
                 gesture.view!.center.y += translation.y
 
@@ -492,11 +502,19 @@ extension AnyInteraction {
                 // TODO: Remove dependency to ZStackViewController
                 if let containerView = context.viewController.zStackViewControllerContext?.zStackViewController?.view {
 
-                  let animator = UIViewPropertyAnimator(
-                    duration: 0.4,
+                  let positionAnimator = UIViewPropertyAnimator(
+                    duration: ._matchedTransition_debuggable(0.4),
                     timingParameters: UISpringTimingParameters(
                       dampingRatio: 1,
                       initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
+                    )
+                  )
+
+                  let transformAnimator = UIViewPropertyAnimator(
+                    duration: ._matchedTransition_debuggable(0.4),
+                    timingParameters: UISpringTimingParameters(
+                      dampingRatio: 1,
+                      initialVelocity: .zero
                     )
                   )
 
@@ -507,17 +525,20 @@ extension AnyInteraction {
 
                   targetRect = targetRect.insetBy(dx: targetRect.width / 3, dy: targetRect.height / 3)
 
-                  animator.addAnimations {
-                    let targetTransform = makeCGAffineTransform(from: view.bounds, to: targetRect)
-                    view.center = .init(x: view.bounds.width / 2, y: view.bounds.height / 2)
-                    view.transform = targetTransform
+                  let translation = makeTranslation(from: view.bounds, to: targetRect)
+
+                  transformAnimator.addAnimations {
+                    view.transform = translation.transform
                   }
 
-                  animator.addCompletion { position in
+                  positionAnimator.addAnimations {
+                    view.center = translation.center
+                  }
+
+                  positionAnimator.addCompletion { position in
                     switch position {
                     case .end:
                       dismiss(context.viewController)
-                      view.transform = .identity
                     case .start:
                       break
                     case .current:
@@ -527,7 +548,9 @@ extension AnyInteraction {
                     }
                   }
 
-                  animator.startAnimation()
+                  transformAnimator.startAnimation()
+                  positionAnimator.startAnimation()
+                  
                 } else {
                   /// fallback
 
