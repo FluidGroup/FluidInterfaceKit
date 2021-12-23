@@ -37,6 +37,7 @@
 		4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECDF276648FD00982229 /* CompositionKit */; };
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
 		4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */; };
+		4BCD46512774E21900B060C6 /* AnyInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCD46502774E21900B060C6 /* AnyInteraction.swift */; };
 		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +78,7 @@
 		4BBDECDD276646E300982229 /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = submodules/CompositionKit; sourceTree = "<group>"; };
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
 		4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlCenterViewController.swift; sourceTree = "<group>"; };
+		4BCD46502774E21900B060C6 /* AnyInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyInteraction.swift; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
 		4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluidInterfaceKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				4B1561C82773A99800C4DE07 /* Transition+Presets.swift */,
 				4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */,
 				4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */,
+				4BCD46502774E21900B060C6 /* AnyInteraction.swift */,
 				4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */,
 				4B1561C627737F4100C4DE07 /* TransitionViewController.swift */,
 				4BBDECD62766291400982229 /* ScrollView+Handling.swift */,
@@ -382,6 +385,7 @@
 				4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */,
 				4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */,
 				4B1561C92773A99800C4DE07 /* Transition+Presets.swift in Sources */,
+				4BCD46512774E21900B060C6 /* AnyInteraction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

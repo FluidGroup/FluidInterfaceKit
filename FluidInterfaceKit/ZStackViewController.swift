@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 open class ZStackViewController: UIViewController {
 
@@ -31,7 +32,7 @@ open class ZStackViewController: UIViewController {
     case removing
   }
 
-  private var viewControllerStateMap: NSMapTable<UIViewController, ViewControllerStateToken> =
+  private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
     .weakToStrongObjects()
 
   open override func loadView() {
@@ -99,18 +100,18 @@ open class ZStackViewController: UIViewController {
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
     stackingViewControllers.append(viewControllerToAdd)
 
-    /// set context
-    viewControllerToAdd.zStackViewControllerContext = .init(
-      zStackViewController: self,
-      targetViewController: viewControllerToAdd
-    )
-
-    let addingToken = ViewControllerStateToken(state: .adding)
-    setViewControllerState(viewController: viewControllerToAdd, token: addingToken)
+    if viewControllerToAdd.zStackViewControllerContext == nil {
+      /// set context
+      viewControllerToAdd.zStackViewControllerContext = .init(
+        zStackViewController: self,
+        targetViewController: viewControllerToAdd
+      )
+    }
 
     if viewControllerToAdd.parent != self {
       addChild(viewControllerToAdd)
       view.addSubview(viewControllerToAdd.view)
+      viewControllerToAdd.view.transform = .identity
       viewControllerToAdd.view.frame = self.view.bounds
       viewControllerToAdd.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
       viewControllerToAdd.didMove(toParent: self)
@@ -120,22 +121,26 @@ open class ZStackViewController: UIViewController {
       }
     }
 
-    lazy var transitionContext = AddingTransitionContext(
+    let transitionContext = AddingTransitionContext(
       contentView: self.view,
       fromViewController: backViewController,
       toViewController: viewControllerToAdd,
-      onCompleted: { [weak self] _ in
+      onCompleted: { [weak self] context in
 
         guard let self = self else { return }
 
-        guard self.viewControllerState(viewController: viewControllerToAdd) == addingToken else {
+        guard context.isInvalidated == false else {
+          Log.debug(.zStack, "\(context) was invalidated, skips adding")
           return
         }
 
-        self.setViewControllerState(viewController: viewControllerToAdd, token: .init(state: .added))
+        self.setViewControllerState(viewController: viewControllerToAdd, context: nil)
 
       }
     )
+
+    viewControllerState(viewController: viewControllerToAdd)?.invalidate()
+    setViewControllerState(viewController: viewControllerToAdd, context: transitionContext)
 
     if let transition = transition {
 
@@ -145,29 +150,17 @@ open class ZStackViewController: UIViewController {
       transitionViewController.startAddingTransition(
         context: transitionContext
       )
-
     } else {
-      setViewControllerState(viewController: viewControllerToAdd, token: .init(state: .added))
+      transitionContext.notifyCompleted()
     }
 
-    Log.debug(.zStack, "Added: \(children)")
   }
 
-  public func setRemovingState(_ viewControllerToRemove: UIViewController) {
-
-    let removingToken = ViewControllerStateToken(state: .removing)
-    setViewControllerState(viewController: viewControllerToRemove, token: removingToken)
-
-  }
-
-  public func removeViewController(
-    _ viewControllerToRemove: UIViewController,
-    transition: AnyRemovingTransition?
-  ) {
+  public func startRemoving(_ viewControllerToRemove: UIViewController) -> RemovingTransitionContext {
 
     guard let index = stackingViewControllers.firstIndex(of: viewControllerToRemove) else {
       Log.error(.zStack, "\(viewControllerToRemove) was not found to remove")
-      return
+      fatalError()
     }
 
     let backViewController: UIViewController? = {
@@ -179,22 +172,20 @@ open class ZStackViewController: UIViewController {
       }
     }()
 
-    let removingToken = ViewControllerStateToken(state: .removing)
-    setViewControllerState(viewController: viewControllerToRemove, token: removingToken)
-
-    let context = RemovingTransitionContext(
+    let transitionContext = RemovingTransitionContext(
       contentView: view,
       fromViewController: viewControllerToRemove,
       toViewController: backViewController,
-      onCompleted: { [weak self] _ in
+      onCompleted: { [weak self] context in
 
         guard let self = self else { return }
 
-        guard self.viewControllerState(viewController: viewControllerToRemove) == removingToken else {
+        guard context.isInvalidated == false else {
+          Log.debug(.zStack, "\(context) was invalidated, skips removing")
           return
         }
 
-        self.setViewControllerState(viewController: viewControllerToRemove, token: .init(state: .removed))
+        self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
 
         self.stackingViewControllers.remove(at: index)
         viewControllerToRemove.zStackViewControllerContext = nil
@@ -206,19 +197,26 @@ open class ZStackViewController: UIViewController {
       }
     )
 
+    viewControllerState(viewController: viewControllerToRemove)?.invalidate()
+    setViewControllerState(viewController: viewControllerToRemove, context: transitionContext)
+
+    return transitionContext
+  }
+
+  public func removeViewController(
+    _ viewControllerToRemove: UIViewController,
+    transition: AnyRemovingTransition?
+  ) {
+
+    let transitionContext = startRemoving(viewControllerToRemove)
+
     if let transition = transition {
-
-      transition.startTransition(context: context)
+      transition.startTransition(context: transitionContext)
     } else if let transitionViewController = viewControllerToRemove as? TransitionViewController {
-      transitionViewController.startRemovingTransition(context: context)
+      transitionViewController.startRemovingTransition(context: transitionContext)
     } else {
-      viewControllerToRemove.view.removeFromSuperview()
-      self.setViewControllerState(viewController: viewControllerToRemove, token: .init(state: .removed))
-      self.stackingViewControllers.remove(at: index)
-      viewControllerToRemove.zStackViewControllerContext = nil
+      transitionContext.notifyCompleted()
     }
-
-    Log.debug(.zStack, "Removed => \(children)")
 
   }
 
@@ -284,12 +282,12 @@ open class ZStackViewController: UIViewController {
 
   }
 
-  private func setViewControllerState(viewController: UIViewController, token: ViewControllerStateToken)
+  private func setViewControllerState(viewController: UIViewController, context: TransitionContext?)
   {
-    viewControllerStateMap.setObject(token, forKey: viewController)
+    viewControllerStateMap.setObject(context, forKey: viewController)
   }
 
-  private func viewControllerState(viewController: UIViewController) -> ViewControllerStateToken? {
+  private func viewControllerState(viewController: UIViewController) -> TransitionContext? {
     viewControllerStateMap.object(forKey: viewController)
   }
 }
@@ -317,11 +315,11 @@ public struct ZStackViewControllerContext {
     zStackViewController?.removeViewController(targetViewController, transition: transition)
   }
 
-  public func setRemovingState() {
+  public func startRemoving() -> RemovingTransitionContext? {
     guard let targetViewController = targetViewController else {
-      return
+      return nil
     }
-    zStackViewController?.setRemovingState(targetViewController)
+    return zStackViewController?.startRemoving(targetViewController)
   }
 
 }

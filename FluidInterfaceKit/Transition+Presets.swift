@@ -70,14 +70,12 @@ extension AnyAddingTransition {
       }
 
       animator.addCompletion { _ in
-        Log.debug(.default, "animation completed")
-
         context.notifyCompleted()
       }
 
       animator.startAnimation()
 
-      context.toViewController.view.layer.dumpAllAnimations()
+//      context.toViewController.view.layer.dumpAllAnimations()
 
     }
 

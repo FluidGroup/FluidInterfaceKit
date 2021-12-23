@@ -1,6 +1,21 @@
 import UIKit
 
-public final class AddingTransitionContext: Equatable {
+public class TransitionContext: Equatable {
+  public static func == (
+    lhs: TransitionContext,
+    rhs: TransitionContext
+  ) -> Bool {
+    lhs === rhs
+  }
+
+  public private(set) var isInvalidated: Bool = false
+
+  func invalidate() {
+    isInvalidated = true
+  }
+}
+
+public final class AddingTransitionContext: TransitionContext {
 
   public static func == (
     lhs: AddingTransitionContext,
@@ -34,7 +49,7 @@ public final class AddingTransitionContext: Equatable {
 
 }
 
-public final class BatchRemovingTransitionContext: Equatable {
+public final class BatchRemovingTransitionContext: TransitionContext {
 
   public static func == (
     lhs: BatchRemovingTransitionContext,
@@ -67,7 +82,7 @@ public final class BatchRemovingTransitionContext: Equatable {
   }
 }
 
-public final class RemovingTransitionContext: Equatable {
+public final class RemovingTransitionContext: TransitionContext {
 
   public static func == (
     lhs: RemovingTransitionContext,
@@ -99,6 +114,7 @@ public final class RemovingTransitionContext: Equatable {
     isCompleted = true
     onCompleted(self)
   }
+
 }
 
 public struct TransitionPair {
