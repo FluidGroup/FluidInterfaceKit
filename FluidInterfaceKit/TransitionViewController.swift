@@ -77,7 +77,7 @@ open class TransitionViewController: WrapperViewController {
             contentView: presentationController.containerView!,
             fromViewController: presentingViewController,
             toViewController: self,
-            onCompleted: {
+            onCompleted: { _ in
               
             }
           )

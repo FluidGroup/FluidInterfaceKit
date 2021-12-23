@@ -124,7 +124,7 @@ open class ZStackViewController: UIViewController {
       contentView: self.view,
       fromViewController: backViewController,
       toViewController: viewControllerToAdd,
-      onCompleted: { [weak self] in
+      onCompleted: { [weak self] _ in
 
         guard let self = self else { return }
 
@@ -182,11 +182,11 @@ open class ZStackViewController: UIViewController {
     let removingToken = ViewControllerStateToken(state: .removing)
     setViewControllerState(viewController: viewControllerToRemove, token: removingToken)
 
-    lazy var context = RemovingTransitionContext(
+    let context = RemovingTransitionContext(
       contentView: view,
       fromViewController: viewControllerToRemove,
       toViewController: backViewController,
-      onCompleted: { [weak self] in
+      onCompleted: { [weak self] _ in
 
         guard let self = self else { return }
 
@@ -255,7 +255,7 @@ open class ZStackViewController: UIViewController {
         contentView: view,
         fromViewControllers: viewControllersToRemove,
         toViewController: targetTopViewController,
-        onCompleted: { [weak self] in
+        onCompleted: { [weak self] _ in
 
         }
       )
