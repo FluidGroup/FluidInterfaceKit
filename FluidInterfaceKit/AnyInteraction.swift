@@ -305,16 +305,7 @@ extension AnyInteraction {
 
                 // FIXME: Remove dependency to ZStackViewController
                 if let containerView = context.viewController.zStackViewControllerContext?.zStackViewController?.view {
-
-                  let positionAnimator = UIViewPropertyAnimator(
-                    duration: 0.4,
-                    timingParameters: UISpringTimingParameters(
-                      dampingRatio: 1,
-//                      initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
-                      initialVelocity: .zero
-                    )
-                  )
-
+              
                   var targetRect = rectThatAspectFit(
                     aspectRatio: view.bounds.size,
                     boundingRect: destinationView._matchedTransition_relativeFrame(in: containerView, ignoresTransform: false)
@@ -324,28 +315,15 @@ extension AnyInteraction {
 
                   let transform = makeCGAffineTransform(from: view.bounds, to: targetRect)
 
-                  positionAnimator.addAnimations {
-                    view.transform = transform
-                  }
+                  let animators = Fluid.makePropertyAnimatorsForTranform(view: view, duration: 3, transform: transform, velocityForTranslation: .zero)
 
-                  positionAnimator.addCompletion { position in
-                    switch position {
-                    case .end:
-
-                      // FIXME:
-                      _trackingContext.transitionContext.notifyCompleted()
-//                      dismiss(context.viewController)
-                    case .start:
-                      break
-                    case .current:
-                      break
-                    @unknown default:
-                      assertionFailure()
-                    }
+                  Fluid.startPropertyAnimators(animators) {
+                    // FIXME:
+                    _trackingContext.transitionContext.notifyCompleted()
+                    //                      dismiss(context.viewController)
                   }
 
                   view.isUserInteractionEnabled = false
-                  positionAnimator.startAnimation()
 
                   view.layer.dumpAllAnimations()
 

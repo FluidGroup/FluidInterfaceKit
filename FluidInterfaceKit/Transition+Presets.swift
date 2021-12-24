@@ -74,17 +74,23 @@ extension AnyAddingTransition {
         )
       )
 
+      let animators = Fluid.makePropertyAnimatorsForTranform(
+        view: context.toViewController.view,
+        duration: 10,
+        transform: .identity,
+        velocityForTranslation: .init(dx: 2, dy: 2)
+      )
+
       animator.addAnimations {
-        context.toViewController.view.transform = .identity
         context.toViewController.view.alpha = 1
         context.toViewController.view.layer.cornerRadius = 0
       }
 
-      animator.addCompletion { _ in
-        context.notifyCompleted()
-      }
-
-      animator.startAnimation()
+      Fluid.startPropertyAnimators(
+        animators + [animator],
+        completion: {
+          context.notifyCompleted()
+        })
 
       targetView.layer.dumpAllAnimations()
 

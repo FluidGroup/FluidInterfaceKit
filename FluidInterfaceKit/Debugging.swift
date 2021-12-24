@@ -84,6 +84,8 @@ extension CALayer {
 \(values)
   isAdditive:
     \(springAnimation.isAdditive)
+  velocity:
+    \(springAnimation.initialVelocity)
 """
       case let basicAnimation as CABasicAnimation:
         let values = parsingDestinationValues(animation: basicAnimation)

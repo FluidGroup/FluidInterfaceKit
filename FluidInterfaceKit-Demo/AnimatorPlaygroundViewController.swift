@@ -34,19 +34,54 @@ final class AnimatorPlaygroundViewController: UIViewController {
               InteractiveView(animation: .bodyShrink, contentView: box1)&>.do { view in
                 view.handlers.onTap = { [unowned view] in
 
-                  let animator = UIViewPropertyAnimator(
-                    duration: 6,
-                    timingParameters: UISpringTimingParameters.init(
-                      dampingRatio: 1,
-                      initialVelocity: .init(dx: 120, dy: 100)
+                  do {
+                    let animator = UIViewPropertyAnimator(
+                      duration: 6,
+                      timingParameters: UISpringTimingParameters.init(
+                        dampingRatio: 1,
+                        initialVelocity: .init(dx: -2, dy: 0)
+                      )
                     )
-                  )
 
-                  animator.addAnimations {
-                    view.transform = CGAffineTransform.init(scaleX: 0.8, y: 0.8).translatedBy(x: -50, y: -50)
+                    animator.addAnimations {
+                      view.transform.tx = -50
+                    }
+
+                    animator.startAnimation()
                   }
 
-                  animator.startAnimation()
+                  do {
+                    let animator = UIViewPropertyAnimator(
+                      duration: 6,
+                      timingParameters: UISpringTimingParameters.init(
+                        dampingRatio: 1,
+                        initialVelocity: .init(dx: 10, dy: 0)
+                      )
+                    )
+
+                    animator.addAnimations {
+                      view.transform.ty = -50
+                    }
+
+                    animator.startAnimation()
+                  }
+
+                  do {
+                    let animator = UIViewPropertyAnimator(
+                      duration: 6,
+                      timingParameters: UISpringTimingParameters.init(
+                        dampingRatio: 1,
+                        initialVelocity: .init(dx: 0, dy: 0)
+                      )
+                    )
+
+                    animator.addAnimations {
+                      view.transform.a = 0.8
+                      view.transform.d = 0.8
+                    }
+
+                    animator.startAnimation()
+                  }
                   view.layer.dumpAllAnimations()
                 }
               }
