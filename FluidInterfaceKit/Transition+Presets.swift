@@ -1,5 +1,4 @@
 import UIKit
-import SwiftUI
 
 extension AnyAddingTransition {
 
@@ -38,7 +37,11 @@ extension AnyAddingTransition {
 
     return .init { context in
 
-      if context.toViewController.view.transform == .identity {
+      let targetView = context.toViewController.view!
+
+      let hasAnimations = (targetView.layer.animationKeys() ?? []).isEmpty == false
+
+      if !hasAnimations {
 
         let frame = coordinateSpace.convert(coordinateSpace.bounds, to: context.contentView)
 
@@ -48,17 +51,17 @@ extension AnyAddingTransition {
         )
 
         let transform = makeCGAffineTransform(from: context.contentView.bounds, to: fromFrame)
+        targetView.transform = transform
 
-//        context.toViewController.view.transform = transform
+        targetView.alpha = 1
 
         if #available(iOS 13.0, *) {
-          context.toViewController.view.layer.cornerCurve = .continuous
+          targetView.layer.cornerCurve = .continuous
         } else {
           // Fallback on earlier versions
         }
-//        context.toViewController.view.layer.cornerRadius = 80
-//        context.toViewController.view.layer.masksToBounds = true
-//        context.toViewController.view.alpha = 1
+        targetView.layer.cornerRadius = 80
+        targetView.layer.masksToBounds = true
       }
 
       context.toViewController.view.isUserInteractionEnabled = true
@@ -74,7 +77,7 @@ extension AnyAddingTransition {
       animator.addAnimations {
         context.toViewController.view.transform = .identity
         context.toViewController.view.alpha = 1
-//        context.toViewController.view.layer.cornerRadius = 0
+        context.toViewController.view.layer.cornerRadius = 0
       }
 
       animator.addCompletion { _ in
@@ -82,6 +85,8 @@ extension AnyAddingTransition {
       }
 
       animator.startAnimation()
+
+      targetView.layer.dumpAllAnimations()
 
     }
 
@@ -106,8 +111,8 @@ extension AnyRemovingTransition {
       let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
 
         topViewController.view.alpha = 0
+        topViewController.view.transform = .init(scaleX: 0.8, y: 0.8)
 
-        context.toViewController?.view.transform = .identity
         context.toViewController?.view.alpha = 1
 
       }

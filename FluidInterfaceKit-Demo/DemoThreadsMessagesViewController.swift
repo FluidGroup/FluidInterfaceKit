@@ -78,7 +78,6 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
         ) {
           (0..<10).map { index in
             makeListCell(onTap: { [unowned self] cell in
-              print(cell)
 
               if let cached = viewControllerCache[index] {
 

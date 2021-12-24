@@ -320,15 +320,13 @@ extension AnyInteraction {
                     boundingRect: destinationView._matchedTransition_relativeFrame(in: containerView, ignoresTransform: false)
                   )
 
-                  positionAnimator.addMovingAnimation(from: view, to: destinationView, sourceView: view, isReversed: false, in: containerView)
-
                   targetRect = targetRect.insetBy(dx: targetRect.width / 3, dy: targetRect.height / 3)
 
                   let transform = makeCGAffineTransform(from: view.bounds, to: targetRect)
 
-//                  positionAnimator.addAnimations {
-//                    view.transform = transform
-//                  }
+                  positionAnimator.addAnimations {
+                    view.transform = transform
+                  }
 
                   positionAnimator.addCompletion { position in
                     switch position {
@@ -348,6 +346,8 @@ extension AnyInteraction {
 
                   view.isUserInteractionEnabled = false
                   positionAnimator.startAnimation()
+
+                  view.layer.dumpAllAnimations()
 
                 } else {
                   /// fallback
@@ -372,6 +372,7 @@ extension AnyInteraction {
                   }
 
                   animator.startAnimation()
+
                 }
 
 
