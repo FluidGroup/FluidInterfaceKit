@@ -40,3 +40,14 @@ extension UIControl {
     }
   }
 }
+
+extension UIButton {
+
+  static func make(title: String, onTap: @escaping () -> Void) -> UIButton {
+    let button = UIButton(type: .system)
+    button.setTitle(title, for: .normal)
+    button.onTap(onTap)
+    return button
+  }
+
+}

@@ -22,4 +22,8 @@ let book = Book(title: "MyBook") {
     DemoPresentationViewController()
   }
 
+  BookPush(title: "AnimatorPlayground") {
+    AnimatorPlaygroundViewController()
+  }
+
 }

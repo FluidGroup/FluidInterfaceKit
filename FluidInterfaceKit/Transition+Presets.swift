@@ -49,16 +49,16 @@ extension AnyAddingTransition {
 
         let transform = makeCGAffineTransform(from: context.contentView.bounds, to: fromFrame)
 
-        context.toViewController.view.transform = transform
+//        context.toViewController.view.transform = transform
 
         if #available(iOS 13.0, *) {
           context.toViewController.view.layer.cornerCurve = .continuous
         } else {
           // Fallback on earlier versions
         }
-        context.toViewController.view.layer.cornerRadius = 80
-        context.toViewController.view.layer.masksToBounds = true
-        context.toViewController.view.alpha = 1
+//        context.toViewController.view.layer.cornerRadius = 80
+//        context.toViewController.view.layer.masksToBounds = true
+//        context.toViewController.view.alpha = 1
       }
 
       context.toViewController.view.isUserInteractionEnabled = true
@@ -74,7 +74,7 @@ extension AnyAddingTransition {
       animator.addAnimations {
         context.toViewController.view.transform = .identity
         context.toViewController.view.alpha = 1
-        context.toViewController.view.layer.cornerRadius = 0
+//        context.toViewController.view.layer.cornerRadius = 0
       }
 
       animator.addCompletion { _ in
