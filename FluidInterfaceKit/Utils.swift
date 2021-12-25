@@ -84,4 +84,60 @@ enum Fluid {
     ]
   }
 
+  public enum Position {
+    case center(of: CGRect)
+    case custom(CGPoint)
+  }
+
+  public static func makePropertyAnimatorsForTranformUsingCenter(
+    view: UIView,
+    duration: TimeInterval,
+    position: Position,
+    scale: CGSize,
+    velocityForTranslation: CGVector
+  ) -> [UIViewPropertyAnimator] {
+
+    let positionAnimator = UIViewPropertyAnimator(
+      duration: duration,
+      timingParameters: UISpringTimingParameters.init(
+        dampingRatio: 1,
+        initialVelocity: velocityForTranslation
+      )
+    )
+
+//    let positionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: nil)
+//    let scaleAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: nil)
+
+    let scaleAnimator = UIViewPropertyAnimator(
+      duration: duration,
+      timingParameters: UISpringTimingParameters.init(
+        dampingRatio: 1,
+        initialVelocity: .zero
+      )
+    )
+
+    scaleAnimator.addAnimations {
+      view.transform = .init(scaleX: scale.width, y: scale.height)
+    }
+
+    positionAnimator.addAnimations {
+
+      switch position {
+      case .center(let rect):
+
+        view.center = .init(x: rect.midX, y: rect.midY)
+
+      case .custom(let value):
+
+        view.center = value
+      }
+
+    }
+
+    return [
+      positionAnimator,
+      scaleAnimator,
+    ]
+  }
+
 }

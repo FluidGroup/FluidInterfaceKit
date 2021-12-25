@@ -9,6 +9,7 @@ final class AnimatorPlaygroundViewController: UIViewController {
 
   struct State {
     var alphaFlag = false
+    var positionFlag = false
   }
 
   private var state: State = .init()
@@ -106,7 +107,11 @@ final class AnimatorPlaygroundViewController: UIViewController {
 
             HStackBlock {
               InteractiveView(animation: .bodyShrink, contentView: box3)&>.do {
-                $0.handlers.onTap = {}
+                $0.handlers.onTap = {
+
+
+
+                }
               }
               .viewBlock
               .size(.init(width: 50, height: 50))
@@ -132,6 +137,31 @@ final class AnimatorPlaygroundViewController: UIViewController {
               box1.layer.dumpAllAnimations()
 
               state.alphaFlag.toggle()
+
+            }
+
+            UIButton.make(title: "position") { [unowned self] in
+
+              if state.positionFlag {
+
+                let a = UIViewPropertyAnimator(duration: 3, timingParameters: UISpringTimingParameters(dampingRatio: 1, initialVelocity: .init(dx: 10, dy: 0)))
+                a.addAnimations {
+                  box2.transform = CGAffineTransform.init(translationX: 20, y: 0)
+                }
+                a.startAnimation()
+              } else {
+
+                let a = UIViewPropertyAnimator(duration: 3, timingParameters: UISpringTimingParameters(dampingRatio: 1, initialVelocity: .init(dx: 20, dy: 0)))
+                a.addAnimations {
+                  box2.transform = .identity
+                }
+                a.startAnimation()
+              }
+
+
+              box2.layer.dumpAllAnimations()
+
+              state.positionFlag.toggle()
 
             }
           }

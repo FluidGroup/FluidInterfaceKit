@@ -50,8 +50,10 @@ extension AnyAddingTransition {
           boundingRect: frame
         )
 
-        let transform = makeCGAffineTransform(from: context.contentView.bounds, to: fromFrame)
-        targetView.transform = transform
+        let target = makeTranslation(from: context.contentView.bounds, to: fromFrame)
+
+        targetView.transform = .init(scaleX: target.scale.width, y: target.scale.height)
+        targetView.center = target.center
 
         targetView.alpha = 1
 
@@ -74,11 +76,12 @@ extension AnyAddingTransition {
         )
       )
 
-      let animators = Fluid.makePropertyAnimatorsForTranform(
+      let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: context.toViewController.view,
-        duration: 10,
-        transform: .identity,
-        velocityForTranslation: .init(dx: 2, dy: 2)
+        duration: 6,
+        position: .center(of: context.toViewController.view.bounds),
+        scale: .init(width: 1, height: 1),
+        velocityForTranslation: .zero
       )
 
       animator.addAnimations {
@@ -118,6 +121,7 @@ extension AnyRemovingTransition {
 
         topViewController.view.alpha = 0
         topViewController.view.transform = .init(scaleX: 0.8, y: 0.8)
+        topViewController.view.center.y += 150
 
         context.toViewController?.view.alpha = 1
 

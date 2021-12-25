@@ -194,18 +194,11 @@ func makeCGAffineTransform(from: CGRect, to: CGRect) -> CGAffineTransform {
   )
 }
 
-func makeTranslation(from: CGRect, to: CGRect) -> (center: CGPoint, transform: CGAffineTransform) {
+func makeTranslation(from: CGRect, to: CGRect) -> (center: CGPoint, scale: CGSize) {
 
   return (
     center: to.center,
-    transform: .init(
-      a: to.width / from.width,
-      b: 0,
-      c: 0,
-      d: to.height / from.height,
-      tx: 0,
-      ty: 0
-    )
+    scale: .init(width: to.width / from.width, height: to.height / from.height)
   )
 
 }

@@ -79,23 +79,18 @@ extension CALayer {
         let values = parsingDestinationValues(animation: springAnimation)
         return """
 - [Spring] : \(key)
-  keyPath:
-    \(springAnimation.keyPath ?? "null")
+  keyPath: \(springAnimation.keyPath ?? "null")
 \(values)
-  isAdditive:
-    \(springAnimation.isAdditive)
-  velocity:
-    \(springAnimation.initialVelocity)
+  isAdditive: \(springAnimation.isAdditive)
+  velocity: \(springAnimation.initialVelocity)
 """
       case let basicAnimation as CABasicAnimation:
         let values = parsingDestinationValues(animation: basicAnimation)
         return """
 - [Basic] : \(key)
-  keyPath:
-    \(basicAnimation.keyPath ?? "null")
+  keyPath: \(basicAnimation.keyPath ?? "null")
 \(values)
-  isAdditive:
-    \(basicAnimation.isAdditive)
+  isAdditive: \(basicAnimation.isAdditive)
 """
       case let propertyAnimation as CAPropertyAnimation:
         return "- [Property] keyPath: \(propertyAnimation.keyPath ?? "null")"

@@ -138,9 +138,7 @@ open class ZStackViewController: UIViewController {
 
       viewControllerToAdd.didMove(toParent: self)
     } else {
-      if viewControllerToAdd.view.superview == nil {
-        view.addSubview(viewControllerToAdd.view)
-      }
+      // TODO: something needed
     }
 
     let transitionContext = AddingTransitionContext(

@@ -2,7 +2,9 @@ import UIKit
 
 extension AnyInteraction {
 
-  public static func leftToRight(dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void) -> Self {
+  public static func leftToRight(
+    dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
+  ) -> Self {
 
     struct TrackingContext {
 
@@ -66,9 +68,10 @@ extension AnyInteraction {
                  Prepare to interact
                  */
 
-                let currentTransform = view.layer.presentation().map {
-                  CATransform3DGetAffineTransform($0.transform)
-                } ?? .identity
+                let currentTransform =
+                  view.layer.presentation().map {
+                    CATransform3DGetAffineTransform($0.transform)
+                  } ?? .identity
 
                 view.transform = currentTransform
 
@@ -168,7 +171,7 @@ extension AnyInteraction {
 
               trackingContext = nil
 
-              /// restore view state
+            /// restore view state
             @unknown default:
               break
             }
@@ -196,7 +199,10 @@ extension AnyInteraction {
         // TODO: Fix calclulation
         let velocity = gesture.velocity(in: gesture.view)
         let screenBounds = UIScreen.main.bounds
-        let vector = CGVector.init(dx: velocity.x / screenBounds.width * 4, dy: velocity.y / screenBounds.height * 4)
+        let vector = CGVector.init(
+          dx: velocity.x / screenBounds.width * 4,
+          dy: velocity.y / screenBounds.height * 4
+        )
         Log.debug(.default, "velocity: \(vector)")
         return vector
       }
@@ -229,9 +235,10 @@ extension AnyInteraction {
                  Prepare to interact
                  */
 
-                let currentTransform = view.layer.presentation().map {
-                  CATransform3DGetAffineTransform($0.transform)
-                } ?? .identity
+                let currentTransform =
+                  view.layer.presentation().map {
+                    CATransform3DGetAffineTransform($0.transform)
+                  } ?? .identity
 
                 Log.debug(.default, "currentTransform: \(currentTransform)")
 
@@ -244,7 +251,8 @@ extension AnyInteraction {
                   viewFrame: view.bounds,
                   beganPoint: gesture.location(in: view),
                   transform: currentTransform,
-                  transitionContext: context.viewController.zStackViewControllerContext!.startRemoving()!
+                  transitionContext: context.viewController.zStackViewControllerContext!
+                    .startRemoving()!
                 )
 
                 if let scrollView = gesture.trackingScrollView {
@@ -275,10 +283,12 @@ extension AnyInteraction {
 
               if let _ = trackingContext {
 
-                let translation = gesture.translation(in: gesture.view)
+                let translation = gesture
+                  .translation(in: gesture.view)
+                  .applying(gesture.view!.transform)
 
-                gesture.view!.transform.tx += translation.x * gesture.view!.transform.a
-                gesture.view!.transform.ty += translation.y * gesture.view!.transform.d
+                gesture.view!.center.x += translation.x
+                gesture.view!.center.y += translation.y
 
                 gesture.view!.layer.cornerRadius = 24
                 if #available(iOS 13.0, *) {
@@ -301,29 +311,43 @@ extension AnyInteraction {
 
               let velocity = gesture.velocity(in: gesture.view)
 
-              if abs(view.transform.tx) > 80 || abs(view.transform.ty) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
+              let originalCenter = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
+              let distanceFromCenter = CGPoint(x: view.center.x - originalCenter.x, y: view.center.y - originalCenter.y)
+
+              if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
 
                 // FIXME: Remove dependency to ZStackViewController
-                if let containerView = context.viewController.zStackViewControllerContext?.zStackViewController?.view {
-              
+                if let containerView = context.viewController.zStackViewControllerContext?
+                  .zStackViewController?.view
+                {
+
                   var targetRect = rectThatAspectFit(
                     aspectRatio: view.bounds.size,
-                    boundingRect: destinationView._matchedTransition_relativeFrame(in: containerView, ignoresTransform: false)
+                    boundingRect: destinationView._matchedTransition_relativeFrame(
+                      in: containerView,
+                      ignoresTransform: false
+                    )
                   )
 
-                  targetRect = targetRect.insetBy(dx: targetRect.width / 3, dy: targetRect.height / 3)
+                  targetRect = targetRect.insetBy(
+                    dx: targetRect.width / 3,
+                    dy: targetRect.height / 3
+                  )
 
-                  let transform = makeCGAffineTransform(from: view.bounds, to: targetRect)
-
-                  let animators = Fluid.makePropertyAnimatorsForTranform(view: view, duration: 3, transform: transform, velocityForTranslation: .zero)
+                  let target = makeTranslation(from: view.bounds, to: targetRect)
+                  let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+                    view: view,
+                    duration: 5,
+                    position: .custom(target.center),
+                    scale: target.scale,
+                    velocityForTranslation: .init(dx: -29, dy: -40)
+                  )
 
                   Fluid.startPropertyAnimators(animators) {
                     // FIXME:
                     _trackingContext.transitionContext.notifyCompleted()
                     //                      dismiss(context.viewController)
                   }
-
-                  view.isUserInteractionEnabled = false
 
                   view.layer.dumpAllAnimations()
 
@@ -352,7 +376,6 @@ extension AnyInteraction {
                   animator.startAnimation()
 
                 }
-
 
               } else {
 
@@ -389,7 +412,7 @@ extension AnyInteraction {
 
               trackingContext = nil
 
-              /// restore view state
+            /// restore view state
             @unknown default:
               break
             }
