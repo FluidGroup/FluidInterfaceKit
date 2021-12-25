@@ -195,18 +195,6 @@ extension AnyInteraction {
       var transform: CGAffineTransform = .identity
       let transitionContext: RemovingTransitionContext
 
-      func normalizedVelocity(gesture: UIPanGestureRecognizer) -> CGVector {
-        // TODO: Fix calclulation
-        let velocity = gesture.velocity(in: gesture.view)
-        let screenBounds = UIScreen.main.bounds
-        let vector = CGVector.init(
-          dx: velocity.x / screenBounds.width * 4,
-          dy: velocity.y / screenBounds.height * 4
-        )
-        Log.debug(.default, "velocity: \(vector)")
-        return vector
-      }
-
     }
 
     var trackingContext: TrackingContext?
@@ -311,8 +299,8 @@ extension AnyInteraction {
 
               let velocity = gesture.velocity(in: gesture.view)
 
-              let originalCenter = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
-              let distanceFromCenter = CGPoint(x: view.center.x - originalCenter.x, y: view.center.y - originalCenter.y)
+              let originalCenter = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+              let distanceFromCenter = CGPoint(x: originalCenter.x - view.center.x, y: originalCenter.y - view.center.y)
 
               if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
 
@@ -334,13 +322,25 @@ extension AnyInteraction {
                     dy: targetRect.height / 3
                   )
 
+                  let velocityForAnimation: CGVector = {
+
+                    let velocity = gesture.velocity(in: gesture.view)
+                    let delta = distanceFromCenter
+
+                    return CGVector.init(
+                      dx: velocity.x / delta.x,
+                      dy: velocity.y / delta.y
+                    )
+
+                  }()
+
                   let target = makeTranslation(from: view.bounds, to: targetRect)
                   let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
                     view: view,
-                    duration: 5,
+                    duration: 0.6,
                     position: .custom(target.center),
                     scale: target.scale,
-                    velocityForTranslation: .init(dx: -29, dy: -40)
+                    velocityForTranslation: velocityForAnimation
                   )
 
                   Fluid.startPropertyAnimators(animators) {
@@ -383,7 +383,7 @@ extension AnyInteraction {
                   duration: 0.62,
                   timingParameters: UISpringTimingParameters(
                     dampingRatio: 1,
-                    initialVelocity: _trackingContext.normalizedVelocity(gesture: gesture)
+                    initialVelocity: .zero
                   )
                 )
 

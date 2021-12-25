@@ -78,7 +78,7 @@ extension AnyAddingTransition {
 
       let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: context.toViewController.view,
-        duration: 6,
+        duration: 0.6,
         position: .center(of: context.toViewController.view.bounds),
         scale: .init(width: 1, height: 1),
         velocityForTranslation: .zero
