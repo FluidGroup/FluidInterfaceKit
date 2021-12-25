@@ -1,6 +1,19 @@
 import UIKit
 import SwiftUI
 
+private final class PassthoroughView: UIView {
+
+  override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    let view = super.hitTest(point, with: event)
+    if view == self {
+      return nil
+    } else {
+      return view
+    }
+  }
+
+}
+
 open class ZStackViewController: UIViewController {
 
   private struct State: Equatable {
@@ -110,10 +123,19 @@ open class ZStackViewController: UIViewController {
 
     if viewControllerToAdd.parent != self {
       addChild(viewControllerToAdd)
-      view.addSubview(viewControllerToAdd.view)
+
+      let containerView = PassthoroughView()
+
+      containerView.addSubview(viewControllerToAdd.view)
+      containerView.frame = self.view.bounds
+      containerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
       viewControllerToAdd.view.transform = .identity
       viewControllerToAdd.view.frame = self.view.bounds
       viewControllerToAdd.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+      view.addSubview(containerView)
+
       viewControllerToAdd.didMove(toParent: self)
     } else {
       if viewControllerToAdd.view.superview == nil {
@@ -122,7 +144,7 @@ open class ZStackViewController: UIViewController {
     }
 
     let transitionContext = AddingTransitionContext(
-      contentView: self.view,
+      contentView: viewControllerToAdd.view.superview!,
       fromViewController: backViewController,
       toViewController: viewControllerToAdd,
       onCompleted: { [weak self] context in
@@ -173,7 +195,7 @@ open class ZStackViewController: UIViewController {
     }()
 
     let transitionContext = RemovingTransitionContext(
-      contentView: view,
+      contentView: viewControllerToRemove.view.superview!,
       fromViewController: viewControllerToRemove,
       toViewController: backViewController,
       onCompleted: { [weak self] context in
@@ -191,7 +213,7 @@ open class ZStackViewController: UIViewController {
         viewControllerToRemove.zStackViewControllerContext = nil
 
         viewControllerToRemove.willMove(toParent: nil)
-        viewControllerToRemove.view.removeFromSuperview()
+        viewControllerToRemove.view.superview!.removeFromSuperview()
         viewControllerToRemove.removeFromParent()
 
       }
@@ -242,6 +264,8 @@ open class ZStackViewController: UIViewController {
       ]
     )
 
+    assert(viewControllersToRemove.count > 0)
+
     if let transition = transition {
 
       viewControllersToRemove.forEach {
@@ -250,7 +274,7 @@ open class ZStackViewController: UIViewController {
       }
 
       let context = BatchRemovingTransitionContext(
-        contentView: view,
+        contentView: viewControllersToRemove.first!.view.superview!,
         fromViewControllers: viewControllersToRemove,
         toViewController: targetTopViewController,
         onCompleted: { [weak self] _ in
