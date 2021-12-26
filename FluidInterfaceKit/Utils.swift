@@ -105,9 +105,6 @@ enum Fluid {
       )
     )
 
-//    let positionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: nil)
-//    let scaleAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: nil)
-
     let scaleAnimator = UIViewPropertyAnimator(
       duration: duration,
       timingParameters: UISpringTimingParameters.init(
@@ -125,11 +122,11 @@ enum Fluid {
       switch position {
       case .center(let rect):
 
-        view.center = .init(x: rect.midX, y: rect.midY)
+        view.layer.position = .init(x: rect.midX, y: rect.midY)
 
       case .custom(let value):
 
-        view.center = value
+        view.layer.position = value
       }
 
     }

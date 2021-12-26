@@ -275,8 +275,8 @@ extension AnyInteraction {
                   .translation(in: gesture.view)
                   .applying(gesture.view!.transform)
 
-                gesture.view!.center.x += translation.x
-                gesture.view!.center.y += translation.y
+                gesture.view!.layer.position.x += translation.x
+                gesture.view!.layer.position.y += translation.y
 
                 gesture.view!.layer.cornerRadius = 24
                 if #available(iOS 13.0, *) {
