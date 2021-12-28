@@ -1,8 +1,8 @@
-import StorybookKit
-import MondrianLayout
 import CompositionKit
-import UIKit
 import MatchedTransition
+import MondrianLayout
+import StorybookKit
+import UIKit
 
 let book = Book(title: "MyBook") {
 
@@ -10,8 +10,15 @@ let book = Book(title: "MyBook") {
     DemoViewController()
   }
 
-  BookPush(title: "VelocityPlayground") {
-    VelocityPlaygroundViewController()
+  BookNavigationLink(title: "Velocity Playground") {
+
+    BookPush(title: "Scaling") {
+      ScalingVelocityPlaygroundViewController()
+    }
+
+    BookPush(title: "Translation") {
+      TranslationVelocityPlaygroundViewController()
+    }
   }
 
   BookPresent(title: "Instagram Threads") {

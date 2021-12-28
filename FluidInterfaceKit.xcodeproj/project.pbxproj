@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20922E01E3BAA69D444AA7D3 /* Pods_FluidInterfaceKit_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */; };
+		4B037C57277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */; };
 		4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */; };
 		4B1561C3277371BD00C4DE07 /* WrapperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */; };
 		4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */; };
@@ -30,7 +31,7 @@
 		4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B30276503C30003FFB6 /* DemoViewController.swift */; };
 		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
 		4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B31B277077EA00EE1028 /* MockKit */; };
-		4BB7B9CF277AF6170014B62A /* VelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB7B9CE277AF6170014B62A /* VelocityPlaygroundViewController.swift */; };
+		4BB7B9CF277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */; };
 		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
 		4BBDECD52766286400982229 /* InteractiveDismissalTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */; };
 		4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD62766291400982229 /* ScrollView+Handling.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
 		4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperViewController.swift; sourceTree = "<group>"; };
@@ -74,7 +76,7 @@
 		4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZStackViewController.swift; sourceTree = "<group>"; };
 		4B959B2E2764FFCD0003FFB6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
-		4BB7B9CE277AF6170014B62A /* VelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
+		4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
 		4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalTransitionViewController.swift; sourceTree = "<group>"; };
 		4BBDECD62766291400982229 /* ScrollView+Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Handling.swift"; sourceTree = "<group>"; };
@@ -175,7 +177,8 @@
 				4BBDECD22766241200982229 /* UIControl+Closure.swift */,
 				4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */,
 				4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */,
-				4BB7B9CE277AF6170014B62A /* VelocityPlaygroundViewController.swift */,
+				4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */,
+				4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */,
 			);
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
@@ -403,13 +406,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BB7B9CF277AF6170014B62A /* VelocityPlaygroundViewController.swift in Sources */,
+				4BB7B9CF277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift in Sources */,
 				4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */,
 				4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */,
 				4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */,
 				4BCD46532775BF8600B060C6 /* AnimatorPlaygroundViewController.swift in Sources */,
 				4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */,
 				4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */,
+				4B037C57277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift in Sources */,
 				4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */,
 				4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */,
 				4B959B202764F8200003FFB6 /* Book.swift in Sources */,

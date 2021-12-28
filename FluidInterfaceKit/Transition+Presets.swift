@@ -81,7 +81,8 @@ extension AnyAddingTransition {
         duration: 0.6,
         position: .center(of: context.toViewController.view.bounds),
         scale: .init(width: 1, height: 1),
-        velocityForTranslation: .zero
+        velocityForTranslation: .zero,
+        velocityForScaling: 0
       )
 
       animator.addAnimations {
@@ -94,8 +95,6 @@ extension AnyAddingTransition {
         completion: {
           context.notifyCompleted()
         })
-
-      targetView.layer.dumpAllAnimations()
 
     }
 

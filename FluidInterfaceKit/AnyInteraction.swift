@@ -315,25 +315,39 @@ extension AnyInteraction {
                     dy: targetRect.height / 3
                   )
 
+                  let target = makeTranslation(from: view.bounds, to: targetRect)
+
                   let velocityForAnimation: CGVector = {
 
-                    let velocity = gesture.velocity(in: gesture.view)
-                    let delta = distanceFromCenter
+                    let targetCenter = target.center
+                    let gestureVelocity = gesture.velocity(in: gesture.view!)
+                    let delta = CGPoint(x: targetCenter.x - view.center.x, y: targetCenter.y - view.center.y)
 
-                    return CGVector.init(
-                      dx: velocity.x / delta.x,
-                      dy: velocity.y / delta.y
+                    let velocity = CGVector.init(
+                      dx: gestureVelocity.x / delta.x,
+                      dy: gestureVelocity.y / delta.y
                     )
+
+                    return velocity
 
                   }()
 
-                  let target = makeTranslation(from: view.bounds, to: targetRect)
+                  let velocityForScaling: CGFloat = {
+
+//                    let gestureVelocity = gesture.velocity(in: gesture.view!)
+
+                    // TODO: calculate dynamic velocity
+                    return 10
+
+                  }()
+
                   let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
                     view: view,
-                    duration: 0.6,
+                    duration: 0.85,
                     position: .custom(target.center),
                     scale: target.scale,
-                    velocityForTranslation: velocityForAnimation
+                    velocityForTranslation: velocityForAnimation,
+                    velocityForScaling: velocityForScaling //sqrt(pow(velocityForAnimation.dx, 2) + pow(velocityForAnimation.dy, 2))
                   )
 
                   Fluid.startPropertyAnimators(animators) {
@@ -342,7 +356,7 @@ extension AnyInteraction {
                     //                      dismiss(context.viewController)
                   }
 
-                  view.layer.dumpAllAnimations()
+//                  view.layer.dumpAllAnimations()
 
                 } else {
                   /// fallback

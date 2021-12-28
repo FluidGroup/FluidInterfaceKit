@@ -94,8 +94,11 @@ enum Fluid {
     duration: TimeInterval,
     position: Position,
     scale: CGSize,
-    velocityForTranslation: CGVector
+    velocityForTranslation: CGVector,
+    velocityForScaling: CGFloat
   ) -> [UIViewPropertyAnimator] {
+
+    print("\(velocityForScaling)")
 
     let positionAnimator = UIViewPropertyAnimator(
       duration: duration,
@@ -109,7 +112,7 @@ enum Fluid {
       duration: duration,
       timingParameters: UISpringTimingParameters.init(
         dampingRatio: 1,
-        initialVelocity: .zero
+        initialVelocity: CGVector(dx: velocityForScaling, dy: 0)
       )
     )
 

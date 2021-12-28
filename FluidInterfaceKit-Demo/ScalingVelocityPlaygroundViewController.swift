@@ -5,7 +5,7 @@ import UIKit
 
 @testable import FluidInterfaceKit
 
-final class VelocityPlaygroundViewController: UIViewController {
+final class ScalingVelocityPlaygroundViewController: UIViewController {
 
   private let box0 = UIView.mock(backgroundColor: .init(white: 0.5, alpha: 1))
   private let box1 = UIView.mock(backgroundColor: .neon(.blue))
@@ -20,8 +20,10 @@ final class VelocityPlaygroundViewController: UIViewController {
 
     let startButton = UIButton.make(title: "Start") {
 
-      let duration: CGFloat = 10
-      let translationX: CGFloat = 200
+      let duration: CGFloat = 5
+      let scale: CGFloat = 0.2
+      let transform = CGAffineTransform.init(scaleX: scale, y: scale)
+      let delta: CGFloat = 1 - scale
 
       func velocity(translationX: CGFloat, initPointsPerSec: CGFloat) -> CGFloat {
         translationX / initPointsPerSec
@@ -34,7 +36,7 @@ final class VelocityPlaygroundViewController: UIViewController {
           timingParameters: UICubicTimingParameters(animationCurve: .linear)
         )
         a.addAnimations { [unowned self] in
-          box0.layer.transform = CATransform3DMakeAffineTransform(.init(translationX: translationX, y: 0))
+          box0.transform = transform
         }
         a.startAnimation()
       }
@@ -48,7 +50,7 @@ final class VelocityPlaygroundViewController: UIViewController {
           )
         )
         a.addAnimations { [unowned self] in
-          box1.layer.transform = CATransform3DMakeAffineTransform(.init(translationX: translationX, y: 0))
+          box1.transform = transform
         }
         a.startAnimation()
       }
@@ -58,25 +60,11 @@ final class VelocityPlaygroundViewController: UIViewController {
           duration: duration,
           timingParameters: UISpringTimingParameters(
             dampingRatio: 1,
-            initialVelocity: .init(dx: velocity(translationX: translationX, initPointsPerSec: 10), dy: 0)
+            initialVelocity: .init(dx: 10, dy: 0)
           )
         )
         a.addAnimations { [unowned self] in
-          box2.layer.transform = CATransform3DMakeAffineTransform(.init(translationX: translationX, y: 0))
-        }
-        a.startAnimation()
-      }
-
-      do {
-        let a = UIViewPropertyAnimator(
-          duration: duration,
-          timingParameters: UISpringTimingParameters(
-            dampingRatio: 1,
-            initialVelocity: .init(dx: -5, dy: 0)
-          )
-        )
-        a.addAnimations { [unowned self] in
-          box3.layer.transform = CATransform3DMakeAffineTransform(.init(translationX: translationX, y: 0))
+          box2.transform = transform
         }
         a.startAnimation()
       }
@@ -102,39 +90,19 @@ final class VelocityPlaygroundViewController: UIViewController {
 
           VStackBlock(spacing: 20, alignment: .fill) {
 
-            HStackBlock(spacing: 0, alignment: .center) {
-              UIView.mock(backgroundColor: UIColor(white: 0.9, alpha: 1))
-                .viewBlock
-                .size(.init(width: 50, height: 10))
-              UIView.mock(backgroundColor: UIColor(white: 0.9, alpha: 1))
-                .viewBlock
-                .size(.init(width: 50, height: 10))
-              UIView.mock(backgroundColor: UIColor(white: 0.9, alpha: 1))
-                .viewBlock
-                .size(.init(width: 50, height: 10))
-              UIView.mock(backgroundColor: UIColor(white: 0.9, alpha: 1))
-                .viewBlock
-                .size(.init(width: 50, height: 10))
-            }
-            .alignSelf(.leading)
-
             VStackBlock(spacing: 4, alignment: .leading) {
+
+              let size = CGSize(width: 100, height: 100)
 
               box0
                 .viewBlock
-                .size(.init(width: 20, height: 20))
+                .size(size)
               box1
                 .viewBlock
-                .size(.init(width: 20, height: 20))
+                .size(size)
               box2
                 .viewBlock
-                .size(.init(width: 20, height: 20))
-              box3
-                .viewBlock
-                .size(.init(width: 20, height: 20))
-              box4
-                .viewBlock
-                .size(.init(width: 20, height: 20))
+                .size(size)
 
             }
 
