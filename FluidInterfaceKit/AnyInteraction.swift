@@ -184,6 +184,7 @@ extension AnyInteraction {
 
   public static func horizontalDragging(
     backTo destinationView: UIView,
+    interpolationView: UIView,
     dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
   ) -> Self {
 
@@ -337,11 +338,12 @@ extension AnyInteraction {
 //                    let gestureVelocity = gesture.velocity(in: gesture.view!)
 
                     // TODO: calculate dynamic velocity
-                    return 10
+                    // set greater than 0, throwing animation would be more clear. like springboard
+                    return 0
 
                   }()
 
-                  let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+                  let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
                     view: view,
                     duration: 0.85,
                     position: .custom(target.center),
@@ -350,13 +352,28 @@ extension AnyInteraction {
                     velocityForScaling: velocityForScaling //sqrt(pow(velocityForAnimation.dx, 2) + pow(velocityForAnimation.dy, 2))
                   )
 
-                  Fluid.startPropertyAnimators(animators) {
+                  interpolationView.center = .init(x: view.frame.minX, y: view.frame.minY)
+                  interpolationView.transform = .init(scaleX: 0.5, y: 0.5)
+                  _trackingContext.transitionContext.contentView.addSubview(interpolationView)
+                  let interpolationViewAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+                    view: interpolationView,
+                    duration: 0.85,
+                    position: .custom(target.center),
+                    scale: .init(width: 1, height: 1),
+                    velocityForTranslation: velocityForAnimation,
+                    velocityForScaling: velocityForScaling
+                  )
+
+                  let interpolationViewStyleAnimator = UIViewPropertyAnimator(duration: 0.85, dampingRatio: 1) {
+                    interpolationView.alpha = 1
+                  }
+
+                  Fluid.startPropertyAnimators(translationAnimators + interpolationViewAnimators + [interpolationViewStyleAnimator]) {
                     // FIXME:
                     _trackingContext.transitionContext.notifyCompleted()
                     //                      dismiss(context.viewController)
                   }
 
-//                  view.layer.dumpAllAnimations()
 
                 } else {
                   /// fallback

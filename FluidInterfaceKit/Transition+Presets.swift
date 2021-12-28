@@ -33,7 +33,7 @@ extension AnyAddingTransition {
 
   }
 
-  public static func popupContextual(from coordinateSpace: UIView) -> Self {
+  public static func popupContextual(from coordinateSpace: UIView, snapshot: UIView) -> Self {
 
     return .init { context in
 
@@ -64,11 +64,21 @@ extension AnyAddingTransition {
         }
         targetView.layer.cornerRadius = 80
         targetView.layer.masksToBounds = true
+
+        /// snapshot
+        do {
+          context.contentView.addSubview(snapshot)
+          snapshot.transform = .identity
+          snapshot.frame = frame
+          snapshot.alpha = 1
+          snapshot.transform = .init(scaleX: 0.6, y: 0.6)
+        }
+
       }
 
       context.toViewController.view.isUserInteractionEnabled = true
 
-      let animator = UIViewPropertyAnimator(
+      let styleAnimator = UIViewPropertyAnimator(
         duration: 0.6,
         timingParameters: UISpringTimingParameters(
           dampingRatio: 1,
@@ -76,7 +86,22 @@ extension AnyAddingTransition {
         )
       )
 
-      let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+      styleAnimator.addAnimations {
+        context.toViewController.view.alpha = 1
+        context.toViewController.view.layer.cornerRadius = 0
+        snapshot.alpha = 0
+      }
+
+      let snapshotAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+        view: snapshot,
+        duration: 0.6,
+        position: .custom(.init(x: 0, y: 0)),
+        scale: .init(width: 0.5, height: 0.5),
+        velocityForTranslation: .zero,
+        velocityForScaling: 0
+      )
+
+      let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: context.toViewController.view,
         duration: 0.6,
         position: .center(of: context.toViewController.view.bounds),
@@ -85,13 +110,8 @@ extension AnyAddingTransition {
         velocityForScaling: 0
       )
 
-      animator.addAnimations {
-        context.toViewController.view.alpha = 1
-        context.toViewController.view.layer.cornerRadius = 0
-      }
-
       Fluid.startPropertyAnimators(
-        animators + [animator],
+        translationAnimators + snapshotAnimators + [styleAnimator],
         completion: {
           context.notifyCompleted()
         })

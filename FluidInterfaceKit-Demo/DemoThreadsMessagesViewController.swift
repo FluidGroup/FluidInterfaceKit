@@ -76,19 +76,27 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
           ],
           spacing: 24
         ) {
-          (0..<10).map { index in
-            makeListCell(onTap: { [unowned self] cell in
+          (0..<10).map { index -> UIView in
+
+            let color = BookGenerator.randomColor()
+
+            return makeListCell(color: color, onTap: { [unowned self] cell in
 
               if let cached = viewControllerCache[index] {
 
                 addContentViewController(cached, transition: nil)
 
               } else {
+
+                let snapshot = makeListCell(color: color, onTap: { _ in })
+                snapshot.isUserInteractionEnabled = false
+
                 let controller = InteractiveDismissalTransitionViewController(
-                  bodyViewController: DemoThreadsDetailViewController(),
-                  transition: .init(adding: .popupContextual(from: cell), removing: nil),
+                  bodyViewController: DemoThreadsDetailViewController(color: color),
+                  transition: .init(adding: .popupContextual(from: cell, snapshot: snapshot), removing: nil),
                   interaction: .horizontalDragging(
                     backTo: cell,
+                    interpolationView: snapshot,
                     dismiss: { viewController in
                       viewController.zStackViewControllerContext?.removeSelf(transition: nil)
                     }
@@ -115,7 +123,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
 }
 
-func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
+func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> UIView {
 
   let nameLabel = UILabel()&>.do {
     $0.text = "Muukii"
@@ -130,7 +138,7 @@ func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
   }
 
   let imageView = UIView()&>.do {
-    $0.backgroundColor = BookGenerator.randomColor()
+    $0.backgroundColor = color
   }
 
   let backgroundView = UIView()
@@ -173,16 +181,27 @@ func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
 }
 
 /// Detail
-final class DemoThreadsDetailViewController: ZStackViewController {
+final class DemoThreadsDetailViewController: UIViewController {
 
   private let scrollableContainerView = ScrollableContainerView()
   private let navigationView = NavigationHostingView()
+
+  private let keyColor: UIColor
+
+  init(color: UIColor) {
+    self.keyColor = color
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func viewDidLoad() {
 
     super.viewDidLoad()
 
-    view.backgroundColor = BookGenerator.randomColor()
+    view.backgroundColor = .white
 
     let footerView: UIView = {
 
@@ -292,7 +311,7 @@ final class DemoThreadsDetailViewController: ZStackViewController {
           StyledEdgeView(
             cornerRadius: .circular,
             cornerRoundingStrategy: .mask,
-            content: UIView()&>.do { $0.backgroundColor = .lightGray }
+            content: UIView()&>.do { $0.backgroundColor = self.keyColor }
           )
 
           VStackBlock(alignment: .leading) {
