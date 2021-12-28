@@ -30,6 +30,7 @@
 		4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B30276503C30003FFB6 /* DemoViewController.swift */; };
 		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
 		4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B31B277077EA00EE1028 /* MockKit */; };
+		4BB7B9CF277AF6170014B62A /* VelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB7B9CE277AF6170014B62A /* VelocityPlaygroundViewController.swift */; };
 		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
 		4BBDECD52766286400982229 /* InteractiveDismissalTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */; };
 		4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD62766291400982229 /* ScrollView+Handling.swift */; };
@@ -73,6 +74,7 @@
 		4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZStackViewController.swift; sourceTree = "<group>"; };
 		4B959B2E2764FFCD0003FFB6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
+		4BB7B9CE277AF6170014B62A /* VelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
 		4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalTransitionViewController.swift; sourceTree = "<group>"; };
 		4BBDECD62766291400982229 /* ScrollView+Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Handling.swift"; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				4BBDECD22766241200982229 /* UIControl+Closure.swift */,
 				4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */,
 				4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */,
+				4BB7B9CE277AF6170014B62A /* VelocityPlaygroundViewController.swift */,
 			);
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BB7B9CF277AF6170014B62A /* VelocityPlaygroundViewController.swift in Sources */,
 				4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */,
 				4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */,
 				4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */,

@@ -190,9 +190,6 @@ extension AnyInteraction {
     struct TrackingContext {
 
       var scrollController: ScrollController?
-      let viewFrame: CGRect
-      let beganPoint: CGPoint
-      var transform: CGAffineTransform = .identity
       let transitionContext: RemovingTransitionContext
 
     }
@@ -223,22 +220,16 @@ extension AnyInteraction {
                  Prepare to interact
                  */
 
-                let currentTransform =
-                  view.layer.presentation().map {
-                    CATransform3DGetAffineTransform($0.transform)
-                  } ?? .identity
+                let currentTransform = view.layer.presentation()?.transform ?? CATransform3DIdentity
 
                 Log.debug(.default, "currentTransform: \(currentTransform)")
 
                 view.layer.removeAllAnimations()
 
-                gesture.view!.transform = currentTransform
+                view.layer.transform = currentTransform
 
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
-                  viewFrame: view.bounds,
-                  beganPoint: gesture.location(in: view),
-                  transform: currentTransform,
                   transitionContext: context.viewController.zStackViewControllerContext!
                     .startRemoving()!
                 )
@@ -270,6 +261,8 @@ extension AnyInteraction {
             case .changed:
 
               if let _ = trackingContext {
+
+                // TODO: Fix glitches that when it starts, view shifts to the wrong point.
 
                 let translation = gesture
                   .translation(in: gesture.view)
@@ -363,7 +356,7 @@ extension AnyInteraction {
                   )
 
                   animator.addAnimations {
-                    view.transform = .init(scaleX: 0.8, y: 0.8)
+                    view.layer.transform = CATransform3DMakeAffineTransform(.init(scaleX: 0.8, y: 0.8))
                     view.alpha = 0
                   }
 
