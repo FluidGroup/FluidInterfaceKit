@@ -42,7 +42,7 @@ final class DemoViewController: ZStackViewController {
 
 }
 
-final class ContentViewController: UIViewController {
+final class ContentViewController: UIViewController, ViewControllerZStackContentType {
 
   init(
     color: UIColor

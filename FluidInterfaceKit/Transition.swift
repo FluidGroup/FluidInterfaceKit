@@ -1,6 +1,12 @@
 import UIKit
 
 public class TransitionContext: Equatable {
+
+  public enum Event {
+    case finished
+    case interrupted
+  }
+
   public static func == (
     lhs: TransitionContext,
     rhs: TransitionContext
@@ -10,11 +16,30 @@ public class TransitionContext: Equatable {
 
   public private(set) var isInvalidated: Bool = false
 
+  private var callbacks: [(Event) -> Void] = []
+
   func invalidate() {
     isInvalidated = true
+
+    callbacks.forEach { $0(.interrupted) }
   }
+
+  public func addEventHandler(_ closure: @escaping (Event) -> Void) {
+    callbacks.append(closure)
+  }
+
+  /**
+   Triggers `callbacks`.
+   */
+  func transitionFinished() {
+    callbacks.forEach{ $0(.finished) }
+  }
+
 }
 
+/**
+ A context object to interact with container view controller for transitions.
+ */
 public final class AddingTransitionContext: TransitionContext {
 
   public static func == (
@@ -30,6 +55,8 @@ public final class AddingTransitionContext: TransitionContext {
   public let toViewController: UIViewController
   private let onCompleted: (AddingTransitionContext) -> Void
 
+
+
   init(
     contentView: UIView,
     fromViewController: UIViewController?,
@@ -42,6 +69,9 @@ public final class AddingTransitionContext: TransitionContext {
     self.onCompleted = onCompleted
   }
 
+  /**
+   Tells the container view controller what the animation has completed.
+   */
   public func notifyCompleted() {
     isCompleted = true
     onCompleted(self)
@@ -49,6 +79,9 @@ public final class AddingTransitionContext: TransitionContext {
 
 }
 
+/**
+ A context object to interact with container view controller for transitions.
+ */
 public final class BatchRemovingTransitionContext: TransitionContext {
 
   public static func == (
@@ -82,6 +115,9 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   }
 }
 
+/**
+ A context object to interact with container view controller for transitions.
+ */
 public final class RemovingTransitionContext: TransitionContext {
 
   public static func == (

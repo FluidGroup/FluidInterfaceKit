@@ -39,11 +39,17 @@ extension AnyAddingTransition {
     hidingViews: [UIView]
   ) -> Self {
 
-    return .init { context in
+    return .init { (context: AddingTransitionContext) in
 
       // FIXME: tmp impl
       hidingViews.forEach {
         $0.isHidden = true
+      }
+
+      context.addEventHandler { event in
+        hidingViews.forEach {
+          $0.isHidden = false
+        }
       }
 
       let targetView = context.toViewController.view!

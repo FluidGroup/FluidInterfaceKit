@@ -23,7 +23,7 @@ import Foundation
 import UIKit
 import MatchedTransition
 
-open class InteractiveDismissalTransitionViewController: TransitionViewController, UIGestureRecognizerDelegate {
+open class InteractiveDismissalTransitionViewController: TransitionViewController, UIGestureRecognizerDelegate, ViewControllerZStackContentType {
 
   // MARK: - Properties
 

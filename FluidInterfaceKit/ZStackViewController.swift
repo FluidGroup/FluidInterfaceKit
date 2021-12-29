@@ -23,7 +23,7 @@ open class ZStackViewController: UIViewController {
   private var state: State = .init()
   private let __rootView: UIView?
 
-  public var stackingViewControllers: [UIViewController] = []
+  public var stackingViewControllers: [ViewControllerZStackContentType] = []
 
   final class ViewControllerStateToken: Equatable {
 
@@ -101,7 +101,7 @@ open class ZStackViewController: UIViewController {
    Displays a view controller
    */
   public func addContentViewController(
-    _ viewControllerToAdd: UIViewController,
+    _ viewControllerToAdd: ViewControllerZStackContentType,
     transition: AnyAddingTransition?
   ) {
 
@@ -163,6 +163,7 @@ open class ZStackViewController: UIViewController {
         }
 
         self.setViewControllerState(viewController: viewControllerToAdd, context: nil)
+        context.transitionFinished()
 
       }
     )
@@ -188,9 +189,9 @@ open class ZStackViewController: UIViewController {
    Starts removing transaction.
    Make sure to complete the transition with the context.
    */
-  public func startRemoving(_ viewControllerToRemove: UIViewController) -> RemovingTransitionContext {
+  public func startRemoving(_ viewControllerToRemove: ViewControllerZStackContentType) -> RemovingTransitionContext {
 
-    guard let index = stackingViewControllers.firstIndex(of: viewControllerToRemove) else {
+    guard let index = stackingViewControllers.firstIndex(where: { $0 == viewControllerToRemove}) else {
       Log.error(.zStack, "\(viewControllerToRemove) was not found to remove")
       fatalError()
     }
@@ -230,6 +231,8 @@ open class ZStackViewController: UIViewController {
         viewControllerToRemove.view.superview!.removeFromSuperview()
         viewControllerToRemove.removeFromParent()
 
+        context.transitionFinished()
+
       }
     )
 
@@ -240,7 +243,7 @@ open class ZStackViewController: UIViewController {
   }
 
   public func removeViewController(
-    _ viewControllerToRemove: UIViewController,
+    _ viewControllerToRemove: ViewControllerZStackContentType,
     transition: AnyRemovingTransition?
   ) {
 
@@ -266,7 +269,7 @@ open class ZStackViewController: UIViewController {
 
     assert(Thread.isMainThread)
 
-    guard let index = stackingViewControllers.firstIndex(of: viewController) else {
+    guard let index = stackingViewControllers.firstIndex(where: { $0 == viewController}) else {
       Log.error(.zStack, "\(viewController) was not found to remove")
       return
     }
@@ -305,7 +308,7 @@ open class ZStackViewController: UIViewController {
 
         let viewControllerToRemove = stackingViewControllers.last!
 
-        assert(stackingViewControllers.last == viewControllerToRemove)
+        assert(stackingViewControllers.last === viewControllerToRemove)
 
         viewControllerToRemove.willMove(toParent: nil)
         viewControllerToRemove.view.removeFromSuperview()
@@ -334,10 +337,10 @@ open class ZStackViewController: UIViewController {
 public struct ZStackViewControllerContext {
 
   public private(set) weak var zStackViewController: ZStackViewController?
-  public private(set) weak var targetViewController: UIViewController?
+  public private(set) weak var targetViewController: ViewControllerZStackContentType?
 
   public func addContentViewController(
-    _ viewController: UIViewController,
+    _ viewController: ViewControllerZStackContentType,
     transition: AnyAddingTransition?
   ) {
     zStackViewController?.addContentViewController(viewController, transition: transition)
@@ -365,13 +368,21 @@ public struct ZStackViewControllerContext {
 
 var ref: Void?
 
-extension UIViewController {
+public protocol ViewControllerZStackContentType: UIViewController {
+  var zStackViewControllerContext: ZStackViewControllerContext? { get }
+}
+
+extension ViewControllerZStackContentType {
 
   public internal(set) var zStackViewControllerContext: ZStackViewControllerContext? {
     get {
 
       guard let object = objc_getAssociatedObject(self, &ref) as? ZStackViewControllerContext else {
-        return parent?.zStackViewControllerContext
+
+        guard let compatibleParent = parent as? ViewControllerZStackContentType else {
+          return nil
+        }
+        return compatibleParent.zStackViewControllerContext
       }
       return object
 
@@ -390,7 +401,7 @@ extension UIViewController {
   }
 }
 
-private final class AnonymousViewController: UIViewController {
+private final class AnonymousViewController: UIViewController, ViewControllerZStackContentType {
 
   private let __rootView: UIView
 

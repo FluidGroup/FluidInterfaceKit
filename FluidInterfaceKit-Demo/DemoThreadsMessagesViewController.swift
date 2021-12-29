@@ -59,7 +59,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
     let header = makeHeader()
 
-    var viewControllerCache: [Int: UIViewController] = [:]
+    var viewControllerCache: [Int: ViewControllerZStackContentType] = [:]
 
     let content = CompositionKit.AnyView.init { view in
 
@@ -190,7 +190,7 @@ func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> UIView {
 }
 
 /// Detail
-final class DemoThreadsDetailViewController: UIViewController {
+final class DemoThreadsDetailViewController: UIViewController, ViewControllerZStackContentType {
 
   private let scrollableContainerView = ScrollableContainerView()
   private let navigationView = NavigationHostingView()
