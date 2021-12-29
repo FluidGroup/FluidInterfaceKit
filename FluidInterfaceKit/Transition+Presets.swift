@@ -33,7 +33,11 @@ extension AnyAddingTransition {
 
   }
 
-  public static func popupContextual(from coordinateSpace: UIView, interpolationView: UIView, hidingViews: [UIView]) -> Self {
+  public static func popupContextual(
+    from coordinateSpace: UIView,
+    interpolationView: UIView,
+    hidingViews: [UIView]
+  ) -> Self {
 
     return .init { context in
 
@@ -119,7 +123,8 @@ extension AnyAddingTransition {
         translationAnimators + snapshotAnimators + [styleAnimator],
         completion: {
           context.notifyCompleted()
-        })
+        }
+      )
 
     }
 
@@ -188,7 +193,7 @@ extension AnyBatchRemovingTransition {
       animator.addCompletion { _ in
 
         context.notifyCompleted()
-        
+
         topViewController.view.alpha = 1
         middleViewControllers.forEach {
           $0.view.isHidden = false
