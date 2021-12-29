@@ -93,7 +93,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
                 let controller = InteractiveDismissalTransitionViewController(
                   bodyViewController: DemoThreadsDetailViewController(color: color),
-                  transition: .init(adding: .popupContextual(from: cell, snapshot: snapshot), removing: nil),
+                  transition: .init(adding: .popupContextual(from: cell, snapshot: snapshot, hidingViews: [cell]), removing: nil),
                   interaction: .horizontalDragging(
                     backTo: cell,
                     interpolationView: snapshot,

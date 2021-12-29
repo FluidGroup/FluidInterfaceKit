@@ -33,9 +33,13 @@ extension AnyAddingTransition {
 
   }
 
-  public static func popupContextual(from coordinateSpace: UIView, snapshot: UIView) -> Self {
+  public static func popupContextual(from coordinateSpace: UIView, snapshot: UIView, hidingViews: [UIView]) -> Self {
 
     return .init { context in
+
+      hidingViews.forEach {
+        $0.isHidden = true
+      }
 
       let targetView = context.toViewController.view!
 
