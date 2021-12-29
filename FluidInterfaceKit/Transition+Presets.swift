@@ -33,7 +33,7 @@ extension AnyAddingTransition {
 
   }
 
-  public static func popupContextual(from coordinateSpace: UIView, snapshot: UIView, hidingViews: [UIView]) -> Self {
+  public static func popupContextual(from coordinateSpace: UIView, interpolationView: UIView, hidingViews: [UIView]) -> Self {
 
     return .init { context in
 
@@ -72,11 +72,11 @@ extension AnyAddingTransition {
 
         /// snapshot
         do {
-          context.contentView.addSubview(snapshot)
-          snapshot.transform = .identity
-          snapshot.frame = frame
-          snapshot.alpha = 1
-          snapshot.transform = .init(scaleX: 0.6, y: 0.6)
+          context.contentView.addSubview(interpolationView)
+          interpolationView.transform = .identity
+          interpolationView.frame = frame
+          interpolationView.alpha = 1
+          interpolationView.transform = .init(scaleX: 0.6, y: 0.6)
         }
 
       }
@@ -94,11 +94,11 @@ extension AnyAddingTransition {
       styleAnimator.addAnimations {
         context.toViewController.view.alpha = 1
         context.toViewController.view.layer.cornerRadius = 0
-        snapshot.alpha = 0
+        interpolationView.alpha = 0
       }
 
       let snapshotAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
-        view: snapshot,
+        view: interpolationView,
         duration: 0.6,
         position: .custom(.init(x: 0, y: 0)),
         scale: .init(width: 0.5, height: 0.5),

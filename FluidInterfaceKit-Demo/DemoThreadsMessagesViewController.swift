@@ -59,7 +59,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
     let header = makeHeader()
 
-    var viewControllerCache: [Int : UIViewController] = [:]
+    var viewControllerCache: [Int: UIViewController] = [:]
 
     let content = CompositionKit.AnyView.init { view in
 
@@ -80,37 +80,46 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
             let color = BookGenerator.randomColor()
 
-            return makeListCell(color: color, onTap: { [unowned self] cell in
+            return makeListCell(
+              color: color,
+              onTap: { [unowned self] cell in
 
-              if let cached = viewControllerCache[index] {
+                if let cached = viewControllerCache[index] {
 
-                addContentViewController(cached, transition: nil)
+                  addContentViewController(cached, transition: nil)
 
-              } else {
+                } else {
 
-                let snapshot = makeListCell(color: color, onTap: { _ in })
-                snapshot.isUserInteractionEnabled = false
+                  let interpolationView = makeListCell(color: color, onTap: { _ in })
+                  interpolationView.isUserInteractionEnabled = false
 
-                let controller = InteractiveDismissalTransitionViewController(
-                  bodyViewController: DemoThreadsDetailViewController(color: color),
-                  transition: .init(adding: .popupContextual(from: cell, snapshot: snapshot, hidingViews: [cell]), removing: nil),
-                  interaction: .horizontalDragging(
-                    backTo: cell,
-                    interpolationView: snapshot,
-                    dismiss: { viewController in
-                      viewController.zStackViewControllerContext?.removeSelf(transition: nil)
-                    }
+                  let controller = InteractiveDismissalTransitionViewController(
+                    bodyViewController: DemoThreadsDetailViewController(color: color),
+                    transition: .init(
+                      adding: .popupContextual(
+                        from: cell,
+                        interpolationView: interpolationView,
+                        hidingViews: [cell]
+                      ),
+                      removing: nil
+                    ),
+                    interaction: .horizontalDragging(
+                      backTo: cell,
+                      interpolationView: interpolationView,
+                      dismiss: { viewController in
+                        viewController.zStackViewControllerContext?.removeSelf(transition: nil)
+                      }
+                    )
                   )
-                )
 
-                viewControllerCache[index] = controller
+                  viewControllerCache[index] = controller
 
-                addContentViewController(controller, transition: nil)
+                  addContentViewController(controller, transition: nil)
+
+                }
 
               }
-
-
-            })
+            )
           }
         }
         .padding(.horizontal, 24)
@@ -188,12 +197,16 @@ final class DemoThreadsDetailViewController: UIViewController {
 
   private let keyColor: UIColor
 
-  init(color: UIColor) {
+  init(
+    color: UIColor
+  ) {
     self.keyColor = color
     super.init(nibName: nil, bundle: nil)
   }
 
-  required init?(coder: NSCoder) {
+  required init?(
+    coder: NSCoder
+  ) {
     fatalError("init(coder:) has not been implemented")
   }
 

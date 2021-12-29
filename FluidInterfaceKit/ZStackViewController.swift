@@ -217,6 +217,10 @@ open class ZStackViewController: UIViewController {
           return
         }
 
+        /**
+         Completion of transition, cleaning up
+         */
+
         self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
 
         self.stackingViewControllers.removeAll { $0 == viewControllerToRemove }
