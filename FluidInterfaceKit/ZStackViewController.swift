@@ -97,10 +97,18 @@ open class ZStackViewController: UIViewController {
     viewControllerToRemove.zStackViewControllerContext = nil
   }
 
+  /**
+   Displays a view controller
+   */
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?
   ) {
+
+    /**
+     possible to enter while previous adding operation.
+     adding -> removing(interruption) -> adding(interruption) -> dipslay(completed)
+     */
 
     assert(Thread.isMainThread)
 
@@ -176,6 +184,10 @@ open class ZStackViewController: UIViewController {
 
   }
 
+  /**
+   Starts removing transaction.
+   Make sure to complete the transition with the context.
+   */
   public func startRemoving(_ viewControllerToRemove: UIViewController) -> RemovingTransitionContext {
 
     guard let index = stackingViewControllers.firstIndex(of: viewControllerToRemove) else {
@@ -240,6 +252,7 @@ open class ZStackViewController: UIViewController {
 
   }
 
+  // FIXME: not completed implementation
   public func removeAllViewController(
     from viewController: UIViewController,
     transition: AnyBatchRemovingTransition?
