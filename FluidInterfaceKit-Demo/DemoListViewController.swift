@@ -8,6 +8,13 @@ final class DemoListViewController: ZStackViewController {
 
   private let scrollableContainerView = ScrollableContainerView()
 
+  let usesPresentation: Bool
+
+  init(usesPresentation: Bool) {
+    self.usesPresentation = usesPresentation
+    super.init(view: nil)
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -21,22 +28,32 @@ final class DemoListViewController: ZStackViewController {
     }
 
     let listCells: [UIView] = (0..<20).map { i in
-      makeListCell(onTap: { [unowned self] view in
 
-        let controller = DetailViewController()
+      let viewModel = ViewModel()
 
-        let displayViewController = InteractiveDismissalTransitionViewController(
-          bodyViewController: controller,
-          transition: .init(
-            adding: .expanding(from: view),
-            removing: nil
-          ),
-          interaction: .horizontalDragging(backTo: nil, interpolationView: nil, hidingViews: [])
-        )
+      return makeListCell(
+        viewModel: viewModel,
+        onTap: { [unowned self] view in
 
-        addContentViewController(displayViewController, transition: nil)
+          let controller = DetailViewController(viewModel: viewModel)
 
-      })
+          let displayViewController = InteractiveDismissalTransitionViewController(
+            bodyViewController: controller,
+            transition: .init(
+              adding: .expanding(from: view),
+              removing: nil
+            ),
+            interaction: .horizontalDragging(backTo: nil, interpolationView: nil, hidingViews: [])
+          )
+
+          if usesPresentation {
+            present(displayViewController, animated: false, completion: nil)
+          } else {
+            addContentViewController(displayViewController, transition: nil)
+          }
+
+        }
+      )
     }
 
     let content = AnyView { view in
@@ -52,12 +69,24 @@ final class DemoListViewController: ZStackViewController {
   }
 }
 
+
 private final class DetailViewController: UIViewController, ViewControllerZStackContentType {
+
+  private let viewModel: ViewModel
+
+  public init(viewModel: ViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = BookGenerator.randomColor()
+    view.backgroundColor = .white
 
     Mondrian.buildSubviews(on: view) {
 
@@ -68,6 +97,13 @@ private final class DetailViewController: UIViewController, ViewControllerZStack
           $0.font = UIFont.preferredFont(forTextStyle: .headline)
           $0.textColor = UIColor.appBlack
         }
+
+        UIView()&>.do {
+          $0.backgroundColor = viewModel.color
+        }
+        .viewBlock
+        .aspectRatio(1)
+        .spacingBefore(8)
 
         StackingSpacer(minLength: 0)
 
@@ -80,7 +116,7 @@ private final class DetailViewController: UIViewController, ViewControllerZStack
   }
 }
 
-private func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
+private func makeListCell(viewModel: ViewModel, onTap: @escaping (UIView) -> Void) -> UIView {
 
   let nameLabel = UILabel()&>.do {
     $0.text = "Muukii"
@@ -94,10 +130,13 @@ private func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
     $0.textColor = .darkGray
   }
 
-  let imageView = UIView()&>.do {
-    $0
-    //    $0.backgroundColor = color
-  }
+  let imageView = StyledEdgeView(
+    cornerRadius: .radius(6),
+    cornerRoundingStrategy: .mask,
+    content: UIView()&>.do {
+      $0.backgroundColor = viewModel.color
+    }
+  )
 
   let backgroundView = UIView()
   backgroundView.backgroundColor = .init(white: 0, alpha: 0.1)
@@ -110,22 +149,34 @@ private func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
 
   let body = AnyView { _ in
 
-    VStackBlock {
+    HStackBlock {
 
-      nameLabel
+      imageView
         .viewBlock
-        .spacingBefore(8)
+        .size(55)
 
-      statusLabel
-        .viewBlock
-        .spacingBefore(4)
+      VStackBlock(alignment: .leading) {
+
+        nameLabel
+          .viewBlock
+          .spacingBefore(8)
+
+        statusLabel
+          .viewBlock
+          .spacingBefore(4)
+      }
+      .spacingBefore(8)
     }
     .padding(.vertical, 8)
 
   }
 
   let cell = InteractiveView(
-    animation: .shrink(cornerRadius: 8, insets: .zero, overlayColor: .init(white: 0, alpha: 0.1)),
+    animation: .shrink(
+      cornerRadius: 8,
+      insets: .init(top: 4, left: 16, bottom: 4, right: 16),
+      overlayColor: .init(white: 0, alpha: 0.1)
+    ),
     haptics: .impactOnTouchUpInside(style: .light),
     contentView: body
   )

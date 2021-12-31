@@ -32,6 +32,7 @@
 		4BDDF266277F3AAC00636B00 /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
+		4BDDF27F277F7BFA00636B00 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDDF27E277F7BFA00636B00 /* ViewModel.swift */; };
 		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		4BDDF267277F509C00636B00 /* MondrianLayout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MondrianLayout; path = submodules/MondrianLayout; sourceTree = "<group>"; };
 		4BDDF26A277F548900636B00 /* GeometryKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GeometryKit; path = submodules/GeometryKit; sourceTree = "<group>"; };
 		4BDDF26B277F550A00636B00 /* FluidInterfaceKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FluidInterfaceKit; sourceTree = "<group>"; };
+		4BDDF27E277F7BFA00636B00 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
 		4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluidInterfaceKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */,
 				4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */,
 				4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */,
+				4BDDF27E277F7BFA00636B00 /* ViewModel.swift */,
 			);
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				4BDDF266277F3AAC00636B00 /* DemoListViewController.swift in Sources */,
 				4B037C57277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift in Sources */,
 				4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */,
+				4BDDF27F277F7BFA00636B00 /* ViewModel.swift in Sources */,
 				4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */,
 				4B959B202764F8200003FFB6 /* Book.swift in Sources */,
 				4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */,

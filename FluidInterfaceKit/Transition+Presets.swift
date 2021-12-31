@@ -143,33 +143,46 @@ extension AnyAddingTransition {
 
     return .init { (context: AddingTransitionContext) in
 
+      let entrypointSnapshotView = entrypointView.snapshotView(afterScreenUpdates: false) ?? UIView()
       let maskView = UIView()
       maskView.backgroundColor = .black
 
       context.toViewController.view.mask = maskView
 
       maskView.frame = entrypointView.bounds
+      if #available(iOS 13.0, *) {
+        maskView.layer.cornerCurve = .continuous
+      } else {
+        // Fallback on earlier versions
+      }
+      maskView.layer.cornerRadius = 16
 
       context.addEventHandler { _ in
-        context.toViewController.view.mask = nil
+        entrypointSnapshotView.removeFromSuperview()
       }
 
-      let frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
+      context.contentView.insertSubview(entrypointSnapshotView, belowSubview: context.toViewController.view)
+      entrypointSnapshotView.frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
 
-      let size = Geometry.sizeThatAspectFill(
-        aspectRatio: context.toViewController.view.bounds.size,
-        minimumSize: entrypointView.bounds.size
+      let fromFrame = CGRect(
+        origin: entrypointView.convert(entrypointView.bounds, to: context.contentView).origin,
+        size: Geometry.sizeThatAspectFill(
+          aspectRatio: context.toViewController.view.bounds.size,
+          minimumSize: entrypointView.bounds.size
+        )
       )
 
-      let fromFrame = CGRect(origin: frame.origin, size: size)
+      /// make initial state for displaying view
+      do {
+        let translation = makeTranslation(
+          from: context.contentView.bounds,
+          to: fromFrame
+        )
 
-      let target = makeTranslation(
-        from: context.contentView.bounds,
-        to: fromFrame
-      )
-
-      context.toViewController.view.transform = .init(scaleX: target.scale.width, y: target.scale.height)
-      context.toViewController.view.center = target.center
+        context.toViewController.view.transform = .init(scaleX: translation.scale.width, y: translation.scale.height)
+        context.toViewController.view.center = translation.center
+        context.toViewController.view.alpha = 0
+      }
 
       let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: context.toViewController.view,
@@ -180,14 +193,40 @@ extension AnyAddingTransition {
         velocityForScaling: 0
       )
 
-      let animator = UIViewPropertyAnimator(duration: 0.8, dampingRatio: 1) {
+      let translationForSnapshot = makeTranslation(
+        from: entrypointSnapshotView.frame,
+        to: context.contentView.bounds
+      )
+
+      let _translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+        view: entrypointSnapshotView,
+        duration: 0.6,
+        position: .custom(translationForSnapshot.center),
+        scale: translationForSnapshot.scale,
+        velocityForTranslation: .zero,
+        velocityForScaling: 0
+      )
+
+      let maskAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
         maskView.frame = context.toViewController.view.bounds
+        maskView.layer.cornerRadius = 0
+      }
+
+      maskAnimator.addCompletion { _ in
+        context.toViewController.view.mask = nil
+      }
+
+      let crossfadeAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1) {
+        context.toViewController.view.alpha = 1
+        entrypointSnapshotView.alpha = 0
       }
 
       Fluid.startPropertyAnimators(
         buildArray {
           translationAnimators
-          animator
+          maskAnimator
+          _translationAnimators
+          crossfadeAnimator
         },
         completion: {
           context.notifyCompleted()

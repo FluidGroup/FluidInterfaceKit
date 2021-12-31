@@ -27,8 +27,16 @@ let book = Book(title: "MyBook") {
     return controller
   }
 
-  BookPush(title: "List") {
-    DemoListViewController()
+  BookPresent(title: "List + ZStack") {
+    let controller = DemoListViewController(usesPresentation: false)
+    controller.modalPresentationStyle = .fullScreen
+    return controller
+  }
+
+  BookPresent(title: "List + Presentation") {
+    let controller = DemoListViewController(usesPresentation: true)
+    controller.modalPresentationStyle = .fullScreen
+    return controller
   }
 
   BookPush(title: "ControlCenter") {

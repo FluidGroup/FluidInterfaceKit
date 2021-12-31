@@ -21,6 +21,7 @@ open class TransitionViewController: WrapperViewController {
 
     self.transition = transition
     super.init(bodyViewController: bodyViewController)
+    setup()
   }
 
   public init(
@@ -30,7 +31,11 @@ open class TransitionViewController: WrapperViewController {
 
     self.transition = transition
     super.init(view: view)
+    setup()
+  }
 
+  private func setup() {
+    modalPresentationStyle = .overCurrentContext
   }
 
   func startAddingTransition(context: AddingTransitionContext) {
@@ -55,18 +60,30 @@ open class TransitionViewController: WrapperViewController {
     removingTransition.startTransition(context: context)
   }
 
+  open override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    if state.countViewDidAppear == 0 {
+      self.view.alpha = 0
+    }
+
+  }
+
   open override func viewDidAppear(_ animated: Bool) {
+
     super.viewDidAppear(animated)
 
     state.countViewDidAppear += 1
 
     if state.countViewDidAppear == 1 {
 
+      self.view.alpha = 1
+
       /// check if this view controller was presented by presentation(modal)
       if parent == nil,
-        let addingTransition = transition.adding,
-        let presentingViewController = presentingViewController,
-        let presentationController = presentationController
+         let addingTransition = transition.adding,
+         let presentingViewController = presentingViewController,
+         let presentationController = presentationController
       {
 
         /// presenting as presentation
@@ -78,7 +95,7 @@ open class TransitionViewController: WrapperViewController {
             fromViewController: presentingViewController,
             toViewController: self,
             onCompleted: { _ in
-              
+
             }
           )
         )
@@ -86,6 +103,7 @@ open class TransitionViewController: WrapperViewController {
       }
 
     }
+
   }
 
   func _startStandaloneRemovingTransition() -> RemovingTransitionContext {

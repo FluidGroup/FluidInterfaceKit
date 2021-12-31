@@ -130,7 +130,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
 }
 
-func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> UIView {
+fileprivate func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> UIView {
 
   let nameLabel = UILabel()&>.do {
     $0.text = "Muukii"

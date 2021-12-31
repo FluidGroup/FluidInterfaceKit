@@ -260,14 +260,6 @@ extension AnyInteraction {
                  Prepare to interact
                  */
 
-                let currentTransform = view.layer.presentation()?.transform ?? CATransform3DIdentity
-
-                Log.debug(.default, "currentTransform: \(currentTransform)")
-
-                view.layer.removeAllAnimations()
-
-                view.layer.transform = currentTransform
-
                 let transitionContext = context.viewController.zStackViewControllerContext?.startRemoving() ?? context.viewController._startStandaloneRemovingTransition()
 
                 BatchApplier(hidingViews).setInvisible(true)
@@ -312,8 +304,6 @@ extension AnyInteraction {
                 return
               }
 
-              // TODO: Fix glitches that when it starts, view shifts to the wrong point.
-
               let translation = gesture
                 .translation(in: gesture.view)
                 .applying(gesture.view!.transform)
@@ -322,6 +312,7 @@ extension AnyInteraction {
               gesture.view!.layer.position.y += translation.y
 
               gesture.view!.layer.cornerRadius = 24
+              gesture.view!.layer.masksToBounds = true
               if #available(iOS 13.0, *) {
                 gesture.view!.layer.cornerCurve = .continuous
               } else {
