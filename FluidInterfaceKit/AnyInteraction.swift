@@ -1,5 +1,6 @@
 import UIKit
 import MatchedTransition
+import GeometryKit
 
 public struct AnyInteraction {
 
@@ -350,7 +351,7 @@ extension AnyInteraction {
 
                   let containerView = _trackingContext.transitionContext.contentView
 
-                  var targetRect = rectThatAspectFit(
+                  var targetRect = Geometry.rectThatAspectFit(
                     aspectRatio: view.bounds.size,
                     boundingRect: destinationView._matchedTransition_relativeFrame(
                       in: containerView,

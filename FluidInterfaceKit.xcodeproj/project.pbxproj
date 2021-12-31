@@ -10,12 +10,7 @@
 		20922E01E3BAA69D444AA7D3 /* Pods_FluidInterfaceKit_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */; };
 		4B037C57277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */; };
 		4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */; };
-		4B1561C3277371BD00C4DE07 /* WrapperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */; };
 		4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */; };
-		4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C627737F4100C4DE07 /* TransitionViewController.swift */; };
-		4B1561C92773A99800C4DE07 /* Transition+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C82773A99800C4DE07 /* Transition+Presets.swift */; };
-		4B1561CD27744D4800C4DE07 /* Debugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561CC27744D4800C4DE07 /* Debugging.swift */; };
-		4B62C491277F0D5D00AD3105 /* BatchApplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B62C490277F0D5D00AD3105 /* BatchApplier.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
 		4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B082764F77E0003FFB6 /* AppDelegate.swift */; };
 		4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B0C2764F77E0003FFB6 /* ViewController.swift */; };
@@ -25,50 +20,27 @@
 		4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B1D2764F7B30003FFB6 /* StorybookUI */; };
 		4B959B202764F8200003FFB6 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B1F2764F8200003FFB6 /* Book.swift */; };
 		4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B212764F8300003FFB6 /* RootContainerViewController.swift */; };
-		4B959B242764F8470003FFB6 /* FluidInterfaceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */; };
-		4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */; };
-		4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B2E2764FFCD0003FFB6 /* Logger.swift */; };
 		4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B30276503C30003FFB6 /* DemoViewController.swift */; };
 		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
 		4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B31B277077EA00EE1028 /* MockKit */; };
 		4BB7B9CF277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */; };
 		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
-		4BBDECD52766286400982229 /* InteractiveDismissalTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */; };
-		4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD62766291400982229 /* ScrollView+Handling.swift */; };
-		4BBDECD92766350E00982229 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD82766350E00982229 /* Transition.swift */; };
 		4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECDF276648FD00982229 /* CompositionKit */; };
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
 		4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */; };
-		4BCD46512774E21900B060C6 /* AnyInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCD46502774E21900B060C6 /* AnyInteraction.swift */; };
 		4BCD46532775BF8600B060C6 /* AnimatorPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */; };
 		4BDDF266277F3AAC00636B00 /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
+		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
 		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
-		4BFBA24B2776393700E48587 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFBA24A2776393700E48587 /* Utils.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		4B959B262764F8470003FFB6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4B959AEF2764F7180003FFB6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4B959AF72764F7180003FFB6;
-			remoteInfo = FluidUIKit;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
-		4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperViewController.swift; sourceTree = "<group>"; };
 		4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPresentationViewController.swift; sourceTree = "<group>"; };
-		4B1561C627737F4100C4DE07 /* TransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionViewController.swift; sourceTree = "<group>"; };
-		4B1561C82773A99800C4DE07 /* Transition+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Presets.swift"; sourceTree = "<group>"; };
-		4B1561CC27744D4800C4DE07 /* Debugging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debugging.swift; sourceTree = "<group>"; };
-		4B62C490277F0D5D00AD3105 /* BatchApplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchApplier.swift; sourceTree = "<group>"; };
-		4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluidInterfaceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B082764F77E0003FFB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B959B0C2764F77E0003FFB6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -76,23 +48,18 @@
 		4B959B142764F77F0003FFB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B959B1F2764F8200003FFB6 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		4B959B212764F8300003FFB6 /* RootContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootContainerViewController.swift; sourceTree = "<group>"; };
-		4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZStackViewController.swift; sourceTree = "<group>"; };
-		4B959B2E2764FFCD0003FFB6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
-		4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalTransitionViewController.swift; sourceTree = "<group>"; };
-		4BBDECD62766291400982229 /* ScrollView+Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Handling.swift"; sourceTree = "<group>"; };
-		4BBDECD82766350E00982229 /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		4BBDECDD276646E300982229 /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = submodules/CompositionKit; sourceTree = "<group>"; };
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
 		4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlCenterViewController.swift; sourceTree = "<group>"; };
-		4BCD46502774E21900B060C6 /* AnyInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyInteraction.swift; sourceTree = "<group>"; };
 		4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoListViewController.swift; sourceTree = "<group>"; };
 		4BDDF267277F509C00636B00 /* MondrianLayout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MondrianLayout; path = submodules/MondrianLayout; sourceTree = "<group>"; };
+		4BDDF26A277F548900636B00 /* GeometryKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GeometryKit; path = submodules/GeometryKit; sourceTree = "<group>"; };
+		4BDDF26B277F550A00636B00 /* FluidInterfaceKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FluidInterfaceKit; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
-		4BFBA24A2776393700E48587 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluidInterfaceKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		CB1DA1EA46A5FB2FB5D1BF72 /* Pods-FluidInterfaceKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
@@ -100,21 +67,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4B959AF52764F7180003FFB6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4B959B032764F77E0003FFB6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */,
 				4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */,
+				4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */,
 				4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */,
-				4B959B242764F8470003FFB6 /* FluidInterfaceKit.framework in Frameworks */,
 				4BB5B319277077CC00EE1028 /* Ne in Frameworks */,
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
 				4B658D0F276A59F700A17878 /* Wrap in Frameworks */,
@@ -131,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				4BBDECDC276646E300982229 /* Packages */,
-				4B959AFA2764F7180003FFB6 /* FluidInterfaceKit */,
 				4B959B072764F77E0003FFB6 /* FluidInterfaceKit-Demo */,
 				4B959AF92764F7180003FFB6 /* Products */,
 				4B959B232764F8470003FFB6 /* Frameworks */,
@@ -142,29 +101,9 @@
 		4B959AF92764F7180003FFB6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */,
 				4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		4B959AFA2764F7180003FFB6 /* FluidInterfaceKit */ = {
-			isa = PBXGroup;
-			children = (
-				4BBDECD82766350E00982229 /* Transition.swift */,
-				4B1561C82773A99800C4DE07 /* Transition+Presets.swift */,
-				4B959B2C2764F8950003FFB6 /* ZStackViewController.swift */,
-				4BBDECD42766286400982229 /* InteractiveDismissalTransitionViewController.swift */,
-				4BCD46502774E21900B060C6 /* AnyInteraction.swift */,
-				4B1561C2277371BD00C4DE07 /* WrapperViewController.swift */,
-				4B1561C627737F4100C4DE07 /* TransitionViewController.swift */,
-				4BBDECD62766291400982229 /* ScrollView+Handling.swift */,
-				4B959B2E2764FFCD0003FFB6 /* Logger.swift */,
-				4B1561CC27744D4800C4DE07 /* Debugging.swift */,
-				4BFBA24A2776393700E48587 /* Utils.swift */,
-				4B62C490277F0D5D00AD3105 /* BatchApplier.swift */,
-			);
-			path = FluidInterfaceKit;
 			sourceTree = "<group>";
 		};
 		4B959B072764F77E0003FFB6 /* FluidInterfaceKit-Demo */ = {
@@ -205,6 +144,8 @@
 				4BBDECDE276646EE00982229 /* MatchedTransition */,
 				4B1561B92773659200C4DE07 /* ViewRepresentationKit */,
 				4BDDF267277F509C00636B00 /* MondrianLayout */,
+				4BDDF26A277F548900636B00 /* GeometryKit */,
+				4BDDF26B277F550A00636B00 /* FluidInterfaceKit */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -222,39 +163,7 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		4B959AF32764F7180003FFB6 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		4B959AF72764F7180003FFB6 /* FluidInterfaceKit */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4B959AFF2764F7180003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit" */;
-			buildPhases = (
-				4B959AF32764F7180003FFB6 /* Headers */,
-				4B959AF42764F7180003FFB6 /* Sources */,
-				4B959AF52764F7180003FFB6 /* Frameworks */,
-				4B959AF62764F7180003FFB6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4B1561BF277365D800C4DE07 /* PBXTargetDependency */,
-				4B1561C1277365D800C4DE07 /* PBXTargetDependency */,
-			);
-			name = FluidInterfaceKit;
-			packageProductDependencies = (
-			);
-			productName = FluidUIKit;
-			productReference = 4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		4B959B052764F77E0003FFB6 /* FluidInterfaceKit-Demo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B959B172764F77F0003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit-Demo" */;
@@ -268,7 +177,14 @@
 			buildRules = (
 			);
 			dependencies = (
-				4B959B272764F8470003FFB6 /* PBXTargetDependency */,
+				4BDDF26F277F554700636B00 /* PBXTargetDependency */,
+				4BDDF271277F554700636B00 /* PBXTargetDependency */,
+				4BDDF273277F554700636B00 /* PBXTargetDependency */,
+				4BDDF275277F554700636B00 /* PBXTargetDependency */,
+				4BDDF277277F554700636B00 /* PBXTargetDependency */,
+				4BDDF279277F554700636B00 /* PBXTargetDependency */,
+				4BDDF27B277F554700636B00 /* PBXTargetDependency */,
+				4BDDF27D277F554700636B00 /* PBXTargetDependency */,
 			);
 			name = "FluidInterfaceKit-Demo";
 			packageProductDependencies = (
@@ -280,6 +196,7 @@
 				4BB5B318277077CC00EE1028 /* Ne */,
 				4BB5B31B277077EA00EE1028 /* MockKit */,
 				4BDDF268277F50C100636B00 /* MondrianLayout */,
+				4BDDF26C277F553200636B00 /* FluidInterfaceKit */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -295,10 +212,6 @@
 				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
-					4B959AF72764F7180003FFB6 = {
-						CreatedOnToolsVersion = 13.2;
-						LastSwiftMigration = 1320;
-					};
 					4B959B052764F77E0003FFB6 = {
 						CreatedOnToolsVersion = 13.2;
 					};
@@ -323,20 +236,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4B959AF72764F7180003FFB6 /* FluidInterfaceKit */,
 				4B959B052764F77E0003FFB6 /* FluidInterfaceKit-Demo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4B959AF62764F7180003FFB6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4B959B042764F77E0003FFB6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -391,25 +296,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4B959AF42764F7180003FFB6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4BBDECD52766286400982229 /* InteractiveDismissalTransitionViewController.swift in Sources */,
-				4B1561C3277371BD00C4DE07 /* WrapperViewController.swift in Sources */,
-				4B1561CD27744D4800C4DE07 /* Debugging.swift in Sources */,
-				4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */,
-				4B62C491277F0D5D00AD3105 /* BatchApplier.swift in Sources */,
-				4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */,
-				4BBDECD92766350E00982229 /* Transition.swift in Sources */,
-				4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */,
-				4BFBA24B2776393700E48587 /* Utils.swift in Sources */,
-				4B959B2F2764FFCD0003FFB6 /* Logger.swift in Sources */,
-				4B1561C92773A99800C4DE07 /* Transition+Presets.swift in Sources */,
-				4BCD46512774E21900B060C6 /* AnyInteraction.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4B959B022764F77E0003FFB6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -434,18 +320,37 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4B1561BF277365D800C4DE07 /* PBXTargetDependency */ = {
+		4BDDF26F277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4B1561BE277365D800C4DE07 /* MatchedTransition */;
+			productRef = 4BDDF26E277F554700636B00 /* CompositionKit */;
 		};
-		4B1561C1277365D800C4DE07 /* PBXTargetDependency */ = {
+		4BDDF271277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4B1561C0277365D800C4DE07 /* ViewRepresentationKit */;
+			productRef = 4BDDF270277F554700636B00 /* MatchedTransition */;
 		};
-		4B959B272764F8470003FFB6 /* PBXTargetDependency */ = {
+		4BDDF273277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4B959AF72764F7180003FFB6 /* FluidInterfaceKit */;
-			targetProxy = 4B959B262764F8470003FFB6 /* PBXContainerItemProxy */;
+			productRef = 4BDDF272277F554700636B00 /* ViewRepresentationKit */;
+		};
+		4BDDF275277F554700636B00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4BDDF274277F554700636B00 /* MondrianLayout */;
+		};
+		4BDDF277277F554700636B00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4BDDF276277F554700636B00 /* GeometryKit */;
+		};
+		4BDDF279277F554700636B00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4BDDF278277F554700636B00 /* FluidInterfaceKit */;
+		};
+		4BDDF27B277F554700636B00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4BDDF27A277F554700636B00 /* StorybookKit */;
+		};
+		4BDDF27D277F554700636B00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4BDDF27C277F554700636B00 /* StorybookUI */;
 		};
 /* End PBXTargetDependency section */
 
@@ -583,63 +488,6 @@
 			};
 			name = Release;
 		};
-		4B959B002764F7180003FFB6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.muukii.FluidInterfaceKit;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		4B959B012764F7180003FFB6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.muukii.FluidInterfaceKit;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		4B959B182764F77F0003FFB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */;
@@ -708,15 +556,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4B959AFF2764F7180003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4B959B002764F7180003FFB6 /* Debug */,
-				4B959B012764F7180003FFB6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4B959B172764F77F0003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit-Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -764,14 +603,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4B1561BE277365D800C4DE07 /* MatchedTransition */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MatchedTransition;
-		};
-		4B1561C0277365D800C4DE07 /* ViewRepresentationKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ViewRepresentationKit;
-		};
 		4B658D0E276A59F700A17878 /* Wrap */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */;
@@ -808,6 +639,44 @@
 		4BDDF268277F50C100636B00 /* MondrianLayout */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MondrianLayout;
+		};
+		4BDDF26C277F553200636B00 /* FluidInterfaceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluidInterfaceKit;
+		};
+		4BDDF26E277F554700636B00 /* CompositionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CompositionKit;
+		};
+		4BDDF270277F554700636B00 /* MatchedTransition */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MatchedTransition;
+		};
+		4BDDF272277F554700636B00 /* ViewRepresentationKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ViewRepresentationKit;
+		};
+		4BDDF274277F554700636B00 /* MondrianLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MondrianLayout;
+		};
+		4BDDF276277F554700636B00 /* GeometryKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GeometryKit;
+		};
+		4BDDF278277F554700636B00 /* FluidInterfaceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluidInterfaceKit;
+		};
+		4BDDF27A277F554700636B00 /* StorybookKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
+			productName = StorybookKit;
+		};
+		4BDDF27C277F554700636B00 /* StorybookUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
+			productName = StorybookUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

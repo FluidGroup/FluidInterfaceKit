@@ -240,34 +240,6 @@ func makeTranslation(from: CGRect, to: CGRect) -> (center: CGPoint, scale: CGSiz
 
 }
 
-/// From Brightroom
-func sizeThatAspectFit(aspectRatio: CGSize, boundingSize: CGSize) -> CGSize {
-  let widthRatio = boundingSize.width / aspectRatio.width
-  let heightRatio = boundingSize.height / aspectRatio.height
-  var size = boundingSize
-
-  if widthRatio < heightRatio {
-    size.height = boundingSize.width / aspectRatio.width * aspectRatio.height
-  } else if heightRatio < widthRatio {
-    size.width = boundingSize.height / aspectRatio.height * aspectRatio.width
-  }
-
-  return CGSize(
-    width: ceil(size.width),
-    height: ceil(size.height)
-  )
-}
-
-/// From Brightroom
-/// Returns a rectangle that fits inside provided bounding rectangle with respecting aspect ratio.
-func rectThatAspectFit(aspectRatio: CGSize, boundingRect: CGRect) -> CGRect {
-  let size = sizeThatAspectFit(aspectRatio: aspectRatio, boundingSize: boundingRect.size)
-  var origin = boundingRect.origin
-  origin.x += (boundingRect.size.width - size.width) / 2.0
-  origin.y += (boundingRect.size.height - size.height) / 2.0
-  return CGRect(origin: origin, size: size)
-}
-
 extension CGRect {
 
   var center: CGPoint {

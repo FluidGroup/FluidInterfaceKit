@@ -1,4 +1,5 @@
 import UIKit
+import GeometryKit
 
 extension AnyAddingTransition {
 
@@ -56,7 +57,7 @@ extension AnyAddingTransition {
 
         let frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
 
-        let fromFrame = rectThatAspectFit(
+        let fromFrame = Geometry.rectThatAspectFit(
           aspectRatio: context.contentView.bounds.size,
           boundingRect: frame
         )

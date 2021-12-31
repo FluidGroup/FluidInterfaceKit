@@ -2,20 +2,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "FluidInterfaceKit",
-    platforms: [
-        .iOS(.v12),
-    ],
-    products: [
-        .library(name: "FluidInterfaceKit", targets: ["FluidInterfaceKit"]),
-    ],
-    dependencies: [],
-    targets: [
-        .target(
-            name: "FluidInterfaceKit",
-            dependencies: [],
-            path: "FluidInterfaceKit"
-        )
-    ]
+  name: "FluidInterfaceKit",
+  platforms: [
+    .iOS(.v12),
+  ],
+  products: [
+    .library(name: "FluidInterfaceKit", targets: ["FluidInterfaceKit"]),
+  ],
+  dependencies: [
+    .package(name: "MatchedTransition", url: "https://github.com/muukii/MatchedTransition", .upToNextMajor(from: "1.1.0")),
+    .package(name: "GeometryKit", url: "https://github.com/muukii/GeometryKit", .upToNextMajor(from: "1.0.0"))
+  ],
+  targets: [
+    .target(
+      name: "FluidInterfaceKit",
+      dependencies: ["MatchedTransition", "GeometryKit"],
+      path: "FluidInterfaceKit"
+    )
+  ]
 )
 
