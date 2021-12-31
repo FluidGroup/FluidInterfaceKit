@@ -38,6 +38,7 @@ open class TransitionViewController: WrapperViewController {
     modalPresentationStyle = .overCurrentContext
   }
 
+  /// From ``ZStackViewController``
   func startAddingTransition(context: AddingTransitionContext) {
 
     guard let addingTransition = transition.adding else {
@@ -50,6 +51,7 @@ open class TransitionViewController: WrapperViewController {
 
   }
 
+  /// From ``ZStackViewController``
   func startRemovingTransition(context: RemovingTransitionContext) {
 
     guard let removingTransition = transition.removing else {
