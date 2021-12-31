@@ -106,6 +106,8 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
                     interaction: .horizontalDragging(
                       backTo: cell,
                       interpolationView: interpolationView,
+                      hidingViews: [cell],
+                      start: {},
                       dismiss: { viewController in
                         viewController.zStackViewControllerContext?.removeSelf(transition: nil)
                       }

@@ -339,6 +339,9 @@ public struct ZStackViewControllerContext {
   public private(set) weak var zStackViewController: ZStackViewController?
   public private(set) weak var targetViewController: ViewControllerZStackContentType?
 
+  /**
+   Adds view controller to parent container if it presents.
+   */
   public func addContentViewController(
     _ viewController: ViewControllerZStackContentType,
     transition: AnyAddingTransition?
@@ -357,6 +360,9 @@ public struct ZStackViewControllerContext {
     zStackViewController?.removeViewController(targetViewController, transition: transition)
   }
 
+  /**
+   Starts transition for removing if parent container presents.
+   */
   public func startRemoving() -> RemovingTransitionContext? {
     guard let targetViewController = targetViewController else {
       return nil

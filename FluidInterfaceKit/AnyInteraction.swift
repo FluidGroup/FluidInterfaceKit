@@ -2,6 +2,7 @@ import UIKit
 
 extension AnyInteraction {
 
+  // FIXME: note completed
   public static func leftToRight(
     dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
   ) -> Self {
@@ -182,9 +183,14 @@ extension AnyInteraction {
     )
   }
 
+  /**
+   Instagram Threads like transition
+   */
   public static func horizontalDragging(
     backTo destinationView: UIView,
     interpolationView: UIView,
+    hidingViews: [UIView],
+    start: @escaping () -> Void,
     dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
   ) -> Self {
 
@@ -195,6 +201,7 @@ extension AnyInteraction {
 
     }
 
+    /// a shared state
     var trackingContext: TrackingContext?
 
     return .init(
@@ -212,7 +219,7 @@ extension AnyInteraction {
 
               if trackingContext == nil {
 
-                if abs(gesture.translation(in: view).y) > 10 {
+                guard abs(gesture.translation(in: view).y) <= 10 else {
                   gesture.state = .failed
                   return
                 }
@@ -229,10 +236,19 @@ extension AnyInteraction {
 
                 view.layer.transform = currentTransform
 
+                let transitionContext = context.viewController.zStackViewControllerContext!
+                  .startRemoving()!
+
+                transitionContext.addEventHandler { event in
+                  hidingViews.forEach {
+                    $0.isHidden = false
+                  }
+                }
+
+                // FIXME: Remove depending on ZStackViewController.
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
-                  transitionContext: context.viewController.zStackViewControllerContext!
-                    .startRemoving()!
+                  transitionContext: transitionContext
                 )
 
                 if let scrollView = gesture.trackingScrollView {
@@ -261,26 +277,31 @@ extension AnyInteraction {
 
             case .changed:
 
-              if let _ = trackingContext {
-
-                // TODO: Fix glitches that when it starts, view shifts to the wrong point.
-
-                let translation = gesture
-                  .translation(in: gesture.view)
-                  .applying(gesture.view!.transform)
-
-                gesture.view!.layer.position.x += translation.x
-                gesture.view!.layer.position.y += translation.y
-
-                gesture.view!.layer.cornerRadius = 24
-                if #available(iOS 13.0, *) {
-                  gesture.view!.layer.cornerCurve = .continuous
-                } else {
-                  // Fallback on earlier versions
-                }
-
-                gesture.setTranslation(.zero, in: gesture.view)
+              guard trackingContext != nil else {
+                return
               }
+
+              hidingViews.forEach {
+                $0.isHidden = true
+              }
+
+              // TODO: Fix glitches that when it starts, view shifts to the wrong point.
+
+              let translation = gesture
+                .translation(in: gesture.view)
+                .applying(gesture.view!.transform)
+
+              gesture.view!.layer.position.x += translation.x
+              gesture.view!.layer.position.y += translation.y
+
+              gesture.view!.layer.cornerRadius = 24
+              if #available(iOS 13.0, *) {
+                gesture.view!.layer.cornerCurve = .continuous
+              } else {
+                // Fallback on earlier versions
+              }
+
+              gesture.setTranslation(.zero, in: gesture.view)
 
             case .ended:
 
