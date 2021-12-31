@@ -222,9 +222,7 @@ extension AnyInteraction {
   public static func horizontalDragging(
     backTo destinationView: UIView?,
     interpolationView: UIView?,
-    hidingViews: [UIView],
-    start: @escaping () -> Void,
-    dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
+    hidingViews: [UIView]
   ) -> Self {
 
     struct TrackingContext {

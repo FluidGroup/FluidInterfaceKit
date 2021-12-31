@@ -28,9 +28,8 @@ final class DemoPresentationViewController: UIViewController {
         interaction: .horizontalDragging(
           backTo: nil,
           interpolationView: nil,
-          hidingViews: [], start: {}, dismiss: { _ in
-            
-          })
+          hidingViews: []
+        )
       )
 
       controller.modalPresentationStyle = .overCurrentContext
