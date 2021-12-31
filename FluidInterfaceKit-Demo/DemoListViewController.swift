@@ -1,10 +1,8 @@
-
-import FluidInterfaceKit
-import UIKit
 import CompositionKit
-import MondrianLayout
 import FluidInterfaceKit
+import MondrianLayout
 import StorybookKit
+import UIKit
 
 final class DemoListViewController: ZStackViewController {
 
@@ -46,6 +44,7 @@ final class DemoListViewController: ZStackViewController {
       VStackBlock(alignment: .fill) {
         listCells
       }
+      .padding(.horizontal, 24)
 
     }
 
@@ -53,7 +52,7 @@ final class DemoListViewController: ZStackViewController {
   }
 }
 
-fileprivate final class DetailViewController: UIViewController, ViewControllerZStackContentType {
+private final class DetailViewController: UIViewController, ViewControllerZStackContentType {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -75,13 +74,13 @@ fileprivate final class DetailViewController: UIViewController, ViewControllerZS
       }
       .padding(.horizontal, 24)
       .respectSafeArea(edges: .all)
-      
+
     }
 
   }
 }
 
-fileprivate func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
+private func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
 
   let nameLabel = UILabel()&>.do {
     $0.text = "Muukii"
@@ -97,7 +96,7 @@ fileprivate func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
 
   let imageView = UIView()&>.do {
     $0
-//    $0.backgroundColor = color
+    //    $0.backgroundColor = color
   }
 
   let backgroundView = UIView()
@@ -126,7 +125,7 @@ fileprivate func makeListCell(onTap: @escaping (UIView) -> Void) -> UIView {
   }
 
   let cell = InteractiveView(
-    animation: .colorOverlay(),
+    animation: .shrink(cornerRadius: 8, insets: .zero, overlayColor: .init(white: 0, alpha: 0.1)),
     haptics: .impactOnTouchUpInside(style: .light),
     contentView: body
   )

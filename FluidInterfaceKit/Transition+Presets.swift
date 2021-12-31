@@ -1,5 +1,6 @@
 import UIKit
 import GeometryKit
+import ResultBuilderKit
 
 extension AnyAddingTransition {
 
@@ -57,12 +58,13 @@ extension AnyAddingTransition {
 
         let frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
 
-        let fromFrame = Geometry.rectThatAspectFit(
-          aspectRatio: context.contentView.bounds.size,
-          boundingRect: frame
+        let target = makeTranslation(
+          from: context.contentView.bounds,
+          to: Geometry.rectThatAspectFit(
+            aspectRatio: context.contentView.bounds.size,
+            boundingRect: frame
+          )
         )
-
-        let target = makeTranslation(from: context.contentView.bounds, to: fromFrame)
 
         targetView.transform = .init(scaleX: target.scale.width, y: target.scale.height)
         targetView.center = target.center
@@ -123,7 +125,11 @@ extension AnyAddingTransition {
       )
 
       Fluid.startPropertyAnimators(
-        translationAnimators + snapshotAnimators + [styleAnimator],
+        buildArray {
+          translationAnimators
+          snapshotAnimators
+          styleAnimator
+        },
         completion: {
           context.notifyCompleted()
         }
@@ -133,7 +139,7 @@ extension AnyAddingTransition {
 
   }
 
-  public static func expanding(from view: UIView) -> Self {
+  public static func expanding(from entrypointView: UIView) -> Self {
 
     return .init { (context: AddingTransitionContext) in
 
@@ -142,23 +148,51 @@ extension AnyAddingTransition {
 
       context.toViewController.view.mask = maskView
 
-      let initialMaskFrame = view.convert(view.bounds, to: context.contentView)
-
-      maskView.frame = initialMaskFrame
+      maskView.frame = entrypointView.bounds
 
       context.addEventHandler { _ in
         context.toViewController.view.mask = nil
       }
 
+      let frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
+
+      let size = Geometry.sizeThatAspectFill(
+        aspectRatio: context.toViewController.view.bounds.size,
+        minimumSize: entrypointView.bounds.size
+      )
+
+      let fromFrame = CGRect(origin: frame.origin, size: size)
+
+      let target = makeTranslation(
+        from: context.contentView.bounds,
+        to: fromFrame
+      )
+
+      context.toViewController.view.transform = .init(scaleX: target.scale.width, y: target.scale.height)
+      context.toViewController.view.center = target.center
+
+      let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+        view: context.toViewController.view,
+        duration: 0.6,
+        position: .center(of: context.toViewController.view.bounds),
+        scale: .init(width: 1, height: 1),
+        velocityForTranslation: .zero,
+        velocityForScaling: 0
+      )
+
       let animator = UIViewPropertyAnimator(duration: 0.8, dampingRatio: 1) {
         maskView.frame = context.toViewController.view.bounds
       }
 
-      animator.addCompletion { _ in
-        context.notifyCompleted()
-      }
-
-      animator.startAnimation()
+      Fluid.startPropertyAnimators(
+        buildArray {
+          translationAnimators
+          animator
+        },
+        completion: {
+          context.notifyCompleted()
+        }
+      )
 
     }
   }
