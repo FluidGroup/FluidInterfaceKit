@@ -21,7 +21,6 @@
 
 import Foundation
 import UIKit
-import MatchedTransition
 
 open class InteractiveDismissalTransitionViewController: TransitionViewController, UIGestureRecognizerDelegate, ViewControllerZStackContentType {
 
@@ -158,37 +157,6 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
     }
 
     return true
-  }
-
-}
-
-public struct AnyInteraction {
-
-  public struct Context {
-    public let viewController: InteractiveDismissalTransitionViewController
-  }
-
-  public typealias Handler<Gesture> = (Gesture, Context) -> Void
-
-  public enum GestureHandler {
-    case leftEdge(handler: Handler<UIScreenEdgePanGestureRecognizer>)
-    case screen(handler: Handler<_PanGestureRecognizer>)
-  }
-
-  public let handlers: [GestureHandler]
-
-  ///
-  /// - Parameter handlers: Don't add duplicated handlers
-  public init(
-    handlers: [GestureHandler]
-  ) {
-    self.handlers = handlers
-  }
-
-  public init(
-    handlers: GestureHandler...
-  ) {
-    self.handlers = handlers
   }
 
 }

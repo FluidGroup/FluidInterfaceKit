@@ -1,4 +1,37 @@
 import UIKit
+import MatchedTransition
+
+public struct AnyInteraction {
+
+  public struct Context {
+    public let viewController: InteractiveDismissalTransitionViewController
+  }
+
+  public typealias Handler<Gesture> = (Gesture, Context) -> Void
+
+  public enum GestureHandler {
+    case leftEdge(handler: Handler<UIScreenEdgePanGestureRecognizer>)
+    case screen(handler: Handler<_PanGestureRecognizer>)
+  }
+
+  public let handlers: [GestureHandler]
+
+  ///
+  /// - Parameter handlers: Don't add duplicated handlers
+  public init(
+    handlers: [GestureHandler]
+  ) {
+    self.handlers = handlers
+  }
+
+  public init(
+    handlers: GestureHandler...
+  ) {
+    self.handlers = handlers
+  }
+
+}
+
 
 extension AnyInteraction {
 
@@ -314,8 +347,6 @@ extension AnyInteraction {
 
               if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
 
-
-
                 // FIXME: Remove dependency to ZStackViewController
                 if let destinationView = destinationView {
 
@@ -398,9 +429,7 @@ extension AnyInteraction {
                   }
 
                   Fluid.startPropertyAnimators(animators) {
-                    // FIXME:
                     _trackingContext.transitionContext.notifyCompleted()
-                    //                      dismiss(context.viewController)
                   }
 
 
@@ -421,9 +450,7 @@ extension AnyInteraction {
                   }
 
                   animator.addCompletion { _ in
-                    context.viewController.zStackViewControllerContext?.removeSelf(transition: nil)
-                    view.transform = .identity
-                    view.alpha = 1
+                    _trackingContext.transitionContext.notifyCompleted()
                   }
 
                   animator.startAnimation()

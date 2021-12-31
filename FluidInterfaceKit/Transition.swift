@@ -267,7 +267,6 @@ func rectThatAspectFit(aspectRatio: CGSize, boundingRect: CGRect) -> CGRect {
 }
 
 extension CGRect {
-  // MARK: Public
 
   var center: CGPoint {
     return CGPoint(x: self.midX, y: self.midY)
