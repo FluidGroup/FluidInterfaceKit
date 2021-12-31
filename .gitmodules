@@ -7,3 +7,9 @@
 [submodule "submodules/ViewRepresentationKit"]
 	path = submodules/ViewRepresentationKit
 	url = git@github.com:muukii/ViewRepresentationKit.git
+[submodule "submodules/MondrianLayout"]
+	path = submodules/MondrianLayout
+	url = git@github.com:muukii/MondrianLayout.git
+[submodule "submodules/GeometryKit"]
+	path = submodules/GeometryKit
+	url = git@github.com:muukii/GeometryKit.git

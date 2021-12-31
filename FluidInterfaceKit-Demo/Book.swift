@@ -26,6 +26,11 @@ let book = Book(title: "MyBook") {
     controller.modalPresentationStyle = .fullScreen
     return controller
   }
+
+  BookPush(title: "List") {
+    DemoListViewController()
+  }
+
   BookPush(title: "ControlCenter") {
     DemoControlCenterViewController()
   }

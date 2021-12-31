@@ -52,10 +52,11 @@ public final class AddingTransitionContext: TransitionContext {
   public private(set) var isCompleted: Bool = false
   public let contentView: UIView
   public let fromViewController: UIViewController?
+
+  /// A view controller to display
+  /// No needs to add to content view, it's been done.
   public let toViewController: UIViewController
   private let onCompleted: (AddingTransitionContext) -> Void
-
-
 
   init(
     contentView: UIView,
@@ -258,6 +259,7 @@ func sizeThatAspectFit(aspectRatio: CGSize, boundingSize: CGSize) -> CGSize {
 }
 
 /// From Brightroom
+/// Returns a rectangle that fits inside provided bounding rectangle with respecting aspect ratio.
 func rectThatAspectFit(aspectRatio: CGSize, boundingRect: CGRect) -> CGRect {
   let size = sizeThatAspectFit(aspectRatio: aspectRatio, boundingSize: boundingRect.size)
   var origin = boundingRect.origin

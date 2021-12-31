@@ -34,7 +34,7 @@ extension AnyAddingTransition {
   }
 
   public static func popupContextual(
-    from coordinateSpace: UIView,
+    from entrypointView: UIView,
     interpolationView: UIView,
     hidingViews: [UIView]
   ) -> Self {
@@ -54,7 +54,7 @@ extension AnyAddingTransition {
 
       if !hasAnimations {
 
-        let frame = coordinateSpace.convert(coordinateSpace.bounds, to: context.contentView)
+        let frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
 
         let fromFrame = rectThatAspectFit(
           aspectRatio: context.contentView.bounds.size,
@@ -132,6 +132,35 @@ extension AnyAddingTransition {
 
   }
 
+  public static func expanding(from view: UIView) -> Self {
+
+    return .init { (context: AddingTransitionContext) in
+
+      let maskView = UIView()
+      maskView.backgroundColor = .black
+
+      context.toViewController.view.mask = maskView
+
+      let initialMaskFrame = view.convert(view.bounds, to: context.contentView)
+
+      maskView.frame = initialMaskFrame
+
+      context.addEventHandler { _ in
+        context.toViewController.view.mask = nil
+      }
+
+      let animator = UIViewPropertyAnimator(duration: 0.8, dampingRatio: 1) {
+        maskView.frame = context.toViewController.view.bounds
+      }
+
+      animator.addCompletion { _ in
+        context.notifyCompleted()
+      }
+
+      animator.startAnimation()
+
+    }
+  }
 }
 
 extension AnyRemovingTransition {
