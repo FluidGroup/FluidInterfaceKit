@@ -37,7 +37,7 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
 
   private var registeredGestures: [UIGestureRecognizer] = []
 
-  private var interaction: AnyInteraction?
+  private var interactionToRemove: AnyRemovingInteraction?
 
   // MARK: - Initializers
 
@@ -50,19 +50,19 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
   public init(
     bodyViewController: UIViewController,
     transition: TransitionPair,
-    interaction: AnyInteraction? = nil
+    interactionToRemove: AnyRemovingInteraction? = nil
   ) {
-    self.interaction = interaction
+    self.interactionToRemove = interactionToRemove
     super.init(bodyViewController: bodyViewController, transition: transition)
   }
 
   public init(
     view: UIView,
     transition: TransitionPair,
-    interaction: AnyInteraction? = nil
+    interaction: AnyRemovingInteraction? = nil
   ) {
 
-    self.interaction = interaction
+    self.interactionToRemove = interaction
     super.init(view: view, transition: transition)
   }
 
@@ -81,8 +81,8 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
     setupGestures()  
   }
 
-  public func setInteraction(_ newInteraction: AnyInteraction) {
-    interaction = newInteraction
+  public func setInteraction(_ newInteraction: AnyRemovingInteraction) {
+    interactionToRemove = newInteraction
     setupGestures()
   }
 
@@ -93,7 +93,7 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
     }
     registeredGestures = []
 
-    guard let interaction = interaction else {
+    guard let interaction = interactionToRemove else {
       return
     }
 
@@ -120,7 +120,7 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
   @objc
   private func handleEdgeLeftPanGesture(_ gesture: _EdgePanGestureRecognizer) {
 
-    guard let interaction = interaction else {
+    guard let interaction = interactionToRemove else {
       return
     }
 
@@ -137,7 +137,7 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
   @objc
   private func handlePanGesture(_ gesture: _PanGestureRecognizer) {
 
-    guard let interaction = interaction else {
+    guard let interaction = interactionToRemove else {
       return
     }
 

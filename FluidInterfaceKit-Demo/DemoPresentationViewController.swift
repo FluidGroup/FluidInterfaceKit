@@ -25,7 +25,7 @@ final class DemoPresentationViewController: UIViewController {
       let controller = InteractiveDismissalTransitionViewController(
         bodyViewController: PlaceholderViewController(),
         transition: .init(adding: .popup(), removing: nil),
-        interaction: .horizontalDragging(
+        interactionToRemove: .horizontalDragging(
           backTo: nil,
           interpolationView: nil,
           hidingViews: []

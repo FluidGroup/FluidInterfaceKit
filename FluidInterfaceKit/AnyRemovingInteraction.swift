@@ -2,7 +2,7 @@ import UIKit
 import MatchedTransition
 import GeometryKit
 
-public struct AnyInteraction {
+public struct AnyRemovingInteraction {
 
   public struct Context {
     public let viewController: InteractiveDismissalTransitionViewController
@@ -34,7 +34,7 @@ public struct AnyInteraction {
 }
 
 
-extension AnyInteraction {
+extension AnyRemovingInteraction {
 
   // FIXME: note completed
   public static func leftToRight(

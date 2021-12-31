@@ -109,7 +109,7 @@ final class ContentViewController: UIViewController, ViewControllerZStackContent
           InteractiveDismissalTransitionViewController(
             bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
             transition: .noTransition,
-            interaction: nil
+            interactionToRemove: nil
           ),
           transition: nil
         )

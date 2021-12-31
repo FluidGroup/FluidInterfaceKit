@@ -43,7 +43,7 @@ final class DemoListViewController: ZStackViewController {
               adding: .expanding(from: view),
               removing: nil
             ),
-            interaction: .horizontalDragging(backTo: nil, interpolationView: nil, hidingViews: [])
+            interactionToRemove: .horizontalDragging(backTo: nil, interpolationView: nil, hidingViews: [])
           )
 
           if usesPresentation {
