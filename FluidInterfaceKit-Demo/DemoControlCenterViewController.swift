@@ -13,4 +13,10 @@ import StorybookKit
 
 final class DemoControlCenterViewController: ZStackViewController {
 
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    view.backgroundColor = .white
+  }
+
 }

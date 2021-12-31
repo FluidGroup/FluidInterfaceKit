@@ -42,14 +42,10 @@ extension AnyAddingTransition {
     return .init { (context: AddingTransitionContext) in
 
       // FIXME: tmp impl
-      hidingViews.forEach {
-        $0.isHidden = true
-      }
-
+      BatchApplier(hidingViews).setInvisible(true)
+      
       context.addEventHandler { event in
-        hidingViews.forEach {
-          $0.isHidden = false
-        }
+        BatchApplier(hidingViews).setInvisible(false)
       }
 
       let targetView = context.toViewController.view!

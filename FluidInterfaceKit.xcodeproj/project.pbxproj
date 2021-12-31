@@ -15,6 +15,7 @@
 		4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C627737F4100C4DE07 /* TransitionViewController.swift */; };
 		4B1561C92773A99800C4DE07 /* Transition+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C82773A99800C4DE07 /* Transition+Presets.swift */; };
 		4B1561CD27744D4800C4DE07 /* Debugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561CC27744D4800C4DE07 /* Debugging.swift */; };
+		4B62C491277F0D5D00AD3105 /* BatchApplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B62C490277F0D5D00AD3105 /* BatchApplier.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
 		4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B082764F77E0003FFB6 /* AppDelegate.swift */; };
 		4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B0C2764F77E0003FFB6 /* ViewController.swift */; };
@@ -65,6 +66,7 @@
 		4B1561C627737F4100C4DE07 /* TransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionViewController.swift; sourceTree = "<group>"; };
 		4B1561C82773A99800C4DE07 /* Transition+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Presets.swift"; sourceTree = "<group>"; };
 		4B1561CC27744D4800C4DE07 /* Debugging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debugging.swift; sourceTree = "<group>"; };
+		4B62C490277F0D5D00AD3105 /* BatchApplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchApplier.swift; sourceTree = "<group>"; };
 		4B959AF82764F7180003FFB6 /* FluidInterfaceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluidInterfaceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B082764F77E0003FFB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				4B959B2E2764FFCD0003FFB6 /* Logger.swift */,
 				4B1561CC27744D4800C4DE07 /* Debugging.swift */,
 				4BFBA24A2776393700E48587 /* Utils.swift */,
+				4B62C490277F0D5D00AD3105 /* BatchApplier.swift */,
 			);
 			path = FluidInterfaceKit;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				4B1561C3277371BD00C4DE07 /* WrapperViewController.swift in Sources */,
 				4B1561CD27744D4800C4DE07 /* Debugging.swift in Sources */,
 				4B959B2D2764F8950003FFB6 /* ZStackViewController.swift in Sources */,
+				4B62C491277F0D5D00AD3105 /* BatchApplier.swift in Sources */,
 				4BBDECD72766291400982229 /* ScrollView+Handling.swift in Sources */,
 				4BBDECD92766350E00982229 /* Transition.swift in Sources */,
 				4B1561C727737F4100C4DE07 /* TransitionViewController.swift in Sources */,

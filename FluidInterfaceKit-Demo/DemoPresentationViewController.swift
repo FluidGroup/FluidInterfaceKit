@@ -16,6 +16,8 @@ final class DemoPresentationViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    view.backgroundColor = .white
+
     let presentButton = UIButton(type: .system)
     presentButton.setTitle("Present", for: .normal)
     presentButton.onTap { [unowned self] in
@@ -23,7 +25,12 @@ final class DemoPresentationViewController: UIViewController {
       let controller = InteractiveDismissalTransitionViewController(
         bodyViewController: PlaceholderViewController(),
         transition: .init(adding: .popup(), removing: nil),
-        interaction: nil
+        interaction: .horizontalDragging(
+          backTo: nil,
+          interpolationView: nil,
+          hidingViews: [], start: {}, dismiss: { _ in
+            
+          })
       )
 
       controller.modalPresentationStyle = .overCurrentContext

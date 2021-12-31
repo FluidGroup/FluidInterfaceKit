@@ -88,6 +88,29 @@ open class TransitionViewController: WrapperViewController {
     }
   }
 
+  func _startStandaloneRemovingTransition() -> RemovingTransitionContext {
+
+    guard parent == nil,
+          let presentingViewController = presentingViewController,
+          let presentationController = presentationController
+    else {
+      preconditionFailure()
+    }
+
+    return .init(
+      contentView: presentationController.containerView!,
+      fromViewController: self,
+      toViewController: presentingViewController,
+      onCompleted: { [weak self] context in
+
+        guard let self = self else { return }
+
+        self.dismiss(animated: false, completion: nil)
+
+      })
+
+  }
+
 //  open override func viewWillDisappear(_ animated: Bool) {
 //    super.viewWillDisappear(animated)
 //  }

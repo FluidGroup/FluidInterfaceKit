@@ -47,6 +47,7 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
   /// - Parameters:
   ///   - idiom:
   ///   - bodyViewController: a view controller that displays as a child view controller. It helps a case of can't create a subclass of FluidViewController.
+  ///   - interaction: it can be replaced later
   public init(
     bodyViewController: UIViewController,
     transition: TransitionPair,

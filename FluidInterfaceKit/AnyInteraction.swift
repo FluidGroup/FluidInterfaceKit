@@ -187,8 +187,8 @@ extension AnyInteraction {
    Instagram Threads like transition
    */
   public static func horizontalDragging(
-    backTo destinationView: UIView,
-    interpolationView: UIView,
+    backTo destinationView: UIView?,
+    interpolationView: UIView?,
     hidingViews: [UIView],
     start: @escaping () -> Void,
     dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
@@ -236,13 +236,12 @@ extension AnyInteraction {
 
                 view.layer.transform = currentTransform
 
-                let transitionContext = context.viewController.zStackViewControllerContext!
-                  .startRemoving()!
+                let transitionContext = context.viewController.zStackViewControllerContext?.startRemoving() ?? context.viewController._startStandaloneRemovingTransition()
+
+                BatchApplier(hidingViews).setInvisible(true)
 
                 transitionContext.addEventHandler { event in
-                  hidingViews.forEach {
-                    $0.isHidden = false
-                  }
+                  BatchApplier(hidingViews).setInvisible(false)
                 }
 
                 // FIXME: Remove depending on ZStackViewController.
@@ -281,10 +280,6 @@ extension AnyInteraction {
                 return
               }
 
-              hidingViews.forEach {
-                $0.isHidden = true
-              }
-
               // TODO: Fix glitches that when it starts, view shifts to the wrong point.
 
               let translation = gesture
@@ -319,10 +314,12 @@ extension AnyInteraction {
 
               if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
 
+
+
                 // FIXME: Remove dependency to ZStackViewController
-                if let containerView = context.viewController.zStackViewControllerContext?
-                  .zStackViewController?.view
-                {
+                if let destinationView = destinationView {
+
+                  let containerView = _trackingContext.transitionContext.contentView
 
                   var targetRect = rectThatAspectFit(
                     aspectRatio: view.bounds.size,
@@ -364,6 +361,8 @@ extension AnyInteraction {
 
                   }()
 
+                  var animators: [UIViewPropertyAnimator] = []
+
                   let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
                     view: view,
                     duration: 0.85,
@@ -373,23 +372,32 @@ extension AnyInteraction {
                     velocityForScaling: velocityForScaling //sqrt(pow(velocityForAnimation.dx, 2) + pow(velocityForAnimation.dy, 2))
                   )
 
-                  interpolationView.center = .init(x: view.frame.minX, y: view.frame.minY)
-                  interpolationView.transform = .init(scaleX: 0.5, y: 0.5)
-                  _trackingContext.transitionContext.contentView.addSubview(interpolationView)
-                  let interpolationViewAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
-                    view: interpolationView,
-                    duration: 0.85,
-                    position: .custom(target.center),
-                    scale: .init(width: 1, height: 1),
-                    velocityForTranslation: velocityForAnimation,
-                    velocityForScaling: velocityForScaling
-                  )
+                  animators += translationAnimators
 
-                  let interpolationViewStyleAnimator = UIViewPropertyAnimator(duration: 0.85, dampingRatio: 1) {
-                    interpolationView.alpha = 1
+                  if let interpolationView = interpolationView {
+
+                    interpolationView.center = .init(x: view.frame.minX, y: view.frame.minY)
+                    interpolationView.transform = .init(scaleX: 0.5, y: 0.5)
+                    
+                    _trackingContext.transitionContext.contentView.addSubview(interpolationView)
+
+                    let interpolationViewAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+                      view: interpolationView,
+                      duration: 0.85,
+                      position: .custom(target.center),
+                      scale: .init(width: 1, height: 1),
+                      velocityForTranslation: velocityForAnimation,
+                      velocityForScaling: velocityForScaling
+                    )
+
+                    let interpolationViewStyleAnimator = UIViewPropertyAnimator(duration: 0.85, dampingRatio: 1) {
+                      interpolationView.alpha = 1
+                    }
+
+                    animators += interpolationViewAnimators + [interpolationViewStyleAnimator]
                   }
 
-                  Fluid.startPropertyAnimators(translationAnimators + interpolationViewAnimators + [interpolationViewStyleAnimator]) {
+                  Fluid.startPropertyAnimators(animators) {
                     // FIXME:
                     _trackingContext.transitionContext.notifyCompleted()
                     //                      dismiss(context.viewController)
@@ -423,6 +431,8 @@ extension AnyInteraction {
                 }
 
               } else {
+
+                /// animation for cancel
 
                 let animator = UIViewPropertyAnimator(
                   duration: 0.62,
