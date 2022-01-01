@@ -5,7 +5,7 @@ import GeometryKit
 public struct AnyRemovingInteraction {
 
   public struct Context {
-    public let viewController: InteractiveDismissalTransitionViewController
+    public let viewController: InteractiveRemovingViewController
   }
 
   public typealias Handler<Gesture> = (Gesture, Context) -> Void
@@ -38,7 +38,7 @@ extension AnyRemovingInteraction {
 
   // FIXME: not completed
   public static func leftToRight(
-    dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
+    dismiss: @escaping (InteractiveRemovingViewController) -> Void
   ) -> Self {
 
     struct TrackingContext {

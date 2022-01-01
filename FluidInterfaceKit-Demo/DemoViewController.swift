@@ -106,7 +106,7 @@ final class ContentViewController: UIViewController, ViewControllerZStackContent
       $0.onTap { [unowned self] in
 
         zStackViewControllerContext?.addContentViewController(
-          InteractiveDismissalTransitionViewController(
+          InteractiveRemovingViewController(
             bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
             transition: .noTransition,
             interactionToRemove: nil

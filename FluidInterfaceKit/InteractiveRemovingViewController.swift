@@ -22,7 +22,7 @@
 import Foundation
 import UIKit
 
-open class InteractiveDismissalTransitionViewController: TransitionViewController, UIGestureRecognizerDelegate, ViewControllerZStackContentType {
+open class InteractiveRemovingViewController: TransitionViewController, UIGestureRecognizerDelegate, ViewControllerZStackContentType {
 
   // MARK: - Properties
 

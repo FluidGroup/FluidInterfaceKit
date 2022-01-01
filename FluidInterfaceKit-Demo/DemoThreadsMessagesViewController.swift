@@ -93,7 +93,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
                   let interpolationView = makeListCell(color: color, onTap: { _ in })
                   interpolationView.isUserInteractionEnabled = false
 
-                  let controller = InteractiveDismissalTransitionViewController(
+                  let controller = InteractiveRemovingViewController(
                     bodyViewController: DemoThreadsDetailViewController(color: color),
                     transition: .init(
                       adding: .popupContextual(

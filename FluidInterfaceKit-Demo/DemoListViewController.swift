@@ -44,7 +44,7 @@ final class DemoListViewController: ZStackViewController {
           } else {
             let controller = DetailViewController(viewModel: viewModel)
 
-            let displayViewController = InteractiveDismissalTransitionViewController(
+            let displayViewController = InteractiveRemovingViewController(
               bodyViewController: controller,
               transition: .init(
                 adding: .expanding(from: view),
