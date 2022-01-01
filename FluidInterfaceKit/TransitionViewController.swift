@@ -83,10 +83,11 @@ open class TransitionViewController: WrapperViewController {
 
       /// check if this view controller was presented by presentation(modal)
       if parent == nil,
-         let addingTransition = transition.adding,
          let presentingViewController = presentingViewController,
          let presentationController = presentationController
       {
+
+        let addingTransition = transition.adding ?? .noAnimation
 
         /// presenting as presentation
         /// super.viewDidAppear(animated)
@@ -131,12 +132,32 @@ open class TransitionViewController: WrapperViewController {
 
   }
 
-//  open override func viewWillDisappear(_ animated: Bool) {
-//    super.viewWillDisappear(animated)
-//  }
-//
-//  open func remove(overrideTransition: AnyZStackViewControllerRemovingTransition? = nil) {
-//
-//  }
+  public func remove() {
 
+    guard parent == nil,
+          let presentingViewController = presentingViewController,
+          let presentationController = presentationController
+    else {
+      assertionFailure("\(self) is not presented by presentation")
+      return
+    }
+
+    let context = RemovingTransitionContext.init(
+      contentView: presentationController.containerView!,
+      fromViewController: self,
+      toViewController: presentingViewController,
+      onCompleted: { [weak self] context in
+
+        guard let self = self else { return }
+
+        self.dismiss(animated: false, completion: nil)
+
+      })
+
+    let transition = transition.removing ?? .noAnimation
+
+    transition.startTransition(context: context)
+
+  }
+  
 }
