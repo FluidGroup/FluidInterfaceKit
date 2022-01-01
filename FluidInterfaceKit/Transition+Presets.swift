@@ -74,7 +74,7 @@ extension AnyAddingTransition {
         } else {
           // Fallback on earlier versions
         }
-        targetView.layer.cornerRadius = 80
+        targetView.layer.cornerRadius = 8
         targetView.layer.masksToBounds = true
 
         /// snapshot
@@ -149,7 +149,9 @@ extension AnyAddingTransition {
 
       if !Fluid.hasAnimations(view: context.toViewController.view) {
 
-        maskView.frame = entrypointView.bounds
+        maskView.frame = context.toViewController.view.bounds
+        maskView.frame.size.height = entrypointView.bounds.height
+
         if #available(iOS 13.0, *) {
           maskView.layer.cornerCurve = .continuous
         } else {
@@ -183,6 +185,7 @@ extension AnyAddingTransition {
         context.toViewController.view.transform = .init(scaleX: translation.scale.width, y: translation.scale.height)
         context.toViewController.view.center = translation.center
         context.toViewController.view.alpha = 0
+
       }
 
       let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
@@ -209,6 +212,7 @@ extension AnyAddingTransition {
       )
 
       let maskAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+        maskView.transform = .identity
         maskView.frame = context.toViewController.view.bounds
         maskView.layer.cornerRadius = 0
       }

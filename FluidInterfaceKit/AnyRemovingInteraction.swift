@@ -266,6 +266,7 @@ extension AnyRemovingInteraction {
 
                 transitionContext.addEventHandler { event in
                   BatchApplier(hidingViews).setInvisible(false)
+                  gesture.view!.layer.cornerRadius = 0
                 }
 
                 // FIXME: Remove depending on ZStackViewController.

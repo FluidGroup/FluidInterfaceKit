@@ -75,7 +75,7 @@ final class DemoListViewController: ZStackViewController {
       VStackBlock(alignment: .fill) {
         listCells
       }
-      .padding(.horizontal, 24)
+      .padding(.horizontal, 32)
 
     }
 
