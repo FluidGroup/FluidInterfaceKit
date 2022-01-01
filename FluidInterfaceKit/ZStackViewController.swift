@@ -133,6 +133,7 @@ open class ZStackViewController: UIViewController {
       addChild(viewControllerToAdd)
 
       let containerView = PassthoroughView()
+      containerView.backgroundColor = .clear
 
       containerView.addSubview(viewControllerToAdd.view)
       containerView.frame = self.view.bounds

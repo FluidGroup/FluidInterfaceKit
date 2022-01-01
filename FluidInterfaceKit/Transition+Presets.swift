@@ -52,9 +52,7 @@ extension AnyAddingTransition {
 
       let targetView = context.toViewController.view!
 
-      let hasAnimations = (targetView.layer.animationKeys() ?? []).isEmpty == false
-
-      if !hasAnimations {
+      if !Fluid.hasAnimations(view: targetView) {
 
         let frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
 
@@ -103,6 +101,7 @@ extension AnyAddingTransition {
       styleAnimator.addAnimations {
         context.toViewController.view.alpha = 1
         context.toViewController.view.layer.cornerRadius = 0
+        context.contentView.backgroundColor = .init(white: 0, alpha: 0.6)
         interpolationView.alpha = 0
       }
 
@@ -143,37 +142,39 @@ extension AnyAddingTransition {
 
     return .init { (context: AddingTransitionContext) in
 
-      let entrypointSnapshotView = entrypointView.snapshotView(afterScreenUpdates: false) ?? UIView()
       let maskView = UIView()
       maskView.backgroundColor = .black
 
-      context.toViewController.view.mask = maskView
+      let entrypointSnapshotView = entrypointView.snapshotView(afterScreenUpdates: false) ?? UIView()
 
-      maskView.frame = entrypointView.bounds
-      if #available(iOS 13.0, *) {
-        maskView.layer.cornerCurve = .continuous
-      } else {
-        // Fallback on earlier versions
-      }
-      maskView.layer.cornerRadius = 16
+      if !Fluid.hasAnimations(view: context.toViewController.view) {
 
-      context.addEventHandler { _ in
-        entrypointSnapshotView.removeFromSuperview()
-      }
+        maskView.frame = entrypointView.bounds
+        if #available(iOS 13.0, *) {
+          maskView.layer.cornerCurve = .continuous
+        } else {
+          // Fallback on earlier versions
+        }
+        maskView.layer.cornerRadius = 16
 
-      context.contentView.insertSubview(entrypointSnapshotView, belowSubview: context.toViewController.view)
-      entrypointSnapshotView.frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
+        context.toViewController.view.mask = maskView
 
-      let fromFrame = CGRect(
-        origin: entrypointView.convert(entrypointView.bounds, to: context.contentView).origin,
-        size: Geometry.sizeThatAspectFill(
-          aspectRatio: context.toViewController.view.bounds.size,
-          minimumSize: entrypointView.bounds.size
+        context.addEventHandler { _ in
+          entrypointSnapshotView.removeFromSuperview()
+        }
+
+        context.contentView.insertSubview(entrypointSnapshotView, belowSubview: context.toViewController.view)
+        entrypointSnapshotView.frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
+
+        let fromFrame = CGRect(
+          origin: entrypointView.convert(entrypointView.bounds, to: context.contentView).origin,
+          size: Geometry.sizeThatAspectFill(
+            aspectRatio: context.toViewController.view.bounds.size,
+            minimumSize: entrypointView.bounds.size
+          )
         )
-      )
 
-      /// make initial state for displaying view
-      do {
+        /// make initial state for displaying view
         let translation = makeTranslation(
           from: context.contentView.bounds,
           to: fromFrame
@@ -219,6 +220,7 @@ extension AnyAddingTransition {
       let crossfadeAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1) {
         context.toViewController.view.alpha = 1
         entrypointSnapshotView.alpha = 0
+        context.contentView.backgroundColor = .init(white: 0, alpha: 0.6)
       }
 
       Fluid.startPropertyAnimators(

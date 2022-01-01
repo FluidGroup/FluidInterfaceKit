@@ -393,7 +393,11 @@ extension AnyRemovingInteraction {
                     velocityForScaling: velocityForScaling //sqrt(pow(velocityForAnimation.dx, 2) + pow(velocityForAnimation.dy, 2))
                   )
 
-                  animators += translationAnimators
+                  let backgroundAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+                    _trackingContext.transitionContext.contentView.backgroundColor = .clear
+                  }
+
+                  animators += translationAnimators + [backgroundAnimator]
 
                   if let interpolationView = interpolationView {
 
@@ -437,6 +441,7 @@ extension AnyRemovingInteraction {
                   animator.addAnimations {
                     view.layer.transform = CATransform3DMakeAffineTransform(.init(scaleX: 0.8, y: 0.8))
                     view.alpha = 0
+                    _trackingContext.transitionContext.contentView.backgroundColor = .clear
                   }
 
                   animator.addCompletion { _ in

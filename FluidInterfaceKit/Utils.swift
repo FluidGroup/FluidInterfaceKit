@@ -3,6 +3,10 @@ import UIKit
 
 enum Fluid {
 
+  public static func hasAnimations(view: UIView) -> Bool {
+    return (view.layer.animationKeys() ?? []).count > 0
+  }
+
   public static func startPropertyAnimators(
     _ animators: [UIViewPropertyAnimator],
     completion: @escaping () -> Void
