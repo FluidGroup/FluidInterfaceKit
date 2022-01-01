@@ -27,6 +27,8 @@ final class DemoListViewController: ZStackViewController {
       }
     }
 
+    var viewControllerCache: [Int: ViewControllerZStackContentType] = [:]
+
     let listCells: [UIView] = (0..<20).map { i in
 
       let viewModel = ViewModel()
@@ -35,21 +37,33 @@ final class DemoListViewController: ZStackViewController {
         viewModel: viewModel,
         onTap: { [unowned self] view in
 
-          let controller = DetailViewController(viewModel: viewModel)
+          if let cached = viewControllerCache[i] {
 
-          let displayViewController = InteractiveDismissalTransitionViewController(
-            bodyViewController: controller,
-            transition: .init(
-              adding: .expanding(from: view),
-              removing: nil
-            ),
-            interactionToRemove: .horizontalDragging(backTo: nil, interpolationView: nil, hidingViews: [])
-          )
+            if usesPresentation {
+              present(cached, animated: false, completion: nil)
+            } else {
+              addContentViewController(cached, transition: nil)
+            }
 
-          if usesPresentation {
-            present(displayViewController, animated: false, completion: nil)
           } else {
-            addContentViewController(displayViewController, transition: nil)
+            let controller = DetailViewController(viewModel: viewModel)
+
+            let displayViewController = InteractiveDismissalTransitionViewController(
+              bodyViewController: controller,
+              transition: .init(
+                adding: .expanding(from: view),
+                removing: nil
+              ),
+              interactionToRemove: .horizontalDragging(backTo: nil, interpolationView: nil, hidingViews: [])
+            )
+
+            viewControllerCache[i] = displayViewController
+
+            if usesPresentation {
+              present(displayViewController, animated: false, completion: nil)
+            } else {
+              addContentViewController(displayViewController, transition: nil)
+            }
           }
 
         }
