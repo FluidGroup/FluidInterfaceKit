@@ -1,9 +1,9 @@
 Pod::Spec.new do |spec|
   spec.name = "FluidInterfaceKit"
   spec.version = "0.1.0"
-  spec.summary = "Tools for compositional view hierarchy"
+  spec.summary = "Components on UIKit for Fluid Interface"
   spec.description = <<-DESC
-  set of compositional components
+  This library provides components built on top of UIKit for Fluid Interface.
                    DESC
 
   spec.homepage = "https://github.com/muukii/FluidInterfaceKit"
