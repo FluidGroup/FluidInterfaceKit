@@ -1,5 +1,7 @@
 # FluidInterfaceKit
 
+(Experimental project)
+
 Tools for **Fluid Interface** built on top of UIKit.
 
 **[About Fluid Interfaces](https://medium.com/@nathangitter/building-fluid-interfaces-ios-swift-9732bb934bf5)**  
