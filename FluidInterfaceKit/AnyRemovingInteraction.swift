@@ -241,17 +241,21 @@ extension AnyRemovingInteraction {
         .screen(
           handler: { gesture, context in
 
-            let view = context.viewController.view!
-            assert(view == gesture.view)
+            let draggingView = context.viewController.view!
+            assert(draggingView == gesture.view)
 
             switch gesture.state {
             case .possible:
               break
             case .began:
 
+              fallthrough
+
+            case .changed:
+
               if trackingContext == nil {
 
-                guard abs(gesture.translation(in: view).y) <= 10 else {
+                guard abs(gesture.translation(in: draggingView).y) <= 10 else {
                   gesture.state = .failed
                   return
                 }
@@ -297,30 +301,29 @@ extension AnyRemovingInteraction {
 
               }
 
-              fallthrough
-
-            case .changed:
-
               guard trackingContext != nil else {
                 return
               }
 
               let translation = gesture
-                .translation(in: gesture.view)
-                .applying(gesture.view!.transform)
+                .translation(in: draggingView)
+                .applying(draggingView.transform)
 
-              gesture.view!.layer.position.x += translation.x
-              gesture.view!.layer.position.y += translation.y
-
-              gesture.view!.layer.cornerRadius = 24
-              gesture.view!.layer.masksToBounds = true
+              draggingView.layer.position.x += translation.x
+              draggingView.layer.position.y += translation.y
+              draggingView.layer.masksToBounds = true
               if #available(iOS 13.0, *) {
-                gesture.view!.layer.cornerCurve = .continuous
+                draggingView.layer.cornerCurve = .continuous
               } else {
                 // Fallback on earlier versions
               }
 
-              gesture.setTranslation(.zero, in: gesture.view)
+              UIViewPropertyAnimator(duration: 0.5, dampingRatio: 1) {
+                draggingView.layer.cornerRadius = 24
+              }
+              .startAnimation()
+
+              gesture.setTranslation(.zero, in: draggingView)
 
             case .ended:
 
@@ -333,8 +336,8 @@ extension AnyRemovingInteraction {
 
               let velocity = gesture.velocity(in: gesture.view)
 
-              let originalCenter = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
-              let distanceFromCenter = CGPoint(x: originalCenter.x - view.center.x, y: originalCenter.y - view.center.y)
+              let originalCenter = CGPoint(x: draggingView.bounds.midX, y: draggingView.bounds.midY)
+              let distanceFromCenter = CGPoint(x: originalCenter.x - draggingView.center.x, y: originalCenter.y - draggingView.center.y)
 
               if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
 
@@ -344,7 +347,7 @@ extension AnyRemovingInteraction {
                   let containerView = _trackingContext.transitionContext.contentView
 
                   var targetRect = Geometry.rectThatAspectFit(
-                    aspectRatio: view.bounds.size,
+                    aspectRatio: draggingView.bounds.size,
                     boundingRect: destinationView._matchedTransition_relativeFrame(
                       in: containerView,
                       ignoresTransform: false
@@ -356,13 +359,13 @@ extension AnyRemovingInteraction {
                     dy: targetRect.height / 3
                   )
 
-                  let target = makeTranslation(from: view.bounds, to: targetRect)
+                  let target = makeTranslation(from: draggingView.bounds, to: targetRect)
 
                   let velocityForAnimation: CGVector = {
 
                     let targetCenter = target.center
                     let gestureVelocity = gesture.velocity(in: gesture.view!)
-                    let delta = CGPoint(x: targetCenter.x - view.center.x, y: targetCenter.y - view.center.y)
+                    let delta = CGPoint(x: targetCenter.x - draggingView.center.x, y: targetCenter.y - draggingView.center.y)
 
                     let velocity = CGVector.init(
                       dx: gestureVelocity.x / delta.x,
@@ -386,7 +389,7 @@ extension AnyRemovingInteraction {
                   var animators: [UIViewPropertyAnimator] = []
 
                   let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
-                    view: view,
+                    view: draggingView,
                     duration: 0.85,
                     position: .custom(target.center),
                     scale: target.scale,
@@ -402,7 +405,7 @@ extension AnyRemovingInteraction {
 
                   if let interpolationView = interpolationView {
 
-                    interpolationView.center = .init(x: view.frame.minX, y: view.frame.minY)
+                    interpolationView.center = .init(x: draggingView.frame.minX, y: draggingView.frame.minY)
                     interpolationView.transform = .init(scaleX: 0.5, y: 0.5)
                     
                     _trackingContext.transitionContext.contentView.addSubview(interpolationView)
@@ -440,8 +443,8 @@ extension AnyRemovingInteraction {
                   )
 
                   animator.addAnimations {
-                    view.layer.transform = CATransform3DMakeAffineTransform(.init(scaleX: 0.8, y: 0.8))
-                    view.alpha = 0
+                    draggingView.layer.transform = CATransform3DMakeAffineTransform(.init(scaleX: 0.8, y: 0.8))
+                    draggingView.alpha = 0
                     _trackingContext.transitionContext.contentView.backgroundColor = .clear
                   }
 
@@ -466,8 +469,9 @@ extension AnyRemovingInteraction {
                 )
 
                 animator.addAnimations {
-                  view.center = .init(x: view.bounds.width / 2, y: view.bounds.height / 2)
-                  view.transform = .identity
+                  draggingView.center = .init(x: draggingView.bounds.width / 2, y: draggingView.bounds.height / 2)
+                  draggingView.transform = .identity
+                  draggingView.layer.cornerRadius = 0
                 }
 
                 animator.startAnimation()
@@ -484,9 +488,9 @@ extension AnyRemovingInteraction {
               _trackingContext.scrollController?.unlockScrolling()
               _trackingContext.scrollController?.endTracking()
 
-              view.center = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
-              view.transform = .identity
-              view.layer.cornerRadius = 0
+              draggingView.center = CGPoint(x: draggingView.bounds.width / 2, y: draggingView.bounds.height / 2)
+              draggingView.transform = .identity
+              draggingView.layer.cornerRadius = 0
 
               trackingContext = nil
 

@@ -267,6 +267,7 @@ extension AnyRemovingTransition {
         topViewController.view.transform = .init(scaleX: 0.8, y: 0.8)
         topViewController.view.center.y += 150
 
+        context.contentView.backgroundColor = .clear
         context.toViewController?.view.alpha = 1
 
       }

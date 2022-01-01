@@ -156,6 +156,11 @@ open class InteractiveDismissalTransitionViewController: TransitionViewControlle
       return (otherGestureRecognizer is UIScreenEdgePanGestureRecognizer) == false
     }
 
+    if otherGestureRecognizer is UIPanGestureRecognizer {
+      // to make ScrollView prior.
+      return false
+    }
+
     return true
   }
 
