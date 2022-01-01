@@ -6,6 +6,7 @@ extension AnyAddingTransition {
 
   public static var noAnimation: Self {
     return .init { context in
+      context.notifyCompleted()
     }
   }
 
@@ -165,7 +166,7 @@ extension AnyAddingTransition {
           entrypointSnapshotView.removeFromSuperview()
         }
 
-        context.contentView.insertSubview(entrypointSnapshotView, belowSubview: context.toViewController.view)
+        context.contentView.addSubview(entrypointSnapshotView)
         entrypointSnapshotView.frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
 
         let fromFrame = CGRect(
@@ -184,7 +185,7 @@ extension AnyAddingTransition {
 
         context.toViewController.view.transform = .init(scaleX: translation.scale.width, y: translation.scale.height)
         context.toViewController.view.center = translation.center
-        context.toViewController.view.alpha = 0
+        context.toViewController.view.alpha = 0.2
 
       }
 
@@ -199,12 +200,12 @@ extension AnyAddingTransition {
 
       let translationForSnapshot = makeTranslation(
         from: entrypointSnapshotView.frame,
-        to: context.contentView.bounds
+        to: .init(origin: .zero, size: entrypointSnapshotView.frame.size)
       )
 
-      let _translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+      let snapshotTranslationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: entrypointSnapshotView,
-        duration: 0.6,
+        duration: 0.7,
         position: .custom(translationForSnapshot.center),
         scale: translationForSnapshot.scale,
         velocityForTranslation: .zero,
@@ -234,7 +235,7 @@ extension AnyAddingTransition {
         buildArray {
           translationAnimators
           maskAnimator
-          _translationAnimators
+          snapshotTranslationAnimators
           crossfadeAnimator
         },
         completion: {
@@ -250,7 +251,7 @@ extension AnyRemovingTransition {
 
   public static var noAnimation: Self {
     return .init { context in
-      context.fromViewController.view.removeFromSuperview()
+      context.notifyCompleted()
     }
   }
 

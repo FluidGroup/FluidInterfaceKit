@@ -10,7 +10,9 @@ final class DemoListViewController: ZStackViewController {
 
   let usesPresentation: Bool
 
-  init(usesPresentation: Bool) {
+  init(
+    usesPresentation: Bool
+  ) {
     self.usesPresentation = usesPresentation
     super.init(view: nil)
   }
@@ -48,7 +50,11 @@ final class DemoListViewController: ZStackViewController {
                 adding: .expanding(from: view),
                 removing: nil
               ),
-              interactionToRemove: .horizontalDragging(backTo: nil, interpolationView: nil, hidingViews: [])
+              interactionToRemove: .horizontalDragging(
+                backTo: nil,
+                interpolationView: nil,
+                hidingViews: []
+              )
             )
 
             viewControllerCache[i] = displayViewController
@@ -66,45 +72,44 @@ final class DemoListViewController: ZStackViewController {
 
     let content = AnyView { view in
 
-      ZStackBlock(alignment: .attach(.all)) {
-        VGridView(contents: listCells)
+      VGridBlock(
+        columns: [
+          .init(.flexible(), spacing: 8),
+          .init(.flexible(), spacing: 8),
+        ],
+        spacing: 8
+      ) {
+        listCells
       }
-
-//      VGridBlock(columns: [
-//        .init(.flexible(), spacing: 8),
-//        .init(.flexible(), spacing: 8),
-//      ], spacing: 8) {
-//        listCells
-//      }
-//      .padding(.horizontal, 32)
+      .padding(.horizontal, 32)
 
     }
 
     scrollableContainerView.setContent(content)
 
     Mondrian.buildSubviews(on: view) {
-      //      ZStackBlock(alignment: .attach(.all)) {
-      //        scrollableContainerView
-      //      }
       ZStackBlock(alignment: .attach(.all)) {
-        VGridView(contents: listCells)
+        scrollableContainerView
       }
     }
 
   }
 }
 
-
 private final class DetailViewController: UIViewController, ViewControllerZStackContentType {
 
   private let viewModel: ViewModel
 
-  public init(viewModel: ViewModel) {
+  public init(
+    viewModel: ViewModel
+  ) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
 
-  required init?(coder: NSCoder) {
+  required init?(
+    coder: NSCoder
+  ) {
     fatalError("init(coder:) has not been implemented")
   }
 
