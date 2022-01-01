@@ -157,7 +157,7 @@ extension AnyAddingTransition {
         } else {
           // Fallback on earlier versions
         }
-        maskView.layer.cornerRadius = 16
+        maskView.layer.cornerRadius = 24
 
         context.toViewController.view.mask = maskView
 
@@ -190,7 +190,7 @@ extension AnyAddingTransition {
 
       let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: context.toViewController.view,
-        duration: 0.6,
+        duration: 0.7,
         position: .center(of: context.toViewController.view.bounds),
         scale: .init(width: 1, height: 1),
         velocityForTranslation: .zero,
@@ -214,8 +214,11 @@ extension AnyAddingTransition {
       let maskAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
         maskView.transform = .identity
         maskView.frame = context.toViewController.view.bounds
-        maskView.layer.cornerRadius = 0
       }
+
+      maskAnimator.addAnimations({
+        maskView.layer.cornerRadius = 0
+      }, delayFactor: 0.1)
 
       maskAnimator.addCompletion { _ in
         context.toViewController.view.mask = nil

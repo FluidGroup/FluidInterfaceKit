@@ -29,7 +29,7 @@ final class DemoListViewController: ZStackViewController {
 
     var viewControllerCache: [Int: ViewControllerZStackContentType] = [:]
 
-    let listCells: [UIView] = (0..<20).map { i in
+    let listCells: [UIView] = (0..<40).map { i in
 
       let viewModel = ViewModel()
 
@@ -72,7 +72,10 @@ final class DemoListViewController: ZStackViewController {
 
     let content = AnyView { view in
 
-      VStackBlock(alignment: .fill) {
+      VGridBlock(columns: [
+        .init(.flexible(), spacing: 8),
+        .init(.flexible(), spacing: 8),
+      ], spacing: 8) {
         listCells
       }
       .padding(.horizontal, 32)
