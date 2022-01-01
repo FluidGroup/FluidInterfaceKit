@@ -104,8 +104,10 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
                       removing: nil
                     ),
                     interactionToRemove: .horizontalDragging(
-                      backTo: cell,
-                      interpolationView: interpolationView,
+                      backwardingMode: .instagramThreads(
+                        destinationView: cell,
+                        interpolationView: interpolationView
+                      ),
                       hidingViews: [cell]
                     )
                   )
@@ -130,7 +132,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
 
 }
 
-fileprivate func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> UIView {
+private func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> UIView {
 
   let nameLabel = UILabel()&>.do {
     $0.text = "Muukii"

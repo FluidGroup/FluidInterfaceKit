@@ -217,12 +217,17 @@ extension AnyRemovingInteraction {
     )
   }
 
+  public enum BackwardingMode {
+    // TODO: get a generic name
+    case instagramThreads(destinationView: UIView, interpolationView: UIView)
+    case shape(destinationView: UIView)
+  }
+
   /**
    Instagram Threads like transition
    */
   public static func horizontalDragging(
-    backTo destinationView: UIView?,
-    interpolationView: UIView?,
+    backwardingMode: BackwardingMode?,
     hidingViews: [UIView]
   ) -> Self {
 
@@ -339,11 +344,42 @@ extension AnyRemovingInteraction {
               let originalCenter = CGPoint(x: draggingView.bounds.midX, y: draggingView.bounds.midY)
               let distanceFromCenter = CGPoint(x: originalCenter.x - draggingView.center.x, y: originalCenter.y - draggingView.center.y)
 
-              if abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100 {
+              let startsBackwarding = abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100
 
-                // FIXME: Remove dependency to ZStackViewController
-                if let destinationView = destinationView {
+              defer {
+                trackingContext = nil
+              }
 
+              if startsBackwarding {
+
+                guard let backwardingMode = backwardingMode else {
+                  /// fallback
+
+                  let animator = UIViewPropertyAnimator(
+                    duration: 0.62,
+                    timingParameters: UISpringTimingParameters(
+                      dampingRatio: 1,
+                      initialVelocity: .zero
+                    )
+                  )
+
+                  animator.addAnimations {
+                    draggingView.layer.transform = CATransform3DMakeAffineTransform(.init(scaleX: 0.8, y: 0.8))
+                    draggingView.alpha = 0
+                    _trackingContext.transitionContext.contentView.backgroundColor = .clear
+                  }
+
+                  animator.addCompletion { _ in
+                    _trackingContext.transitionContext.notifyCompleted()
+                  }
+
+                  animator.startAnimation()
+
+                  return
+                }
+
+                switch backwardingMode {
+                case .instagramThreads(destinationView: let destinationView, interpolationView: let interpolationView):
                   let containerView = _trackingContext.transitionContext.contentView
 
                   var targetRect = Geometry.rectThatAspectFit(
@@ -378,7 +414,7 @@ extension AnyRemovingInteraction {
 
                   let velocityForScaling: CGFloat = {
 
-//                    let gestureVelocity = gesture.velocity(in: gesture.view!)
+                    //                    let gestureVelocity = gesture.velocity(in: gesture.view!)
 
                     // TODO: calculate dynamic velocity
                     // set greater than 0, throwing animation would be more clear. like springboard
@@ -403,11 +439,11 @@ extension AnyRemovingInteraction {
 
                   animators += translationAnimators + [backgroundAnimator]
 
-                  if let interpolationView = interpolationView {
-
+                  /// handling interpolation view
+                  do {
                     interpolationView.center = .init(x: draggingView.frame.minX, y: draggingView.frame.minY)
                     interpolationView.transform = .init(scaleX: 0.5, y: 0.5)
-                    
+
                     _trackingContext.transitionContext.contentView.addSubview(interpolationView)
 
                     let interpolationViewAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
@@ -426,34 +462,12 @@ extension AnyRemovingInteraction {
                     animators += interpolationViewAnimators + [interpolationViewStyleAnimator]
                   }
 
+
                   Fluid.startPropertyAnimators(animators) {
                     _trackingContext.transitionContext.notifyCompleted()
                   }
-
-
-                } else {
-                  /// fallback
-
-                  let animator = UIViewPropertyAnimator(
-                    duration: 0.62,
-                    timingParameters: UISpringTimingParameters(
-                      dampingRatio: 1,
-                      initialVelocity: .zero
-                    )
-                  )
-
-                  animator.addAnimations {
-                    draggingView.layer.transform = CATransform3DMakeAffineTransform(.init(scaleX: 0.8, y: 0.8))
-                    draggingView.alpha = 0
-                    _trackingContext.transitionContext.contentView.backgroundColor = .clear
-                  }
-
-                  animator.addCompletion { _ in
-                    _trackingContext.transitionContext.notifyCompleted()
-                  }
-
-                  animator.startAnimation()
-
+                case .shape(destinationView: let destinationView):
+                  break
                 }
 
               } else {
@@ -476,8 +490,6 @@ extension AnyRemovingInteraction {
 
                 animator.startAnimation()
               }
-
-              trackingContext = nil
 
             case .cancelled, .failed:
 

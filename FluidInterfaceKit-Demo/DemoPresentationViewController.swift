@@ -26,8 +26,7 @@ final class DemoPresentationViewController: UIViewController {
         bodyViewController: PlaceholderViewController(),
         transition: .init(adding: .popup(), removing: nil),
         interactionToRemove: .horizontalDragging(
-          backTo: nil,
-          interpolationView: nil,
+          backwardingMode: nil,
           hidingViews: []
         )
       )
