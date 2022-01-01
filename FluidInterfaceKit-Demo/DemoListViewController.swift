@@ -21,12 +21,6 @@ final class DemoListViewController: ZStackViewController {
     view.backgroundColor = .white
     scrollableContainerView.delaysContentTouches = false
 
-    Mondrian.buildSubviews(on: view) {
-      ZStackBlock(alignment: .attach(.all)) {
-        scrollableContainerView
-      }
-    }
-
     var viewControllerCache: [Int: ViewControllerZStackContentType] = [:]
 
     let listCells: [UIView] = (0..<40).map { i in
@@ -72,17 +66,31 @@ final class DemoListViewController: ZStackViewController {
 
     let content = AnyView { view in
 
-      VGridBlock(columns: [
-        .init(.flexible(), spacing: 8),
-        .init(.flexible(), spacing: 8),
-      ], spacing: 8) {
-        listCells
+      ZStackBlock(alignment: .attach(.all)) {
+        VGridView(contents: listCells)
       }
-      .padding(.horizontal, 32)
+
+//      VGridBlock(columns: [
+//        .init(.flexible(), spacing: 8),
+//        .init(.flexible(), spacing: 8),
+//      ], spacing: 8) {
+//        listCells
+//      }
+//      .padding(.horizontal, 32)
 
     }
 
     scrollableContainerView.setContent(content)
+
+    Mondrian.buildSubviews(on: view) {
+      //      ZStackBlock(alignment: .attach(.all)) {
+      //        scrollableContainerView
+      //      }
+      ZStackBlock(alignment: .attach(.all)) {
+        VGridView(contents: listCells)
+      }
+    }
+
   }
 }
 
