@@ -139,19 +139,25 @@ extension AnyAddingTransition {
 
   }
 
-  public static func expanding(from entrypointView: UIView) -> Self {
+  public static func expanding(from entrypointView: UIView, hidingViews: [UIView]) -> Self {
 
     return .init { (context: AddingTransitionContext) in
+
+      // FIXME: tmp impl
+      BatchApplier(hidingViews).setInvisible(true)
+
+      context.addEventHandler { event in
+        BatchApplier(hidingViews).setInvisible(false)
+      }
 
       let maskView = UIView()
       maskView.backgroundColor = .black
 
-      let entrypointSnapshotView = entrypointView.snapshotView(afterScreenUpdates: false) ?? UIView()
+      let entrypointSnapshotView = Fluid.takeSnapshotVisible(view: entrypointView)
 
       if !Fluid.hasAnimations(view: context.toViewController.view) {
 
         maskView.frame = context.toViewController.view.bounds
-        maskView.frame.size.height = entrypointView.bounds.height
 
         if #available(iOS 13.0, *) {
           maskView.layer.cornerCurve = .continuous
@@ -167,10 +173,10 @@ extension AnyAddingTransition {
         }
 
         context.contentView.addSubview(entrypointSnapshotView)
-        entrypointSnapshotView.frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
+        entrypointSnapshotView.frame = context.frameInContentView(for: entrypointView)
 
         let fromFrame = CGRect(
-          origin: entrypointView.convert(entrypointView.bounds, to: context.contentView).origin,
+          origin: context.frameInContentView(for: entrypointView).origin,
           size: Geometry.sizeThatAspectFill(
             aspectRatio: context.toViewController.view.bounds.size,
             minimumSize: entrypointView.bounds.size
@@ -186,6 +192,9 @@ extension AnyAddingTransition {
         context.toViewController.view.transform = .init(scaleX: translation.scale.width, y: translation.scale.height)
         context.toViewController.view.center = translation.center
         context.toViewController.view.alpha = 0.2
+
+        // fix visually height against transforming
+        maskView.frame.size.height = entrypointView.bounds.height / translation.scale.height
 
       }
 

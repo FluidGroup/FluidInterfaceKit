@@ -47,12 +47,12 @@ final class DemoListViewController: ZStackViewController {
             let displayViewController = InteractiveRemovingViewController(
               bodyViewController: controller,
               transition: .init(
-                adding: .expanding(from: view),
+                adding: .expanding(from: view, hidingViews: [view]),
                 removing: nil
               ),
               interactionToRemove: .horizontalDragging(
-                backwardingMode: nil,
-                hidingViews: []
+                backwardingMode: .shape(destinationView: view),
+                hidingViews: [view]
               )
             )
 

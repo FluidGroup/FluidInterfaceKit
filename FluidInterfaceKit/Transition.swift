@@ -1,4 +1,5 @@
 import UIKit
+import MatchedTransition
 
 public class TransitionContext: Equatable {
 
@@ -14,9 +15,15 @@ public class TransitionContext: Equatable {
     lhs === rhs
   }
 
+  public let contentView: UIView
+
   public private(set) var isInvalidated: Bool = false
 
   private var callbacks: [(Event) -> Void] = []
+
+  init(contentView: UIView) {
+    self.contentView = contentView
+  }
 
   func invalidate() {
     isInvalidated = true
@@ -35,6 +42,13 @@ public class TransitionContext: Equatable {
     callbacks.forEach{ $0(.finished) }
   }
 
+  public func frameInContentView(for view: UIView) -> CGRect {
+    view._matchedTransition_relativeFrame(
+      in: contentView,
+      ignoresTransform: true
+    )
+  }
+
 }
 
 /**
@@ -50,7 +64,6 @@ public final class AddingTransitionContext: TransitionContext {
   }
 
   public private(set) var isCompleted: Bool = false
-  public let contentView: UIView
   public let fromViewController: UIViewController?
 
   /// A view controller to display
@@ -64,10 +77,10 @@ public final class AddingTransitionContext: TransitionContext {
     toViewController: UIViewController,
     onCompleted: @escaping (AddingTransitionContext) -> Void
   ) {
-    self.contentView = contentView
     self.fromViewController = fromViewController
     self.toViewController = toViewController
     self.onCompleted = onCompleted
+    super.init(contentView: contentView)
   }
 
   /**
@@ -93,7 +106,6 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   }
 
   public private(set) var isCompleted: Bool = false
-  public let contentView: UIView
   public let fromViewControllers: [UIViewController]
   public let toViewController: UIViewController?
   private let onCompleted: (BatchRemovingTransitionContext) -> Void
@@ -104,10 +116,10 @@ public final class BatchRemovingTransitionContext: TransitionContext {
     toViewController: UIViewController?,
     onCompleted: @escaping (BatchRemovingTransitionContext) -> Void
   ) {
-    self.contentView = contentView
     self.fromViewControllers = fromViewControllers
     self.toViewController = toViewController
     self.onCompleted = onCompleted
+    super.init(contentView: contentView)
   }
 
   public func notifyCompleted() {
@@ -130,7 +142,6 @@ public final class RemovingTransitionContext: TransitionContext {
 
   public private(set) var isCompleted: Bool = false
 
-  public let contentView: UIView
   public let fromViewController: UIViewController
   public let toViewController: UIViewController?
   private let onCompleted: (RemovingTransitionContext) -> Void
@@ -141,10 +152,10 @@ public final class RemovingTransitionContext: TransitionContext {
     toViewController: UIViewController?,
     onCompleted: @escaping (RemovingTransitionContext) -> Void
   ) {
-    self.contentView = contentView
     self.fromViewController = fromViewController
     self.toViewController = toViewController
     self.onCompleted = onCompleted
+    super.init(contentView: contentView)
   }
 
   public func notifyCompleted() {

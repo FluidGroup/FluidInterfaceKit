@@ -1,6 +1,7 @@
-import UIKit
-import MatchedTransition
 import GeometryKit
+import MatchedTransition
+import ResultBuilderKit
+import UIKit
 
 public struct AnyRemovingInteraction {
 
@@ -32,7 +33,6 @@ public struct AnyRemovingInteraction {
   }
 
 }
-
 
 extension AnyRemovingInteraction {
 
@@ -252,11 +252,8 @@ extension AnyRemovingInteraction {
             switch gesture.state {
             case .possible:
               break
-            case .began:
 
-              fallthrough
-
-            case .changed:
+            case .began, .changed:
 
               if trackingContext == nil {
 
@@ -269,7 +266,9 @@ extension AnyRemovingInteraction {
                  Prepare to interact
                  */
 
-                let transitionContext = context.viewController.zStackViewControllerContext?.startRemoving() ?? context.viewController._startStandaloneRemovingTransition()
+                let transitionContext =
+                  context.viewController.zStackViewControllerContext?.startRemoving()
+                  ?? context.viewController._startStandaloneRemovingTransition()
 
                 BatchApplier(hidingViews).setInvisible(true)
 
@@ -310,7 +309,8 @@ extension AnyRemovingInteraction {
                 return
               }
 
-              let translation = gesture
+              let translation =
+                gesture
                 .translation(in: draggingView)
                 .applying(draggingView.transform)
 
@@ -336,15 +336,22 @@ extension AnyRemovingInteraction {
                 return
               }
 
+              let transitionContext = _trackingContext.transitionContext
+
               _trackingContext.scrollController?.unlockScrolling()
               _trackingContext.scrollController?.endTracking()
 
               let velocity = gesture.velocity(in: gesture.view)
 
               let originalCenter = CGPoint(x: draggingView.bounds.midX, y: draggingView.bounds.midY)
-              let distanceFromCenter = CGPoint(x: originalCenter.x - draggingView.center.x, y: originalCenter.y - draggingView.center.y)
+              let distanceFromCenter = CGPoint(
+                x: originalCenter.x - draggingView.center.x,
+                y: originalCenter.y - draggingView.center.y
+              )
 
-              let startsBackwarding = abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80 || abs(velocity.x) > 100 || abs(velocity.y) > 100
+              let startsBackwarding =
+                abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80
+                || abs(velocity.x) > 100 || abs(velocity.y) > 100
 
               defer {
                 trackingContext = nil
@@ -364,7 +371,9 @@ extension AnyRemovingInteraction {
                   )
 
                   animator.addAnimations {
-                    draggingView.layer.transform = CATransform3DMakeAffineTransform(.init(scaleX: 0.8, y: 0.8))
+                    draggingView.layer.transform = CATransform3DMakeAffineTransform(
+                      .init(scaleX: 0.8, y: 0.8)
+                    )
                     draggingView.alpha = 0
                     _trackingContext.transitionContext.contentView.backgroundColor = .clear
                   }
@@ -379,15 +388,11 @@ extension AnyRemovingInteraction {
                 }
 
                 switch backwardingMode {
-                case .instagramThreads(destinationView: let destinationView, interpolationView: let interpolationView):
-                  let containerView = _trackingContext.transitionContext.contentView
+                case .instagramThreads(let destinationView, let interpolationView):
 
                   var targetRect = Geometry.rectThatAspectFit(
                     aspectRatio: draggingView.bounds.size,
-                    boundingRect: destinationView._matchedTransition_relativeFrame(
-                      in: containerView,
-                      ignoresTransform: false
-                    )
+                    boundingRect: transitionContext.frameInContentView(for: destinationView)
                   )
 
                   targetRect = targetRect.insetBy(
@@ -395,13 +400,16 @@ extension AnyRemovingInteraction {
                     dy: targetRect.height / 3
                   )
 
-                  let target = makeTranslation(from: draggingView.bounds, to: targetRect)
+                  let translation = makeTranslation(from: draggingView.bounds, to: targetRect)
 
                   let velocityForAnimation: CGVector = {
 
-                    let targetCenter = target.center
+                    let targetCenter = translation.center
                     let gestureVelocity = gesture.velocity(in: gesture.view!)
-                    let delta = CGPoint(x: targetCenter.x - draggingView.center.x, y: targetCenter.y - draggingView.center.y)
+                    let delta = CGPoint(
+                      x: targetCenter.x - draggingView.center.x,
+                      y: targetCenter.y - draggingView.center.y
+                    )
 
                     let velocity = CGVector.init(
                       dx: gestureVelocity.x / delta.x,
@@ -427,10 +435,10 @@ extension AnyRemovingInteraction {
                   let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
                     view: draggingView,
                     duration: 0.85,
-                    position: .custom(target.center),
-                    scale: target.scale,
+                    position: .custom(translation.center),
+                    scale: translation.scale,
                     velocityForTranslation: velocityForAnimation,
-                    velocityForScaling: velocityForScaling //sqrt(pow(velocityForAnimation.dx, 2) + pow(velocityForAnimation.dy, 2))
+                    velocityForScaling: velocityForScaling  //sqrt(pow(velocityForAnimation.dx, 2) + pow(velocityForAnimation.dy, 2))
                   )
 
                   let backgroundAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
@@ -441,33 +449,127 @@ extension AnyRemovingInteraction {
 
                   /// handling interpolation view
                   do {
-                    interpolationView.center = .init(x: draggingView.frame.minX, y: draggingView.frame.minY)
+                    interpolationView.center = .init(
+                      x: draggingView.frame.minX,
+                      y: draggingView.frame.minY
+                    )
                     interpolationView.transform = .init(scaleX: 0.5, y: 0.5)
 
                     _trackingContext.transitionContext.contentView.addSubview(interpolationView)
 
-                    let interpolationViewAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
-                      view: interpolationView,
-                      duration: 0.85,
-                      position: .custom(target.center),
-                      scale: .init(width: 1, height: 1),
-                      velocityForTranslation: velocityForAnimation,
-                      velocityForScaling: velocityForScaling
-                    )
+                    let interpolationViewAnimators =
+                      Fluid.makePropertyAnimatorsForTranformUsingCenter(
+                        view: interpolationView,
+                        duration: 0.85,
+                        position: .custom(translation.center),
+                        scale: .init(width: 1, height: 1),
+                        velocityForTranslation: velocityForAnimation,
+                        velocityForScaling: velocityForScaling
+                      )
 
-                    let interpolationViewStyleAnimator = UIViewPropertyAnimator(duration: 0.85, dampingRatio: 1) {
+                    let interpolationViewStyleAnimator = UIViewPropertyAnimator(
+                      duration: 0.85,
+                      dampingRatio: 1
+                    ) {
                       interpolationView.alpha = 1
                     }
 
                     animators += interpolationViewAnimators + [interpolationViewStyleAnimator]
                   }
 
-
                   Fluid.startPropertyAnimators(animators) {
                     _trackingContext.transitionContext.notifyCompleted()
                   }
-                case .shape(destinationView: let destinationView):
-                  break
+                case .shape(let destinationView):
+
+                  let maskView = UIView()
+                  maskView.backgroundColor = .black
+
+                  maskView.frame = transitionContext.fromViewController.view.bounds
+                  transitionContext.fromViewController.view.mask = maskView
+
+                  let entrypointSnapshotView = Fluid.takeSnapshotVisible(view: destinationView)
+
+                  transitionContext.contentView.addSubview(entrypointSnapshotView)
+                  entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationView.bounds.size)
+                  entrypointSnapshotView.alpha = 0
+
+                  _trackingContext.transitionContext.addEventHandler { _ in
+                    entrypointSnapshotView.removeFromSuperview()
+                  }
+
+                  let translation = makeTranslation(
+                    from: transitionContext.fromViewController.view.frame,
+                    to: CGRect(
+                      origin: transitionContext.frameInContentView(for: destinationView).origin,
+                      size: Geometry.sizeThatAspectFill(
+                        aspectRatio: transitionContext.fromViewController.view.bounds.size,
+                        minimumSize: destinationView.bounds.size
+                      )
+                    )
+
+                  )
+
+                  let velocityForAnimation: CGVector = {
+
+                    let targetCenter = translation.center
+                    let gestureVelocity = gesture.velocity(in: gesture.view!)
+                    let delta = CGPoint(
+                      x: targetCenter.x - draggingView.center.x,
+                      y: targetCenter.y - draggingView.center.y
+                    )
+
+                    let velocity = CGVector.init(
+                      dx: gestureVelocity.x / delta.x,
+                      dy: gestureVelocity.y / delta.y
+                    )
+
+                    return velocity
+
+                  }()
+
+                  let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+                    view: transitionContext.fromViewController.view,
+                    duration: 0.8,
+                    position: .custom(translation.center),
+                    scale: translation.scale,
+                    velocityForTranslation: velocityForAnimation,
+                    velocityForScaling: .zero
+                  )
+
+                  let backgroundAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+                    _trackingContext.transitionContext.contentView.backgroundColor = .clear
+                  }
+
+                  let snapshotAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+                    transitionContext.fromViewController.view.alpha = 0
+                    entrypointSnapshotView.frame = transitionContext.frameInContentView(for: destinationView)
+                    entrypointSnapshotView.alpha = 1
+                  }
+
+                  let maskViewAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+                    maskView.frame = transitionContext.fromViewController.view.bounds
+                    maskView.frame.size.height = destinationView.bounds.height / translation.scale.height
+                    maskView.layer.cornerRadius = 24
+                    if #available(iOS 13.0, *) {
+                      maskView.layer.cornerCurve = .continuous
+                    } else {
+                      // Fallback on earlier versions
+                    }
+                  }
+
+                  Fluid.startPropertyAnimators(
+                    buildArray {
+                      animators
+                      backgroundAnimator
+                      maskViewAnimator
+                      snapshotAnimator
+                    },
+                    completion: {
+                      transitionContext.notifyCompleted()
+                    }
+                  )
+
                 }
 
               } else {
@@ -483,7 +585,10 @@ extension AnyRemovingInteraction {
                 )
 
                 animator.addAnimations {
-                  draggingView.center = .init(x: draggingView.bounds.width / 2, y: draggingView.bounds.height / 2)
+                  draggingView.center = .init(
+                    x: draggingView.bounds.width / 2,
+                    y: draggingView.bounds.height / 2
+                  )
                   draggingView.transform = .identity
                   draggingView.layer.cornerRadius = 0
                 }
@@ -500,7 +605,10 @@ extension AnyRemovingInteraction {
               _trackingContext.scrollController?.unlockScrolling()
               _trackingContext.scrollController?.endTracking()
 
-              draggingView.center = CGPoint(x: draggingView.bounds.width / 2, y: draggingView.bounds.height / 2)
+              draggingView.center = CGPoint(
+                x: draggingView.bounds.width / 2,
+                y: draggingView.bounds.height / 2
+              )
               draggingView.transform = .identity
               draggingView.layer.cornerRadius = 0
 

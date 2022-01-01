@@ -3,6 +3,33 @@ import UIKit
 
 enum Fluid {
 
+  public static func takeSnapshotVisible(view: UIView) -> UIView {
+
+    let snapshot: UIView
+
+    if view.alpha == 1, view.isHidden == false {
+      snapshot = view.snapshotView(afterScreenUpdates: false) ?? UIView()
+    } else {
+      let alpha = view.alpha
+      let isHidden = view.isHidden
+      let frame = view.frame
+
+      view.alpha = 1
+      view.isHidden = false
+      view.frame.origin.x = 10000 // move to out of the screen to avoid blinking
+      defer {
+        view.alpha = alpha
+        view.isHidden = isHidden
+        view.frame = frame
+      }
+      snapshot = view.snapshotView(afterScreenUpdates: true) ?? UIView()
+    }
+
+    snapshot.isUserInteractionEnabled = false
+
+    return snapshot
+  }
+
   public static func hasAnimations(view: UIView) -> Bool {
     return (view.layer.animationKeys() ?? []).count > 0
   }
