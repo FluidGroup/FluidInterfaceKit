@@ -36,7 +36,7 @@ public struct AnyRemovingInteraction {
 
 extension AnyRemovingInteraction {
 
-  // FIXME: note completed
+  // FIXME: not completed
   public static func leftToRight(
     dismiss: @escaping (InteractiveDismissalTransitionViewController) -> Void
   ) -> Self {
