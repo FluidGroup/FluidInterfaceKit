@@ -1,5 +1,4 @@
 # FluidInterfaceKit
-[WIP] Regarding Instagram Threads
 
 |Instagram Threads like | Apple like |
 |---|---|
