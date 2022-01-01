@@ -96,7 +96,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
                   let controller = InteractiveRemovingViewController(
                     bodyViewController: DemoThreadsDetailViewController(color: color),
                     transition: .init(
-                      adding: .popupContextual(
+                      adding: .instagramThreads(
                         from: cell,
                         interpolationView: interpolationView,
                         hidingViews: [cell]

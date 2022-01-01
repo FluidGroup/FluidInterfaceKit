@@ -36,7 +36,7 @@ extension AnyAddingTransition {
 
   }
 
-  public static func popupContextual(
+  public static func instagramThreads(
     from entrypointView: UIView,
     interpolationView: UIView,
     hidingViews: [UIView]
