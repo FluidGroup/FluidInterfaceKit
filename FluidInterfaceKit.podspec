@@ -21,4 +21,7 @@ Pod::Spec.new do |spec|
   spec.framework = "UIKit"
   spec.requires_arc = true
   spec.swift_versions = ["5.3", "5.4", "5.5"]
+
+  spec.dependency "MatchedTransition", ">= 1.1.0"
+  spec.dependency "GeometryKit", ">= 1.0.0"
 end
