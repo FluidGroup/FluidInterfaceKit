@@ -2,7 +2,8 @@
 
 Tools for **Fluid Interface** built on top of UIKit.
 
-**[About Fluid Interfaces](https://medium.com/@nathangitter/building-fluid-interfaces-ios-swift-9732bb934bf5)**
+**[About Fluid Interfaces](https://medium.com/@nathangitter/building-fluid-interfaces-ios-swift-9732bb934bf5)**  
+**[Instagram Threads engineering article](https://about.instagram.com/blog/engineering/on-building-a-fluid-user-interface)**
 
 |Instagram Threads like | Apple like |
 |---|---|
