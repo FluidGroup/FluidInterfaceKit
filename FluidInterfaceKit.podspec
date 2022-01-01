@@ -24,4 +24,5 @@ Pod::Spec.new do |spec|
 
   spec.dependency "MatchedTransition", ">= 1.1.0"
   spec.dependency "GeometryKit", ">= 1.0.0"
+  spec.dependency "ResultBuilderKit", ">= 1.1.0"
 end
