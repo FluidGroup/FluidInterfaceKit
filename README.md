@@ -34,6 +34,14 @@ dependencies: [
 
 ## Detail
 
+**2 ways to use**
+
+### Using FluidStackViewController no uses UIKit presentation
+
+// TODO
+
+### Using only FluidViewController and UIKit presentation
+
 // TODO
 
 ## License
