@@ -13,7 +13,7 @@ import StorybookKit
 import UIKit
 
 /// Message list
-final class DemoThreadsMessagesViewController: ZStackViewController {
+final class DemoThreadsMessagesViewController: FluidStackViewController {
 
   private let scrollableContainerView = ScrollableContainerView()
 
@@ -93,7 +93,7 @@ final class DemoThreadsMessagesViewController: ZStackViewController {
                   let interpolationView = makeListCell(color: color, onTap: { _ in })
                   interpolationView.isUserInteractionEnabled = false
 
-                  let controller = InteractiveRemovingViewController(
+                  let controller = FluidViewController(
                     bodyViewController: DemoThreadsDetailViewController(color: color),
                     transition: .init(
                       adding: .instagramThreads(

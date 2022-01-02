@@ -22,7 +22,7 @@ final class DemoPresentationViewController: UIViewController {
     presentButton.setTitle("Present", for: .normal)
     presentButton.onTap { [unowned self] in
 
-      let controller = InteractiveRemovingViewController(
+      let controller = FluidViewController(
         bodyViewController: PlaceholderViewController(),
         transition: .init(adding: .popup(), removing: nil),
         interactionToRemove: .horizontalDragging(

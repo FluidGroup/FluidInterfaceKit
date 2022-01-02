@@ -11,7 +11,7 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 
-final class DemoViewController: ZStackViewController {
+final class DemoViewController: FluidStackViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -106,7 +106,7 @@ final class ContentViewController: UIViewController, ViewControllerZStackContent
       $0.onTap { [unowned self] in
 
         zStackViewControllerContext?.addContentViewController(
-          InteractiveRemovingViewController(
+          FluidViewController(
             bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
             transition: .noTransition,
             interactionToRemove: nil

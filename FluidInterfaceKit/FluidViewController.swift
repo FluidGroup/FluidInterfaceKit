@@ -22,7 +22,7 @@
 import Foundation
 import UIKit
 
-open class InteractiveRemovingViewController: TransitionViewController, UIGestureRecognizerDelegate, ViewControllerZStackContentType {
+open class FluidViewController: TransitionViewController, UIGestureRecognizerDelegate, ViewControllerZStackContentType {
 
   // MARK: - Properties
 

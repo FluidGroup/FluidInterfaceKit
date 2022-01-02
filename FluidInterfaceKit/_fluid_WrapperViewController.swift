@@ -1,7 +1,7 @@
 
 import UIKit
 
-open class WrapperViewController: UIViewController {
+open class _fluid_WrapperViewController: UIViewController {
 
   public let bodyViewController: UIViewController?
   private let customView: UIView?

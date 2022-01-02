@@ -2,7 +2,7 @@ import UIKit
 
 /// Supports transition
 /// compatible with ``ZStackViewController``
-open class TransitionViewController: WrapperViewController {
+open class TransitionViewController: _fluid_WrapperViewController {
 
   private struct State: Equatable {
 

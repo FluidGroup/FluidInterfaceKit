@@ -14,7 +14,7 @@ private final class PassthoroughView: UIView {
 
 }
 
-open class ZStackViewController: UIViewController {
+open class FluidStackViewController: UIViewController {
 
   private struct State: Equatable {
 
@@ -27,7 +27,7 @@ open class ZStackViewController: UIViewController {
 
   final class ViewControllerStateToken: Equatable {
 
-    static func == (lhs: ZStackViewController.ViewControllerStateToken, rhs: ZStackViewController.ViewControllerStateToken) -> Bool {
+    static func == (lhs: FluidStackViewController.ViewControllerStateToken, rhs: FluidStackViewController.ViewControllerStateToken) -> Bool {
       lhs === rhs
     }
 
@@ -337,7 +337,7 @@ open class ZStackViewController: UIViewController {
 
 public struct ZStackViewControllerContext {
 
-  public private(set) weak var zStackViewController: ZStackViewController?
+  public private(set) weak var zStackViewController: FluidStackViewController?
   public private(set) weak var targetViewController: ViewControllerZStackContentType?
 
   /**

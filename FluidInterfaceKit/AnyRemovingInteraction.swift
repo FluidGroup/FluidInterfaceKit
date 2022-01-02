@@ -6,7 +6,7 @@ import UIKit
 public struct AnyRemovingInteraction {
 
   public struct Context {
-    public let viewController: InteractiveRemovingViewController
+    public let viewController: FluidViewController
   }
 
   public typealias Handler<Gesture> = (Gesture, Context) -> Void
@@ -38,7 +38,7 @@ extension AnyRemovingInteraction {
 
   // FIXME: not completed
   public static func leftToRight(
-    dismiss: @escaping (InteractiveRemovingViewController) -> Void
+    dismiss: @escaping (FluidViewController) -> Void
   ) -> Self {
 
     struct TrackingContext {

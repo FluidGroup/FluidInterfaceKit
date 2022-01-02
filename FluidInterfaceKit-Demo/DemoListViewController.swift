@@ -4,7 +4,7 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 
-final class DemoListViewController: ZStackViewController {
+final class DemoListViewController: FluidStackViewController {
 
   private let scrollableContainerView = ScrollableContainerView()
 
@@ -44,7 +44,7 @@ final class DemoListViewController: ZStackViewController {
           } else {
             let controller = DetailViewController(viewModel: viewModel)
 
-            let displayViewController = InteractiveRemovingViewController(
+            let displayViewController = FluidViewController(
               bodyViewController: controller,
               transition: .init(
                 adding: .expanding(from: view, hidingViews: [view]),
