@@ -29,7 +29,7 @@ open class FluidStackViewController: UIViewController {
   private var state: State = .init()
   private let __rootView: UIView?
 
-  public var stackingViewControllers: [ViewControllerZStackContentType] = []
+  public var stackingViewControllers: [ViewControllerFluidContentType] = []
 
   final class ViewControllerStateToken: Equatable {
 
@@ -100,14 +100,14 @@ open class FluidStackViewController: UIViewController {
 
     removeViewController(viewControllerToRemove, transition: transition)
 
-    viewControllerToRemove.zStackViewControllerContext = nil
+    viewControllerToRemove.fluidStackViewControllerContext = nil
   }
 
   /**
    Displays a view controller
    */
   public func addContentViewController(
-    _ viewControllerToAdd: ViewControllerZStackContentType,
+    _ viewControllerToAdd: ViewControllerFluidContentType,
     transition: AnyAddingTransition?
   ) {
 
@@ -127,10 +127,10 @@ open class FluidStackViewController: UIViewController {
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
     stackingViewControllers.append(viewControllerToAdd)
 
-    if viewControllerToAdd.zStackViewControllerContext == nil {
+    if viewControllerToAdd.fluidStackViewControllerContext == nil {
       /// set context
-      viewControllerToAdd.zStackViewControllerContext = .init(
-        zStackViewController: self,
+      viewControllerToAdd.fluidStackViewControllerContext = .init(
+        fluidStackViewController: self,
         targetViewController: viewControllerToAdd
       )
     }
@@ -196,7 +196,7 @@ open class FluidStackViewController: UIViewController {
    Starts removing transaction.
    Make sure to complete the transition with the context.
    */
-  public func startRemoving(_ viewControllerToRemove: ViewControllerZStackContentType) -> RemovingTransitionContext {
+  public func startRemoving(_ viewControllerToRemove: ViewControllerFluidContentType) -> RemovingTransitionContext {
 
     guard let index = stackingViewControllers.firstIndex(where: { $0 == viewControllerToRemove}) else {
       Log.error(.zStack, "\(viewControllerToRemove) was not found to remove")
@@ -232,7 +232,7 @@ open class FluidStackViewController: UIViewController {
         self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
 
         self.stackingViewControllers.removeAll { $0 == viewControllerToRemove }
-        viewControllerToRemove.zStackViewControllerContext = nil
+        viewControllerToRemove.fluidStackViewControllerContext = nil
 
         viewControllerToRemove.willMove(toParent: nil)
         viewControllerToRemove.view.superview!.removeFromSuperview()
@@ -250,7 +250,7 @@ open class FluidStackViewController: UIViewController {
   }
 
   public func removeViewController(
-    _ viewControllerToRemove: ViewControllerZStackContentType,
+    _ viewControllerToRemove: ViewControllerFluidContentType,
     transition: AnyRemovingTransition?
   ) {
 
@@ -341,30 +341,30 @@ open class FluidStackViewController: UIViewController {
   }
 }
 
-public struct ZStackViewControllerContext {
+public struct FluidStackViewControllerContext {
 
-  public private(set) weak var zStackViewController: FluidStackViewController?
-  public private(set) weak var targetViewController: ViewControllerZStackContentType?
+  public private(set) weak var fluidStackViewController: FluidStackViewController?
+  public private(set) weak var targetViewController: ViewControllerFluidContentType?
 
   /**
    Adds view controller to parent container if it presents.
    */
   public func addContentViewController(
-    _ viewController: ViewControllerZStackContentType,
+    _ viewController: ViewControllerFluidContentType,
     transition: AnyAddingTransition?
   ) {
-    zStackViewController?.addContentViewController(viewController, transition: transition)
+    fluidStackViewController?.addContentViewController(viewController, transition: transition)
   }
 
   public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {
-    zStackViewController?.addContentView(view, transition: transition)
+    fluidStackViewController?.addContentView(view, transition: transition)
   }
 
   public func removeSelf(transition: AnyRemovingTransition?) {
     guard let targetViewController = targetViewController else {
       return
     }
-    zStackViewController?.removeViewController(targetViewController, transition: transition)
+    fluidStackViewController?.removeViewController(targetViewController, transition: transition)
   }
 
   /**
@@ -374,28 +374,28 @@ public struct ZStackViewControllerContext {
     guard let targetViewController = targetViewController else {
       return nil
     }
-    return zStackViewController?.startRemoving(targetViewController)
+    return fluidStackViewController?.startRemoving(targetViewController)
   }
 
 }
 
 var ref: Void?
 
-public protocol ViewControllerZStackContentType: UIViewController {
-  var zStackViewControllerContext: ZStackViewControllerContext? { get }
+public protocol ViewControllerFluidContentType: UIViewController {
+  var fluidStackViewControllerContext: FluidStackViewControllerContext? { get }
 }
 
-extension ViewControllerZStackContentType {
+extension ViewControllerFluidContentType {
 
-  public internal(set) var zStackViewControllerContext: ZStackViewControllerContext? {
+  public internal(set) var fluidStackViewControllerContext: FluidStackViewControllerContext? {
     get {
 
-      guard let object = objc_getAssociatedObject(self, &ref) as? ZStackViewControllerContext else {
+      guard let object = objc_getAssociatedObject(self, &ref) as? FluidStackViewControllerContext else {
 
-        guard let compatibleParent = parent as? ViewControllerZStackContentType else {
+        guard let compatibleParent = parent as? ViewControllerFluidContentType else {
           return nil
         }
-        return compatibleParent.zStackViewControllerContext
+        return compatibleParent.fluidStackViewControllerContext
       }
       return object
 
@@ -414,7 +414,7 @@ extension ViewControllerZStackContentType {
   }
 }
 
-private final class AnonymousViewController: UIViewController, ViewControllerZStackContentType {
+private final class AnonymousViewController: UIViewController, ViewControllerFluidContentType {
 
   private let __rootView: UIView
 

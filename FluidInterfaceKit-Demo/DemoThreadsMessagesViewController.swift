@@ -59,7 +59,7 @@ final class DemoThreadsMessagesViewController: FluidStackViewController {
 
     let header = makeHeader()
 
-    var viewControllerCache: [Int: ViewControllerZStackContentType] = [:]
+    var viewControllerCache: [Int: ViewControllerFluidContentType] = [:]
 
     let content = CompositionKit.AnyView.init { view in
 
@@ -190,7 +190,7 @@ private func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> 
 }
 
 /// Detail
-final class DemoThreadsDetailViewController: UIViewController, ViewControllerZStackContentType {
+final class DemoThreadsDetailViewController: UIViewController, ViewControllerFluidContentType {
 
   private let scrollableContainerView = ScrollableContainerView()
   private let navigationView = NavigationHostingView()
@@ -224,7 +224,7 @@ final class DemoThreadsDetailViewController: UIViewController, ViewControllerZSt
       let button = UIButton(type: .system)&>.do {
         $0.setTitle("Dismiss", for: .normal)
         $0.onTap { [unowned self] in
-          self.zStackViewControllerContext?.removeSelf(transition: .vanishing())
+          self.fluidStackViewControllerContext?.removeSelf(transition: .vanishing())
         }
       }
 
@@ -310,7 +310,7 @@ final class DemoThreadsDetailViewController: UIViewController, ViewControllerZSt
         $0.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         $0.tintColor = .appBlack
         $0.onTap { [unowned self] in
-          self.zStackViewControllerContext?.removeSelf(transition: .vanishing())
+          self.fluidStackViewControllerContext?.removeSelf(transition: .vanishing())
         }
       }
 

@@ -42,7 +42,7 @@ final class DemoViewController: FluidStackViewController {
 
 }
 
-final class ContentViewController: UIViewController, ViewControllerZStackContentType {
+final class ContentViewController: UIViewController, ViewControllerFluidContentType {
 
   init(
     color: UIColor
@@ -87,14 +87,14 @@ final class ContentViewController: UIViewController, ViewControllerZStackContent
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Dimiss", for: .normal)
       $0.onTap { [unowned self] in
-        zStackViewControllerContext?.removeSelf(transition: .vanishing())
+        fluidStackViewControllerContext?.removeSelf(transition: .vanishing())
       }
     }
 
     let addButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add", for: .normal)
       $0.onTap { [unowned self] in
-        zStackViewControllerContext?.addContentViewController(
+        fluidStackViewControllerContext?.addContentViewController(
           ContentViewController(color: BookGenerator.randomColor()),
           transition: nil
         )
@@ -105,7 +105,7 @@ final class ContentViewController: UIViewController, ViewControllerZStackContent
       $0.setTitle("Add Wrapper", for: .normal)
       $0.onTap { [unowned self] in
 
-        zStackViewControllerContext?.addContentViewController(
+        fluidStackViewControllerContext?.addContentViewController(
           FluidViewController(
             bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
             transition: .noTransition,

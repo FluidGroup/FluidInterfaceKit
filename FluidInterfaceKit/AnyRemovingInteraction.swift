@@ -267,7 +267,7 @@ extension AnyRemovingInteraction {
                  */
 
                 let transitionContext =
-                  context.viewController.zStackViewControllerContext?.startRemoving()
+                  context.viewController.fluidStackViewControllerContext?.startRemoving()
                   ?? context.viewController._startStandaloneRemovingTransition()
 
                 BatchApplier(hidingViews).setInvisible(true)
