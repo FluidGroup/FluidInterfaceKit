@@ -14,6 +14,12 @@ private final class PassthoroughView: UIView {
 
 }
 
+/**
+ A container view controller that manages view controller and view as child view controllers.
+ It provides transitions when adding and removing.
+
+ You may create subclass of this to make a first view.
+ */
 open class FluidStackViewController: UIViewController {
 
   private struct State: Equatable {
