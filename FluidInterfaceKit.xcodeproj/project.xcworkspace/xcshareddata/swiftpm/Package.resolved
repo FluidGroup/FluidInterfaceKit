@@ -2,12 +2,30 @@
   "object": {
     "pins": [
       {
-        "package": "MondrianLayout",
-        "repositoryURL": "https://github.com/muukii/MondrianLayout.git",
+        "package": "MockKit",
+        "repositoryURL": "https://github.com/muukii/MockKit.git",
+        "state": {
+          "branch": "main",
+          "revision": "facff4540318d08f5f00c2b363abc640be3452f8",
+          "version": null
+        }
+      },
+      {
+        "package": "Ne",
+        "repositoryURL": "https://github.com/muukii/Ne.git",
         "state": {
           "branch": null,
-          "revision": "ff3e642aeb95ffc6e494474b63403b99cccd6c8c",
-          "version": "0.5.0"
+          "revision": "6555f94596b634c14bd0818265ef8c86bb3005f3",
+          "version": "1.0.1"
+        }
+      },
+      {
+        "package": "ResultBuilderKit",
+        "repositoryURL": "https://github.com/muukii/ResultBuilderKit.git",
+        "state": {
+          "branch": null,
+          "revision": "e3c9485920557deee738db3bb8eb6b8e1f403c37",
+          "version": "1.1.0"
         }
       },
       {
@@ -20,12 +38,12 @@
         }
       },
       {
-        "package": "Chain",
+        "package": "Wrap",
         "repositoryURL": "https://github.com/VergeGroup/Wrap.git",
         "state": {
           "branch": null,
-          "revision": "179f64cf0e421b071745388eb84043aaf73a4a0f",
-          "version": "1.1.0"
+          "revision": "2d2cc9091881b2758e33f97c073039a6237b3275",
+          "version": "3.0.0"
         }
       }
     ]

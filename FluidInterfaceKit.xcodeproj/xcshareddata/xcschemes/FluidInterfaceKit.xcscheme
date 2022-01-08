@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4B959AF72764F7180003FFB6"
-               BuildableName = "FluidInterfaceKit.framework"
+               BlueprintIdentifier = "FluidInterfaceKit"
+               BuildableName = "FluidInterfaceKit"
                BlueprintName = "FluidInterfaceKit"
-               ReferencedContainer = "container:FluidInterfaceKit.xcodeproj">
+               ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -50,10 +50,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4B959AF72764F7180003FFB6"
-            BuildableName = "FluidInterfaceKit.framework"
+            BlueprintIdentifier = "FluidInterfaceKit"
+            BuildableName = "FluidInterfaceKit"
             BlueprintName = "FluidInterfaceKit"
-            ReferencedContainer = "container:FluidInterfaceKit.xcodeproj">
+            ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

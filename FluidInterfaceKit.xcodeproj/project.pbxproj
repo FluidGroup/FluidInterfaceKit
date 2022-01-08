@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		20922E01E3BAA69D444AA7D3 /* Pods_FluidInterfaceKit_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */; };
 		4B037C57277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */; };
 		4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */; };
 		4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */; };
@@ -37,7 +36,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
@@ -62,10 +60,6 @@
 		4BDDF27E277F7BFA00636B00 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		4BE0AAC4277FD5620086FD7E /*  */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ""; sourceTree = "<group>"; };
 		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
-		4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluidInterfaceKit_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
-		CB1DA1EA46A5FB2FB5D1BF72 /* Pods-FluidInterfaceKit-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidInterfaceKit-Demo.release.xcconfig"; path = "Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo.release.xcconfig"; sourceTree = "<group>"; };
-		EE08FE0D4685BA4EAC1538F3 /* Pods-FluidUIKit-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluidUIKit-Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluidUIKit-Demo/Pods-FluidUIKit-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +74,6 @@
 				4BB5B319277077CC00EE1028 /* Ne in Frameworks */,
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
 				4B658D0F276A59F700A17878 /* Wrap in Frameworks */,
-				20922E01E3BAA69D444AA7D3 /* Pods_FluidInterfaceKit_Demo.framework in Frameworks */,
 				4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */,
 				4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */,
 			);
@@ -95,8 +88,6 @@
 				4BBDECDC276646E300982229 /* Packages */,
 				4B959B072764F77E0003FFB6 /* FluidInterfaceKit-Demo */,
 				4B959AF92764F7180003FFB6 /* Products */,
-				4B959B232764F8470003FFB6 /* Frameworks */,
-				C02325CD87C65355479CBC07 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,14 +123,6 @@
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
 		};
-		4B959B232764F8470003FFB6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				4E4918ACFFD4C4C3A2EAD8EC /* Pods_FluidInterfaceKit_Demo.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		4BBDECDC276646E300982229 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,17 +136,6 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
-		C02325CD87C65355479CBC07 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EE08FE0D4685BA4EAC1538F3 /* Pods-FluidUIKit-Demo.debug.xcconfig */,
-				62BF25F899069AA1C128AA08 /* Pods-FluidUIKit-Demo.release.xcconfig */,
-				082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */,
-				CB1DA1EA46A5FB2FB5D1BF72 /* Pods-FluidInterfaceKit-Demo.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -171,11 +143,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B959B172764F77F0003FFB6 /* Build configuration list for PBXNativeTarget "FluidInterfaceKit-Demo" */;
 			buildPhases = (
-				FDEAD7A9E8AD8DB9FD9E828A /* [CP] Check Pods Manifest.lock */,
 				4B959B022764F77E0003FFB6 /* Sources */,
 				4B959B032764F77E0003FFB6 /* Frameworks */,
 				4B959B042764F77E0003FFB6 /* Resources */,
-				8E2ABBB7831D900A0B079DDE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -256,48 +226,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		8E2ABBB7831D900A0B079DDE /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FluidInterfaceKit-Demo/Pods-FluidInterfaceKit-Demo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FDEAD7A9E8AD8DB9FD9E828A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FluidInterfaceKit-Demo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		4B959B022764F77E0003FFB6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -326,35 +254,27 @@
 /* Begin PBXTargetDependency section */
 		4BDDF26F277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4BDDF26E277F554700636B00 /* CompositionKit */;
 		};
 		4BDDF271277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4BDDF270277F554700636B00 /* MatchedTransition */;
 		};
 		4BDDF273277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4BDDF272277F554700636B00 /* ViewRepresentationKit */;
 		};
 		4BDDF275277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4BDDF274277F554700636B00 /* MondrianLayout */;
 		};
 		4BDDF277277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4BDDF276277F554700636B00 /* GeometryKit */;
 		};
 		4BDDF279277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4BDDF278277F554700636B00 /* FluidInterfaceKit */;
 		};
 		4BDDF27B277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4BDDF27A277F554700636B00 /* StorybookKit */;
 		};
 		4BDDF27D277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 4BDDF27C277F554700636B00 /* StorybookUI */;
 		};
 /* End PBXTargetDependency section */
 
@@ -494,7 +414,6 @@
 		};
 		4B959B182764F77F0003FFB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 082A7B16FA3F610E0F14AE59 /* Pods-FluidInterfaceKit-Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -522,7 +441,6 @@
 		};
 		4B959B192764F77F0003FFB6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CB1DA1EA46A5FB2FB5D1BF72 /* Pods-FluidInterfaceKit-Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -647,40 +565,6 @@
 		4BDDF26C277F553200636B00 /* FluidInterfaceKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FluidInterfaceKit;
-		};
-		4BDDF26E277F554700636B00 /* CompositionKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CompositionKit;
-		};
-		4BDDF270277F554700636B00 /* MatchedTransition */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MatchedTransition;
-		};
-		4BDDF272277F554700636B00 /* ViewRepresentationKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ViewRepresentationKit;
-		};
-		4BDDF274277F554700636B00 /* MondrianLayout */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MondrianLayout;
-		};
-		4BDDF276277F554700636B00 /* GeometryKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = GeometryKit;
-		};
-		4BDDF278277F554700636B00 /* FluidInterfaceKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FluidInterfaceKit;
-		};
-		4BDDF27A277F554700636B00 /* StorybookKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
-			productName = StorybookKit;
-		};
-		4BDDF27C277F554700636B00 /* StorybookUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
-			productName = StorybookUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
