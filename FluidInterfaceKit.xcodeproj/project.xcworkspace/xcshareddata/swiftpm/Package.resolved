@@ -29,12 +29,30 @@
         }
       },
       {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "7c17a6ccca06b5c107cfa4284e634562ddaf5951",
+          "version": "6.2.0"
+        }
+      },
+      {
         "package": "Storybook",
         "repositoryURL": "git@github.com:eure/Storybook-ios.git",
         "state": {
           "branch": null,
           "revision": "e15ea90fd59c8351e9742b2b8837d05ed462bd74",
           "version": "1.8.1"
+        }
+      },
+      {
+        "package": "Verge",
+        "repositoryURL": "https://github.com/VergeGroup/Verge",
+        "state": {
+          "branch": null,
+          "revision": "fd470f3189c52f851553caf13b8b1dd6795207bc",
+          "version": "8.15.0"
         }
       },
       {

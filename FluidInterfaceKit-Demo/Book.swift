@@ -21,6 +21,16 @@ let book = Book(title: "MyBook") {
     }
   }
 
+  BookNavigationLink(title: "Transition") {
+    BookPush(title: "Adding - in fluid stack") {
+      DemoTransitionViewController(usesFluid: true)
+    }
+
+    BookPush(title: "Adding - in presentation") {
+      DemoTransitionViewController(usesFluid: false)
+    }
+  }
+
   BookPresent(title: "Instagram Threads") {
     let controller = DemoThreadsMessagesViewController()
     controller.modalPresentationStyle = .fullScreen

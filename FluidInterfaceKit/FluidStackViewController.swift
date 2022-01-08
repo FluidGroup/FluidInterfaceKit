@@ -105,6 +105,9 @@ open class FluidStackViewController: UIViewController {
 
   /**
    Displays a view controller
+
+   - Parameters:
+     - transition: a transition for adding. if view controller is type of ``TransitionViewController``, uses this transition instead of TransitionViewController's transition.
    */
   public func addContentViewController(
     _ viewControllerToAdd: ViewControllerFluidContentType,
@@ -117,11 +120,6 @@ open class FluidStackViewController: UIViewController {
      */
 
     assert(Thread.isMainThread)
-
-//    guard stackingViewControllers.contains(viewControllerToAdd) == false else {
-//      Log.error(.zStack, "\(viewControllerToAdd) has been already added in ZStackViewController")
-//      return
-//    }
 
     let backViewController = stackingViewControllers.last
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
@@ -360,6 +358,8 @@ public struct FluidStackViewControllerContext {
     fluidStackViewController?.addContentView(view, transition: transition)
   }
 
+  /// Removes the target view controller in ``FluidStackViewController``.
+  /// - Parameter transition: if not nil, it would be used override parameter.
   public func removeSelf(transition: AnyRemovingTransition?) {
     guard let targetViewController = targetViewController else {
       return

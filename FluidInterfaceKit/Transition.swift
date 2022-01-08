@@ -183,6 +183,9 @@ public struct TransitionPair {
   }
 }
 
+/**
+ A transition for adding in ``FluidStackViewController`` or ``TransitionViewController``
+ */
 public struct AnyAddingTransition {
 
   private let _startTransition: (AddingTransitionContext) -> Void
@@ -198,7 +201,9 @@ public struct AnyAddingTransition {
   }
 }
 
-
+/**
+ A transition for removing in ``FluidStackViewController`` or ``TransitionViewController``
+ */
 public struct AnyRemovingTransition {
 
   private let _startTransition: (RemovingTransitionContext) -> Void
@@ -214,6 +219,9 @@ public struct AnyRemovingTransition {
   }
 }
 
+/**
+ A transition for removing in ``FluidStackViewController`` or ``TransitionViewController``
+ */
 public struct AnyBatchRemovingTransition {
 
   private let _startTransition: (BatchRemovingTransitionContext) -> Void
