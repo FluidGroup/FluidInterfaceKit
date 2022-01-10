@@ -379,11 +379,11 @@ public struct FluidStackViewControllerContext {
 
 }
 
-var ref: Void?
-
 public protocol ViewControllerFluidContentType: UIViewController {
   var fluidStackViewControllerContext: FluidStackViewControllerContext? { get }
 }
+
+var ref: Void?
 
 extension ViewControllerFluidContentType {
 

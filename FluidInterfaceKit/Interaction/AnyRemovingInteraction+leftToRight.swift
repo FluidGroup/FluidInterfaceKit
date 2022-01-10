@@ -35,7 +35,7 @@ extension AnyRemovingInteraction {
 
     return .init(
       handlers: [
-        .screen(
+        .gestureOnScreen(
           handler: { gesture, context in
 
             let view = context.viewController.view!

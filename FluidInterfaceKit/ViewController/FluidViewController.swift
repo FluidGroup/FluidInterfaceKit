@@ -1,27 +1,12 @@
-//
-// Copyright (c) 2021 Copyright (c) 2021 Eureka, Inc.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
 
 import Foundation
 import UIKit
 
+/**
+ A view controller that supports interaction to start removing transiton.
+
+ You may specify ``AnyRemovingInteraction``
+ */
 open class FluidViewController: TransitionViewController, UIGestureRecognizerDelegate, ViewControllerFluidContentType {
 
   // MARK: - Properties
@@ -44,7 +29,6 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
   /// Creates an instance
   ///
   /// - Parameters:
-  ///   - idiom:
   ///   - bodyViewController: a view controller that displays as a child view controller. It helps a case of can't create a subclass of FluidViewController.
   ///   - interaction: it can be replaced later
   public init(
@@ -56,6 +40,11 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
     super.init(bodyViewController: bodyViewController, transition: transition)
   }
 
+  /// Creates an instance
+  ///
+  /// - Parameters:
+  ///   - view: a view controller that displays as a child view controller. It helps a case of can't create a subclass of FluidViewController.
+  ///   - interaction: it can be replaced laterpublic
   public init(
     view: UIView,
     transition: TransitionPair,
@@ -82,6 +71,8 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
   }
 
   public func setInteraction(_ newInteraction: AnyRemovingInteraction) {
+    assert(Thread.isMainThread)
+
     interactionToRemove = newInteraction
     setupGestures()
   }
@@ -99,14 +90,14 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
 
     for handler in interaction.handlers {
       switch handler {
-      case .leftEdge:
+      case .gestureOnLeftEdge:
         let edgeGesture = _EdgePanGestureRecognizer(target: self, action: #selector(handleEdgeLeftPanGesture))
         edgeGesture.edges = .left
         view.addGestureRecognizer(edgeGesture)
         edgeGesture.delegate = self
         self.interactiveEdgeUnwindGestureRecognizer = edgeGesture
         registeredGestures.append(edgeGesture)
-      case .screen:
+      case .gestureOnScreen:
         let panGesture = _PanGestureRecognizer(target: self, action: #selector(handlePanGesture))
         view.addGestureRecognizer(panGesture)
         panGesture.delegate = self
@@ -125,7 +116,7 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
     }
 
     for handler in interaction.handlers {
-      if case .leftEdge(let handler) = handler {
+      if case .gestureOnLeftEdge(let handler) = handler {
 
         handler(gesture, .init(viewController: self))
 
@@ -142,7 +133,7 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
     }
 
     for handler in interaction.handlers {
-      if case .screen(let handler) = handler {
+      if case .gestureOnScreen(let handler) = handler {
         handler(gesture, .init(viewController: self))
       }
     }

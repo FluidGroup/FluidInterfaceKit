@@ -3,31 +3,39 @@ import MatchedTransition
 import ResultBuilderKit
 import UIKit
 
+/**
+ A handler for interaction in removing transition.
+
+ This object has multiple handlers for communicate with interaction.
+ */
 public struct AnyRemovingInteraction {
 
   public struct Context {
+    /// a ``FluidViewController`` that runs ``AnyRemovingInteraction``
     public let viewController: FluidViewController
   }
 
-  public typealias Handler<Gesture> = (Gesture, Context) -> Void
+  public typealias GestureHandler<Gesture> = (Gesture, Context) -> Void
 
-  public enum GestureHandler {
-    case leftEdge(handler: Handler<UIScreenEdgePanGestureRecognizer>)
-    case screen(handler: Handler<_PanGestureRecognizer>)
+  public enum Handler {
+    case gestureOnLeftEdge(handler: GestureHandler<UIScreenEdgePanGestureRecognizer>)
+    case gestureOnScreen(handler: GestureHandler<_PanGestureRecognizer>)
   }
 
-  public let handlers: [GestureHandler]
+  public let handlers: [Handler]
 
-  ///
+  /// Creates an instance
   /// - Parameter handlers: Don't add duplicated handlers
   public init(
-    handlers: [GestureHandler]
+    handlers: [Handler]
   ) {
     self.handlers = handlers
   }
 
+  /// Creates an instance
+  /// - Parameter handlers: Don't add duplicated handlers
   public init(
-    handlers: GestureHandler...
+    handlers: Handler...
   ) {
     self.handlers = handlers
   }
