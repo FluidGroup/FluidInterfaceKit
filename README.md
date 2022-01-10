@@ -8,15 +8,21 @@ Mainly, focusing on **transition** that is intuitive and flexible.
 For instance, iOS Home screen provides great flexible user interactions.  
 The user can stop opening the app while transitioning vice versa.
 
-> This project is still under development and experimental.  
-There is no guarantee to become ready for use in production.
+Also, context menu in iOS 15 must be a kind of fluid-interface.
 
 Tools for **Fluid Interface** built on top of UIKit.
 
 **[About Fluid Interfaces](https://medium.com/@nathangitter/building-fluid-interfaces-ios-swift-9732bb934bf5)**  
 **[Instagram Threads engineering article](https://about.instagram.com/blog/engineering/on-building-a-fluid-user-interface)**
 
+## Disclamation
+
+> This project is still under development and experimental.  
+There is no guarantee to become ready for use in production.
+
 ## Roadmap
+
+The number of stars makes this project push forward.
 
 - 100 🌟 TBD
 - 200 🌟 TBD
