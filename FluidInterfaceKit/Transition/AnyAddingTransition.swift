@@ -2,6 +2,25 @@ import UIKit
 import GeometryKit
 import ResultBuilderKit
 
+/**
+ A transition for adding in ``FluidStackViewController`` or ``TransitionViewController``
+ */
+public struct AnyAddingTransition {
+
+  private let _startTransition: (AddingTransitionContext) -> Void
+
+  public init(
+    startTransition: @escaping (AddingTransitionContext) -> Void
+  ) {
+    self._startTransition = startTransition
+  }
+
+  public func startTransition(context: AddingTransitionContext) {
+    _startTransition(context)
+  }
+}
+
+
 extension AnyAddingTransition {
 
   public static var noAnimation: Self {
@@ -46,7 +65,7 @@ extension AnyAddingTransition {
 
       // FIXME: tmp impl
       BatchApplier(hidingViews).setInvisible(true)
-      
+
       context.addEventHandler { event in
         BatchApplier(hidingViews).setInvisible(false)
       }
@@ -254,85 +273,4 @@ extension AnyAddingTransition {
 
     }
   }
-}
-
-extension AnyRemovingTransition {
-
-  public static var noAnimation: Self {
-    return .init { context in
-      context.notifyCompleted()
-    }
-  }
-
-  public static func vanishing(duration: TimeInterval = 0.6) -> Self {
-
-    return .init { context in
-
-      let topViewController = context.fromViewController
-
-      let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
-
-        topViewController.view.alpha = 0
-        topViewController.view.transform = .init(scaleX: 0.8, y: 0.8)
-        topViewController.view.center.y += 150
-
-        context.contentView.backgroundColor = .clear
-        context.toViewController?.view.alpha = 1
-
-      }
-
-      animator.addCompletion { _ in
-        context.notifyCompleted()
-      }
-
-      animator.startAnimation()
-
-    }
-
-  }
-
-}
-
-extension AnyBatchRemovingTransition {
-
-  public static func vanishing(duration: TimeInterval = 0.6) -> Self {
-
-    return .init { context in
-
-      let topViewController = context.fromViewControllers.last!
-      let middleViewControllers = context.fromViewControllers.dropLast()
-
-      middleViewControllers.forEach {
-        $0.view.isHidden = true
-      }
-
-      let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
-
-        topViewController.view.alpha = 0
-
-        context.toViewController?.view.transform = .identity
-        context.toViewController?.view.alpha = 1
-
-      }
-
-      animator.addCompletion { _ in
-
-        context.notifyCompleted()
-
-        topViewController.view.alpha = 1
-        middleViewControllers.forEach {
-          $0.view.isHidden = false
-        }
-
-        context.fromViewControllers.forEach {
-          $0.view.removeFromSuperview()
-        }
-      }
-
-      animator.startAnimation()
-
-    }
-
-  }
-
 }
