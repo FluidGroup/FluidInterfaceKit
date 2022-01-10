@@ -20,6 +20,16 @@ Tools for **Fluid Interface** built on top of UIKit.
 > This project is still under development and experimental.  
 There is no guarantee to become ready for use in production.
 
+## Requirements
+
+- iOS 12 +
+- Swift 5.5
+- iPhone platform
+- Packages
+  - [MatchedTransition](https://github.com/muukii/MatchedTransition)
+  - [GeometryKit](https://github.com/muukii/GeometryKit)
+  - [ResultBuilderKit](https://github.com/muukii/ResultBuilderKit.git)
+
 ## Roadmap
 
 The number of stars makes this project push forward.
