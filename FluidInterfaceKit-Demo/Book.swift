@@ -61,4 +61,11 @@ let book = Book(title: "MyBook") {
     AnimatorPlaygroundViewController()
   }
 
+  BookNavigationLink(title: "Experiments") {
+    if #available(iOS 15, *) {
+      BookPush(title: "ContextMenu") {
+        DemoContextMenuViewController()
+      }
+    }
+  }
 }
