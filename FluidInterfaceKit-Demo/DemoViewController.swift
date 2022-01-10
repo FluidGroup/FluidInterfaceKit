@@ -16,28 +16,50 @@ final class DemoViewController: FluidStackViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    definesPresentationContext = true
 
-    let startButton = UIButton(type: .system)
-    startButton.setTitle("Start", for: .normal)
-    startButton.addTarget(self, action: #selector(onTapStartButton), for: .primaryActionTriggered)
+    view.backgroundColor = .systemBackground
 
-    Mondrian.buildSubviews(on: view) {
+    let addButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Add", for: .normal)
+      $0.onTap { [unowned self] in
+        addContentViewController(
+          ContentViewController(color: BookGenerator.randomColor()),
+          transition: .popup()
+        )
+      }
+    }
+
+    let alertButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Show UIAlertController", for: .normal)
+      $0.onTap { [unowned self] in
+        let alert = UIAlertController(title: "Hi", message: nil, preferredStyle: .alert)
+        alert.addAction(.init(title: "Close", style: .default, handler: { _ in
+
+        }))
+        present(alert, animated: true, completion: nil)
+      }
+    }
+
+    Mondrian.buildSubviews(on: contentView) {
       LayoutContainer(attachedSafeAreaEdges: .all) {
         ZStackBlock {
 
-          startButton
+          VStackBlock {
+
+            UILabel()&>.do {
+              $0.text = "Here is FluidStackViewController"
+              $0.textColor = .label
+            }
+
+            addButton
+
+            alertButton
+          }
 
         }
       }
     }
-  }
-
-  @objc private func onTapStartButton() {
-    addContentViewController(
-      ContentViewController(color: BookGenerator.randomColor()),
-      transition: nil
-    )
   }
 
 }
@@ -85,7 +107,7 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
     super.viewDidLoad()
 
     let dismissButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Dimiss", for: .normal)
+      $0.setTitle("Remove self", for: .normal)
       $0.onTap { [unowned self] in
         fluidStackViewControllerContext?.removeSelf(transition: .vanishing())
       }
@@ -102,17 +124,35 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
     }
 
     let addInteractiveButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Add Wrapper", for: .normal)
+      $0.setTitle("Add Interactive content", for: .normal)
       $0.onTap { [unowned self] in
 
         fluidStackViewControllerContext?.addContentViewController(
           FluidViewController(
             bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
             transition: .noTransition,
-            interactionToRemove: nil
+            interactionToRemove: .horizontalDragging(backwardingMode: nil, hidingViews: [])
           ),
           transition: nil
         )
+      }
+    }
+
+    let alertButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Show UIAlertController", for: .normal)
+      $0.onTap { [unowned self] in
+        let alert = UIAlertController(title: "Hi", message: nil, preferredStyle: .alert)
+        alert.addAction(.init(title: "Close", style: .default, handler: { _ in
+
+        }))
+        present(alert, animated: true, completion: nil)
+      }
+    }
+
+    let removeAllButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Remove all", for: .normal)
+      $0.onTap { [unowned self] in
+        fluidStackViewControllerContext
       }
     }
 
@@ -125,7 +165,12 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
 
             addInteractiveButton
 
+            alertButton
+
+            removeAllButton
+            
             dismissButton
+
           }
         }
       }

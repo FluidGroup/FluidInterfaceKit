@@ -1,19 +1,6 @@
 import UIKit
 import SwiftUI
 
-private final class PassthoroughView: UIView {
-
-  override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-    let view = super.hitTest(point, with: event)
-    if view == self {
-      return nil
-    } else {
-      return view
-    }
-  }
-
-}
-
 /**
  A container view controller that manages view controller and view as child view controllers.
  It provides transitions when adding and removing.
@@ -22,6 +9,22 @@ private final class PassthoroughView: UIView {
  */
 open class FluidStackViewController: UIViewController {
 
+  private final class WrapperView: UIView {
+
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+      let view = super.hitTest(point, with: event)
+      if view == self {
+        return nil
+      } else {
+        return view
+      }
+    }
+
+  }
+
+  private final class RootContentView: UIView {
+  }
+
   private struct State: Equatable {
 
   }
@@ -29,6 +32,7 @@ open class FluidStackViewController: UIViewController {
   private var state: State = .init()
   private let __rootView: UIView?
 
+  public let contentView: UIView
   public var stackingViewControllers: [ViewControllerFluidContentType] = []
 
   final class ViewControllerStateToken: Equatable {
@@ -66,6 +70,7 @@ open class FluidStackViewController: UIViewController {
     view: UIView? = nil
   ) {
     self.__rootView = view
+    self.contentView = RootContentView()
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -78,6 +83,10 @@ open class FluidStackViewController: UIViewController {
 
   open override func viewDidLoad() {
     super.viewDidLoad()
+
+    view.addSubview(contentView)
+    contentView.frame = view.bounds
+    contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
   }
 
   public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {
@@ -136,7 +145,7 @@ open class FluidStackViewController: UIViewController {
     if viewControllerToAdd.parent != self {
       addChild(viewControllerToAdd)
 
-      let containerView = PassthoroughView()
+      let containerView = WrapperView()
       containerView.backgroundColor = .clear
 
       containerView.addSubview(viewControllerToAdd.view)
