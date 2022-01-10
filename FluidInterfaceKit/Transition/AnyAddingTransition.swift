@@ -76,15 +76,12 @@ extension AnyAddingTransition {
 
         let frame = entrypointView.convert(entrypointView.bounds, to: context.contentView)
 
-        let target = makeTranslation(
-          from: context.contentView.bounds,
-          to: Geometry.rectThatAspectFit(
-            aspectRatio: context.contentView.bounds.size,
-            boundingRect: frame
-          )
-        )
+        let target = Geometry.centerAndScale(from: context.contentView.bounds, to: Geometry.rectThatAspectFit(
+          aspectRatio: context.contentView.bounds.size,
+          boundingRect: frame
+        ))
 
-        targetView.transform = .init(scaleX: target.scale.width, y: target.scale.height)
+        targetView.transform = .init(scaleX: target.scale.x, y: target.scale.y)
         targetView.center = target.center
 
         targetView.alpha = 1
@@ -129,7 +126,7 @@ extension AnyAddingTransition {
         view: interpolationView,
         duration: 0.6,
         position: .custom(.init(x: 0, y: 0)),
-        scale: .init(width: 0.5, height: 0.5),
+        scale: .init(x: 0.5, y: 0.5),
         velocityForTranslation: .zero,
         velocityForScaling: 0
       )
@@ -138,7 +135,7 @@ extension AnyAddingTransition {
         view: context.toViewController.view,
         duration: 0.6,
         position: .center(of: context.toViewController.view.bounds),
-        scale: .init(width: 1, height: 1),
+        scale: .init(x: 1, y: 1),
         velocityForTranslation: .zero,
         velocityForScaling: 0
       )
@@ -203,17 +200,14 @@ extension AnyAddingTransition {
         )
 
         /// make initial state for displaying view
-        let translation = makeTranslation(
-          from: context.contentView.bounds,
-          to: fromFrame
-        )
+        let translation = Geometry.centerAndScale(from: context.contentView.bounds, to: fromFrame)
 
-        context.toViewController.view.transform = .init(scaleX: translation.scale.width, y: translation.scale.height)
+        context.toViewController.view.transform = .init(scaleX: translation.scale.x, y: translation.scale.y)
         context.toViewController.view.center = translation.center
         context.toViewController.view.alpha = 0.2
 
         // fix visually height against transforming
-        maskView.frame.size.height = entrypointView.bounds.height / translation.scale.height
+        maskView.frame.size.height = entrypointView.bounds.height / translation.scale.y
 
       }
 
@@ -221,12 +215,12 @@ extension AnyAddingTransition {
         view: context.toViewController.view,
         duration: 0.7,
         position: .center(of: context.toViewController.view.bounds),
-        scale: .init(width: 1, height: 1),
+        scale: .init(x: 1, y: 1),
         velocityForTranslation: .zero,
         velocityForScaling: 0
       )
 
-      let translationForSnapshot = makeTranslation(
+      let translationForSnapshot = Geometry.centerAndScale(
         from: entrypointSnapshotView.frame,
         to: .init(origin: .zero, size: entrypointSnapshotView.frame.size)
       )

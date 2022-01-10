@@ -187,7 +187,7 @@ extension AnyRemovingInteraction {
                     dy: targetRect.height / 3
                   )
 
-                  let translation = makeTranslation(from: draggingView.bounds, to: targetRect)
+                  let translation = Geometry.centerAndScale(from: draggingView.bounds, to: targetRect)
 
                   let velocityForAnimation: CGVector = {
 
@@ -249,7 +249,7 @@ extension AnyRemovingInteraction {
                       view: interpolationView,
                       duration: 0.85,
                       position: .custom(translation.center),
-                      scale: .init(width: 1, height: 1),
+                      scale: .init(x: 1, y: 1),
                       velocityForTranslation: velocityForAnimation,
                       velocityForScaling: velocityForScaling
                     )
@@ -285,7 +285,7 @@ extension AnyRemovingInteraction {
                     entrypointSnapshotView.removeFromSuperview()
                   }
 
-                  let translation = makeTranslation(
+                  let translation = Geometry.centerAndScale(
                     from: transitionContext.fromViewController.view.frame,
                     to: CGRect(
                       origin: transitionContext.frameInContentView(for: destinationView).origin,
@@ -294,7 +294,6 @@ extension AnyRemovingInteraction {
                         minimumSize: destinationView.bounds.size
                       )
                     )
-
                   )
 
                   let velocityForAnimation: CGVector = {
@@ -336,7 +335,7 @@ extension AnyRemovingInteraction {
 
                   let maskViewAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
                     maskView.frame = transitionContext.fromViewController.view.bounds
-                    maskView.frame.size.height = destinationView.bounds.height / translation.scale.height
+                    maskView.frame.size.height = destinationView.bounds.height / translation.scale.y
                     maskView.layer.cornerRadius = 24
                     if #available(iOS 13.0, *) {
                       maskView.layer.cornerCurve = .continuous

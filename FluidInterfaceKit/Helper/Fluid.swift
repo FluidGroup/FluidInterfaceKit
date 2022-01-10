@@ -71,7 +71,7 @@ enum Fluid {
     view: UIView,
     duration: TimeInterval,
     position: Position,
-    scale: CGSize,
+    scale: CGPoint,
     velocityForTranslation: CGVector,
     velocityForScaling: CGFloat
   ) -> [UIViewPropertyAnimator] {
@@ -93,7 +93,7 @@ enum Fluid {
     )
 
     scaleAnimator.addAnimations {
-      view.transform = .init(scaleX: scale.width, y: scale.height)
+      view.transform = .init(scaleX: scale.x, y: scale.y)
     }
 
     positionAnimator.addAnimations {
