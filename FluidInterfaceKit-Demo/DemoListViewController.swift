@@ -47,7 +47,7 @@ final class DemoListViewController: FluidStackViewController {
             let displayViewController = FluidViewController(
               bodyViewController: controller,
               transition: .init(
-                adding: .expanding(from: view, hidingViews: [view]),
+                adding: .contextualExpanding(from: view, hidingViews: [view]),
                 removing: nil
               ),
               interactionToRemove: .horizontalDragging(

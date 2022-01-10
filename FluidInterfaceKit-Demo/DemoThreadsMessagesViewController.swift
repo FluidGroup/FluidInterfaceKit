@@ -96,7 +96,7 @@ final class DemoThreadsMessagesViewController: FluidStackViewController {
                   let controller = FluidViewController(
                     bodyViewController: DemoThreadsDetailViewController(color: color),
                     transition: .init(
-                      adding: .instagramThreads(
+                      adding: .contextualInstagramThreads(
                         from: cell,
                         interpolationView: interpolationView,
                         hidingViews: [cell]
