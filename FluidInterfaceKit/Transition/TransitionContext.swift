@@ -25,12 +25,13 @@ public class TransitionContext: Equatable {
   }
 
   func invalidate() {
+    assert(Thread.isMainThread)
     isInvalidated = true
-
     callbacks.forEach { $0(.interrupted) }
   }
 
   public func addEventHandler(_ closure: @escaping (Event) -> Void) {
+    assert(Thread.isMainThread)
     callbacks.append(closure)
   }
 

@@ -152,7 +152,7 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
     let removeAllButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove all", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackViewControllerContext
+        fluidStackViewControllerContext?.removeAllViewController(transition: .vanishing())
       }
     }
 

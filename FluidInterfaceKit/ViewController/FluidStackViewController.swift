@@ -273,6 +273,11 @@ open class FluidStackViewController: UIViewController {
 
   }
 
+  public func removeAllViewController(transition: AnyBatchRemovingTransition?) {
+    guard let first = stackingViewControllers.first else { return }
+    removeAllViewController(from: first, transition: transition)
+  }
+
   // FIXME: not completed implementation
   public func removeAllViewController(
     from viewController: UIViewController,
@@ -305,22 +310,47 @@ open class FluidStackViewController: UIViewController {
         $0.removeFromParent()
       }
 
-      let context = BatchRemovingTransitionContext(
+      let transitionContext = BatchRemovingTransitionContext(
         contentView: viewControllersToRemove.first!.view.superview!,
         fromViewControllers: viewControllersToRemove,
         toViewController: targetTopViewController,
-        onCompleted: { [weak self] _ in
+        onCompleted: { [weak self] context in
+
+          guard let self = self else { return }
+
+          /**
+           Completion of transition, cleaning up
+           */
+
+          for viewControllerToRemove in viewControllersToRemove where context.isInvalidated(for: viewControllerToRemove) == false {
+            self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
+            viewControllerToRemove.willMove(toParent: nil)
+            viewControllerToRemove.view.superview!.removeFromSuperview()
+            viewControllerToRemove.removeFromParent()
+            viewControllerToRemove.fluidStackViewControllerContext = nil
+          }
+
+          self.stackingViewControllers.removeAll { instance in viewControllersToRemove.contains(where: { $0 == instance }) }
+
+          context.transitionFinished()
 
         }
       )
 
-      transition.startTransition(context: context)
+      for viewControllerToRemove in viewControllersToRemove {
+        viewControllerState(viewController: viewControllerToRemove)?.invalidate()
+        setViewControllerState(viewController: viewControllerToRemove, context: transitionContext.child(for: viewControllerToRemove))
+      }
+
+      transition.startTransition(context: transitionContext)
 
     } else {
 
       while stackingViewControllers.last != targetTopViewController {
 
         let viewControllerToRemove = stackingViewControllers.last!
+        viewControllerState(viewController: viewControllerToRemove)?.invalidate()
+        setViewControllerState(viewController: viewControllerToRemove, context: nil)
 
         assert(stackingViewControllers.last === viewControllerToRemove)
 
@@ -384,6 +414,10 @@ public struct FluidStackViewControllerContext {
       return nil
     }
     return fluidStackViewController?.startRemoving(targetViewController)
+  }
+
+  public func removeAllViewController(transition: AnyBatchRemovingTransition?) {
+    fluidStackViewController?.removeAllViewController(transition: transition)
   }
 
 }
