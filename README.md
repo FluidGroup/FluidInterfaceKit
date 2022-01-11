@@ -30,6 +30,11 @@ There is no guarantee to become ready for use in production.
   - [GeometryKit](https://github.com/muukii/GeometryKit)
   - [ResultBuilderKit](https://github.com/muukii/ResultBuilderKit.git)
 
+- Optional Packages
+  - [CompositionKit](https://github.com/muukii/CompositionKit)
+  - [MondrianLayout](https://github.com/muukii/MondrianLayout)
+  - [TextureSwiftSupport](https://github.com/TextureCommunity/TextureSwiftSupport)
+
 ## Roadmap
 
 The number of stars makes this project push forward.
