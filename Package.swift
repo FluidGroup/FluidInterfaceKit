@@ -11,7 +11,7 @@ let package = Package(
   ],
   dependencies: [
     .package(name: "MatchedTransition", url: "https://github.com/muukii/MatchedTransition", .upToNextMajor(from: "1.1.0")),
-    .package(name: "GeometryKit", url: "https://github.com/muukii/GeometryKit", .upToNextMajor(from: "1.0.0")),
+    .package(name: "GeometryKit", url: "https://github.com/muukii/GeometryKit", .upToNextMajor(from: "1.1.0")),
     .package(name: "ResultBuilderKit", url: "https://github.com/muukii/ResultBuilderKit.git", .upToNextMajor(from: "1.1.0"))
   ],
   targets: [
