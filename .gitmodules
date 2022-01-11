@@ -13,3 +13,6 @@
 [submodule "submodules/GeometryKit"]
 	path = submodules/GeometryKit
 	url = git@github.com:muukii/GeometryKit.git
+[submodule "submodules/Descriptors"]
+	path = submodules/Descriptors
+	url = git@github.com:muukii/Descriptors.git

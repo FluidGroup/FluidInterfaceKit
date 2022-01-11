@@ -42,6 +42,7 @@
 		4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
 		4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPresentationViewController.swift; sourceTree = "<group>"; };
+		4B2CCB88278DD21400EAB928 /* Descriptors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Descriptors; path = submodules/Descriptors; sourceTree = "<group>"; };
 		4B34DEEC2789FC00002D820E /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
 		4B5ED7D3278C3D6B00D30EE7 /* DemoContextMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoContextMenuViewController.swift; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +133,7 @@
 		4BBDECDC276646E300982229 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				4B2CCB88278DD21400EAB928 /* Descriptors */,
 				4BBDECDD276646E300982229 /* CompositionKit */,
 				4BBDECDE276646EE00982229 /* MatchedTransition */,
 				4B1561B92773659200C4DE07 /* ViewRepresentationKit */,
