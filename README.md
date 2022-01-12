@@ -63,9 +63,9 @@ dependencies: [
 
 **2 ways to use**
 
-### Using FluidStackViewController no uses UIKit presentation
+### Using FluidStackController no uses UIKit presentation
 
-`FluidStackViewController` is a container view controller like `UINavigationController` and `UITabBarController`.  
+`FluidStackController` is a container view controller like `UINavigationController` and `UITabBarController`.  
 It stacks view controllers on Z-axis to display. 
 
 The transition of adding and removing are supported as well as UIKit's presentation. but it's more designed for flexibility.

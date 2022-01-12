@@ -11,7 +11,7 @@ import FluidInterfaceKit
 import UIKit
 import StorybookKit
 
-final class DemoControlCenterViewController: FluidStackViewController {
+final class DemoControlCenterViewController: FluidStackController {
 
   override func viewDidLoad() {
     super.viewDidLoad()

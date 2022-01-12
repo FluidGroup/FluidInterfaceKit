@@ -4,7 +4,7 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 
-final class DemoListViewController: FluidStackViewController {
+final class DemoListViewController: FluidStackController {
 
   private let scrollableContainerView = ScrollableContainerView()
 

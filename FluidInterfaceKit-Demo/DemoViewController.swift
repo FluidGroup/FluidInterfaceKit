@@ -11,7 +11,7 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 
-final class DemoViewController: FluidStackViewController {
+final class DemoViewController: FluidStackController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -48,7 +48,7 @@ final class DemoViewController: FluidStackViewController {
           VStackBlock {
 
             UILabel()&>.do {
-              $0.text = "Here is FluidStackViewController"
+              $0.text = "Here is FluidStackController"
               $0.textColor = .label
             }
 
@@ -109,14 +109,14 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove self", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackViewControllerContext?.removeSelf(transition: .vanishing())
+        fluidStackControllerContext?.removeSelf(transition: .vanishing())
       }
     }
 
     let addButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackViewControllerContext?.addContentViewController(
+        fluidStackControllerContext?.addContentViewController(
           ContentViewController(color: BookGenerator.randomColor()),
           transition: nil
         )
@@ -127,7 +127,7 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
       $0.setTitle("Add Interactive content", for: .normal)
       $0.onTap { [unowned self] in
 
-        fluidStackViewControllerContext?.addContentViewController(
+        fluidStackControllerContext?.addContentViewController(
           FluidViewController(
             bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
             transition: .noTransition,
@@ -152,7 +152,7 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
     let removeAllButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove all", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackViewControllerContext?.removeAllViewController(transition: .vanishing())
+        fluidStackControllerContext?.removeAllViewController(transition: .vanishing())
       }
     }
 

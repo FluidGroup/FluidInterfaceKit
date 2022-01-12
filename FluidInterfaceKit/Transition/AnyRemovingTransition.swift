@@ -3,7 +3,7 @@ import GeometryKit
 import ResultBuilderKit
 
 /**
- A transition for removing in ``FluidStackViewController`` or ``TransitionViewController``
+ A transition for removing in ``FluidStackController`` or ``TransitionViewController``
  */
 public struct AnyRemovingTransition {
 

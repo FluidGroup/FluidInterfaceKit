@@ -5,7 +5,7 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 
-final class DemoTransitionViewController: FluidStackViewController {
+final class DemoTransitionViewController: FluidStackController {
 
   private let usesFluid: Bool
 
@@ -47,7 +47,7 @@ final class DemoTransitionViewController: FluidStackViewController {
 
     let body = PlaceholderViewController { [usesFluid] instance in
       if usesFluid {
-        instance.fluidStackViewControllerContext?.removeSelf(transition: nil)
+        instance.fluidStackControllerContext?.removeSelf(transition: nil)
       } else {
         instance.dismiss(animated: false, completion: nil)
       }

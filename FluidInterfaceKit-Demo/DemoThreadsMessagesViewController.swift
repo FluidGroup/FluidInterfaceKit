@@ -13,7 +13,7 @@ import StorybookKit
 import UIKit
 
 /// Message list
-final class DemoThreadsMessagesViewController: FluidStackViewController {
+final class DemoThreadsMessagesViewController: FluidStackController {
 
   private let scrollableContainerView = ScrollableContainerView()
 
@@ -224,7 +224,7 @@ final class DemoThreadsDetailViewController: UIViewController, ViewControllerFlu
       let button = UIButton(type: .system)&>.do {
         $0.setTitle("Dismiss", for: .normal)
         $0.onTap { [unowned self] in
-          self.fluidStackViewControllerContext?.removeSelf(transition: .vanishing())
+          self.fluidStackControllerContext?.removeSelf(transition: .vanishing())
         }
       }
 
@@ -310,7 +310,7 @@ final class DemoThreadsDetailViewController: UIViewController, ViewControllerFlu
         $0.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         $0.tintColor = .appBlack
         $0.onTap { [unowned self] in
-          self.fluidStackViewControllerContext?.removeSelf(transition: .vanishing())
+          self.fluidStackControllerContext?.removeSelf(transition: .vanishing())
         }
       }
 

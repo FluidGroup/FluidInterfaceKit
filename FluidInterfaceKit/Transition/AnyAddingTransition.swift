@@ -3,7 +3,7 @@ import GeometryKit
 import ResultBuilderKit
 
 /**
- A transition for adding in ``FluidStackViewController`` or ``TransitionViewController``
+ A transition for adding in ``FluidStackController`` or ``TransitionViewController``
  */
 public struct AnyAddingTransition {
 
