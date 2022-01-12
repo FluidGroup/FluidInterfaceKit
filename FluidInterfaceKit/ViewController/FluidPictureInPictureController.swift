@@ -3,7 +3,48 @@ import UIKit
 
 open class FluidPictureInPictureController: UIViewController {
 
-  private struct Position: OptionSet {
+  public var state: State {
+    customView.state
+  }
+
+  private var customView: View {
+    view as! View
+  }
+
+  open override func loadView() {
+    view = View()
+  }
+
+  public init() {
+    super.init(nibName: nil, bundle: nil)
+
+  }
+
+  @available(*, unavailable)
+  public required init?(
+    coder: NSCoder
+  ) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  open override func viewDidLoad() {
+    super.viewDidLoad()
+
+  }
+
+  public func setContent(_ content: UIView) {
+    customView.containerView.setContent(content)
+  }
+
+  public func setMode(_ mode: Mode) {
+    customView.setMode(mode)
+  }
+
+}
+
+extension FluidPictureInPictureController {
+
+  struct Position: OptionSet {
     let rawValue: Int
 
     static let right: Position = .init(rawValue: 1 << 0)
@@ -28,41 +69,6 @@ open class FluidPictureInPictureController: UIViewController {
 
   }
 
-  private var customView: View {
-    view as! View
-  }
-
-  open override func loadView() {
-    view = View()
-  }
-
-  private var containerView: ContainerView?
-
-  public init() {
-    super.init(nibName: nil, bundle: nil)
-
-  }
-
-  @available(*, unavailable)
-  public required init?(
-    coder: NSCoder
-  ) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  open override func viewDidLoad() {
-    super.viewDidLoad()
-
-  }
-
-  public func setContent(_ content: UIView) {
-    customView.containerView.setContent(content)
-  }
-
-}
-
-extension FluidPictureInPictureController {
-
   public final class ContainerView: UIView {
 
     public func setContent(_ content: UIView) {
@@ -72,7 +78,7 @@ extension FluidPictureInPictureController {
     }
   }
 
-  private final class View: UIView {
+  public struct State {
 
     struct ConditionToLayout: Equatable {
       var bounds: CGRect
@@ -80,11 +86,31 @@ extension FluidPictureInPictureController {
       var layoutMargins: UIEdgeInsets
     }
 
+    public internal(set) var mode: Mode = .floating
+    var conditionToLayout: ConditionToLayout?
+    var snappingPosition: Position = [.right, .bottom]
+  }
+
+  private final class View: UIView {
+
     let containerView: ContainerView = .init()
 
-    private var conditionToLayout: ConditionToLayout?
+    let sizeForFloating = CGSize(width: 100, height: 140)
 
-    private var snappingPosition: Position = [.right, .bottom]
+    private(set) var state: State = .init() {
+      didSet {
+        receiveUpdate(state: state, oldState: oldValue)
+      }
+    }
+
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+      let view = super.hitTest(point, with: event)
+      if view == self {
+        return nil
+      } else {
+        return view
+      }
+    }
 
     override init(
       frame: CGRect
@@ -95,11 +121,9 @@ extension FluidPictureInPictureController {
 
       containerView.addGestureRecognizer(dragGesture)
 
-      #if DEBUG
-      containerView.frame.size = .init(width: 100, height: 100)
-      #endif
-
       addSubview(containerView)
+
+      containerView.backgroundColor = .init(white: 0.5, alpha: 0.3)
     }
 
     required init?(
@@ -108,25 +132,53 @@ extension FluidPictureInPictureController {
       fatalError("init(coder:) has not been implemented")
     }
 
+    func setMode(_ mode: Mode) {
+      state.mode = mode
+      setNeedsLayout()
+
+      let animator = UIViewPropertyAnimator(
+        duration: 0.8,
+        timingParameters: UISpringTimingParameters(
+          dampingRatio: 0.9,
+          initialVelocity: .zero
+        )
+      )
+
+      animator.addAnimations {
+        self.layoutIfNeeded()
+      }
+
+      animator.startAnimation()
+
+    }
+
     override func layoutSubviews() {
       super.layoutSubviews()
 
-      let proposedCondition = ConditionToLayout(
-        bounds: bounds,
-        safeAreaInsets: safeAreaInsets,
-        layoutMargins: layoutMargins
-      )
+      switch state.mode {
+      case .maximizing:
+        containerView.frame = bounds
+        state.conditionToLayout = nil
+      case .folding:
+        break
+      case .floating:
+        let proposedCondition = State.ConditionToLayout(
+          bounds: bounds,
+          safeAreaInsets: safeAreaInsets,
+          layoutMargins: layoutMargins
+        )
 
-      switch conditionToLayout {
-      case .some(let condition) where condition != proposedCondition:
-        conditionToLayout = proposedCondition
-      case .none:
-        conditionToLayout = proposedCondition
-      default:
-        return
+        switch state.conditionToLayout {
+        case .some(let condition) where condition != proposedCondition:
+          state.conditionToLayout = proposedCondition
+        case .none:
+          state.conditionToLayout = proposedCondition
+        default:
+          return
+        }
+
+        containerView.frame = calculateFrameForFloating(for: state.snappingPosition)
       }
-
-      containerView.frame = calculateFrame(for: snappingPosition)
 
     }
 
@@ -140,11 +192,15 @@ extension FluidPictureInPictureController {
       setNeedsLayout()
     }
 
-    private func calculateFrame(
+    private func receiveUpdate(state: State, oldState: State) {
+
+    }
+
+    private func calculateFrameForFloating(
       for snappingPositon: Position
     ) -> CGRect {
 
-      let containerBounds = containerView.bounds
+      let containerSize = sizeForFloating
       let baseFrame = bounds
 
       let insetFrame =
@@ -154,12 +210,14 @@ extension FluidPictureInPictureController {
 
       var origin = CGPoint(x: 0, y: 0)
 
+      let snappingPosition = state.snappingPosition
+
       if snappingPosition.contains(.top) {
         origin.y = insetFrame.minY
       }
 
       if snappingPosition.contains(.bottom) {
-        origin.y = insetFrame.maxY - containerBounds.height
+        origin.y = insetFrame.maxY - containerSize.height
       }
 
       if snappingPosition.contains(.left) {
@@ -167,15 +225,20 @@ extension FluidPictureInPictureController {
       }
 
       if snappingPosition.contains(.right) {
-        origin.x = insetFrame.maxX - containerBounds.width
+        origin.x = insetFrame.maxX - containerSize.width
       }
 
-      return .init(origin: origin, size: containerBounds.size)
+      return .init(origin: origin, size: containerSize)
 
     }
 
     @objc
     private dynamic func handlePanGesture(gesture: UIPanGestureRecognizer) {
+
+      guard state.mode == .floating else {
+        return
+      }
+
       switch gesture.state {
       case .began:
         fallthrough
@@ -272,10 +335,10 @@ extension FluidPictureInPictureController {
           return base
         }
 
-        snappingPosition = velocityBasedAnchorPoint ?? locationBasedAnchorPoint
+        state.snappingPosition = velocityBasedAnchorPoint ?? locationBasedAnchorPoint
 
         let fromCenter = Geometry.center(of: frame)
-        let toCenter = Geometry.center(of: calculateFrame(for: snappingPosition))
+        let toCenter = Geometry.center(of: calculateFrameForFloating(for: state.snappingPosition))
 
         let delta = CGPoint(
           x: toCenter.x - fromCenter.x,

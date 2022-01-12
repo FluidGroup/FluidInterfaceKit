@@ -5,12 +5,11 @@
 //  Created by Muukii on 2022/01/13.
 //
 
-import Foundation
-
-import FluidInterfaceKit
 import CompositionKit
-import UIKit
+import FluidInterfaceKit
+import Foundation
 import MondrianLayout
+import UIKit
 
 final class DemoPictureInPictureController: FluidPictureInPictureController {
 
@@ -23,8 +22,8 @@ final class DemoPictureInPictureController: FluidPictureInPictureController {
       $0.text = "PiP"
     }
 
-    let backgroundView = ShapeLayerView.roundedCorner(radius: 8)
-    backgroundView.shapeFillColor = .systemOrange
+    let backgroundView = UIView()
+    backgroundView.backgroundColor = .systemOrange
 
     let content = CompositionKit.AnyView { _ in
       ZStackBlock {
@@ -35,6 +34,26 @@ final class DemoPictureInPictureController: FluidPictureInPictureController {
       .background(backgroundView)
     }
 
-    setContent(content)
+    let interactiveView = InteractiveView(
+      animation: .bodyShrink,
+      haptics: .impactOnTouchUpInside(),
+      useLongPressGesture: false,
+      contentView: content
+    )
+
+    interactiveView.handlers.onTap = { [unowned self] in
+
+      switch state.mode {
+      case .maximizing:
+        setMode(.floating)
+      case .folding:
+        break
+      case .floating:
+        setMode(.maximizing)
+      }
+
+    }
+
+    setContent(interactiveView)
   }
 }
