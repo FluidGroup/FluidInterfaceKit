@@ -8,6 +8,9 @@
 import Foundation
 
 import FluidInterfaceKit
+import CompositionKit
+import UIKit
+import MondrianLayout
 
 final class DemoPictureInPictureController: FluidPictureInPictureController {
 
@@ -15,5 +18,23 @@ final class DemoPictureInPictureController: FluidPictureInPictureController {
     super.viewDidLoad()
 
     view.backgroundColor = .systemBackground
+
+    let label = UILabel()&>.do {
+      $0.text = "PiP"
+    }
+
+    let backgroundView = ShapeLayerView.roundedCorner(radius: 8)
+    backgroundView.shapeFillColor = .systemOrange
+
+    let content = CompositionKit.AnyView { _ in
+      ZStackBlock {
+        VStackBlock {
+          label
+        }
+      }
+      .background(backgroundView)
+    }
+
+    setContent(content)
   }
 }

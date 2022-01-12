@@ -1,8 +1,7 @@
-import UIKit
 import GeometryKit
+import UIKit
 
 open class FluidPictureInPictureController: UIViewController {
-
 
   private struct Position: OptionSet {
     let rawValue: Int
@@ -12,9 +11,21 @@ open class FluidPictureInPictureController: UIViewController {
     static let top: Position = .init(rawValue: 1 << 2)
     static let bottom: Position = .init(rawValue: 1 << 3)
 
-    init(rawValue: Int) {
+    init(
+      rawValue: Int
+    ) {
       self.rawValue = rawValue
     }
+  }
+
+  public enum Mode {
+    case maximizing
+    case folding
+    case floating
+  }
+
+  public struct Configuration {
+
   }
 
   private var customView: View {
@@ -33,7 +44,9 @@ open class FluidPictureInPictureController: UIViewController {
   }
 
   @available(*, unavailable)
-  public required init?(coder: NSCoder) {
+  public required init?(
+    coder: NSCoder
+  ) {
     fatalError("init(coder:) has not been implemented")
   }
 
@@ -42,21 +55,40 @@ open class FluidPictureInPictureController: UIViewController {
 
   }
 
+  public func setContent(_ content: UIView) {
+    customView.containerView.setContent(content)
+  }
+
 }
 
 extension FluidPictureInPictureController {
 
   public final class ContainerView: UIView {
 
+    public func setContent(_ content: UIView) {
+      addSubview(content)
+      content.frame = bounds
+      content.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
   }
 
   private final class View: UIView {
 
+    struct ConditionToLayout: Equatable {
+      var bounds: CGRect
+      var safeAreaInsets: UIEdgeInsets
+      var layoutMargins: UIEdgeInsets
+    }
+
     let containerView: ContainerView = .init()
+
+    private var conditionToLayout: ConditionToLayout?
 
     private var snappingPosition: Position = [.right, .bottom]
 
-    override init(frame: CGRect) {
+    override init(
+      frame: CGRect
+    ) {
       super.init(frame: frame)
 
       let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
@@ -65,18 +97,34 @@ extension FluidPictureInPictureController {
 
       #if DEBUG
       containerView.frame.size = .init(width: 100, height: 100)
-      containerView.backgroundColor = .systemYellow
       #endif
 
       addSubview(containerView)
     }
 
-    required init?(coder: NSCoder) {
+    required init?(
+      coder: NSCoder
+    ) {
       fatalError("init(coder:) has not been implemented")
     }
 
     override func layoutSubviews() {
       super.layoutSubviews()
+
+      let proposedCondition = ConditionToLayout(
+        bounds: bounds,
+        safeAreaInsets: safeAreaInsets,
+        layoutMargins: layoutMargins
+      )
+
+      switch conditionToLayout {
+      case .some(let condition) where condition != proposedCondition:
+        conditionToLayout = proposedCondition
+      case .none:
+        conditionToLayout = proposedCondition
+      default:
+        return
+      }
 
       containerView.frame = calculateFrame(for: snappingPosition)
 
@@ -99,7 +147,8 @@ extension FluidPictureInPictureController {
       let containerBounds = containerView.bounds
       let baseFrame = bounds
 
-      let insetFrame = baseFrame
+      let insetFrame =
+        baseFrame
         .inset(by: safeAreaInsets)
         .insetBy(dx: 12, dy: 12)
 
@@ -129,7 +178,7 @@ extension FluidPictureInPictureController {
     private dynamic func handlePanGesture(gesture: UIPanGestureRecognizer) {
       switch gesture.state {
       case .began:
-        break
+        fallthrough
       case .changed:
         let translation = gesture.translation(in: gesture.view)
 
@@ -150,12 +199,11 @@ extension FluidPictureInPictureController {
 
         gesture.setTranslation(.zero, in: gesture.view)
 
-
       case .possible:
         break
       case .ended,
-          .cancelled,
-          .failed:
+        .cancelled,
+        .failed:
 
         let frame = gesture.view!.convert(gesture.view!.bounds, to: self)
         let gestureVelocity = gesture.velocity(in: self)
