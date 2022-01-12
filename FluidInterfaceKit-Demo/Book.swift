@@ -68,4 +68,10 @@ let book = Book(title: "MyBook") {
       }
     }
   }
+
+  BookNavigationLink(title: "PiP") {
+    BookPush(title: "Push") {
+      DemoPictureInPictureController()
+    }
+  }
 }

@@ -1,8 +1,5 @@
-//
-//  File.swift
-//  
-//
-//  Created by Muukii on 2022/01/12.
-//
+import UIKit
 
-import Foundation
+open class FluidTabBarController: UIViewController {
+  
+}

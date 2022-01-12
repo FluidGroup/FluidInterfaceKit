@@ -11,6 +11,7 @@
 		4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */; };
 		4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */; };
 		4B34DEED2789FC00002D820E /* DemoTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B34DEEC2789FC00002D820E /* DemoTransitionViewController.swift */; };
+		4B425A0F278F3A780062B4C5 /* DemoPictureInPictureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B425A0E278F3A780062B4C5 /* DemoPictureInPictureController.swift */; };
 		4B5ED7D4278C3D6B00D30EE7 /* DemoContextMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5ED7D3278C3D6B00D30EE7 /* DemoContextMenuViewController.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
 		4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B082764F77E0003FFB6 /* AppDelegate.swift */; };
@@ -44,6 +45,7 @@
 		4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPresentationViewController.swift; sourceTree = "<group>"; };
 		4B2CCB88278DD21400EAB928 /* Descriptors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Descriptors; path = submodules/Descriptors; sourceTree = "<group>"; };
 		4B34DEEC2789FC00002D820E /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
+		4B425A0E278F3A780062B4C5 /* DemoPictureInPictureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPictureInPictureController.swift; sourceTree = "<group>"; };
 		4B5ED7D3278C3D6B00D30EE7 /* DemoContextMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoContextMenuViewController.swift; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B959B082764F77E0003FFB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */,
 				4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */,
 				4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */,
+				4B425A0E278F3A780062B4C5 /* DemoPictureInPictureController.swift */,
 				4B34DEEC2789FC00002D820E /* DemoTransitionViewController.swift */,
 				4B5ED7D3278C3D6B00D30EE7 /* DemoContextMenuViewController.swift */,
 				4B959B212764F8300003FFB6 /* RootContainerViewController.swift */,
@@ -256,6 +259,7 @@
 				4B959B202764F8200003FFB6 /* Book.swift in Sources */,
 				4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */,
 				4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */,
+				4B425A0F278F3A780062B4C5 /* DemoPictureInPictureController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
