@@ -59,7 +59,7 @@ dependencies: [
 ]
 ```
 
-## Detail
+## Transition
 
 **2 ways to use**
 
@@ -76,6 +76,10 @@ If you only needed just transition and interactive removing without full flexibi
 Those are compatible with using UIKit's presentation.
 
 Use `TransitionViewController` or `FluidViewController`.
+
+## Picture in Picture
+
+`FluidPictureInPictureController`
 
 ## License
 
