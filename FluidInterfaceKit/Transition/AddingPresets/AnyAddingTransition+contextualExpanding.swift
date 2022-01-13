@@ -18,6 +18,10 @@ extension AnyAddingTransition {
       let maskView = UIView()
       maskView.backgroundColor = .black
 
+      if context.contentView.backgroundColor == nil {
+        context.contentView.backgroundColor = .clear
+      }
+
       let entrypointSnapshotView = Fluid.takeSnapshotVisible(view: entrypointView)
 
       if !Fluid.hasAnimations(view: context.toViewController.view) {
@@ -90,7 +94,7 @@ extension AnyAddingTransition {
 
       maskAnimator.addAnimations({
         maskView.layer.cornerRadius = 0
-      }, delayFactor: 0.1)
+      })
 
       maskAnimator.addCompletion { _ in
         context.toViewController.view.mask = nil
