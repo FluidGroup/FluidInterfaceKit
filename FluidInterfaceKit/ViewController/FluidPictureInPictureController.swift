@@ -63,6 +63,7 @@ extension FluidPictureInPictureController {
     case maximizing
     case folding
     case floating
+    case hiding
   }
 
   public struct Configuration {
@@ -71,10 +72,24 @@ extension FluidPictureInPictureController {
 
   public final class ContainerView: UIView {
 
+    public override class var layerClass: AnyClass {
+      BlurLayer.self
+    }
+
+    var blurLayer: BlurLayer {
+      layer as! BlurLayer
+    }
+
     public func setContent(_ content: UIView) {
       addSubview(content)
       content.frame = bounds
       content.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+
+    public override func action(for layer: CALayer, forKey event: String) -> CAAction? {
+      let action = super.action(for: layer, forKey: event)
+      Log.debug(.pip, "action for \(layer), key: \(event), action: \(action)")
+      return action
     }
   }
 
@@ -136,6 +151,17 @@ extension FluidPictureInPictureController {
       state.mode = mode
       setNeedsLayout()
 
+      switch mode {
+      case .maximizing:
+        setIsHidden(false, animated: true)
+      case .folding:
+        setIsHidden(false, animated: true)
+      case .floating:
+        setIsHidden(false, animated: true)
+      case .hiding:
+        setIsHidden(true, animated: true)
+      }
+
       let animator = UIViewPropertyAnimator(
         duration: 0.8,
         timingParameters: UISpringTimingParameters(
@@ -156,6 +182,8 @@ extension FluidPictureInPictureController {
       super.layoutSubviews()
 
       switch state.mode {
+      case .hiding:
+        break
       case .maximizing:
         containerView.frame = bounds
         state.conditionToLayout = nil
@@ -177,7 +205,7 @@ extension FluidPictureInPictureController {
           return
         }
 
-        containerView.frame = calculateFrameForFloating(for: state.snappingPosition)
+        Fluid.setFrameAsIdentity(calculateFrameForFloating(for: state.snappingPosition), for: containerView)
       }
 
     }
@@ -232,6 +260,30 @@ extension FluidPictureInPictureController {
 
     }
 
+    func setIsHidden(_ isHidden: Bool, animated: Bool) {
+
+      let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 0.8) { [self] in
+
+        if isHidden {
+//          containerView.alpha = 0
+//          containerView.transform = .init(scaleX: 0.8, y: 0.8)
+          containerView.blurLayer.blurRadius = 80
+          containerView.blurLayer.makeBlurAction(from: 0).map { action in
+            containerView.blurLayer.add(action, forKey: "blurRadius")
+          }
+        } else {
+          containerView.alpha = 1
+          containerView.transform = .identity
+          containerView.blurLayer.blurRadius = 0
+        }
+      }
+
+      animator.startAnimation()
+
+      containerView.layer.dumpAllAnimations()
+
+    }
+
     @objc
     private dynamic func handlePanGesture(gesture: UIPanGestureRecognizer) {
 
@@ -265,8 +317,8 @@ extension FluidPictureInPictureController {
       case .possible:
         break
       case .ended,
-        .cancelled,
-        .failed:
+          .cancelled,
+          .failed:
 
         let frame = gesture.view!.convert(gesture.view!.bounds, to: self)
         let gestureVelocity = gesture.velocity(in: self)

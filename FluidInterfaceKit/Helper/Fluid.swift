@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import GeometryKit
 
 enum Fluid {
 
@@ -114,6 +115,14 @@ enum Fluid {
       positionAnimator,
       scaleAnimator,
     ]
+  }
+
+  public static func setFrameAsIdentity(_ frame: CGRect, for view: UIView) {
+
+    let center = Geometry.center(of: frame)
+    view.bounds.size = frame.size
+    view.center = center
+
   }
 
 }

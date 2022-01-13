@@ -50,10 +50,34 @@ final class DemoPictureInPictureController: FluidPictureInPictureController {
         break
       case .floating:
         setMode(.maximizing)
+      case .hiding:
+        break
       }
 
     }
 
     setContent(interactiveView)
+
+    Mondrian.buildSubviews(on: view) {
+      ZStackBlock {
+        VStackBlock {
+          UIButton.make(title: "hiding") { [unowned self] in
+            setMode(.hiding)
+          }
+
+          UIButton.make(title: "maximizing") { [unowned self] in
+            setMode(.maximizing)
+          }
+
+          UIButton.make(title: "floating") { [unowned self] in
+            setMode(.floating)
+          }
+
+          UIButton.make(title: "folding") { [unowned self] in
+            setMode(.folding)
+          }
+        }
+      }
+    }
   }
 }
