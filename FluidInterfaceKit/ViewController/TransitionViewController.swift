@@ -13,6 +13,8 @@ open class TransitionViewController: _fluid_WrapperViewController {
   private var state: State = .init()
 
   public var transition: TransitionPair
+  private var addingTransitionContext: AddingTransitionContext?
+  private var removingTransitionContext: RemovingTransitionContext?
 
   public init(
     bodyViewController: UIViewController,
@@ -77,6 +79,9 @@ open class TransitionViewController: _fluid_WrapperViewController {
 
     state.countViewDidAppear += 1
 
+    /**
+     For standalone usage
+     */
     if state.countViewDidAppear == 1 {
 
       self.view.alpha = 1
@@ -87,20 +92,35 @@ open class TransitionViewController: _fluid_WrapperViewController {
          let presentationController = presentationController
       {
 
+        removingTransitionContext?.invalidate()
+        removingTransitionContext = nil
+
         let addingTransition = transition.adding ?? .noAnimation
 
         /// presenting as presentation
         /// super.viewDidAppear(animated)
 
-        addingTransition.startTransition(
-          context: .init(
-            contentView: presentationController.containerView!,
-            fromViewController: presentingViewController,
-            toViewController: self,
-            onCompleted: { _ in
 
+        let context = AddingTransitionContext.init(
+          contentView: presentationController.containerView!,
+          fromViewController: presentingViewController,
+          toViewController: self,
+          onCompleted: { context in
+
+            self.addingTransitionContext = nil
+
+            guard context.isInvalidated == false else {
+              return
             }
-          )
+
+            context.transitionFinished()
+          }
+        )
+
+        self.addingTransitionContext = context
+
+        addingTransition.startTransition(
+          context: context
         )
 
       }
@@ -118,7 +138,10 @@ open class TransitionViewController: _fluid_WrapperViewController {
       preconditionFailure()
     }
 
-    return .init(
+    addingTransitionContext?.invalidate()
+    addingTransitionContext = nil
+
+    let context = RemovingTransitionContext.init(
       contentView: presentationController.containerView!,
       fromViewController: self,
       toViewController: presentingViewController,
@@ -126,9 +149,18 @@ open class TransitionViewController: _fluid_WrapperViewController {
 
         guard let self = self else { return }
 
+        guard context.isInvalidated == false else { return }
+
+        context.transitionFinished()
+        self.removingTransitionContext = nil
+
         self.dismiss(animated: false, completion: nil)
 
       })
+
+    removingTransitionContext = context
+
+    return context
 
   }
 
@@ -142,6 +174,9 @@ open class TransitionViewController: _fluid_WrapperViewController {
       return
     }
 
+    addingTransitionContext?.invalidate()
+    addingTransitionContext = nil
+
     let context = RemovingTransitionContext.init(
       contentView: presentationController.containerView!,
       fromViewController: self,
@@ -150,9 +185,16 @@ open class TransitionViewController: _fluid_WrapperViewController {
 
         guard let self = self else { return }
 
+        guard context.isInvalidated == false else { return }
+
+        context.transitionFinished()
+        self.removingTransitionContext = nil
+
         self.dismiss(animated: false, completion: nil)
 
       })
+
+    removingTransitionContext = context
 
     let transition = transition.removing ?? .noAnimation
 
