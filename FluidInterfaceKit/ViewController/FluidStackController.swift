@@ -376,6 +376,7 @@ open class FluidStackController: UIViewController {
   private func viewControllerState(viewController: UIViewController) -> TransitionContext? {
     viewControllerStateMap.object(forKey: viewController)
   }
+ 
 }
 
 public struct FluidStackControllerContext {

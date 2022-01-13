@@ -2,6 +2,7 @@ import CompositionKit
 import FluidInterfaceKit
 import Foundation
 import MondrianLayout
+import ResultBuilderKit
 import StorybookKit
 import UIKit
 
@@ -20,7 +21,7 @@ final class DemoTransitionViewController: FluidStackController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
 
     let list = VGridView(numberOfColumns: 1)
 
@@ -29,17 +30,29 @@ final class DemoTransitionViewController: FluidStackController {
         list
           .viewBlock
       }
+      .container(respectingSafeAreaEdges: .all)
     }
 
-    list.setContents([
-      Self.makeCell(
-        title: "fade",
-        onTap: { [unowned self] in
+    list.setContents(
+      buildArray {
 
-          _display(transition: .popup())
-        }
-      )
-    ])
+        Self.makeCell(
+          title: "popup",
+          onTap: { [unowned self] in
+
+            _display(transition: .popup())
+          }
+        )
+
+        Self.makeCell(
+          title: "push",
+          onTap: { [unowned self] in
+
+            _display(transition: .pushIdiom())
+          }
+        )
+      }
+    )
 
   }
 

@@ -49,6 +49,15 @@ let book = Book(title: "MyBook") {
     return controller
   }
 
+  BookNavigationLink(title: "App") {
+    BookPresent(title: "Launch") {
+      let controller = DemoApplicationController()
+      controller.modalPresentationStyle = .fullScreen
+      return controller
+    }
+
+  }
+
   BookPush(title: "ControlCenter") {
     DemoControlCenterViewController()
   }
@@ -73,5 +82,20 @@ let book = Book(title: "MyBook") {
     BookPush(title: "Push") {
       DemoPictureInPictureController()
     }
+  }
+}
+
+func makeButtonView(title: String, onTap: @escaping () -> Void) -> UIView {
+  let button = UIButton(type: .system)
+  button.setTitle(title, for: .normal)
+  button.onTap {
+    onTap()
+  }
+
+  return AnyView { _ in
+    VStackBlock {
+      button
+    }
+    .padding(10)
   }
 }

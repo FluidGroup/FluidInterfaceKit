@@ -138,7 +138,7 @@ private final class DetailViewController: UIViewController, ViewControllerFluidC
 
       }
       .padding(.horizontal, 24)
-      .respectSafeArea(edges: .all)
+      .container(respectingSafeAreaEdges: .all)
 
     }
 
