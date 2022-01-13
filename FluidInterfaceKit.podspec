@@ -23,6 +23,6 @@ Pod::Spec.new do |spec|
   spec.swift_versions = ["5.3", "5.4", "5.5"]
 
   spec.dependency "MatchedTransition", ">= 1.1.0"
-  spec.dependency "GeometryKit", ">= 1.0.0"
+  spec.dependency "GeometryKit", ">= 1.1.0"
   spec.dependency "ResultBuilderKit", ">= 1.1.0"
 end

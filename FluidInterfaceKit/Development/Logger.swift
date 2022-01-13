@@ -26,4 +26,5 @@ extension OSLog {
 
   static let zStack: OSLog = makeOSLogInDebug { OSLog.init(subsystem: "FluidUIKit", category: "ZStackViewController") }
 
+  static let pip: OSLog = makeOSLogInDebug { OSLog.init(subsystem: "FluidUIKit", category: "PIP") }
 }
