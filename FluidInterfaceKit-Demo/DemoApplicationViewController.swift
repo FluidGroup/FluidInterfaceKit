@@ -30,9 +30,9 @@ final class AppTabBarController: UITabBarController {
 
 }
 
-final class AppSearchViewController: CodeBasedViewController {
+final class AppSearchViewController: FluidStackController {
 
-  override init() {
+  init() {
     super.init()
     title = "Search"
   }
@@ -59,6 +59,10 @@ final class AppSearchViewController: CodeBasedViewController {
           title: "Open",
           onTap: { [unowned self] in
 
+            let controller = AppOptionsController()
+
+            addContentViewController(controller, transition: .modalIdiom())
+
           }
         )
 
@@ -68,6 +72,57 @@ final class AppSearchViewController: CodeBasedViewController {
   }
 
 }
+
+final class AppOptionsController: CodeBasedViewController, ViewControllerFluidContentType {
+
+  override init() {
+    super.init()
+    title = "Options"
+  }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    view.backgroundColor = .neon(.red)
+
+    let list = VGridView(numberOfColumns: 1)
+
+    Mondrian.buildSubviews(on: view) {
+      ZStackBlock(alignment: .attach(.all)) {
+        list
+          .viewBlock
+      }
+      .container(respectingSafeAreaEdges: .all)
+    }
+
+    list.setContents(
+      buildArray {
+
+        makeButtonView(
+          title: "Dismiss",
+          onTap: { [unowned self] in
+
+            fluidStackControllerContext?.removeSelf(transition: nil)
+
+          }
+        )
+
+        makeButtonView(
+          title: "Open",
+          onTap: { [unowned self] in
+
+            let controller = AppOptionsController()
+
+            fluidStackControllerContext?.addContentViewController(controller, transition: nil)
+
+          }
+        )
+
+      }
+    )
+  }
+}
+
 
 final class AppOtherController: CodeBasedViewController {
 
