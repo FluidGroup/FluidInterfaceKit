@@ -77,9 +77,13 @@ Those are compatible with using UIKit's presentation.
 
 Use `TransitionViewController` or `FluidViewController`.
 
-## Picture in Picture
+## Components
 
-`FluidPictureInPictureController`
+### `FluidStackController: UIViewController`
+
+### `FluidSwitchController: UIViewController`
+
+### `FluidPictureInPictureController: UIViewController`
 
 ## License
 
