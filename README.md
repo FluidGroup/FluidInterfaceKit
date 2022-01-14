@@ -1,5 +1,7 @@
 # FluidInterfaceKit
 
+A framework to build flexible apps instead of using UIKit's standard container and transition components.
+
 ## Overview
 
 The goal of this project is to make **Fluid Interface** easy to use.  
