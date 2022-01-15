@@ -4,17 +4,17 @@ import MondrianLayout
 import UIKit
 import ResultBuilderKit
 
-final class DemoApplicationController: FluidSwitchController {
+final class DemoApplicationController: FluidStackController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    setViewController(AppTabBarController())
+    addContentViewController(AppTabBarController(), transition: .noAnimation)
   }
 
 }
 
-final class AppTabBarController: UITabBarController {
+final class AppTabBarController: UITabBarController, ViewControllerFluidContentType {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -61,7 +61,7 @@ final class AppSearchViewController: FluidStackController {
 
             let controller = AppOptionsController()
 
-            addContentViewController(controller, transition: .modalIdiom())
+            rootFluidStackController()?.addContentViewController(controller, transition: .modalIdiom())
 
           }
         )

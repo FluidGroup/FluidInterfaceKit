@@ -119,7 +119,9 @@ open class FluidStackController: UIViewController {
    Add a view controller to display
 
    - Parameters:
-     - transition: a transition for adding. if view controller is type of ``TransitionViewController``, uses this transition instead of TransitionViewController's transition.
+     - transition:
+       a transition for adding. if view controller is type of ``TransitionViewController``, uses this transition instead of TransitionViewController's transition.
+       You may set ``.noAnimation`` to disable animation
    */
   public func addContentViewController(
     _ viewControllerToAdd: ViewControllerFluidContentType,
