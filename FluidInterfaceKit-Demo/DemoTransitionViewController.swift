@@ -127,7 +127,7 @@ private final class PlaceholderViewController: UIViewController, ViewControllerF
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = BookGenerator.randomColor()
+    view.backgroundColor = .neonRandom()
 
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Dismiss", for: .normal)

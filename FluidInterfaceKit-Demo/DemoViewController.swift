@@ -24,7 +24,7 @@ final class DemoViewController: FluidStackController {
       $0.setTitle("Add", for: .normal)
       $0.onTap { [unowned self] in
         addContentViewController(
-          ContentViewController(color: BookGenerator.randomColor()),
+          ContentViewController(color: .neonRandom()),
           transition: .popup()
         )
       }
@@ -117,7 +117,7 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
       $0.setTitle("Add", for: .normal)
       $0.onTap { [unowned self] in
         fluidStackContext?.addContentViewController(
-          ContentViewController(color: BookGenerator.randomColor()),
+          ContentViewController(color: .neonRandom()),
           transition: nil
         )
       }
@@ -129,7 +129,7 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
 
         fluidStackContext?.addContentViewController(
           FluidViewController(
-            bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
+            bodyViewController: ContentViewController(color: .neonRandom()),
             transition: .noTransition,
             interactionToRemove: .horizontalDragging(backwardingMode: nil, hidingViews: [])
           ),

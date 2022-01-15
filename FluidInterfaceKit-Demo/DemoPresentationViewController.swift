@@ -16,7 +16,7 @@ final class DemoPresentationViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
 
     let presentButton = UIButton(type: .system)
     presentButton.setTitle("Present", for: .normal)
@@ -50,7 +50,7 @@ fileprivate final class PlaceholderViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = BookGenerator.randomColor()
+    view.backgroundColor = .neonRandom()
 
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Dismiss", for: .normal)

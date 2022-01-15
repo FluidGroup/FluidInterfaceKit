@@ -18,7 +18,7 @@ final class AppTabBarController: UITabBarController, ViewControllerFluidContentT
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
 
     viewControllers = [
       UINavigationController(rootViewController: AppSearchViewController()),

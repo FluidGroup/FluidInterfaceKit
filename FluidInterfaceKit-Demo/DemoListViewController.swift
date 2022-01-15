@@ -20,7 +20,7 @@ final class DemoListViewController: FluidStackController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
     scrollableContainerView.delaysContentTouches = false
 
     var viewControllerCache: [Int: ViewControllerFluidContentType] = [:]
@@ -115,7 +115,7 @@ private final class DetailViewController: UIViewController, ViewControllerFluidC
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
 
     Mondrian.buildSubviews(on: view) {
 
@@ -150,13 +150,13 @@ private func makeListCell(viewModel: ViewModel, onTap: @escaping (UIView) -> Voi
   let nameLabel = UILabel()&>.do {
     $0.text = "Muukii"
     $0.font = UIFont.preferredFont(forTextStyle: .headline)
-    $0.textColor = .black
+    $0.textColor = .label
   }
 
   let statusLabel = UILabel()&>.do {
     $0.text = "Active now"
     $0.font = UIFont.preferredFont(forTextStyle: .caption1)
-    $0.textColor = .darkGray
+    $0.textColor = .secondaryLabel
   }
 
   let imageView = StyledEdgeView(

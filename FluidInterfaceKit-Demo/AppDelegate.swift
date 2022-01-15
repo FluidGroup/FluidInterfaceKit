@@ -2,6 +2,7 @@ import UIKit
 
 @_exported import Wrap
 @_exported import MockKit
+@_exported import Ne
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

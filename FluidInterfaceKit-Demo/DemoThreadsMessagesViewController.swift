@@ -21,7 +21,7 @@ final class DemoThreadsMessagesViewController: FluidStackController {
 
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
     scrollableContainerView.delaysContentTouches = false
 
     Mondrian.buildSubviews(on: view) {
@@ -36,7 +36,7 @@ final class DemoThreadsMessagesViewController: FluidStackController {
         cornerRadius: .circular,
         cornerRoundingStrategy: .mask,
         content: UIView()&>.do {
-          $0.backgroundColor = BookGenerator.randomColor()
+          $0.backgroundColor = .neonRandom()
         }
       )
 
@@ -78,7 +78,7 @@ final class DemoThreadsMessagesViewController: FluidStackController {
         ) {
           (0..<10).map { index -> UIView in
 
-            let color = BookGenerator.randomColor()
+            let color = UIColor.neonRandom()
 
             return makeListCell(
               color: color,
@@ -137,13 +137,13 @@ private func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> 
   let nameLabel = UILabel()&>.do {
     $0.text = "Muukii"
     $0.font = UIFont.preferredFont(forTextStyle: .headline)
-    $0.textColor = .black
+    $0.textColor = .label
   }
 
   let statusLabel = UILabel()&>.do {
     $0.text = "Active now"
     $0.font = UIFont.preferredFont(forTextStyle: .caption1)
-    $0.textColor = .darkGray
+    $0.textColor = .secondaryLabel
   }
 
   let imageView = UIView()&>.do {
@@ -214,7 +214,7 @@ final class DemoThreadsDetailViewController: UIViewController, ViewControllerFlu
 
     super.viewDidLoad()
 
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
 
     let footerView: UIView = {
 
