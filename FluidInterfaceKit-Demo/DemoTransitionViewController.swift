@@ -60,7 +60,7 @@ final class DemoTransitionViewController: FluidStackController {
 
     let body = PlaceholderViewController { [usesFluid] instance in
       if usesFluid {
-        instance.fluidStackControllerContext?.removeSelf(transition: nil)
+        instance.fluidStackContext?.removeSelf(transition: nil)
       } else {
         instance.dismiss(animated: false, completion: nil)
       }

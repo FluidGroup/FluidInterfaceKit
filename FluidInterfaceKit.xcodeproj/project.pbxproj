@@ -512,8 +512,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:eure/Storybook-ios.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		4BB5B317277077CC00EE1028 /* XCRemoteSwiftPackageReference "Ne" */ = {

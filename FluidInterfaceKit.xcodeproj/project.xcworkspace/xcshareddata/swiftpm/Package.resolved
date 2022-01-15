@@ -41,9 +41,9 @@
         "package": "Storybook",
         "repositoryURL": "git@github.com:eure/Storybook-ios.git",
         "state": {
-          "branch": null,
-          "revision": "e15ea90fd59c8351e9742b2b8837d05ed462bd74",
-          "version": "1.8.1"
+          "branch": "main",
+          "revision": "7c2a40b45c0dacf8519dd263043ddb6d0f45fff3",
+          "version": null
         }
       },
       {

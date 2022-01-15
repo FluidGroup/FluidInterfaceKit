@@ -109,14 +109,14 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove self", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackControllerContext?.removeSelf(transition: .vanishing())
+        fluidStackContext?.removeSelf(transition: .vanishing())
       }
     }
 
     let addButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackControllerContext?.addContentViewController(
+        fluidStackContext?.addContentViewController(
           ContentViewController(color: BookGenerator.randomColor()),
           transition: nil
         )
@@ -127,7 +127,7 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
       $0.setTitle("Add Interactive content", for: .normal)
       $0.onTap { [unowned self] in
 
-        fluidStackControllerContext?.addContentViewController(
+        fluidStackContext?.addContentViewController(
           FluidViewController(
             bodyViewController: ContentViewController(color: BookGenerator.randomColor()),
             transition: .noTransition,
@@ -152,7 +152,7 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
     let removeAllButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove all", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackControllerContext?.removeAllViewController(transition: .vanishing())
+        fluidStackContext?.removeAllViewController(leavesRoot: false, transition: .vanishing())
       }
     }
 

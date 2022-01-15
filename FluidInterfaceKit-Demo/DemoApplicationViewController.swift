@@ -102,7 +102,7 @@ final class AppOptionsController: CodeBasedViewController, ViewControllerFluidCo
           title: "Dismiss",
           onTap: { [unowned self] in
 
-            fluidStackControllerContext?.removeSelf(transition: nil)
+            fluidStackContext?.removeSelf(transition: nil)
 
           }
         )
@@ -113,7 +113,7 @@ final class AppOptionsController: CodeBasedViewController, ViewControllerFluidCo
 
             let controller = AppOptionsController()
 
-            fluidStackControllerContext?.addContentViewController(controller, transition: nil)
+            fluidStackContext?.addContentViewController(controller, transition: .modalIdiom())
 
           }
         )

@@ -12,6 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let newWindow = UIWindow()
     newWindow.rootViewController = RootContainerViewController()
+    newWindow.tintColor = .neon(.violet)
     newWindow.makeKeyAndVisible()
     self.window = newWindow
     return true
