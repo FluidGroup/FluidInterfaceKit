@@ -2,6 +2,9 @@ import UIKit
 
 extension UIViewController {
 
+  /**
+   Returns all ``FluidStackController``s in hierachy of the ``UIWindow``.
+   */
   public func fluidStackControllers() -> ReversedCollection<[FluidStackController]> {
 
     return sequence(first: self) {
@@ -12,6 +15,9 @@ extension UIViewController {
 
   }
 
+  /**
+   Returns root ``FluidStackController`` in hierachy of the ``UIWindow``.
+   */
   public func rootFluidStackController() -> FluidStackController? {
     fluidStackControllers().first
   }
