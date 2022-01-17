@@ -95,15 +95,13 @@ final class DemoThreadsMessagesViewController: FluidStackController {
 
                   let controller = FluidViewController(
                     bodyViewController: DemoThreadsDetailViewController(color: color),
-                    transition: .init(
-                      adding: .contextualInstagramThreads(
-                        from: cell,
-                        interpolationView: interpolationView,
-                        hidingViews: [cell]
-                      ),
-                      removing: nil
+                    addingTransition: .contextualInstagramThreads(
+                      from: cell,
+                      interpolationView: interpolationView,
+                      hidingViews: [cell]
                     ),
-                    interactionToRemove: .horizontalDragging(
+                    removingTransition: nil,
+                    removingInteraction: .horizontalDragging(
                       backwardingMode: .instagramThreads(
                         destinationView: cell,
                         interpolationView: interpolationView

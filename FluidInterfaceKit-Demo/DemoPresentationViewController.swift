@@ -24,8 +24,9 @@ final class DemoPresentationViewController: UIViewController {
 
       let controller = FluidViewController(
         bodyViewController: PlaceholderViewController(),
-        transition: .init(adding: .popup(), removing: nil),
-        interactionToRemove: .horizontalDragging(
+        addingTransition: .popup(),
+        removingTransition: nil,
+        removingInteraction: .horizontalDragging(
           backwardingMode: nil,
           hidingViews: []
         )

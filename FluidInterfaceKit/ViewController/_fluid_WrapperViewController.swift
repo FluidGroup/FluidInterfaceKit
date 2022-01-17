@@ -14,6 +14,13 @@ open class _fluid_WrapperViewController: UIViewController {
     return bodyViewController
   }
 
+  public init() {
+
+    self.bodyViewController = nil
+    self.customView = nil
+    super.init(nibName: nil, bundle: nil)
+  }
+
   public init(
     bodyViewController: UIViewController
   ) {

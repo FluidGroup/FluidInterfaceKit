@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "Ne",
-        "repositoryURL": "https://github.com/muukii/Ne.git",
-        "state": {
-          "branch": null,
-          "revision": "6555f94596b634c14bd0818265ef8c86bb3005f3",
-          "version": "1.0.1"
-        }
-      },
-      {
         "package": "ResultBuilderKit",
         "repositoryURL": "https://github.com/muukii/ResultBuilderKit.git",
         "state": {

@@ -4,7 +4,11 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 
-let book = Book(title: "MyBook") {
+let book = Book(title: "FluidInterfaceKit") {
+
+  BookCallout(symbol: "💡", text: """
+    This is a demo application to see FluidInterfaceKit.
+    """)
 
   BookPush(title: "Demo") {
     DemoViewController()

@@ -46,11 +46,9 @@ final class DemoListViewController: FluidStackController {
 
             let displayViewController = FluidViewController(
               bodyViewController: controller,
-              transition: .init(
-                adding: .contextualExpanding(from: view, hidingViews: [view]),
-                removing: nil
-              ),
-              interactionToRemove: .horizontalDragging(
+              addingTransition: .contextualExpanding(from: view, hidingViews: [view]),
+              removingTransition: nil,
+              removingInteraction: .horizontalDragging(
                 backwardingMode: .shape(destinationView: view),
                 hidingViews: [view]
               )
@@ -95,7 +93,7 @@ final class DemoListViewController: FluidStackController {
   }
 }
 
-private final class DetailViewController: UIViewController, ViewControllerFluidContentType {
+private final class DetailViewController: FluidNavigatedViewController {
 
   private let viewModel: ViewModel
 
@@ -103,7 +101,7 @@ private final class DetailViewController: UIViewController, ViewControllerFluidC
     viewModel: ViewModel
   ) {
     self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
+    super.init(addingTransition: nil, removingTransition: nil, removingInteraction: nil)
   }
 
   required init?(

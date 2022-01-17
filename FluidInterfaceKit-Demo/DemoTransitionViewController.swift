@@ -70,8 +70,9 @@ final class DemoTransitionViewController: FluidStackController {
 
       let controller = FluidViewController(
         bodyViewController: body,
-        transition: .noTransition,
-        interactionToRemove: nil
+        addingTransition: nil,
+        removingTransition: nil,
+        removingInteraction: nil
       )
 
       addContentViewController(controller, transition: transition)
@@ -80,8 +81,9 @@ final class DemoTransitionViewController: FluidStackController {
 
       let controller = FluidViewController(
         bodyViewController: body,
-        transition: .init(adding: transition, removing: nil),
-        interactionToRemove: nil
+        addingTransition: transition,
+        removingTransition: nil,
+        removingInteraction: nil
       )
 
       present(controller, animated: false, completion: nil)

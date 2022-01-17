@@ -1,7 +1,7 @@
 import UIKit
 
 /// Supports transition
-/// compatible with ``ZStackViewController``
+/// compatible with ``FluidStackController``
 open class TransitionViewController: _fluid_WrapperViewController {
 
   private struct State: Equatable {
@@ -12,26 +12,44 @@ open class TransitionViewController: _fluid_WrapperViewController {
 
   private var state: State = .init()
 
-  public var transition: TransitionPair
+  public var addingTransition: AnyAddingTransition?
+  public var removingTransition: AnyRemovingTransition?
+
   private var addingTransitionContext: AddingTransitionContext?
   private var removingTransitionContext: RemovingTransitionContext?
 
   public init(
-    bodyViewController: UIViewController,
-    transition: TransitionPair
+    addingTransition: AnyAddingTransition?,
+    removingTransition: AnyRemovingTransition?
   ) {
 
-    self.transition = transition
+    self.addingTransition = addingTransition
+    self.removingTransition = removingTransition
+
+    super.init()
+    setup()
+  }
+
+  public init(
+    bodyViewController: UIViewController,
+    addingTransition: AnyAddingTransition?,
+    removingTransition: AnyRemovingTransition?
+  ) {
+
+    self.addingTransition = addingTransition
+    self.removingTransition = removingTransition
     super.init(bodyViewController: bodyViewController)
     setup()
   }
 
   public init(
     view: UIView,
-    transition: TransitionPair
+    addingTransition: AnyAddingTransition?,
+    removingTransition: AnyRemovingTransition?
   ) {
 
-    self.transition = transition
+    self.addingTransition = addingTransition
+    self.removingTransition = removingTransition
     super.init(view: view)
     setup()
   }
@@ -40,10 +58,10 @@ open class TransitionViewController: _fluid_WrapperViewController {
     modalPresentationStyle = .overCurrentContext
   }
 
-  /// From ``ZStackViewController``
+  /// From ``FluidStackController``
   func startAddingTransition(context: AddingTransitionContext) {
 
-    guard let addingTransition = transition.adding else {
+    guard let addingTransition = addingTransition else {
       return
     }
 
@@ -53,10 +71,10 @@ open class TransitionViewController: _fluid_WrapperViewController {
 
   }
 
-  /// From ``ZStackViewController``
+  /// From ``FluidStackController``
   func startRemovingTransition(context: RemovingTransitionContext) {
 
-    guard let removingTransition = transition.removing else {
+    guard let removingTransition = removingTransition else {
       context.notifyCompleted()
       return
     }
@@ -95,7 +113,7 @@ open class TransitionViewController: _fluid_WrapperViewController {
         removingTransitionContext?.invalidate()
         removingTransitionContext = nil
 
-        let addingTransition = transition.adding ?? .noAnimation
+        let addingTransition = addingTransition ?? .noAnimation
 
         /// presenting as presentation
         /// super.viewDidAppear(animated)
@@ -196,7 +214,7 @@ open class TransitionViewController: _fluid_WrapperViewController {
 
     removingTransitionContext = context
 
-    let transition = transition.removing ?? .noAnimation
+    let transition = removingTransition ?? .noAnimation
 
     transition.startTransition(context: context)
 

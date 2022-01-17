@@ -130,8 +130,9 @@ final class ContentViewController: UIViewController, ViewControllerFluidContentT
         fluidStackContext?.addContentViewController(
           FluidViewController(
             bodyViewController: ContentViewController(color: .neonRandom()),
-            transition: .noTransition,
-            interactionToRemove: .horizontalDragging(backwardingMode: nil, hidingViews: [])
+            addingTransition: nil,
+            removingTransition: nil,
+            removingInteraction: .horizontalDragging(backwardingMode: nil, hidingViews: [])
           ),
           transition: nil
         )
