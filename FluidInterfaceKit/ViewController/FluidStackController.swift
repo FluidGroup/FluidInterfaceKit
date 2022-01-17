@@ -106,7 +106,7 @@ open class FluidStackController: UIViewController {
     assert(Thread.isMainThread)
 
     guard let viewControllerToRemove = stackingViewControllers.last else {
-      Log.error(.zStack, "The last view controller was not found to remove")
+      Log.error(.stack, "The last view controller was not found to remove")
       return
     }
 
@@ -177,7 +177,7 @@ open class FluidStackController: UIViewController {
         guard let self = self else { return }
 
         guard context.isInvalidated == false else {
-          Log.debug(.zStack, "\(context) was invalidated, skips adding")
+          Log.debug(.stack, "\(context) was invalidated, skips adding")
           return
         }
 
@@ -229,7 +229,7 @@ open class FluidStackController: UIViewController {
 
     guard let index = stackingViewControllers.firstIndex(where: { $0 == viewControllerToRemove })
     else {
-      Log.error(.zStack, "\(viewControllerToRemove) was not found to remove")
+      Log.error(.stack, "\(viewControllerToRemove) was not found to remove")
       fatalError()
     }
 
@@ -251,7 +251,7 @@ open class FluidStackController: UIViewController {
         guard let self = self else { return }
 
         guard context.isInvalidated == false else {
-          Log.debug(.zStack, "\(context) was invalidated, skips removing")
+          Log.debug(.stack, "\(context) was invalidated, skips removing")
           return
         }
 
@@ -322,12 +322,12 @@ open class FluidStackController: UIViewController {
     transition: AnyBatchRemovingTransition?
   ) {
 
-    Log.debug(.zStack, "Remove \(viewController) from \(stackingViewControllers)")
+    Log.debug(.stack, "Remove \(viewController) from \(stackingViewControllers)")
 
     assert(Thread.isMainThread)
 
     guard let index = stackingViewControllers.firstIndex(where: { $0 == viewController }) else {
-      Log.error(.zStack, "\(viewController) was not found to remove")
+      Log.error(.stack, "\(viewController) was not found to remove")
       return
     }
 
@@ -408,7 +408,7 @@ open class FluidStackController: UIViewController {
 
     }
 
-    Log.debug(.zStack, "Removed => \(children)")
+    Log.debug(.stack, "Removed => \(children)")
 
   }
 

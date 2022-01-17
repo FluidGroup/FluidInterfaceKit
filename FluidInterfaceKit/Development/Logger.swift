@@ -24,7 +24,7 @@ extension OSLog {
 #endif
   }
 
-  static let zStack: OSLog = makeOSLogInDebug { OSLog.init(subsystem: "FluidUIKit", category: "ZStackViewController") }
+  static let stack: OSLog = makeOSLogInDebug { OSLog.init(subsystem: "FluidUIKit", category: "FluidStackController") }
 
   static let pip: OSLog = makeOSLogInDebug { OSLog.init(subsystem: "FluidUIKit", category: "PIP") }
 }

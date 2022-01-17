@@ -102,6 +102,8 @@ private final class DetailViewController: FluidNavigatedViewController {
   ) {
     self.viewModel = viewModel
     super.init(addingTransition: nil, removingTransition: nil, removingInteraction: nil)
+
+    title = "Title"
   }
 
   required init?(
