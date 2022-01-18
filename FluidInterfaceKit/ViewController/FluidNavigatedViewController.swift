@@ -1,5 +1,9 @@
 import UIKit
 
+/**
+ A view controller that extended from ``FluidViewController``.
+ It has ``UINavigationBar`` that working with navigation item of itself or `bodyViewController`.
+ */
 open class FluidNavigatedViewController: FluidViewController, UINavigationBarDelegate {
 
   public let navigationBar: UINavigationBar

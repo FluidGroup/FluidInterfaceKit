@@ -6,13 +6,12 @@ import UIKit
 
 let book = Book(title: "FluidInterfaceKit") {
 
-  BookCallout(symbol: "💡", text: """
-    This is a demo application to see FluidInterfaceKit.
-    """)
-
-  BookPush(title: "Demo") {
-    DemoViewController()
-  }
+  BookCallout(
+    symbol: "💡",
+    text: """
+      This is a demo application to see FluidInterfaceKit.
+      """
+  )
 
   BookNavigationLink(title: "Velocity Playground") {
 
@@ -35,6 +34,45 @@ let book = Book(title: "FluidInterfaceKit") {
     }
   }
 
+  BookNavigationLink(title: "App") {
+    BookPresent(title: "Launch") {
+      let controller = DemoApplicationController()
+      controller.modalPresentationStyle = .fullScreen
+      return controller
+    }
+
+  }
+
+  BookNavigationLink(title: "Experiments") {
+    if #available(iOS 15, *) {
+      BookPush(title: "ContextMenu") {
+        DemoContextMenuViewController()
+      }
+    }
+  }
+
+  BookNavigationLink(title: "PiP") {
+    BookPush(title: "Push") {
+      DemoPictureInPictureController()
+    }
+  }
+
+  BookPush(title: "SafeArea") {
+    DemoSafeAreaViewController()
+  }
+
+  BookPush(title: "ControlCenter") {
+    DemoControlCenterViewController()
+  }
+
+  BookPush(title: "Presentation") {
+    DemoPresentationViewController()
+  }
+
+  BookPush(title: "AnimatorPlayground") {
+    AnimatorPlaygroundViewController()
+  }
+
   BookPresent(title: "Instagram Threads") {
     let controller = DemoThreadsMessagesViewController()
     controller.modalPresentationStyle = .fullScreen
@@ -53,40 +91,10 @@ let book = Book(title: "FluidInterfaceKit") {
     return controller
   }
 
-  BookNavigationLink(title: "App") {
-    BookPresent(title: "Launch") {
-      let controller = DemoApplicationController()
-      controller.modalPresentationStyle = .fullScreen
-      return controller
-    }
-
+  BookPush(title: "Demo") {
+    DemoViewController()
   }
 
-  BookPush(title: "ControlCenter") {
-    DemoControlCenterViewController()
-  }
-
-  BookPush(title: "Presentation") {
-    DemoPresentationViewController()
-  }
-
-  BookPush(title: "AnimatorPlayground") {
-    AnimatorPlaygroundViewController()
-  }
-
-  BookNavigationLink(title: "Experiments") {
-    if #available(iOS 15, *) {
-      BookPush(title: "ContextMenu") {
-        DemoContextMenuViewController()
-      }
-    }
-  }
-
-  BookNavigationLink(title: "PiP") {
-    BookPush(title: "Push") {
-      DemoPictureInPictureController()
-    }
-  }
 }
 
 func makeButtonView(title: String, onTap: @escaping () -> Void) -> UIView {

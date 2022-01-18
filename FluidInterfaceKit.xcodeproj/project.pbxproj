@@ -32,6 +32,7 @@
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
 		4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */; };
 		4BCD46532775BF8600B060C6 /* AnimatorPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */; };
+		4BD07BD22796D12400EBA65F /* DemoSafeAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD07BD12796D12400EBA65F /* DemoSafeAreaViewController.swift */; };
 		4BDDF266277F3AAC00636B00 /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
@@ -64,6 +65,7 @@
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
 		4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlCenterViewController.swift; sourceTree = "<group>"; };
 		4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorPlaygroundViewController.swift; sourceTree = "<group>"; };
+		4BD07BD12796D12400EBA65F /* DemoSafeAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSafeAreaViewController.swift; sourceTree = "<group>"; };
 		4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoListViewController.swift; sourceTree = "<group>"; };
 		4BDDF267277F509C00636B00 /* MondrianLayout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MondrianLayout; path = submodules/MondrianLayout; sourceTree = "<group>"; };
 		4BDDF26A277F548900636B00 /* GeometryKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GeometryKit; path = submodules/GeometryKit; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				4B425A0E278F3A780062B4C5 /* DemoPictureInPictureController.swift */,
 				4B34DEEC2789FC00002D820E /* DemoTransitionViewController.swift */,
 				4B5ED7D3278C3D6B00D30EE7 /* DemoContextMenuViewController.swift */,
+				4BD07BD12796D12400EBA65F /* DemoSafeAreaViewController.swift */,
 				4B959B212764F8300003FFB6 /* RootContainerViewController.swift */,
 				4B959B0C2764F77E0003FFB6 /* ViewController.swift */,
 				4B959B112764F77F0003FFB6 /* Assets.xcassets */,
@@ -257,6 +260,7 @@
 				4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */,
 				4BDDF266277F3AAC00636B00 /* DemoListViewController.swift in Sources */,
 				4B037C57277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift in Sources */,
+				4BD07BD22796D12400EBA65F /* DemoSafeAreaViewController.swift in Sources */,
 				4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */,
 				4BDDF27F277F7BFA00636B00 /* ViewModel.swift in Sources */,
 				4B5ED7D4278C3D6B00D30EE7 /* DemoContextMenuViewController.swift in Sources */,
