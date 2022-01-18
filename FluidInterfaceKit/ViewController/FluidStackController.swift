@@ -7,6 +7,8 @@ import UIKit
 /// You may create subclass of this to make a first view.
 open class FluidStackController: UIViewController {
 
+  // MARK: - Nested types
+
   private final class WrapperView: UIView {
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -26,12 +28,6 @@ open class FluidStackController: UIViewController {
   private struct State: Equatable {
 
   }
-
-  private var state: State = .init()
-  private let __rootView: UIView?
-
-  public let contentView: UIView
-  public var stackingViewControllers: [ViewControllerFluidContentType] = []
 
   final class ViewControllerStateToken: Equatable {
 
@@ -58,8 +54,30 @@ open class FluidStackController: UIViewController {
     case removing
   }
 
+  // MARK: - Properties
+
+  public let contentView: UIView
+
+  private var state: State = .init()
+
+  private let __rootView: UIView?
+
   private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
     .weakToStrongObjects()
+
+  public private(set) var stackingViewControllers: [ViewControllerFluidContentType] = [] {
+    didSet {
+      setNeedsStatusBarAppearanceUpdate()
+    }
+  }
+
+  public override var childForStatusBarStyle: UIViewController? {
+    return stackingViewControllers.first
+  }
+
+  public override var childForStatusBarHidden: UIViewController? {
+    return stackingViewControllers.first
+  }
 
   open override func loadView() {
     if let __rootView = __rootView {
@@ -68,6 +86,8 @@ open class FluidStackController: UIViewController {
       super.loadView()
     }
   }
+
+  // MARK: - Initializers
 
   public init(
     view: UIView? = nil
@@ -83,6 +103,8 @@ open class FluidStackController: UIViewController {
   ) {
     fatalError("init(coder:) has not been implemented")
   }
+
+  // MARK: - Functions
 
   open override func viewDidLoad() {
     super.viewDidLoad()
