@@ -18,9 +18,9 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
     addingTransition: AnyAddingTransition?,
     removingTransition: AnyRemovingTransition?,
     removingInteraction: AnyRemovingInteraction?,
-    navigatonBarClass: UINavigationBar.Type = UINavigationBar.self
+    navigationBarClass: UINavigationBar.Type = UINavigationBar.self
   ) {
-    self.navigationBar = navigatonBarClass.init()
+    self.navigationBar = navigationBarClass.init()
     super.init(
       bodyViewController: bodyViewController,
       addingTransition: addingTransition,
@@ -39,10 +39,10 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
     addingTransition: AnyAddingTransition?,
     removingTransition: AnyRemovingTransition?,
     removingInteraction: AnyRemovingInteraction?,
-    navigatonBarClass: UINavigationBar.Type = UINavigationBar.self
+    navigationBarClass: UINavigationBar.Type = UINavigationBar.self
   ) {
 
-    self.navigationBar = navigatonBarClass.init()
+    self.navigationBar = navigationBarClass.init()
     super.init(
       view: view,
       addingTransition: addingTransition,
@@ -55,10 +55,10 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
     addingTransition: AnyAddingTransition?,
     removingTransition: AnyRemovingTransition?,
     removingInteraction: AnyRemovingInteraction?,
-    navigatonBarClass: UINavigationBar.Type = UINavigationBar.self
+    navigationBarClass: UINavigationBar.Type = UINavigationBar.self
   ) {
 
-    self.navigationBar = navigatonBarClass.init()
+    self.navigationBar = navigationBarClass.init()
     super.init(
       addingTransition: addingTransition,
       removingTransition: removingTransition,
