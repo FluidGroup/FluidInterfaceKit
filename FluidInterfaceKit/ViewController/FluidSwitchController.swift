@@ -1,5 +1,9 @@
 import UIKit
 
+/**
+ A container view controller displays one view controller at a time.
+ It's similar with tab-bar controller.
+ */
 open class FluidSwitchController: UIViewController {
 
   public private(set) var currentDisplayViewController: UIViewController?
