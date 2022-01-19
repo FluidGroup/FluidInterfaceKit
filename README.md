@@ -87,6 +87,14 @@ Use `TransitionViewController` or `FluidViewController`.
 
 ### `FluidPictureInPictureController: UIViewController`
 
+## Development
+
+**Setting up git-submodules**
+
+```shell
+git submodule update -i
+```
+
 ## License
 
 MIT
