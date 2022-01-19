@@ -172,7 +172,10 @@ open class TransitionViewController: _fluid_WrapperViewController {
         context.transitionFinished()
         self.removingTransitionContext = nil
 
-        self.dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false, completion: { [weak self] in
+          self?.state.countViewDidAppear = 0
+          self?.view.resetToVisible()
+        })
 
       })
 
@@ -208,7 +211,10 @@ open class TransitionViewController: _fluid_WrapperViewController {
         context.transitionFinished()
         self.removingTransitionContext = nil
 
-        self.dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false, completion: { [weak self] in
+          self?.state.countViewDidAppear = 0
+          self?.view.resetToVisible()
+        })
 
       })
 

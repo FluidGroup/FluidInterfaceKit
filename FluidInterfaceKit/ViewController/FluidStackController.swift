@@ -205,7 +205,7 @@ open class FluidStackController: UIViewController {
       containerView.frame = self.view.bounds
       containerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-      viewControllerToAdd.view.transform = .identity
+      viewControllerToAdd.view.resetToVisible()
       viewControllerToAdd.view.frame = self.view.bounds
       viewControllerToAdd.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
