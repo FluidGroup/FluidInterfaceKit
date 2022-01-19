@@ -31,4 +31,10 @@ open class FluidSwitchController: UIViewController {
   public required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
+
+  open override func viewDidLoad() {
+    super.viewDidLoad()
+
+    view.accessibilityIdentifier = "Fluid.Switch"
+  }
 }

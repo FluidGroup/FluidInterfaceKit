@@ -9,6 +9,16 @@ open class FluidStackController: UIViewController {
 
   // MARK: - Nested types
 
+  public struct Configuration {
+
+    public var retainsRootViewController: Bool
+
+    public init(retainsRootViewController: Bool = false) {
+      self.retainsRootViewController = retainsRootViewController
+    }
+
+  }
+
   private final class WrapperView: UIView {
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -56,7 +66,19 @@ open class FluidStackController: UIViewController {
 
   // MARK: - Properties
 
+  /// A configuration
+  public let configuration: Configuration
+
+  /// A content view that stays in back
   public let contentView: UIView
+
+  /// An array of view controllers currently managed.
+  /// Might be different with ``UIViewController.children``.
+  public private(set) var stackingViewControllers: [ViewControllerFluidContentType] = [] {
+    didSet {
+      setNeedsStatusBarAppearanceUpdate()
+    }
+  }
 
   private var state: State = .init()
 
@@ -64,12 +86,6 @@ open class FluidStackController: UIViewController {
 
   private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
     .weakToStrongObjects()
-
-  public private(set) var stackingViewControllers: [ViewControllerFluidContentType] = [] {
-    didSet {
-      setNeedsStatusBarAppearanceUpdate()
-    }
-  }
 
   public override var childForStatusBarStyle: UIViewController? {
     return stackingViewControllers.first
@@ -90,10 +106,12 @@ open class FluidStackController: UIViewController {
   // MARK: - Initializers
 
   public init(
-    view: UIView? = nil
+    view: UIView? = nil,
+    configuration: Configuration = .init()
   ) {
     self.__rootView = view
     self.contentView = RootContentView()
+    self.configuration = configuration
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -108,6 +126,8 @@ open class FluidStackController: UIViewController {
 
   open override func viewDidLoad() {
     super.viewDidLoad()
+
+    view.accessibilityIdentifier = "Fluid.Stack"
 
     view.addSubview(contentView)
     contentView.frame = view.bounds
@@ -249,6 +269,8 @@ open class FluidStackController: UIViewController {
     _ viewControllerToRemove: ViewControllerFluidContentType
   ) -> RemovingTransitionContext {
 
+    // TODO: Handles `configuration.retainsRootViewController`
+
     guard let index = stackingViewControllers.firstIndex(where: { $0 == viewControllerToRemove })
     else {
       Log.error(.stack, "\(viewControllerToRemove) was not found to remove")
@@ -306,6 +328,8 @@ open class FluidStackController: UIViewController {
     transition: AnyRemovingTransition?
   ) {
 
+    // TODO: Handles `configuration.retainsRootViewController`
+
     let transitionContext = startRemoving(viewControllerToRemove)
 
     if let transition = transition {
@@ -325,11 +349,10 @@ open class FluidStackController: UIViewController {
      - leavesRoot: If true, the first view controller will still be alive.
    */
   public func removeAllViewController(
-    leavesRoot: Bool,
     transition: AnyBatchRemovingTransition?
   ) {
 
-    if leavesRoot {
+    if configuration.retainsRootViewController {
       guard let target = stackingViewControllers.prefix(2).last else { return }
       removeAllViewController(from: target, transition: transition)
     } else {
@@ -501,10 +524,9 @@ public struct FluidStackContext {
   }
 
   public func removeAllViewController(
-    leavesRoot: Bool,
     transition: AnyBatchRemovingTransition?
   ) {
-    fluidStackController?.removeAllViewController(leavesRoot: leavesRoot, transition: transition)
+    fluidStackController?.removeAllViewController(transition: transition)
   }
 
 }
