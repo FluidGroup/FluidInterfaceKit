@@ -10,4 +10,4 @@ A framework to build flexible apps instead of using UIKit's standard container a
 
 ## Detail
 
-[**Open Document**](https://muukii.notion.site/FluidInterfaceKit-A-library-for-making-the-Fluid-UI-with-UIKit-120d631c84574d75a3b51edbf827382a)
+[**Open Document**](https://bit.ly/3FJxNFJ)
