@@ -8,7 +8,7 @@ open class FluidSceneSwitchController<Scene: FluidSceneType>: FluidSwitchControl
 
   public private(set) var scene: Scene?
 
-  @available(*, unavailable)
+  @available(*, unavailable, message: "Instead use `setScene`")
   public override func setViewController(_ viewController: UIViewController) {
     super.setViewController(viewController)
   }

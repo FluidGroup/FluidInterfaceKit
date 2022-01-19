@@ -2,48 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "GeometryKit",
-        "repositoryURL": "https://github.com/muukii/GeometryKit",
-        "state": {
-          "branch": null,
-          "revision": "6cf96dcb220e1b612ba57a717234cbdbf877c009",
-          "version": "1.1.0"
-        }
-      },
-      {
-        "package": "MatchedTransition",
-        "repositoryURL": "https://github.com/muukii/MatchedTransition",
-        "state": {
-          "branch": null,
-          "revision": "4a559b5246c357c112b1231edcc29ed94a979499",
-          "version": "1.1.1"
-        }
-      },
-      {
         "package": "MockKit",
         "repositoryURL": "https://github.com/muukii/MockKit.git",
         "state": {
           "branch": "main",
           "revision": "facff4540318d08f5f00c2b363abc640be3452f8",
           "version": null
-        }
-      },
-      {
-        "package": "MondrianLayout",
-        "repositoryURL": "https://github.com/muukii/MondrianLayout.git",
-        "state": {
-          "branch": null,
-          "revision": "239bc0b02b8abbc211720476d1554b736832bb9c",
-          "version": "0.9.0"
-        }
-      },
-      {
-        "package": "Ne",
-        "repositoryURL": "https://github.com/muukii/Ne.git",
-        "state": {
-          "branch": null,
-          "revision": "864edeb19072716f2fdc7061bf346aa3fe4d06c6",
-          "version": "1.1.0"
         }
       },
       {
@@ -56,12 +20,30 @@
         }
       },
       {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "b4307ba0b6425c0ba4178e138799946c3da594f8",
+          "version": "6.5.0"
+        }
+      },
+      {
         "package": "Storybook",
         "repositoryURL": "git@github.com:eure/Storybook-ios.git",
         "state": {
           "branch": "main",
           "revision": "48cd0bbecd40edabcce32e819c5a23014a49013b",
           "version": null
+        }
+      },
+      {
+        "package": "Verge",
+        "repositoryURL": "https://github.com/VergeGroup/Verge",
+        "state": {
+          "branch": null,
+          "revision": "fd470f3189c52f851553caf13b8b1dd6795207bc",
+          "version": "8.15.0"
         }
       },
       {
