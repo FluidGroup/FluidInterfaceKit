@@ -87,7 +87,17 @@ open class FluidStackController: UIViewController {
   private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
     .weakToStrongObjects()
 
+<<<<<<< HEAD
+  public override var childForStatusBarStyle: UIViewController? {
+=======
+  public private(set) var stackingViewControllers: [ViewControllerFluidContentType] = [] {
+    didSet {
+      setNeedsStatusBarAppearanceUpdate()
+    }
+  }
+
   open override var childForStatusBarStyle: UIViewController? {
+>>>>>>> 17e6010 (Open)
     return stackingViewControllers.first
   }
 
