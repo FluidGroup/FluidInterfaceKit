@@ -69,6 +69,9 @@ open class FluidStackController: UIViewController {
   /// A configuration
   public let configuration: Configuration
 
+  /// an string value that identifies the instance of ``FluidStackController``.
+  public var identifier: String?
+
   /// A content view that stays in back
   public let contentView: UIView
 
@@ -106,9 +109,11 @@ open class FluidStackController: UIViewController {
   // MARK: - Initializers
 
   public init(
+    identifier: String? = nil,
     view: UIView? = nil,
     configuration: Configuration = .init()
   ) {
+    self.identifier = identifier
     self.__rootView = view
     self.contentView = RootContentView()
     self.configuration = configuration

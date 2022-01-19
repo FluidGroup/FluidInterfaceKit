@@ -22,4 +22,28 @@ extension UIViewController {
     fluidStackControllers().first
   }
 
+  /**
+   Returns the view controller's nearest ancestor ``FluidStackController`` (including itself) with a given identifier.
+   */
+  public func fluidStackController(with identifier: String) -> FluidStackController? {
+
+    let found = sequence(first: self) {
+      $0.parent
+    }
+    .first(where: { controller in
+
+      guard let controller = controller as? FluidStackController else {
+        return false
+      }
+
+      guard controller.identifier == identifier else {
+        return false
+      }
+
+      return true
+    })
+    
+    return found as? FluidStackController
+  }
+
 }
