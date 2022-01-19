@@ -74,7 +74,7 @@ open class FluidStackController: UIViewController {
 
   /// An array of view controllers currently managed.
   /// Might be different with ``UIViewController.children``.
-  public private(set) var stackingViewControllers: [ViewControllerFluidContentType] = [] {
+  public private(set) var stackingViewControllers: [UIViewController] = [] {
     didSet {
       setNeedsStatusBarAppearanceUpdate()
     }
@@ -154,7 +154,7 @@ open class FluidStackController: UIViewController {
 
     removeViewController(viewControllerToRemove, transition: transition)
 
-    viewControllerToRemove.fluidStackContext = nil
+    (viewControllerToRemove as? ViewControllerFluidContentType)?.fluidStackContext = nil
   }
 
   /**
@@ -166,7 +166,7 @@ open class FluidStackController: UIViewController {
        You may set ``.noAnimation`` to disable animation
    */
   public func addContentViewController(
-    _ viewControllerToAdd: ViewControllerFluidContentType,
+    _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?
   ) {
 
@@ -181,7 +181,8 @@ open class FluidStackController: UIViewController {
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
     stackingViewControllers.append(viewControllerToAdd)
 
-    if viewControllerToAdd.fluidStackContext == nil {
+    if let viewControllerToAdd = viewControllerToAdd as? ViewControllerFluidContentType,
+       viewControllerToAdd.fluidStackContext == nil {
       /// set context
       viewControllerToAdd.fluidStackContext = .init(
         fluidStackController: self,
@@ -266,7 +267,7 @@ open class FluidStackController: UIViewController {
    Make sure to complete the transition with the context.
    */
   public func startRemoving(
-    _ viewControllerToRemove: ViewControllerFluidContentType
+    _ viewControllerToRemove: UIViewController
   ) -> RemovingTransitionContext {
 
     // TODO: Handles `configuration.retainsRootViewController`
@@ -306,7 +307,7 @@ open class FluidStackController: UIViewController {
         self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
 
         self.stackingViewControllers.removeAll { $0 == viewControllerToRemove }
-        viewControllerToRemove.fluidStackContext = nil
+        (viewControllerToRemove as? ViewControllerFluidContentType)?.fluidStackContext = nil
 
         viewControllerToRemove.willMove(toParent: nil)
         viewControllerToRemove.view.superview!.removeFromSuperview()
@@ -324,7 +325,7 @@ open class FluidStackController: UIViewController {
   }
 
   public func removeViewController(
-    _ viewControllerToRemove: ViewControllerFluidContentType,
+    _ viewControllerToRemove: UIViewController,
     transition: AnyRemovingTransition?
   ) {
 
@@ -411,7 +412,7 @@ open class FluidStackController: UIViewController {
             viewControllerToRemove.willMove(toParent: nil)
             viewControllerToRemove.view.superview!.removeFromSuperview()
             viewControllerToRemove.removeFromParent()
-            viewControllerToRemove.fluidStackContext = nil
+            (viewControllerToRemove as? ViewControllerFluidContentType)?.fluidStackContext = nil
           }
 
           self.stackingViewControllers.removeAll { instance in

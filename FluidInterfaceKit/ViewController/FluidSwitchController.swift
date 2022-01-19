@@ -6,7 +6,19 @@ import UIKit
  */
 open class FluidSwitchController: UIViewController {
 
-  public private(set) var currentDisplayViewController: UIViewController?
+  public private(set) var currentDisplayViewController: UIViewController? {
+    didSet {
+      setNeedsStatusBarAppearanceUpdate()
+    }
+  }
+
+  open override var childForStatusBarStyle: UIViewController? {
+    return currentDisplayViewController
+  }
+
+  open override var childForStatusBarHidden: UIViewController? {
+    return currentDisplayViewController
+  }
 
   public func setViewController(_ viewController: UIViewController) {
 
