@@ -4,9 +4,7 @@ import UIKit
 /// A view controller that supports interaction to start removing transiton.
 ///
 /// You may specify ``AnyRemovingInteraction``
-open class FluidViewController: TransitionViewController, UIGestureRecognizerDelegate,
-  ViewControllerFluidContentType
-{
+open class FluidViewController: TransitionViewController, UIGestureRecognizerDelegate {
 
   // MARK: - Properties
 

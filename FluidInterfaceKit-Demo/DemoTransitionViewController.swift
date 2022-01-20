@@ -109,7 +109,7 @@ final class DemoTransitionViewController: FluidStackController {
 
 }
 
-private final class PlaceholderViewController: UIViewController, ViewControllerFluidContentType {
+private final class PlaceholderViewController: UIViewController {
 
   private let _dismiss: (PlaceholderViewController) -> Void
 

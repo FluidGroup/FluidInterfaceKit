@@ -538,27 +538,24 @@ public struct FluidStackContext {
 }
 
 public protocol ViewControllerFluidContentType: UIViewController {
-  var fluidStackContext: FluidStackContext? { get }
   func fluidStackContextDidChange(_ context: FluidStackContext?)
 }
 
 var ref: Void?
 
-extension ViewControllerFluidContentType {
-
-  public func fluidStackContextDidChange(_ context: FluidStackContext?) {
+extension UIViewController: ViewControllerFluidContentType {
+  open func fluidStackContextDidChange(_ context: FluidStackContext?) {
 
   }
+}
+
+extension ViewControllerFluidContentType {
 
   public internal(set) var fluidStackContext: FluidStackContext? {
     get {
 
       guard let object = objc_getAssociatedObject(self, &ref) as? FluidStackContext else {
-
-        guard let compatibleParent = parent as? ViewControllerFluidContentType else {
-          return nil
-        }
-        return compatibleParent.fluidStackContext
+        return parent?.fluidStackContext
       }
       return object
 
@@ -578,7 +575,7 @@ extension ViewControllerFluidContentType {
   }
 }
 
-private final class AnonymousViewController: UIViewController, ViewControllerFluidContentType {
+private final class AnonymousViewController: UIViewController {
 
   private let __rootView: UIView
 

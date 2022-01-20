@@ -14,7 +14,7 @@ final class DemoApplicationController: FluidStackController {
 
 }
 
-final class AppTabBarController: UITabBarController, ViewControllerFluidContentType {
+final class AppTabBarController: UITabBarController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -73,7 +73,7 @@ final class AppSearchViewController: FluidStackController {
 
 }
 
-final class AppOptionsController: CodeBasedViewController, ViewControllerFluidContentType {
+final class AppOptionsController: CodeBasedViewController {
 
   override init() {
     super.init()

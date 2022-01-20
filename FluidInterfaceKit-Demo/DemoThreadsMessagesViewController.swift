@@ -188,7 +188,7 @@ private func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> 
 }
 
 /// Detail
-final class DemoThreadsDetailViewController: UIViewController, ViewControllerFluidContentType {
+final class DemoThreadsDetailViewController: UIViewController {
 
   private let scrollableContainerView = ScrollableContainerView()
   private let navigationView = NavigationHostingView()

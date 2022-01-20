@@ -64,7 +64,7 @@ final class DemoViewController: FluidStackController {
 
 }
 
-final class ContentViewController: UIViewController, ViewControllerFluidContentType {
+final class ContentViewController: UIViewController {
 
   init(
     color: UIColor
