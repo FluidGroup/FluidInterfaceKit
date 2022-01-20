@@ -79,6 +79,7 @@ open class FluidStackController: UIViewController {
   /// Might be different with ``UIViewController.children``.
   public private(set) var stackingViewControllers: [UIViewController] = [] {
     didSet {
+      // TODO: Update with animation
       setNeedsStatusBarAppearanceUpdate()
     }
   }
