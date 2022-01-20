@@ -159,7 +159,7 @@ open class FluidStackController: UIViewController {
 
     removeViewController(viewControllerToRemove, transition: transition)
 
-    (viewControllerToRemove as? ViewControllerFluidContentType)?.fluidStackContext = nil
+    viewControllerToRemove.fluidStackContext = nil
   }
 
   /**
@@ -186,8 +186,7 @@ open class FluidStackController: UIViewController {
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
     stackingViewControllers.append(viewControllerToAdd)
 
-    if let viewControllerToAdd = viewControllerToAdd as? ViewControllerFluidContentType,
-       viewControllerToAdd.fluidStackContext == nil {
+    if viewControllerToAdd.fluidStackContext == nil {
       /// set context
       viewControllerToAdd.fluidStackContext = .init(
         fluidStackController: self,
@@ -551,6 +550,8 @@ extension UIViewController: ViewControllerFluidContentType {
 
 extension ViewControllerFluidContentType {
 
+  /// [Get]: Returns a stored instance or nearest parent's one.
+  /// [Set]: Stores given instance.
   public internal(set) var fluidStackContext: FluidStackContext? {
     get {
 
