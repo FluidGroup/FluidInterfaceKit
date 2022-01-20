@@ -247,7 +247,7 @@ open class FluidStackController: UIViewController {
         context: transitionContext
       )
     } else {
-      transitionContext.notifyCompleted()
+      AnyAddingTransition.noAnimation.startTransition(context: transitionContext)
     }
 
   }
