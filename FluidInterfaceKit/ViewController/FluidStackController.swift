@@ -91,11 +91,11 @@ open class FluidStackController: UIViewController {
     .weakToStrongObjects()
 
   open override var childForStatusBarStyle: UIViewController? {
-    return stackingViewControllers.first
+    return stackingViewControllers.last
   }
 
   open override var childForStatusBarHidden: UIViewController? {
-    return stackingViewControllers.first
+    return stackingViewControllers.last
   }
 
   open override func loadView() {
