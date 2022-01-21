@@ -52,6 +52,7 @@ final class DemoListViewController: FluidStackController {
                 backwardingMode: .shape(destinationView: view),
                 hidingViews: [view]
               )
+//              removingInteraction: .leftEdge()
             )
 
             viewControllerCache[i] = displayViewController

@@ -14,6 +14,10 @@ public class TransitionContext: Equatable {
     lhs === rhs
   }
 
+  /// A view that stage for transitioning.
+  /// You may work with:
+  /// - setting background color for dimming.
+  /// - adding snapshot(mirror) view.
   public let contentView: UIView
 
   public private(set) var isInvalidated: Bool = false

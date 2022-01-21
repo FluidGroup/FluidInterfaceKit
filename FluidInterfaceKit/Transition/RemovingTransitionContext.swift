@@ -30,6 +30,9 @@ public final class RemovingTransitionContext: TransitionContext {
     super.init(contentView: contentView)
   }
 
+  /**
+   Notifies controller transition has been completed.
+   */
   public func notifyCompleted() {
     isCompleted = true
     onCompleted(self)

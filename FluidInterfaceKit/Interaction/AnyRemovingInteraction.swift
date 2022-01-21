@@ -13,6 +13,11 @@ public struct AnyRemovingInteraction {
   public struct Context {
     /// a ``FluidViewController`` that runs ``AnyRemovingInteraction``
     public let viewController: FluidViewController
+    
+    public func startRemovingTransition() -> RemovingTransitionContext {
+      viewController.fluidStackContext?.startRemoving() ??
+      viewController._startStandaloneRemovingTransition()
+    }
   }
 
   public typealias GestureHandler<Gesture> = (Gesture, Context) -> Void
