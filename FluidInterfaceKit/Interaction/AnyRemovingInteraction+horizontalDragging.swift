@@ -30,6 +30,33 @@ extension AnyRemovingInteraction {
 
     return .init(
       handlers: [
+        .gestureOnLeftEdge { gesture, context in
+          
+          // TODO: implement more
+          
+          switch gesture.state {
+          case .began:
+            let transitionContext = context.startRemovingTransition()
+            
+            let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+              
+              context.viewController.view.alpha = 0
+              context.viewController.view.transform = .init(scaleX: 0.8, y: 0.8)
+              transitionContext.contentView.backgroundColor = .clear
+              
+            }
+            
+            animator.addCompletion { _ in
+              transitionContext.notifyCompleted()
+            }
+            
+            animator.startAnimation()
+
+          default:
+            break
+          }
+        },
+                
         .gestureOnScreen(
           handler: { gesture, context in
 

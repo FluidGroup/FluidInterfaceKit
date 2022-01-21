@@ -11,19 +11,20 @@ enum Fluid {
     if view.alpha == 1, view.isHidden == false {
       snapshot = view.snapshotView(afterScreenUpdates: false) ?? UIView()
     } else {
-      let alpha = view.alpha
-      let isHidden = view.isHidden
-      let frame = view.frame
+      let alpha = view.layer.opacity
+      let isHidden = view.layer.isHidden
+      let frame = view.layer.frame
 
-      view.alpha = 1
-      view.isHidden = false
-      view.frame.origin.x = 10000 // move to out of the screen to avoid blinking
+      view.layer.opacity = 1
+      view.layer.isHidden = false
+      view.layer.frame.origin.x = 10000 // move to out of the screen to avoid blinking
       defer {
-        view.alpha = alpha
-        view.isHidden = isHidden
-        view.frame = frame
+        view.layer.opacity = alpha
+        view.layer.isHidden = isHidden
+        view.layer.frame = frame
       }
-      snapshot = view.snapshotView(afterScreenUpdates: true) ?? UIView()
+      // TODO: result may not render visible content.
+      snapshot = view.snapshotView(afterScreenUpdates: false) ?? UIView()
     }
 
     snapshot.isUserInteractionEnabled = false
