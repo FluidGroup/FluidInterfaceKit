@@ -59,7 +59,7 @@ final class DemoThreadsMessagesViewController: FluidStackController {
 
     let header = makeHeader()
 
-    var viewControllerCache: [Int: ViewControllerFluidContentType] = [:]
+    var viewControllerCache: [Int: UIViewController] = [:]
 
     let content = CompositionKit.AnyView.init { view in
 

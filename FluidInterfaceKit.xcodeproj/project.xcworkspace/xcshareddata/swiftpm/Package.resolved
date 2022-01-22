@@ -20,6 +20,15 @@
         }
       },
       {
+        "package": "Rideau",
+        "repositoryURL": "https://github.com/muukii/Rideau.git",
+        "state": {
+          "branch": null,
+          "revision": "3d63a3f8ef459eb929f25903d51559b170a0b2a6",
+          "version": "2.1.1"
+        }
+      },
+      {
         "package": "RxSwift",
         "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
         "state": {
