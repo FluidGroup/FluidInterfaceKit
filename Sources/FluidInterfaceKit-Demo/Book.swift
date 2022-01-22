@@ -90,6 +90,12 @@ let book = Book(title: "FluidInterfaceKit") {
     controller.modalPresentationStyle = .fullScreen
     return controller
   }
+  
+  BookPresent(title: "+ Rideau") {
+    let controller = DemoRideauIntegrationViewController()
+    controller.modalPresentationStyle = .fullScreen
+    return controller
+  }
 
   BookPush(title: "Demo") {
     DemoViewController()

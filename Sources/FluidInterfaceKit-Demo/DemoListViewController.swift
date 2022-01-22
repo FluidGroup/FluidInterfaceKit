@@ -23,7 +23,7 @@ final class DemoListViewController: FluidStackController {
     view.backgroundColor = .systemBackground
     scrollableContainerView.delaysContentTouches = false
 
-    var viewControllerCache: [Int: ViewControllerFluidContentType] = [:]
+    var viewControllerCache: [Int: UIViewController] = [:]
 
     let listCells: [UIView] = (0..<40).map { i in
 

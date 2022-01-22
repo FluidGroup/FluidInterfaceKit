@@ -7,71 +7,74 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B037C57277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */; };
-		4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */; };
-		4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */; };
-		4B34DEED2789FC00002D820E /* DemoTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B34DEEC2789FC00002D820E /* DemoTransitionViewController.swift */; };
-		4B425A0F278F3A780062B4C5 /* DemoPictureInPictureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B425A0E278F3A780062B4C5 /* DemoPictureInPictureController.swift */; };
-		4B4F93BA27908DC100490A21 /* DemoApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4F93B927908DC100490A21 /* DemoApplicationViewController.swift */; };
-		4B5ED7D4278C3D6B00D30EE7 /* DemoContextMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5ED7D3278C3D6B00D30EE7 /* DemoContextMenuViewController.swift */; };
+		4B468061279C58E800625FCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804A279C58E800625FCB /* ViewController.swift */; };
+		4B468062279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */; };
+		4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */; };
+		4B468064279C58E800625FCB /* AnimatorPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804D279C58E800625FCB /* AnimatorPlaygroundViewController.swift */; };
+		4B468065279C58E800625FCB /* RootContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804E279C58E800625FCB /* RootContainerViewController.swift */; };
+		4B468066279C58E800625FCB /* DemoControlCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804F279C58E800625FCB /* DemoControlCenterViewController.swift */; };
+		4B468067279C58E800625FCB /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468050279C58E800625FCB /* DemoThreadsMessagesViewController.swift */; };
+		4B468068279C58E800625FCB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B468051279C58E800625FCB /* Assets.xcassets */; };
+		4B468069279C58E800625FCB /* DemoPictureInPictureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */; };
+		4B46806A279C58E800625FCB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468053279C58E800625FCB /* ViewModel.swift */; };
+		4B46806B279C58E800625FCB /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468054279C58E800625FCB /* DemoViewController.swift */; };
+		4B46806C279C58E800625FCB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B468055279C58E800625FCB /* LaunchScreen.storyboard */; };
+		4B46806D279C58E800625FCB /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468057279C58E800625FCB /* DemoListViewController.swift */; };
+		4B46806E279C58E800625FCB /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468058279C58E800625FCB /* Book.swift */; };
+		4B46806F279C58E800625FCB /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468059279C58E800625FCB /* UIColor+Presets.swift */; };
+		4B468070279C58E800625FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805A279C58E800625FCB /* AppDelegate.swift */; };
+		4B468071279C58E800625FCB /* DemoSafeAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */; };
+		4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */; };
+		4B468073279C58E800625FCB /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805D279C58E800625FCB /* DemoPresentationViewController.swift */; };
+		4B468074279C58E800625FCB /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805E279C58E800625FCB /* UIControl+Closure.swift */; };
+		4B468075279C58E800625FCB /* DemoApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */; };
+		4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
-		4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B082764F77E0003FFB6 /* AppDelegate.swift */; };
-		4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B0C2764F77E0003FFB6 /* ViewController.swift */; };
-		4B959B122764F77F0003FFB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B959B112764F77F0003FFB6 /* Assets.xcassets */; };
-		4B959B152764F77F0003FFB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B959B132764F77F0003FFB6 /* LaunchScreen.storyboard */; };
 		4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B1B2764F7B30003FFB6 /* StorybookKit */; };
 		4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B1D2764F7B30003FFB6 /* StorybookUI */; };
-		4B959B202764F8200003FFB6 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B1F2764F8200003FFB6 /* Book.swift */; };
-		4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B212764F8300003FFB6 /* RootContainerViewController.swift */; };
-		4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B959B30276503C30003FFB6 /* DemoViewController.swift */; };
+		4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */; };
+		4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */; };
 		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
 		4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B31B277077EA00EE1028 /* MockKit */; };
-		4BB7B9CF277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */; };
-		4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBDECD22766241200982229 /* UIControl+Closure.swift */; };
 		4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECDF276648FD00982229 /* CompositionKit */; };
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
-		4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */; };
-		4BCD46532775BF8600B060C6 /* AnimatorPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */; };
-		4BD07BD22796D12400EBA65F /* DemoSafeAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD07BD12796D12400EBA65F /* DemoSafeAreaViewController.swift */; };
-		4BDDF266277F3AAC00636B00 /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
-		4BDDF27F277F7BFA00636B00 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDDF27E277F7BFA00636B00 /* ViewModel.swift */; };
-		4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
-		4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
-		4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPresentationViewController.swift; sourceTree = "<group>"; };
 		4B2CCB88278DD21400EAB928 /* Descriptors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Descriptors; path = submodules/Descriptors; sourceTree = "<group>"; };
-		4B34DEEC2789FC00002D820E /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
-		4B425A0E278F3A780062B4C5 /* DemoPictureInPictureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPictureInPictureController.swift; sourceTree = "<group>"; };
-		4B4F93B927908DC100490A21 /* DemoApplicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApplicationViewController.swift; sourceTree = "<group>"; };
-		4B5ED7D3278C3D6B00D30EE7 /* DemoContextMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoContextMenuViewController.swift; sourceTree = "<group>"; };
+		4B46804A279C58E800625FCB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
+		4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
+		4B46804D279C58E800625FCB /* AnimatorPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatorPlaygroundViewController.swift; sourceTree = "<group>"; };
+		4B46804E279C58E800625FCB /* RootContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootContainerViewController.swift; sourceTree = "<group>"; };
+		4B46804F279C58E800625FCB /* DemoControlCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoControlCenterViewController.swift; sourceTree = "<group>"; };
+		4B468050279C58E800625FCB /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
+		4B468051279C58E800625FCB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPictureInPictureController.swift; sourceTree = "<group>"; };
+		4B468053279C58E800625FCB /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		4B468054279C58E800625FCB /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
+		4B468056279C58E800625FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4B468057279C58E800625FCB /* DemoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListViewController.swift; sourceTree = "<group>"; };
+		4B468058279C58E800625FCB /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		4B468059279C58E800625FCB /* UIColor+Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
+		4B46805A279C58E800625FCB /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoSafeAreaViewController.swift; sourceTree = "<group>"; };
+		4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoContextMenuViewController.swift; sourceTree = "<group>"; };
+		4B46805D279C58E800625FCB /* DemoPresentationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPresentationViewController.swift; sourceTree = "<group>"; };
+		4B46805E279C58E800625FCB /* UIControl+Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
+		4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoApplicationViewController.swift; sourceTree = "<group>"; };
+		4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B79CAAA2792A3A0002DA1DF /* Ne */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Ne; path = submodules/Ne; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B959B082764F77E0003FFB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4B959B0C2764F77E0003FFB6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		4B959B112764F77F0003FFB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4B959B142764F77F0003FFB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		4B959B1F2764F8200003FFB6 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
-		4B959B212764F8300003FFB6 /* RootContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootContainerViewController.swift; sourceTree = "<group>"; };
-		4B959B30276503C30003FFB6 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
-		4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
-		4BBDECD22766241200982229 /* UIControl+Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
+		4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRideauIntegrationViewController.swift; sourceTree = "<group>"; };
 		4BBDECDD276646E300982229 /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = submodules/CompositionKit; sourceTree = "<group>"; };
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
-		4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlCenterViewController.swift; sourceTree = "<group>"; };
-		4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorPlaygroundViewController.swift; sourceTree = "<group>"; };
-		4BD07BD12796D12400EBA65F /* DemoSafeAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSafeAreaViewController.swift; sourceTree = "<group>"; };
-		4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoListViewController.swift; sourceTree = "<group>"; };
 		4BDDF267277F509C00636B00 /* MondrianLayout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MondrianLayout; path = submodules/MondrianLayout; sourceTree = "<group>"; };
 		4BDDF26A277F548900636B00 /* GeometryKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GeometryKit; path = submodules/GeometryKit; sourceTree = "<group>"; };
-		4BDDF27E277F7BFA00636B00 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		4BE0AAC4277FD5620086FD7E /*  */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ""; sourceTree = "<group>"; };
-		4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoThreadsMessagesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,7 @@
 			files = (
 				4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */,
 				4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */,
+				4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */,
 				4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */,
 				4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */,
 				4BB5B319277077CC00EE1028 /* Ne in Frameworks */,
@@ -94,12 +98,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B468046279C588E00625FCB /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4B468049279C58E800625FCB /* FluidInterfaceKit-Demo */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		4B468049279C58E800625FCB /* FluidInterfaceKit-Demo */ = {
+			isa = PBXGroup;
+			children = (
+				4B46804A279C58E800625FCB /* ViewController.swift */,
+				4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */,
+				4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */,
+				4B46804D279C58E800625FCB /* AnimatorPlaygroundViewController.swift */,
+				4B46804E279C58E800625FCB /* RootContainerViewController.swift */,
+				4B46804F279C58E800625FCB /* DemoControlCenterViewController.swift */,
+				4B468050279C58E800625FCB /* DemoThreadsMessagesViewController.swift */,
+				4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */,
+				4B468051279C58E800625FCB /* Assets.xcassets */,
+				4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */,
+				4B468053279C58E800625FCB /* ViewModel.swift */,
+				4B468054279C58E800625FCB /* DemoViewController.swift */,
+				4B468055279C58E800625FCB /* LaunchScreen.storyboard */,
+				4B468057279C58E800625FCB /* DemoListViewController.swift */,
+				4B468058279C58E800625FCB /* Book.swift */,
+				4B468059279C58E800625FCB /* UIColor+Presets.swift */,
+				4B46805A279C58E800625FCB /* AppDelegate.swift */,
+				4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */,
+				4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */,
+				4B46805D279C58E800625FCB /* DemoPresentationViewController.swift */,
+				4B46805E279C58E800625FCB /* UIControl+Closure.swift */,
+				4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */,
+				4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */,
+			);
+			path = "FluidInterfaceKit-Demo";
+			sourceTree = "<group>";
+		};
 		4B959AEE2764F7180003FFB6 = {
 			isa = PBXGroup;
 			children = (
 				4BBDECDC276646E300982229 /* Packages */,
-				4B959B072764F77E0003FFB6 /* FluidInterfaceKit-Demo */,
+				4B468046279C588E00625FCB /* Sources */,
 				4B959AF92764F7180003FFB6 /* Products */,
+				4B9C2BB3279C6825002FBF0F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,33 +154,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4B959B072764F77E0003FFB6 /* FluidInterfaceKit-Demo */ = {
+		4B9C2BB3279C6825002FBF0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4B959B082764F77E0003FFB6 /* AppDelegate.swift */,
-				4B959B1F2764F8200003FFB6 /* Book.swift */,
-				4B959B30276503C30003FFB6 /* DemoViewController.swift */,
-				4BE193582765B1290008626E /* DemoThreadsMessagesViewController.swift */,
-				4BC346142767B46700840C5D /* DemoControlCenterViewController.swift */,
-				4B1561C42773732000C4DE07 /* DemoPresentationViewController.swift */,
-				4BDDF265277F3AAC00636B00 /* DemoListViewController.swift */,
-				4B425A0E278F3A780062B4C5 /* DemoPictureInPictureController.swift */,
-				4B34DEEC2789FC00002D820E /* DemoTransitionViewController.swift */,
-				4B5ED7D3278C3D6B00D30EE7 /* DemoContextMenuViewController.swift */,
-				4BD07BD12796D12400EBA65F /* DemoSafeAreaViewController.swift */,
-				4B959B212764F8300003FFB6 /* RootContainerViewController.swift */,
-				4B959B0C2764F77E0003FFB6 /* ViewController.swift */,
-				4B959B112764F77F0003FFB6 /* Assets.xcassets */,
-				4B959B132764F77F0003FFB6 /* LaunchScreen.storyboard */,
-				4BBDECD22766241200982229 /* UIControl+Closure.swift */,
-				4B1561B7277323C600C4DE07 /* UIColor+Presets.swift */,
-				4BCD46522775BF8600B060C6 /* AnimatorPlaygroundViewController.swift */,
-				4BB7B9CE277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift */,
-				4B037C56277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift */,
-				4BDDF27E277F7BFA00636B00 /* ViewModel.swift */,
-				4B4F93B927908DC100490A21 /* DemoApplicationViewController.swift */,
 			);
-			path = "FluidInterfaceKit-Demo";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		4BBDECDC276646E300982229 /* Packages */ = {
@@ -189,6 +210,7 @@
 				4BB5B31B277077EA00EE1028 /* MockKit */,
 				4BDDF268277F50C100636B00 /* MondrianLayout */,
 				4BDDF26C277F553200636B00 /* FluidInterfaceKit */,
+				4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -238,8 +260,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B959B152764F77F0003FFB6 /* LaunchScreen.storyboard in Resources */,
-				4B959B122764F77F0003FFB6 /* Assets.xcassets in Resources */,
+				4B46806C279C58E800625FCB /* LaunchScreen.storyboard in Resources */,
+				4B468068279C58E800625FCB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,26 +272,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BB7B9CF277AF6170014B62A /* TranslationVelocityPlaygroundViewController.swift in Sources */,
-				4B959B0D2764F77E0003FFB6 /* ViewController.swift in Sources */,
-				4BBDECD32766241200982229 /* UIControl+Closure.swift in Sources */,
-				4B4F93BA27908DC100490A21 /* DemoApplicationViewController.swift in Sources */,
-				4BE193592765B1290008626E /* DemoThreadsMessagesViewController.swift in Sources */,
-				4BCD46532775BF8600B060C6 /* AnimatorPlaygroundViewController.swift in Sources */,
-				4B959B092764F77E0003FFB6 /* AppDelegate.swift in Sources */,
-				4B1561C52773732000C4DE07 /* DemoPresentationViewController.swift in Sources */,
-				4BDDF266277F3AAC00636B00 /* DemoListViewController.swift in Sources */,
-				4B037C57277B4CAD00D06150 /* ScalingVelocityPlaygroundViewController.swift in Sources */,
-				4BD07BD22796D12400EBA65F /* DemoSafeAreaViewController.swift in Sources */,
-				4B959B222764F8300003FFB6 /* RootContainerViewController.swift in Sources */,
-				4BDDF27F277F7BFA00636B00 /* ViewModel.swift in Sources */,
-				4B5ED7D4278C3D6B00D30EE7 /* DemoContextMenuViewController.swift in Sources */,
-				4B1561B8277323C600C4DE07 /* UIColor+Presets.swift in Sources */,
-				4B34DEED2789FC00002D820E /* DemoTransitionViewController.swift in Sources */,
-				4B959B202764F8200003FFB6 /* Book.swift in Sources */,
-				4BC346152767B46700840C5D /* DemoControlCenterViewController.swift in Sources */,
-				4B959B31276503C30003FFB6 /* DemoViewController.swift in Sources */,
-				4B425A0F278F3A780062B4C5 /* DemoPictureInPictureController.swift in Sources */,
+				4B468062279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift in Sources */,
+				4B468074279C58E800625FCB /* UIControl+Closure.swift in Sources */,
+				4B46806A279C58E800625FCB /* ViewModel.swift in Sources */,
+				4B468066279C58E800625FCB /* DemoControlCenterViewController.swift in Sources */,
+				4B46806B279C58E800625FCB /* DemoViewController.swift in Sources */,
+				4B46806E279C58E800625FCB /* Book.swift in Sources */,
+				4B468069279C58E800625FCB /* DemoPictureInPictureController.swift in Sources */,
+				4B468071279C58E800625FCB /* DemoSafeAreaViewController.swift in Sources */,
+				4B468064279C58E800625FCB /* AnimatorPlaygroundViewController.swift in Sources */,
+				4B46806D279C58E800625FCB /* DemoListViewController.swift in Sources */,
+				4B468067279C58E800625FCB /* DemoThreadsMessagesViewController.swift in Sources */,
+				4B468073279C58E800625FCB /* DemoPresentationViewController.swift in Sources */,
+				4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */,
+				4B468065279C58E800625FCB /* RootContainerViewController.swift in Sources */,
+				4B468061279C58E800625FCB /* ViewController.swift in Sources */,
+				4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */,
+				4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */,
+				4B468070279C58E800625FCB /* AppDelegate.swift in Sources */,
+				4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */,
+				4B468075279C58E800625FCB /* DemoApplicationViewController.swift in Sources */,
+				4B46806F279C58E800625FCB /* UIColor+Presets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,10 +326,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4B959B132764F77F0003FFB6 /* LaunchScreen.storyboard */ = {
+		4B468055279C58E800625FCB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4B959B142764F77F0003FFB6 /* Base */,
+				4B468056279C58E800625FCB /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -563,6 +586,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
 			productName = StorybookUI;
+		};
+		4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluidInterfaceKitRideauSupport;
 		};
 		4BB5B318277077CC00EE1028 /* Ne */ = {
 			isa = XCSwiftPackageProductDependency;

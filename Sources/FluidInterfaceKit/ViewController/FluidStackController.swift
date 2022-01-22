@@ -1,6 +1,11 @@
 import SwiftUI
 import UIKit
 
+public enum FluidStackAction {
+  case didSetContext(FluidStackContext)
+  case didDisplay
+}
+
 /**
  A container view controller that manages view controller and view as child view controllers.
  It provides transitions when adding and removing.
@@ -11,6 +16,7 @@ import UIKit
  Use `UIViewController.fluidStackController(with: )` to find.
  */
 open class FluidStackController: UIViewController {
+
   
   // MARK: - Nested types
   
@@ -94,6 +100,10 @@ open class FluidStackController: UIViewController {
   /// Might be different with ``UIViewController.children``.
   public private(set) var stackingViewControllers: [UIViewController] = [] {
     didSet {
+      Log.debug(.stack, """
+Updated Stacking: \(stackingViewControllers.count)
+\(stackingViewControllers.map { "  - \($0.debugDescription)" }.joined(separator: "\n"))
+""")
       // TODO: Update with animation
       setNeedsStatusBarAppearanceUpdate()
     }
@@ -201,9 +211,10 @@ open class FluidStackController: UIViewController {
     let backViewController = stackingViewControllers.last
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
     stackingViewControllers.append(viewControllerToAdd)
-
+    
+    // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
-      /// set context
+      // set context
       viewControllerToAdd.fluidStackContext = .init(
         fluidStackController: self,
         targetViewController: viewControllerToAdd
@@ -228,8 +239,11 @@ open class FluidStackController: UIViewController {
 
       viewControllerToAdd.didMove(toParent: self)
     } else {
-      // TODO: something needed
+      // case of adding while removing
+      // TODO: might something needed
     }
+    
+    viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
 
     let transitionContext = AddingTransitionContext(
       contentView: viewControllerToAdd.view.superview!,
@@ -494,7 +508,7 @@ public struct FluidStackDispatchContext {
   public private(set) weak var fluidStackController: FluidStackController?
 
   public func addContentViewController(
-    _ viewController: ViewControllerFluidContentType,
+    _ viewController: UIViewController,
     transition: AnyAddingTransition?
   ) {
     fluidStackController?.addContentViewController(viewController, transition: transition)
@@ -509,13 +523,13 @@ public struct FluidStackDispatchContext {
 public struct FluidStackContext {
 
   public private(set) weak var fluidStackController: FluidStackController?
-  public private(set) weak var targetViewController: ViewControllerFluidContentType?
+  public private(set) weak var targetViewController: UIViewController?
 
   /**
    Adds view controller to parent container if it presents.
    */
   public func addContentViewController(
-    _ viewController: ViewControllerFluidContentType,
+    _ viewController: UIViewController,
     transition: AnyAddingTransition?
   ) {
     fluidStackController?.addContentViewController(viewController, transition: transition)
@@ -552,19 +566,24 @@ public struct FluidStackContext {
 
 }
 
-public protocol ViewControllerFluidContentType: UIViewController {
-  func fluidStackContextDidChange(_ context: FluidStackContext?)
-}
-
 var ref: Void?
 
-extension UIViewController: ViewControllerFluidContentType {
-  open func fluidStackContextDidChange(_ context: FluidStackContext?) {
+private var fluidActionHandlerRef: Void?
 
+extension UIViewController {
+  
+  public var fluidStackActionHandler: ((FluidStackAction) -> Void)? {
+    get {
+      objc_getAssociatedObject(self, &fluidActionHandlerRef) as? (FluidStackAction) -> Void
+    }
+    set {
+      objc_setAssociatedObject(self, &fluidActionHandlerRef, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
   }
+  
 }
 
-extension ViewControllerFluidContentType {
+extension UIViewController {
 
   /// [Get]: Returns a stored instance or nearest parent's one.
   /// [Set]: Stores given instance.
@@ -585,8 +604,10 @@ extension ViewControllerFluidContentType {
         newValue,
         .OBJC_ASSOCIATION_RETAIN_NONATOMIC
       )
-
-      fluidStackContextDidChange(newValue)
+      
+      if let newValue = newValue {
+        fluidStackActionHandler?(.didSetContext(newValue))
+      }
     }
 
   }
