@@ -1,3 +1,5 @@
+#if false
+
 import UIKit
 
 private var key: Void?
@@ -26,7 +28,6 @@ final class BlurLayer: CALayer {
       animation.duration = 2
       return animation
     }
-    print(action)
     return action
   }
 
@@ -162,3 +163,5 @@ private func encodeText(_ string: String, _ key: Int) -> String {
   }
   return result
 }
+
+#endif

@@ -1,4 +1,4 @@
-import UIKit
+import class UIKit.UIViewController
 
 extension UIViewController {
 

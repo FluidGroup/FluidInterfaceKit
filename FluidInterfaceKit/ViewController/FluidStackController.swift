@@ -312,7 +312,7 @@ open class FluidStackController: UIViewController {
         self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
 
         self.stackingViewControllers.removeAll { $0 == viewControllerToRemove }
-        (viewControllerToRemove as? ViewControllerFluidContentType)?.fluidStackContext = nil
+        viewControllerToRemove.fluidStackContext = nil
 
         viewControllerToRemove.willMove(toParent: nil)
         viewControllerToRemove.view.superview!.removeFromSuperview()

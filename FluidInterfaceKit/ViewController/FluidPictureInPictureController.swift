@@ -75,14 +75,6 @@ extension FluidPictureInPictureController {
 
   public final class ContainerView: UIView {
 
-    public override class var layerClass: AnyClass {
-      BlurLayer.self
-    }
-
-    var blurLayer: BlurLayer {
-      layer as! BlurLayer
-    }
-
     public func setContent(_ content: UIView) {
       addSubview(content)
       content.frame = bounds
@@ -268,16 +260,16 @@ extension FluidPictureInPictureController {
       let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 0.8) { [self] in
 
         if isHidden {
-//          containerView.alpha = 0
-//          containerView.transform = .init(scaleX: 0.8, y: 0.8)
-          containerView.blurLayer.blurRadius = 80
-          containerView.blurLayer.makeBlurAction(from: 0).map { action in
-            containerView.blurLayer.add(action, forKey: "blurRadius")
-          }
+          containerView.alpha = 0
+          containerView.transform = .init(scaleX: 0.8, y: 0.8)
+//          containerView.blurLayer.blurRadius = 80
+//          containerView.blurLayer.makeBlurAction(from: 0).map { action in
+//            containerView.blurLayer.add(action, forKey: "blurRadius")
+//          }
         } else {
           containerView.alpha = 1
           containerView.transform = .identity
-          containerView.blurLayer.blurRadius = 0
+//          containerView.blurLayer.blurRadius = 0
         }
       }
 
