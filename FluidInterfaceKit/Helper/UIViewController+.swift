@@ -24,8 +24,10 @@ extension UIViewController {
 
   /**
    Returns the view controller's nearest ancestor ``FluidStackController`` (including itself) with a given identifier.
+   
+   ``FluidStackController`` can set an identifier on init.
    */
-  public func fluidStackController(with identifier: String) -> FluidStackController? {
+  public func fluidStackController(with identifier: FluidStackController.Identifier) -> FluidStackController? {
 
     let found = sequence(first: self) {
       $0.parent

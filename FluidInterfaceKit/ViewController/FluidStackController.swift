@@ -1,13 +1,28 @@
 import SwiftUI
 import UIKit
 
-/// A container view controller that manages view controller and view as child view controllers.
-/// It provides transitions when adding and removing.
-///
-/// You may create subclass of this to make a first view.
-open class FluidStackController: UIViewController {
+/**
+ A container view controller that manages view controller and view as child view controllers.
+ It provides transitions when adding and removing.
 
+ You may create subclass of this to make a first view.
+
+ Passing an identifier on initializing, make it could be found in hierarchy.
+ Use `UIViewController.fluidStackController(with: )` to find.
+ */
+open class FluidStackController: UIViewController {
+  
   // MARK: - Nested types
+  
+  public struct Identifier: Hashable {
+    
+    public let rawValue: String
+    
+    public init(_ rawValue: String) {
+      self.rawValue = rawValue
+    }
+            
+  }
 
   public struct Configuration {
 
@@ -70,7 +85,7 @@ open class FluidStackController: UIViewController {
   public let configuration: Configuration
 
   /// an string value that identifies the instance of ``FluidStackController``.
-  public var identifier: String?
+  public var identifier: Identifier?
 
   /// A content view that stays in back
   public let contentView: UIView
@@ -110,7 +125,7 @@ open class FluidStackController: UIViewController {
   // MARK: - Initializers
 
   public init(
-    identifier: String? = nil,
+    identifier: Identifier? = nil,
     view: UIView? = nil,
     configuration: Configuration = .init()
   ) {
