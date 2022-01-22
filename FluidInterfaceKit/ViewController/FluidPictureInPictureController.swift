@@ -1,9 +1,12 @@
 import GeometryKit
 import UIKit
 
+/**
+ A container view controller that manages a view to be floating, maximizing, hiding, etc.
+ */
 open class FluidPictureInPictureController: UIViewController {
 
-  public var state: State {
+  public final var state: State {
     customView.state
   }
 
@@ -11,7 +14,7 @@ open class FluidPictureInPictureController: UIViewController {
     view as! View
   }
 
-  open override func loadView() {
+  public final override func loadView() {
     view = View()
   }
 
@@ -32,11 +35,11 @@ open class FluidPictureInPictureController: UIViewController {
 
   }
 
-  public func setContent(_ content: UIView) {
+  public final func setContent(_ content: UIView) {
     customView.containerView.setContent(content)
   }
 
-  public func setMode(_ mode: Mode) {
+  public final func setMode(_ mode: Mode) {
     customView.setMode(mode)
   }
 
@@ -88,7 +91,7 @@ extension FluidPictureInPictureController {
 
     public override func action(for layer: CALayer, forKey event: String) -> CAAction? {
       let action = super.action(for: layer, forKey: event)
-      Log.debug(.pip, "action for \(layer), key: \(event), action: \(action)")
+      Log.debug(.pip, "action for \(layer), key: \(event), action: \(action as Any)")
       return action
     }
   }

@@ -1,8 +1,8 @@
 import UIKit
 
 /**
- A container view controller displays one view controller at a time.
- It's similar with tab-bar controller.
+ A container view controller that switches a view controller to display.
+ It's similar with ``UITabBarController``, but no selection UI.
  */
 open class FluidSwitchController: UIViewController {
 
