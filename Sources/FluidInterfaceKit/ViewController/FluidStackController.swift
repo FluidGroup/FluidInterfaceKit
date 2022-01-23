@@ -12,7 +12,7 @@ public enum FluidStackAction {
 /// You may create subclass of this to make a first view.
 ///
 /// Passing an identifier on initializing, make it could be found in hierarchy.
-/// Use `UIViewController.fluidStackController(with: )` to find.
+/// Use ``UIViewController/fluidStackController(with: )`` to find.
 open class FluidStackController: UIViewController {
 
   // MARK: - Nested types
@@ -380,7 +380,7 @@ open class FluidStackController: UIViewController {
     }
 
     if stackingViewControllers.last != viewControllerToRemove {
-      // TODO: raises warning about the given view controller is not displaying on top.
+      Log.error(.stack, "The removing view controller is not displaying on top. the screen won't change at the look, but the stack will change.")
     }
 
     let transitionContext = _startRemoving(viewControllerToRemove)
