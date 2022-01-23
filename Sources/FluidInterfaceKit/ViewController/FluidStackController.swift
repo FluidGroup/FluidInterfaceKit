@@ -120,6 +120,8 @@ open class FluidStackController: UIViewController {
     self.contentView = RootContentView()
     self.configuration = configuration
     super.init(nibName: nil, bundle: nil)
+        
+    self.view.accessibilityIdentifier = "FluidStack.\(identifier?.rawValue ?? "unnamed")"
   }
 
   @available(*, unavailable)
