@@ -1,4 +1,7 @@
+#if !COCOAPODS
 import FluidInterfaceKit
+#endif
+
 import Rideau
 import UIKit
 

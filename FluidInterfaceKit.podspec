@@ -30,5 +30,7 @@ Pod::Spec.new do |spec|
 
   spec.subspec "RideauSupport" do |ss|
     ss.source_files = "Sources/FluidInterfaceKitRideauSupport/**/*.swift"
+    ss.dependency "FluidInterfaceKit/Core"
+    ss.dependency "Rideau", ">= 2.1.0"
   end
 end
