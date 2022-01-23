@@ -1,9 +1,22 @@
 import Foundation
 import UIKit
 
-/// A view controller that supports interaction to start removing transiton.
-///
-/// You may specify ``AnyRemovingInteraction``
+/**
+ A view controller that supports interaction to start removing transiton.
+ It works as a wrapper for another view controller or using with subclassing.
+ If you have already implementation of view controller and want to get flexibility, you can use this class as a wrapper.
+ 
+ ```swift
+ let yourController = YourViewController()
+ 
+ let fluidController = FluidViewController(
+   bodyViewController: yourController,
+   ...
+ )
+ ```
+ 
+ You may specify ``AnyRemovingInteraction``
+ */
 open class FluidViewController: TransitionViewController, UIGestureRecognizerDelegate {
 
   // MARK: - Properties
