@@ -635,6 +635,11 @@ extension UIViewController {
     get {
 
       guard let object = objc_getAssociatedObject(self, &ref) as? FluidStackContext else {
+        if parent is FluidStackController {
+          // stop find
+          return nil
+        }
+        // continue to find from parent
         return parent?.fluidStackContext
       }
       return object
