@@ -12,9 +12,6 @@ Pod::Spec.new do |spec|
   spec.social_media_url = "https://twitter.com/muukii_app"
 
   spec.ios.deployment_target = "12.0"
-  # spec.osx.deployment_target = "10.7"
-  # spec.watchos.deployment_target = "2.0"
-  # spec.tvos.deployment_target = "9.0"
 
   spec.source = { :git => "https://github.com/muukii/FluidInterfaceKit.git", :tag => "#{spec.version}" }
   spec.source_files = "Sources/FluidInterfaceKit/**/*.swift"  
@@ -22,7 +19,16 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
   spec.swift_versions = ["5.3", "5.4", "5.5"]
 
-  spec.dependency "MatchedTransition", ">= 1.1.0"
-  spec.dependency "GeometryKit", ">= 1.1.0"
-  spec.dependency "ResultBuilderKit", ">= 1.1.0"
+  spec.default_subspecs = ["Core"]
+
+  spec.subspec "Core" do |ss|
+    ss.source_files = "Sources/FluidInterfaceKit/**/*.swift"
+    ss.dependency "MatchedTransition", ">= 1.1.0"
+    ss.dependency "GeometryKit", ">= 1.1.0"
+    ss.dependency "ResultBuilderKit", ">= 1.1.0"
+  end
+
+  spec.subspec "RideauSupport" do |ss|
+    ss.source_files = "Sources/FluidInterfaceKitRideauSupport/**/*.swift"
+  end
 end
