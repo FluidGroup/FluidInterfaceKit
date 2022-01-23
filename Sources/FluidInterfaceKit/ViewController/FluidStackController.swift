@@ -17,6 +17,7 @@ open class FluidStackController: UIViewController {
 
   // MARK: - Nested types
 
+  /// A wrapper object that stores an string value that identifies a instance of ``FluidStackController``.
   public struct Identifier: Hashable {
 
     public let rawValue: String
@@ -55,31 +56,6 @@ open class FluidStackController: UIViewController {
 
   private struct State: Equatable {
 
-  }
-
-  final class ViewControllerStateToken: Equatable {
-
-    static func == (
-      lhs: FluidStackController.ViewControllerStateToken,
-      rhs: FluidStackController.ViewControllerStateToken
-    ) -> Bool {
-      lhs === rhs
-    }
-
-    let state: ViewControllerState
-
-    init(
-      state: ViewControllerState
-    ) {
-      self.state = state
-    }
-  }
-
-  enum ViewControllerState: Int {
-    case removed
-    case adding
-    case added
-    case removing
   }
 
   // MARK: - Properties
@@ -258,14 +234,14 @@ open class FluidStackController: UIViewController {
           return
         }
 
-        self.setViewControllerState(viewController: viewControllerToAdd, context: nil)
+        self.setTransitionContext(viewController: viewControllerToAdd, context: nil)
         context.transitionFinished()
 
       }
     )
 
-    viewControllerState(viewController: viewControllerToAdd)?.invalidate()
-    setViewControllerState(viewController: viewControllerToAdd, context: transitionContext)
+    self.transitionContext(viewController: viewControllerToAdd)?.invalidate()
+    setTransitionContext(viewController: viewControllerToAdd, context: transitionContext)
 
     if let transition = transition {
 
@@ -338,7 +314,7 @@ open class FluidStackController: UIViewController {
       }
     }()
 
-    let transitionContext = RemovingTransitionContext(
+    let newTransitionContext = RemovingTransitionContext(
       contentView: viewControllerToRemove.view.superview!,
       fromViewController: viewControllerToRemove,
       toViewController: backViewController,
@@ -355,7 +331,7 @@ open class FluidStackController: UIViewController {
          Completion of transition, cleaning up
          */
 
-        self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
+        self.setTransitionContext(viewController: viewControllerToRemove, context: nil)
 
         self.stackingViewControllers.removeAll { $0 == viewControllerToRemove }
         viewControllerToRemove.fluidStackContext = nil
@@ -370,11 +346,11 @@ open class FluidStackController: UIViewController {
     )
 
     // invalidates a current transition (mostly adding transition)
-    viewControllerState(viewController: viewControllerToRemove)?.invalidate()
+    transitionContext(viewController: viewControllerToRemove)?.invalidate()
     // set a new context to receive invalidation from transition for adding started while removing.
-    setViewControllerState(viewController: viewControllerToRemove, context: transitionContext)
+    setTransitionContext(viewController: viewControllerToRemove, context: newTransitionContext)
 
-    return transitionContext
+    return newTransitionContext
   }
 
   public func removeViewController(
@@ -457,7 +433,7 @@ open class FluidStackController: UIViewController {
         $0.removeFromParent()
       }
 
-      let transitionContext = BatchRemovingTransitionContext(
+      let newTransitionContext = BatchRemovingTransitionContext(
         contentView: viewControllersToRemove.first!.view.superview!,
         fromViewControllers: viewControllersToRemove,
         toViewController: targetTopViewController,
@@ -471,7 +447,7 @@ open class FluidStackController: UIViewController {
 
           for viewControllerToRemove in viewControllersToRemove
           where context.isInvalidated(for: viewControllerToRemove) == false {
-            self.setViewControllerState(viewController: viewControllerToRemove, context: nil)
+            self.setTransitionContext(viewController: viewControllerToRemove, context: nil)
             viewControllerToRemove.willMove(toParent: nil)
             viewControllerToRemove.view.superview!.removeFromSuperview()
             viewControllerToRemove.removeFromParent()
@@ -488,22 +464,22 @@ open class FluidStackController: UIViewController {
       )
 
       for viewControllerToRemove in viewControllersToRemove {
-        viewControllerState(viewController: viewControllerToRemove)?.invalidate()
-        setViewControllerState(
+        transitionContext(viewController: viewControllerToRemove)?.invalidate()
+        setTransitionContext(
           viewController: viewControllerToRemove,
-          context: transitionContext.child(for: viewControllerToRemove)
+          context: newTransitionContext.child(for: viewControllerToRemove)
         )
       }
 
-      transition.startTransition(context: transitionContext)
+      transition.startTransition(context: newTransitionContext)
 
     } else {
 
       while stackingViewControllers.last != targetTopViewController {
 
         let viewControllerToRemove = stackingViewControllers.last!
-        viewControllerState(viewController: viewControllerToRemove)?.invalidate()
-        setViewControllerState(viewController: viewControllerToRemove, context: nil)
+        transitionContext(viewController: viewControllerToRemove)?.invalidate()
+        setTransitionContext(viewController: viewControllerToRemove, context: nil)
 
         assert(stackingViewControllers.last === viewControllerToRemove)
 
@@ -518,15 +494,15 @@ open class FluidStackController: UIViewController {
     }
 
   }
-
-  private func setViewControllerState(
+  
+  private func setTransitionContext(
     viewController: UIViewController,
     context: TransitionContext?
   ) {
     viewControllerStateMap.setObject(context, forKey: viewController)
   }
 
-  private func viewControllerState(
+  private func transitionContext(
     viewController: UIViewController
   ) -> TransitionContext? {
     viewControllerStateMap.object(forKey: viewController)
@@ -593,7 +569,7 @@ public struct FluidStackContext {
     return fluidStackController?.startRemovingForInteraction(targetViewController)
   }
 
-  /**   
+  /**
    See detail in ``FluidStackController/removeAllViewController(transition:)``
    */
   public func removeAllViewController(
