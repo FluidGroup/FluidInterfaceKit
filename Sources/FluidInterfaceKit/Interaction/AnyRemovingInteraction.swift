@@ -15,7 +15,7 @@ public struct AnyRemovingInteraction {
     public let viewController: FluidViewController
     
     public func startRemovingTransition() -> RemovingTransitionContext {
-      viewController.fluidStackContext?.startRemoving() ??
+      viewController.fluidStackContext?.startRemovingForInteraction() ??
       viewController._startStandaloneRemovingTransition()
     }
   }

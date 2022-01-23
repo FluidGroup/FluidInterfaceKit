@@ -6,28 +6,25 @@ public enum FluidStackAction {
   case didDisplay
 }
 
-/**
- A container view controller that manages view controller and view as child view controllers.
- It provides transitions when adding and removing.
-
- You may create subclass of this to make a first view.
-
- Passing an identifier on initializing, make it could be found in hierarchy.
- Use `UIViewController.fluidStackController(with: )` to find.
- */
+/// A container view controller that manages view controller and view as child view controllers.
+/// It provides transitions when adding and removing.
+///
+/// You may create subclass of this to make a first view.
+///
+/// Passing an identifier on initializing, make it could be found in hierarchy.
+/// Use `UIViewController.fluidStackController(with: )` to find.
 open class FluidStackController: UIViewController {
 
-  
   // MARK: - Nested types
-  
+
   public struct Identifier: Hashable {
-    
+
     public let rawValue: String
-    
+
     public init(_ rawValue: String) {
       self.rawValue = rawValue
     }
-            
+
   }
 
   public struct Configuration {
@@ -100,10 +97,13 @@ open class FluidStackController: UIViewController {
   /// Might be different with ``UIViewController.children``.
   public private(set) var stackingViewControllers: [UIViewController] = [] {
     didSet {
-      Log.debug(.stack, """
-Updated Stacking: \(stackingViewControllers.count)
-\(stackingViewControllers.map { "  - \($0.debugDescription)" }.joined(separator: "\n"))
-""")
+      Log.debug(
+        .stack,
+        """
+        Updated Stacking: \(stackingViewControllers.count)
+        \(stackingViewControllers.map { "  - \($0.debugDescription)" }.joined(separator: "\n"))
+        """
+      )
       // TODO: Update with animation
       setNeedsStatusBarAppearanceUpdate()
     }
@@ -211,7 +211,7 @@ Updated Stacking: \(stackingViewControllers.count)
     let backViewController = stackingViewControllers.last
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
     stackingViewControllers.append(viewControllerToAdd)
-    
+
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
       // set context
@@ -242,7 +242,7 @@ Updated Stacking: \(stackingViewControllers.count)
       // case of adding while removing
       // TODO: might something needed
     }
-    
+
     viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
 
     let transitionContext = AddingTransitionContext(
@@ -295,23 +295,40 @@ Updated Stacking: \(stackingViewControllers.count)
     addContentViewController(viewController, transition: transition)
 
   }
+  
+  /**
+   Starts removing transaction for interaction.
+   Make sure to complete the transition with the context.
+   */
+  public func startRemovingForInteraction(
+    _ viewControllerToRemove: UIViewController
+  ) -> RemovingTransitionContext {
+    
+    // Handles configuration
+    if configuration.retainsRootViewController, viewControllerToRemove == stackingViewControllers.first {
+      Log.error(.stack, "the stacking will broke. Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller.")
+    }
+    
+    return _startRemoving(viewControllerToRemove)
+  }
 
   /**
    Starts removing transaction.
    Make sure to complete the transition with the context.
    */
-  public func startRemoving(
+  private func _startRemoving(
     _ viewControllerToRemove: UIViewController
   ) -> RemovingTransitionContext {
 
-    // TODO: Handles `configuration.retainsRootViewController`
-
-    guard let index = stackingViewControllers.firstIndex(where: { $0 == viewControllerToRemove })
+    // Ensure it's managed
+    guard
+      let index = stackingViewControllers.firstIndex(of: viewControllerToRemove)
     else {
       Log.error(.stack, "\(viewControllerToRemove) was not found to remove")
       fatalError()
     }
 
+    // finds a view controller that will be displayed next.
     let backViewController: UIViewController? = {
       let target = index.advanced(by: -1)
       if stackingViewControllers.indices.contains(target) {
@@ -352,7 +369,9 @@ Updated Stacking: \(stackingViewControllers.count)
       }
     )
 
+    // invalidates a current transition (mostly adding transition)
     viewControllerState(viewController: viewControllerToRemove)?.invalidate()
+    // set a new context to receive invalidation from transition for adding started while removing.
     setViewControllerState(viewController: viewControllerToRemove, context: transitionContext)
 
     return transitionContext
@@ -362,10 +381,14 @@ Updated Stacking: \(stackingViewControllers.count)
     _ viewControllerToRemove: UIViewController,
     transition: AnyRemovingTransition?
   ) {
-
-    // TODO: Handles `configuration.retainsRootViewController`
-
-    let transitionContext = startRemoving(viewControllerToRemove)
+    
+    // Handles configuration
+    guard configuration.retainsRootViewController, viewControllerToRemove != stackingViewControllers.first else {
+      Log.error(.stack, "Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller.")
+      return
+    }
+    
+    let transitionContext = _startRemoving(viewControllerToRemove)
 
     if let transition = transition {
       transition.startTransition(context: transitionContext)
@@ -378,7 +401,7 @@ Updated Stacking: \(stackingViewControllers.count)
   }
 
   /**
-   Removes all view controllers that displaying
+   Removes all view controllers which are displaying
 
    - Parameters:
      - leavesRoot: If true, the first view controller will still be alive.
@@ -396,7 +419,13 @@ Updated Stacking: \(stackingViewControllers.count)
     }
   }
 
-  // FIXME: not completed implementation
+  /**
+   Removes all view controllers which displaying on top of the given view controller.
+   
+   - Parameters:
+     - from:
+     - transition:
+   */
   public func removeAllViewController(
     from viewController: UIViewController,
     transition: AnyBatchRemovingTransition?
@@ -488,16 +517,18 @@ Updated Stacking: \(stackingViewControllers.count)
 
     }
 
-    Log.debug(.stack, "Removed => \(children)")
-
   }
 
-  private func setViewControllerState(viewController: UIViewController, context: TransitionContext?)
-  {
+  private func setViewControllerState(
+    viewController: UIViewController,
+    context: TransitionContext?
+  ) {
     viewControllerStateMap.setObject(context, forKey: viewController)
   }
 
-  private func viewControllerState(viewController: UIViewController) -> TransitionContext? {
+  private func viewControllerState(
+    viewController: UIViewController
+  ) -> TransitionContext? {
     viewControllerStateMap.object(forKey: viewController)
   }
 
@@ -541,6 +572,8 @@ public struct FluidStackContext {
 
   /// Removes the target view controller in ``FluidStackController``.
   /// - Parameter transition: if not nil, it would be used override parameter.
+  ///
+  /// See detail in ``FluidStackController/removeViewController(_:transition:)``
   public func removeSelf(transition: AnyRemovingTransition?) {
     guard let targetViewController = targetViewController else {
       return
@@ -550,14 +583,19 @@ public struct FluidStackContext {
 
   /**
    Starts transition for removing if parent container presents.
+   
+   See detail in ``FluidStackController/startRemovingForInteraction(_:)``
    */
-  public func startRemoving() -> RemovingTransitionContext? {
+  public func startRemovingForInteraction() -> RemovingTransitionContext? {
     guard let targetViewController = targetViewController else {
       return nil
     }
-    return fluidStackController?.startRemoving(targetViewController)
+    return fluidStackController?.startRemovingForInteraction(targetViewController)
   }
 
+  /**   
+   See detail in ``FluidStackController/removeAllViewController(transition:)``
+   */
   public func removeAllViewController(
     transition: AnyBatchRemovingTransition?
   ) {
@@ -571,16 +609,21 @@ var ref: Void?
 private var fluidActionHandlerRef: Void?
 
 extension UIViewController {
-  
+
   public var fluidStackActionHandler: ((FluidStackAction) -> Void)? {
     get {
       objc_getAssociatedObject(self, &fluidActionHandlerRef) as? (FluidStackAction) -> Void
     }
     set {
-      objc_setAssociatedObject(self, &fluidActionHandlerRef, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+      objc_setAssociatedObject(
+        self,
+        &fluidActionHandlerRef,
+        newValue,
+        .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+      )
     }
   }
-  
+
 }
 
 extension UIViewController {
@@ -604,7 +647,7 @@ extension UIViewController {
         newValue,
         .OBJC_ASSOCIATION_RETAIN_NONATOMIC
       )
-      
+
       if let newValue = newValue {
         fluidStackActionHandler?(.didSetContext(newValue))
       }

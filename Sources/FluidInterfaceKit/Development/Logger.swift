@@ -6,9 +6,13 @@ enum Log {
   static func debug(_ log: OSLog, _ object: Any...) {
     os_log(.debug, log: log, "%@", object.map { "\($0)" }.joined(separator: " "))
   }
-
+  
   static func error(_ log: OSLog, _ object: Any...) {
     os_log(.error, log: log, "%@", object.map { "\($0)" }.joined(separator: " "))
+  }
+  
+  static func fault(_ log: OSLog, _ object: Any...) {
+    os_log(.fault, log: log, "%@", object.map { "\($0)" }.joined(separator: " "))
   }
 
 }
