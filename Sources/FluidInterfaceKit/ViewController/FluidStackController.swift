@@ -172,10 +172,11 @@ open class FluidStackController: UIViewController {
        a transition for adding. if view controller is type of ``TransitionViewController``, uses this transition instead of TransitionViewController's transition.
        You may set ``.noAnimation`` to disable animation
    */
+  @discardableResult
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?
-  ) {
+  ) -> FluidStackContext {
 
     /**
      possible to enter while previous adding operation.
@@ -187,14 +188,13 @@ open class FluidStackController: UIViewController {
     let backViewController = stackingViewControllers.last
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
     stackingViewControllers.append(viewControllerToAdd)
+    
+    let context = FluidStackContext(fluidStackController: self, targetViewController: viewControllerToAdd)
 
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
       // set context
-      viewControllerToAdd.fluidStackContext = .init(
-        fluidStackController: self,
-        targetViewController: viewControllerToAdd
-      )
+      viewControllerToAdd.fluidStackContext = context
     }
 
     if viewControllerToAdd.parent != self {
@@ -255,6 +255,7 @@ open class FluidStackController: UIViewController {
       AnyAddingTransition.noAnimation.startTransition(context: transitionContext)
     }
 
+    return context
   }
 
   /**
@@ -263,15 +264,16 @@ open class FluidStackController: UIViewController {
    - Parameters:
      - transition: You may set ``.noAnimation`` to disable transition animation.
    */
-  public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {
+  @discardableResult
+  public func addContentView(_ view: UIView, transition: AnyAddingTransition?) -> FluidStackContext {
 
     assert(Thread.isMainThread)
 
-    let viewController = AnonymousViewController(view: view)
-    addContentViewController(viewController, transition: transition)
+    let viewController = ContentWrapperViewController(view: view)
+    return addContentViewController(viewController, transition: transition)
 
   }
-  
+
   /**
    Starts removing transaction for interaction.
    Make sure to complete the transition with the context.
@@ -279,12 +281,17 @@ open class FluidStackController: UIViewController {
   public func startRemovingForInteraction(
     _ viewControllerToRemove: UIViewController
   ) -> RemovingTransitionContext {
-    
+
     // Handles configuration
-    if configuration.retainsRootViewController, viewControllerToRemove == stackingViewControllers.first {
-      Log.error(.stack, "the stacking will broke. Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller.")
+    if configuration.retainsRootViewController,
+      viewControllerToRemove == stackingViewControllers.first
+    {
+      Log.error(
+        .stack,
+        "the stacking will broke. Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller."
+      )
     }
-    
+
     return _startRemoving(viewControllerToRemove)
   }
 
@@ -353,17 +360,29 @@ open class FluidStackController: UIViewController {
     return newTransitionContext
   }
 
+  /**
+   Removes given view controller with transition
+   */
   public func removeViewController(
     _ viewControllerToRemove: UIViewController,
     transition: AnyRemovingTransition?
   ) {
-    
+
     // Handles configuration
-    guard configuration.retainsRootViewController, viewControllerToRemove != stackingViewControllers.first else {
-      Log.error(.stack, "Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller.")
+    guard configuration.retainsRootViewController,
+      viewControllerToRemove != stackingViewControllers.first
+    else {
+      Log.error(
+        .stack,
+        "Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller."
+      )
       return
     }
-    
+
+    if stackingViewControllers.last != viewControllerToRemove {
+      // TODO: raises warning about the given view controller is not displaying on top.
+    }
+
     let transitionContext = _startRemoving(viewControllerToRemove)
 
     if let transition = transition {
@@ -397,7 +416,7 @@ open class FluidStackController: UIViewController {
 
   /**
    Removes all view controllers which displaying on top of the given view controller.
-   
+
    - Parameters:
      - from:
      - transition:
@@ -494,7 +513,7 @@ open class FluidStackController: UIViewController {
     }
 
   }
-  
+
   private func setTransitionContext(
     viewController: UIViewController,
     context: TransitionContext?
@@ -527,6 +546,10 @@ public struct FluidStackDispatchContext {
 
 }
 
+/**
+ A context object that communicates with ``FluidStackController``.
+ Associated with the view controller displayed on the stack.
+ */
 public struct FluidStackContext {
 
   public private(set) weak var fluidStackController: FluidStackController?
@@ -559,7 +582,7 @@ public struct FluidStackContext {
 
   /**
    Starts transition for removing if parent container presents.
-   
+
    See detail in ``FluidStackController/startRemovingForInteraction(_:)``
    */
   public func startRemovingForInteraction() -> RemovingTransitionContext? {
@@ -632,25 +655,29 @@ extension UIViewController {
   }
 }
 
-private final class AnonymousViewController: UIViewController {
+extension FluidStackController {
 
-  private let __rootView: UIView
+  private final class ContentWrapperViewController: UIViewController {
 
-  override func loadView() {
-    view = __rootView
+    private let __rootView: UIView
+
+    override func loadView() {
+      view = __rootView
+    }
+
+    init(
+      view: UIView
+    ) {
+      self.__rootView = view
+      super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    public required init?(
+      coder: NSCoder
+    ) {
+      fatalError("init(coder:) has not been implemented")
+    }
   }
 
-  init(
-    view: UIView
-  ) {
-    self.__rootView = view
-    super.init(nibName: nil, bundle: nil)
-  }
-
-  @available(*, unavailable)
-  public required init?(
-    coder: NSCoder
-  ) {
-    fatalError("init(coder:) has not been implemented")
-  }
 }
