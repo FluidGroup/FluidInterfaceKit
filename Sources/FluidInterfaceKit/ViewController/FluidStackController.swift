@@ -286,7 +286,7 @@ open class FluidStackController: UIViewController {
 
     // Handles configuration
     if configuration.retainsRootViewController,
-      viewControllerToRemove == stackingViewControllers.first
+      viewControllerToRemove == stackingViewControllers.last
     {
       Log.error(
         .stack,
@@ -372,7 +372,7 @@ open class FluidStackController: UIViewController {
 
     // Handles configuration
     guard configuration.retainsRootViewController,
-      viewControllerToRemove != stackingViewControllers.first
+      viewControllerToRemove != stackingViewControllers.last
     else {
       Log.error(
         .stack,
