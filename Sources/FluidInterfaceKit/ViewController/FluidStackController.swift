@@ -285,8 +285,9 @@ open class FluidStackController: UIViewController {
   ) -> RemovingTransitionContext {
 
     // Handles configuration
-    if configuration.retainsRootViewController,
-      viewControllerToRemove == stackingViewControllers.last
+    if
+      configuration.retainsRootViewController,
+      viewControllerToRemove == stackingViewControllers.first
     {
       Log.error(
         .stack,
@@ -371,9 +372,10 @@ open class FluidStackController: UIViewController {
   ) {
 
     // Handles configuration
-    guard configuration.retainsRootViewController,
-      viewControllerToRemove != stackingViewControllers.last
-    else {
+    if
+      configuration.retainsRootViewController,
+      viewControllerToRemove == stackingViewControllers.first
+    {
       Log.error(
         .stack,
         "Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller."
