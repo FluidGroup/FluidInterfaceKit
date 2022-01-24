@@ -17,7 +17,7 @@ extension AnyAddingTransition {
       // FIXME: tmp impl
       BatchApplier(hidingViews).setInvisible(true)
 
-      context.addEventHandler { event in
+      context.addCompletionEventHandler { event in
         BatchApplier(hidingViews).setInvisible(false)
       }
 
@@ -41,7 +41,7 @@ extension AnyAddingTransition {
 
         context.toViewController.view.mask = maskView
 
-        context.addEventHandler { _ in
+        context.addCompletionEventHandler { _ in
           entrypointSnapshotView.removeFromSuperview()
         }
 
@@ -118,7 +118,7 @@ extension AnyAddingTransition {
           crossfadeAnimator
         },
         completion: {
-          context.notifyCompleted()
+          context.notifyAnimationCompleted()
         }
       )
 

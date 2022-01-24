@@ -23,7 +23,7 @@ extension AnyRemovingInteraction {
           }
           
           animator.addCompletion { _ in
-            transitionContext.notifyCompleted()
+            transitionContext.notifyAnimationCompleted()
           }
           
           animator.startAnimation()

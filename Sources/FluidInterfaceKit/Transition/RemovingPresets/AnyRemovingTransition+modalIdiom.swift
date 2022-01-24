@@ -24,7 +24,7 @@ extension AnyRemovingTransition {
       }
 
       animator.addCompletion { _ in
-        context.notifyCompleted()
+        context.notifyAnimationCompleted()
       }
 
       animator.startAnimation()

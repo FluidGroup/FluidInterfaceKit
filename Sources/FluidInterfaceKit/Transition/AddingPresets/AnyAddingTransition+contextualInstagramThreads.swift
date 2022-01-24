@@ -15,7 +15,7 @@ extension AnyAddingTransition {
       // FIXME: tmp impl
       BatchApplier(hidingViews).setInvisible(true)
 
-      context.addEventHandler { event in
+      context.addCompletionEventHandler { event in
         BatchApplier(hidingViews).setInvisible(false)
       }
 
@@ -99,7 +99,7 @@ extension AnyAddingTransition {
           styleAnimator
         },
         completion: {
-          context.notifyCompleted()
+          context.notifyAnimationCompleted()
         }
       )
 
