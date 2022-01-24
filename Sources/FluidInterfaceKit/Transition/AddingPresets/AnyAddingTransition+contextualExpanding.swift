@@ -4,9 +4,15 @@ import ResultBuilderKit
 
 extension AnyAddingTransition {
 
-  public static func contextualExpanding(from entrypointView: UIView, hidingViews: [UIView]) -> Self {
+  public static func contextualExpanding(
+    from entrypointView: UIView,
+    entrypointMirrorViewProvider: AnyMirrorViewProvider,
+    hidingViews: [UIView]
+  ) -> Self {
 
     return .init { (context: AddingTransitionContext) in
+      
+      let entrypointSnapshotView = entrypointMirrorViewProvider.view()
 
       // FIXME: tmp impl
       BatchApplier(hidingViews).setInvisible(true)
@@ -21,8 +27,6 @@ extension AnyAddingTransition {
       if context.contentView.backgroundColor == nil {
         context.contentView.backgroundColor = .clear
       }
-
-      let entrypointSnapshotView = Fluid.takeSnapshotVisible(view: entrypointView)
 
       if !Fluid.hasAnimations(view: context.toViewController.view) {
 
