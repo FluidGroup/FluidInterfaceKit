@@ -48,4 +48,18 @@ extension AnyMirrorViewProvider {
     }
   }
   
+  public static func actual(viewProvider: @escaping () -> UIView) -> Self {
+    
+    return .init { handlers in
+      
+      handlers.make = { cached in
+        if let cached = cached {
+          return cached
+        }
+        return viewProvider()
+      }
+      
+    }
+  }
+  
 }
