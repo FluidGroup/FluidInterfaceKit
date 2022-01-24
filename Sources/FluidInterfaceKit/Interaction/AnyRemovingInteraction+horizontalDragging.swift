@@ -50,7 +50,7 @@ extension AnyRemovingInteraction {
             }
             
             animator.addCompletion { _ in
-              transitionContext.notifyCompleted()
+              transitionContext.notifyAnimationCompleted()
             }
             
             animator.startAnimation()
@@ -92,7 +92,7 @@ extension AnyRemovingInteraction {
                                                                                                
                 BatchApplier(hidingViews).setInvisible(true)
 
-                transitionContext.addEventHandler { event in
+                transitionContext.addCompletionEventHandler { event in
                   BatchApplier(hidingViews).setInvisible(false)
                   gesture.view!.layer.cornerRadius = 0
                 }
@@ -193,7 +193,7 @@ extension AnyRemovingInteraction {
                   }
 
                   animator.addCompletion { _ in
-                    _trackingContext.transitionContext.notifyCompleted()
+                    _trackingContext.transitionContext.notifyAnimationCompleted()
                   }
 
                   animator.startAnimation()
@@ -292,7 +292,7 @@ extension AnyRemovingInteraction {
                   }
 
                   Fluid.startPropertyAnimators(animators) {
-                    _trackingContext.transitionContext.notifyCompleted()
+                    _trackingContext.transitionContext.notifyAnimationCompleted()
                   }
                 case .shape(let destinationView, let destinationMirroViewProvider):
 
@@ -308,7 +308,7 @@ extension AnyRemovingInteraction {
                   entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationView.bounds.size)
                   entrypointSnapshotView.alpha = 0
 
-                  _trackingContext.transitionContext.addEventHandler { _ in
+                  _trackingContext.transitionContext.addCompletionEventHandler { _ in
                     entrypointSnapshotView.removeFromSuperview()
                   }
 
@@ -379,7 +379,7 @@ extension AnyRemovingInteraction {
                       snapshotAnimator
                     },
                     completion: {
-                      transitionContext.notifyCompleted()
+                      transitionContext.notifyAnimationCompleted()
                     }
                   )
 

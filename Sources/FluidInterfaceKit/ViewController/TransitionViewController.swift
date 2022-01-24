@@ -75,7 +75,7 @@ open class TransitionViewController: _fluid_WrapperViewController {
   func startRemovingTransition(context: RemovingTransitionContext) {
 
     guard let removingTransition = removingTransition else {
-      context.notifyCompleted()
+      context.notifyAnimationCompleted()
       return
     }
 
@@ -123,7 +123,7 @@ open class TransitionViewController: _fluid_WrapperViewController {
           contentView: presentationController.containerView!,
           fromViewController: presentingViewController,
           toViewController: self,
-          onCompleted: { context in
+          onAnimationCompleted: { context in
 
             self.addingTransitionContext = nil
 
@@ -131,7 +131,7 @@ open class TransitionViewController: _fluid_WrapperViewController {
               return
             }
 
-            context.transitionFinished()
+            context.transitionSucceeded()
           }
         )
 
@@ -163,13 +163,13 @@ open class TransitionViewController: _fluid_WrapperViewController {
       contentView: presentationController.containerView!,
       fromViewController: self,
       toViewController: presentingViewController,
-      onCompleted: { [weak self] context in
+      onAnimationCompleted: { [weak self] context in
 
         guard let self = self else { return }
 
         guard context.isInvalidated == false else { return }
 
-        context.transitionFinished()
+        context.transitionSucceeded()
         self.removingTransitionContext = nil
 
         self.dismiss(animated: false, completion: { [weak self] in
@@ -202,13 +202,13 @@ open class TransitionViewController: _fluid_WrapperViewController {
       contentView: presentationController.containerView!,
       fromViewController: self,
       toViewController: presentingViewController,
-      onCompleted: { [weak self] context in
+      onAnimationCompleted: { [weak self] context in
 
         guard let self = self else { return }
 
         guard context.isInvalidated == false else { return }
 
-        context.transitionFinished()
+        context.transitionSucceeded()
         self.removingTransitionContext = nil
 
         self.dismiss(animated: false, completion: { [weak self] in

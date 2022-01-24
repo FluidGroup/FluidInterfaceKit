@@ -120,7 +120,7 @@ open class FluidStackController: UIViewController {
     self.contentView = RootContentView()
     self.configuration = configuration
     super.init(nibName: nil, bundle: nil)
-        
+
     self.view.accessibilityIdentifier = "FluidStack.\(identifier?.rawValue ?? "unnamed")"
   }
 
@@ -177,7 +177,8 @@ open class FluidStackController: UIViewController {
   @discardableResult
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
-    transition: AnyAddingTransition?
+    transition: AnyAddingTransition?,
+    completion: @escaping (TransitionContext.CompletionEvent) -> Void = { _ in }
   ) -> FluidStackContext {
 
     /**
@@ -190,8 +191,11 @@ open class FluidStackController: UIViewController {
     let backViewController = stackingViewControllers.last
     stackingViewControllers.removeAll { $0 == viewControllerToAdd }
     stackingViewControllers.append(viewControllerToAdd)
-    
-    let context = FluidStackContext(fluidStackController: self, targetViewController: viewControllerToAdd)
+
+    let context = FluidStackContext(
+      fluidStackController: self,
+      targetViewController: viewControllerToAdd
+    )
 
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
@@ -227,7 +231,7 @@ open class FluidStackController: UIViewController {
       contentView: viewControllerToAdd.view.superview!,
       fromViewController: backViewController,
       toViewController: viewControllerToAdd,
-      onCompleted: { [weak self] context in
+      onAnimationCompleted: { [weak self] context in
 
         guard let self = self else { return }
 
@@ -237,10 +241,14 @@ open class FluidStackController: UIViewController {
         }
 
         self.setTransitionContext(viewController: viewControllerToAdd, context: nil)
-        context.transitionFinished()
+        context.transitionSucceeded()
 
       }
     )
+
+    transitionContext.addCompletionEventHandler { event in
+      completion(event)
+    }
 
     self.transitionContext(viewController: viewControllerToAdd)?.invalidate()
     setTransitionContext(viewController: viewControllerToAdd, context: transitionContext)
@@ -267,12 +275,16 @@ open class FluidStackController: UIViewController {
      - transition: You may set ``.noAnimation`` to disable transition animation.
    */
   @discardableResult
-  public func addContentView(_ view: UIView, transition: AnyAddingTransition?) -> FluidStackContext {
+  public func addContentView(
+    _ view: UIView,
+    transition: AnyAddingTransition?,
+    completion: @escaping (TransitionContext.CompletionEvent) -> Void = { _ in }
+  ) -> FluidStackContext {
 
     assert(Thread.isMainThread)
 
     let viewController = ContentWrapperViewController(view: view)
-    return addContentViewController(viewController, transition: transition)
+    return addContentViewController(viewController, transition: transition, completion: completion)
 
   }
 
@@ -285,8 +297,7 @@ open class FluidStackController: UIViewController {
   ) -> RemovingTransitionContext {
 
     // Handles configuration
-    if
-      configuration.retainsRootViewController,
+    if configuration.retainsRootViewController,
       viewControllerToRemove == stackingViewControllers.first
     {
       Log.error(
@@ -328,7 +339,7 @@ open class FluidStackController: UIViewController {
       contentView: viewControllerToRemove.view.superview!,
       fromViewController: viewControllerToRemove,
       toViewController: backViewController,
-      onCompleted: { [weak self] context in
+      onAnimationCompleted: { [weak self] context in
 
         guard let self = self else { return }
 
@@ -350,7 +361,7 @@ open class FluidStackController: UIViewController {
         viewControllerToRemove.view.superview!.removeFromSuperview()
         viewControllerToRemove.removeFromParent()
 
-        context.transitionFinished()
+        context.transitionSucceeded()
 
       }
     )
@@ -372,8 +383,7 @@ open class FluidStackController: UIViewController {
   ) {
 
     // Handles configuration
-    if
-      configuration.retainsRootViewController,
+    if configuration.retainsRootViewController,
       viewControllerToRemove == stackingViewControllers.first
     {
       Log.error(
@@ -384,7 +394,10 @@ open class FluidStackController: UIViewController {
     }
 
     if stackingViewControllers.last != viewControllerToRemove {
-      Log.error(.stack, "The removing view controller is not displaying on top. the screen won't change at the look, but the stack will change.")
+      Log.error(
+        .stack,
+        "The removing view controller is not displaying on top. the screen won't change at the look, but the stack will change."
+      )
     }
 
     let transitionContext = _startRemoving(viewControllerToRemove)
@@ -394,7 +407,7 @@ open class FluidStackController: UIViewController {
     } else if let transitionViewController = viewControllerToRemove as? TransitionViewController {
       transitionViewController.startRemovingTransition(context: transitionContext)
     } else {
-      transitionContext.notifyCompleted()
+      transitionContext.notifyAnimationCompleted()
     }
 
   }
@@ -481,7 +494,7 @@ open class FluidStackController: UIViewController {
             viewControllersToRemove.contains(where: { $0 == instance })
           }
 
-          context.transitionFinished()
+          context.transitionSucceeded()
 
         }
       )
@@ -550,10 +563,8 @@ public struct FluidStackDispatchContext {
 
 }
 
-/**
- A context object that communicates with ``FluidStackController``.
- Associated with the view controller displayed on the stack.
- */
+/// A context object that communicates with ``FluidStackController``.
+/// Associated with the view controller displayed on the stack.
 public struct FluidStackContext {
 
   public private(set) weak var fluidStackController: FluidStackController?
@@ -564,13 +575,26 @@ public struct FluidStackContext {
    */
   public func addContentViewController(
     _ viewController: UIViewController,
-    transition: AnyAddingTransition?
+    transition: AnyAddingTransition?,
+    completion: @escaping (TransitionContext.CompletionEvent) -> Void = { _ in }
   ) {
-    fluidStackController?.addContentViewController(viewController, transition: transition)
+    fluidStackController?.addContentViewController(
+      viewController,
+      transition: transition,
+      completion: completion
+    )
   }
 
-  public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {
-    fluidStackController?.addContentView(view, transition: transition)
+  public func addContentView(
+    _ view: UIView,
+    transition: AnyAddingTransition?,
+    completion: @escaping (TransitionContext.CompletionEvent) -> Void = { _ in }
+  ) {
+    fluidStackController?.addContentView(
+      view,
+      transition: transition,
+      completion: completion
+    )
   }
 
   /// Removes the target view controller in ``FluidStackController``.

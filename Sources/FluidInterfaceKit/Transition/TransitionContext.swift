@@ -2,8 +2,10 @@ import UIKit
 
 public class TransitionContext: Equatable {
 
-  public enum Event {
-    case finished
+  public enum CompletionEvent {
+    /// Transition has been finished (no interruption was in there)
+    case succeeded
+    /// Transition has been interrupted
     case interrupted
   }
 
@@ -22,30 +24,34 @@ public class TransitionContext: Equatable {
 
   public private(set) var isInvalidated: Bool = false
 
-  private var callbacks: [(Event) -> Void] = []
+  private var callbacks: [(CompletionEvent) -> Void] = []
 
   init(contentView: UIView) {
     self.contentView = contentView
   }
 
+  /// Marks as this current transition has been outdated.
+  /// Another transition's started by owner.
+  /// Triggers ``addCompletionEventHandler(_:)`` with ``TransitionContext/CompletionEvent/interrupted``
   func invalidate() {
     assert(Thread.isMainThread)
     isInvalidated = true
     callbacks.forEach { $0(.interrupted) }
   }
-
-  public func addEventHandler(_ closure: @escaping (Event) -> Void) {
+  
+  public func addCompletionEventHandler(_ closure: @escaping (CompletionEvent) -> Void) {
     assert(Thread.isMainThread)
     callbacks.append(closure)
   }
 
   /**
-   Triggers `callbacks`.
+   Triggers ``addCompletionEventHandler(_:)`` with ``TransitionContext/CompletionEvent/succeeded``
    */
-  func transitionFinished() {
-    callbacks.forEach{ $0(.finished) }
+  func transitionSucceeded() {
+    callbacks.forEach{ $0(.succeeded) }
   }
 
+  /// Returns a ``CGRect`` for a given view related to ``contentView``.
   public func frameInContentView(for view: UIView) -> CGRect {
     view._matchedTransition_relativeFrame(
       in: contentView,
