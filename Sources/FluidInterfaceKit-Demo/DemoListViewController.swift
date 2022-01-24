@@ -44,15 +44,27 @@ final class DemoListViewController: FluidStackController {
           } else {
             let controller = DetailViewController(viewModel: viewModel)
 
+            let snapshot = AnyMirrorViewProvider.snapshot(
+              caches: true,
+              viewProvider: { view }
+            ).make()
+
             let displayViewController = FluidViewController(
               bodyViewController: controller,
-              addingTransition: .contextualExpanding(from: view, hidingViews: [view]),
+              addingTransition: .contextualExpanding(
+                from: view,
+                entrypointMirrorViewProvider: snapshot,
+                hidingViews: [view]
+              ),
               removingTransition: nil,
               removingInteraction: .horizontalDragging(
-                backwardingMode: .shape(destinationView: view),
+                backwardingMode: .shape(
+                  destinationView: view,
+                  destinationMirroViewProvider: snapshot
+                ),
                 hidingViews: [view]
               )
-//              removingInteraction: .leftEdge()
+              //              removingInteraction: .leftEdge()
             )
 
             viewControllerCache[i] = displayViewController

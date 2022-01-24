@@ -7,7 +7,10 @@ extension AnyRemovingInteraction {
   public enum HorizontalDraggingBackwardingMode {
     // TODO: get a generic name
     case instagramThreads(destinationView: UIView, interpolationView: UIView)
-    case shape(destinationView: UIView)
+    case shape(
+      destinationView: UIView,
+      destinationMirroViewProvider: AnyMirrorViewProvider
+    )
   }
 
   /**
@@ -79,20 +82,21 @@ extension AnyRemovingInteraction {
                 /**
                  Prepare to interact
                  */
+                             
                 let transitionContext = context.startRemovingTransition()
+                
+                var newTrackingContext = TrackingContext(
+                  scrollController: nil,
+                  transitionContext: transitionContext
+                )
+                                                                                               
                 BatchApplier(hidingViews).setInvisible(true)
 
                 transitionContext.addEventHandler { event in
                   BatchApplier(hidingViews).setInvisible(false)
                   gesture.view!.layer.cornerRadius = 0
                 }
-
-                // FIXME: Remove depending on ZStackViewController.
-                var newTrackingContext = TrackingContext(
-                  scrollController: nil,
-                  transitionContext: transitionContext
-                )
-
+              
                 if let scrollView = gesture.trackingScrollView {
 
                   let representation = ScrollViewRepresentation(from: scrollView)
@@ -290,15 +294,15 @@ extension AnyRemovingInteraction {
                   Fluid.startPropertyAnimators(animators) {
                     _trackingContext.transitionContext.notifyCompleted()
                   }
-                case .shape(let destinationView):
+                case .shape(let destinationView, let destinationMirroViewProvider):
 
                   let maskView = UIView()
                   maskView.backgroundColor = .black
 
                   maskView.frame = transitionContext.fromViewController.view.bounds
                   transitionContext.fromViewController.view.mask = maskView
-
-                  let entrypointSnapshotView = Fluid.takeSnapshotVisible(view: destinationView)
+                                    
+                  let entrypointSnapshotView = destinationMirroViewProvider.view()
 
                   transitionContext.contentView.addSubview(entrypointSnapshotView)
                   entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationView.bounds.size)
