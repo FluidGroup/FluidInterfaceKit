@@ -39,13 +39,35 @@ open class FluidStackController: UIViewController {
   }
 
   private final class WrapperView: UIView {
-
+    
+    var isTouchThroughEnabled = true
+    
+    init(contentView: UIView, frame: CGRect) {
+      super.init(frame: frame)
+      
+      addSubview(contentView)
+      Fluid.setFrameAsIdentity(frame, for: contentView)
+      contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      
+      backgroundColor = .clear
+    }
+    
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+    
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-      let view = super.hitTest(point, with: event)
-      if view == self {
-        return nil
+      
+      if isTouchThroughEnabled {
+        let view = super.hitTest(point, with: event)
+        if view == self {
+          return nil
+        } else {
+          return view
+        }
       } else {
-        return view
+        return super.hitTest(point, with: event)
       }
     }
 
@@ -109,7 +131,12 @@ open class FluidStackController: UIViewController {
   }
 
   // MARK: - Initializers
-
+  
+  /// Creates an instance
+  /// - Parameters:
+  ///   - identifier: ``Identifier-swift.struct`` to find the instance in hierarchy.
+  ///   - view:
+  ///   - configuration:
   public init(
     identifier: Identifier? = nil,
     view: UIView? = nil,
@@ -133,6 +160,9 @@ open class FluidStackController: UIViewController {
 
   // MARK: - Functions
 
+  /**
+   Make sure call super method when you create override.
+   */
   open override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -143,6 +173,7 @@ open class FluidStackController: UIViewController {
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
   }
 
+  // TODO: Under considerations.
   public func makeFluidStackDispatchContext() -> FluidStackDispatchContext {
     .init(
       fluidStackController: self
@@ -188,9 +219,13 @@ open class FluidStackController: UIViewController {
 
     assert(Thread.isMainThread)
 
-    let backViewController = stackingViewControllers.last
-    stackingViewControllers.removeAll { $0 == viewControllerToAdd }
-    stackingViewControllers.append(viewControllerToAdd)
+    let currentTopViewController = stackingViewControllers.last
+    
+    // Adds the view controller at the latest position.
+    do {
+      stackingViewControllers.removeAll { $0 == viewControllerToAdd }
+      stackingViewControllers.append(viewControllerToAdd)
+    }
 
     let context = FluidStackContext(
       fluidStackController: self,
@@ -206,17 +241,13 @@ open class FluidStackController: UIViewController {
     if viewControllerToAdd.parent != self {
       addChild(viewControllerToAdd)
 
-      let containerView = WrapperView()
-      containerView.backgroundColor = .clear
-
-      containerView.addSubview(viewControllerToAdd.view)
-      containerView.frame = self.view.bounds
-      containerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      let containerView = WrapperView(
+        contentView: viewControllerToAdd.view,
+        frame: self.view.bounds
+      )
 
       viewControllerToAdd.view.resetToVisible()
-      viewControllerToAdd.view.frame = self.view.bounds
-      viewControllerToAdd.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
+      
       view.addSubview(containerView)
 
       viewControllerToAdd.didMove(toParent: self)
@@ -226,10 +257,17 @@ open class FluidStackController: UIViewController {
     }
 
     viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
+    
+    assert(viewControllerToAdd.view.superview != nil)
+    assert(viewControllerToAdd.view.superview is WrapperView)
+    
+    var wrapperView: WrapperView {
+      viewControllerToAdd.view.superview as! WrapperView
+    }
 
     let transitionContext = AddingTransitionContext(
       contentView: viewControllerToAdd.view.superview!,
-      fromViewController: backViewController,
+      fromViewController: currentTopViewController,
       toViewController: viewControllerToAdd,
       onAnimationCompleted: { [weak self] context in
 
@@ -253,16 +291,24 @@ open class FluidStackController: UIViewController {
     self.transitionContext(viewController: viewControllerToAdd)?.invalidate()
     setTransitionContext(viewController: viewControllerToAdd, context: transitionContext)
 
-    if let transition = transition {
-
-      transition.startTransition(context: transitionContext)
-    } else if let transitionViewController = viewControllerToAdd as? TransitionViewController {
-
-      transitionViewController.startAddingTransition(
-        context: transitionContext
-      )
-    } else {
-      AnyAddingTransition.noAnimation.startTransition(context: transitionContext)
+    // Start transition
+    do {
+      
+      // Turns off touch through to prevent the user attempt to start another adding-transition.
+      // `Flexible` means the user can dispatch cancel in the current transition.
+      wrapperView.isTouchThroughEnabled = false
+      
+      if let transition = transition {
+        
+        transition.startTransition(context: transitionContext)
+      } else if let transitionViewController = viewControllerToAdd as? TransitionViewController {
+        
+        transitionViewController.startAddingTransition(
+          context: transitionContext
+        )
+      } else {
+        AnyAddingTransition.noAnimation.startTransition(context: transitionContext)
+      }
     }
 
     return context
@@ -334,6 +380,10 @@ open class FluidStackController: UIViewController {
         return nil
       }
     }()
+    
+    var wrapperView: WrapperView {
+      viewControllerToRemove.view.superview as! WrapperView
+    }
 
     let newTransitionContext = RemovingTransitionContext(
       contentView: viewControllerToRemove.view.superview!,
@@ -365,6 +415,10 @@ open class FluidStackController: UIViewController {
 
       }
     )
+    
+    // To enable through to make back view controller can be interactive.
+    // Consequently, the user can start another transition.
+    wrapperView.isTouchThroughEnabled = true
 
     // invalidates a current transition (mostly adding transition)
     transitionContext(viewController: viewControllerToRemove)?.invalidate()
