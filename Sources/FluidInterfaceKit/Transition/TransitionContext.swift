@@ -39,6 +39,9 @@ public class TransitionContext: Equatable {
     callbacks.forEach { $0(.interrupted) }
   }
   
+  /**
+   Adds closure that handles completion events (``CompletionEvent``)   
+   */
   public func addCompletionEventHandler(_ closure: @escaping (CompletionEvent) -> Void) {
     assert(Thread.isMainThread)
     callbacks.append(closure)
