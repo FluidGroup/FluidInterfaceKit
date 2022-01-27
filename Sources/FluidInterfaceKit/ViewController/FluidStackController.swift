@@ -103,7 +103,10 @@ open class FluidStackController: UIViewController {
         """
       )
       // TODO: Update with animation
-      setNeedsStatusBarAppearanceUpdate()
+      UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1) {
+        self.setNeedsStatusBarAppearanceUpdate()
+      }
+      .startAnimation()
     }
   }
 
