@@ -43,11 +43,14 @@ final class DemoListViewController: FluidStackController {
 
           } else {
             let controller = DetailViewController(viewModel: viewModel)
+            
+            let mirrorView = makeListCell(viewModel: viewModel, onTap: { _ in })
+            mirrorView.frame = view.frame
+            mirrorView.layoutIfNeeded()
 
-            let snapshot = AnyMirrorViewProvider.snapshot(
-              caches: true,
-              viewProvider: { view }
-            ).make()
+            let snapshot = AnyMirrorViewProvider.actual(viewProvider: {
+              mirrorView
+            })
 
             let displayViewController = FluidViewController(
               bodyViewController: controller,
