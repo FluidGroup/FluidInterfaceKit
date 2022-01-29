@@ -21,13 +21,44 @@ extension UIViewController {
   public func rootFluidStackController() -> FluidStackController? {
     fluidStackControllers().first
   }
+  
+  public struct FluidStackFindStrategy {
+    
+    let whereClosure: (FluidStackController) -> Bool
+    
+    public init(_ where: @escaping (FluidStackController) -> Bool) {
+      self.whereClosure = `where`
+    }
+
+    /// Finds by identifier
+    public static func identifier(_ identifier: FluidStackController.Identifier) -> Self {
+      .init { stackController in
+        stackController.identifier == identifier
+      }
+    }
+    
+    /// Finds by composed strategy
+    public static func matching(
+      _ strategies: [FluidStackFindStrategy]
+    ) -> Self {
+      return .init { stackController in
+        for strategy in strategies {
+          if strategy.whereClosure(stackController) {
+            return true
+          }
+        }
+        return false
+      }
+    }
+    
+  }
 
   /**
-   Returns the view controller's nearest ancestor ``FluidStackController`` (including itself) with a given identifier.
+   Returns the view controller's nearest ancestor ``FluidStackController`` (including itself) with a given strategy
    
    ``FluidStackController`` can set an identifier on init.
    */
-  public func fluidStackController(with identifier: FluidStackController.Identifier) -> FluidStackController? {
+  public func fluidStackController(with strategy: FluidStackFindStrategy) -> FluidStackController? {
 
     let found = sequence(first: self) {
       $0.parent
@@ -37,12 +68,8 @@ extension UIViewController {
       guard let controller = controller as? FluidStackController else {
         return false
       }
-
-      guard controller.identifier == identifier else {
-        return false
-      }
-
-      return true
+      
+      return strategy.whereClosure(controller)
     })
     
     return found as? FluidStackController
