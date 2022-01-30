@@ -97,8 +97,10 @@ let book = Book(title: "FluidInterfaceKit") {
     return controller
   }
 
-  BookPush(title: "Demo") {
-    DemoViewController()
+  BookPresent(title: "Stack") {
+    let controller = DemoViewController()
+    controller.modalPresentationStyle = .fullScreen
+    return controller
   }
 
 }
