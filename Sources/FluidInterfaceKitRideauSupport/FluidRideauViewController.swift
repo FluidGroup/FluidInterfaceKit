@@ -40,6 +40,8 @@ open class FluidRideauViewController: UIViewController {
     self.backgroundColor = backdropColor
 
     super.init(nibName: nil, bundle: nil)
+    
+    self.backgroundView.backgroundColor = .clear
 
     do {
 
@@ -83,6 +85,10 @@ open class FluidRideauViewController: UIViewController {
         break
       case .didDisplay:
         self.rideauView.move(to: initialSnapPoint, animated: true, completion: {})
+        UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+          self.backgroundView.backgroundColor = self.backgroundColor
+        }
+        .startAnimation()
       }
     }
   }
