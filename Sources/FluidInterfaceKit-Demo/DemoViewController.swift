@@ -65,6 +65,10 @@ final class DemoViewController: FluidStackController {
 }
 
 final class ContentViewController: UIViewController {
+  
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+  }
 
   init(
     color: UIColor
@@ -105,7 +109,7 @@ final class ContentViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
+           
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove self", for: .normal)
       $0.onTap { [unowned self] in

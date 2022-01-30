@@ -1,9 +1,18 @@
 import SwiftUI
 import UIKit
 
+/// Actions that comes from ``FluidStackController``
 public enum FluidStackAction {
   case didSetContext(FluidStackContext)
   case didDisplay
+}
+
+/// A struct that configures how to display in ``FluidStackController``
+public struct FluidStackContentConfiguration {
+
+  /// Specifies whether ``FluidStackController`` updates status bar appearance when displaying its target view controller.
+  public var capturesStatusBarAppearance: Bool = true
+
 }
 
 /// A container view controller that manages view controller and view as child view controllers.
@@ -39,26 +48,26 @@ open class FluidStackController: UIViewController {
   }
 
   private final class WrapperView: UIView {
-    
+
     var isTouchThroughEnabled = true
-    
+
     init(contentView: UIView, frame: CGRect) {
       super.init(frame: frame)
-      
+
       addSubview(contentView)
       Fluid.setFrameAsIdentity(frame, for: contentView)
       contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
       autoresizingMask = [.flexibleWidth, .flexibleHeight]
-      
+
       backgroundColor = .clear
     }
-    
+
     required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-      
+
       if isTouchThroughEnabled {
         let view = super.hitTest(point, with: event)
         if view == self {
@@ -118,11 +127,15 @@ open class FluidStackController: UIViewController {
     .weakToStrongObjects()
 
   open override var childForStatusBarStyle: UIViewController? {
-    return stackingViewControllers.last
+    return stackingViewControllers.last {
+      $0.fluidStackContentConfiguration.capturesStatusBarAppearance == true
+    }
   }
 
   open override var childForStatusBarHidden: UIViewController? {
-    return stackingViewControllers.last
+    return stackingViewControllers.last {
+      $0.fluidStackContentConfiguration.capturesStatusBarAppearance == true
+    }
   }
 
   open override func loadView() {
@@ -134,7 +147,7 @@ open class FluidStackController: UIViewController {
   }
 
   // MARK: - Initializers
-  
+
   /// Creates an instance
   /// - Parameters:
   ///   - identifier: ``Identifier-swift.struct`` to find the instance in hierarchy.
@@ -223,7 +236,7 @@ open class FluidStackController: UIViewController {
     assert(Thread.isMainThread)
 
     let currentTopViewController = stackingViewControllers.last
-    
+
     // Adds the view controller at the latest position.
     do {
       stackingViewControllers.removeAll { $0 == viewControllerToAdd }
@@ -250,7 +263,7 @@ open class FluidStackController: UIViewController {
       )
 
       viewControllerToAdd.view.resetToVisible()
-      
+
       view.addSubview(containerView)
 
       viewControllerToAdd.didMove(toParent: self)
@@ -260,10 +273,10 @@ open class FluidStackController: UIViewController {
     }
 
     viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
-    
+
     assert(viewControllerToAdd.view.superview != nil)
     assert(viewControllerToAdd.view.superview is WrapperView)
-    
+
     var wrapperView: WrapperView {
       viewControllerToAdd.view.superview as! WrapperView
     }
@@ -296,16 +309,16 @@ open class FluidStackController: UIViewController {
 
     // Start transition
     do {
-      
+
       // Turns off touch through to prevent the user attempt to start another adding-transition.
       // `Flexible` means the user can dispatch cancel in the current transition.
       wrapperView.isTouchThroughEnabled = false
-      
+
       if let transition = transition {
-        
+
         transition.startTransition(context: transitionContext)
       } else if let transitionViewController = viewControllerToAdd as? TransitionViewController {
-        
+
         transitionViewController.startAddingTransition(
           context: transitionContext
         )
@@ -383,7 +396,7 @@ open class FluidStackController: UIViewController {
         return nil
       }
     }()
-    
+
     var wrapperView: WrapperView {
       viewControllerToRemove.view.superview as! WrapperView
     }
@@ -418,7 +431,7 @@ open class FluidStackController: UIViewController {
 
       }
     )
-    
+
     // To enable through to make back view controller can be interactive.
     // Consequently, the user can start another transition.
     wrapperView.isTouchThroughEnabled = true
@@ -688,12 +701,29 @@ public struct FluidStackContext {
 
 }
 
-var ref: Void?
-
+private var fluidStackContextRef: Void?
 private var fluidActionHandlerRef: Void?
+private var fluidStackContentConfigurationRef: Void?
 
 extension UIViewController {
 
+  /// A struct that configures how to display in ``FluidStackController``
+  public var fluidStackContentConfiguration: FluidStackContentConfiguration {
+    get {
+      (objc_getAssociatedObject(self, &fluidStackContentConfigurationRef)
+        as? FluidStackContentConfiguration) ?? .init()
+    }
+    set {
+      objc_setAssociatedObject(
+        self,
+        &fluidStackContentConfigurationRef,
+        newValue,
+        .OBJC_ASSOCIATION_COPY_NONATOMIC
+      )
+    }
+  }
+
+  /// A closure that ``FluidStackController`` invokes when raised activities.
   public var fluidStackActionHandler: ((FluidStackAction) -> Void)? {
     get {
       objc_getAssociatedObject(self, &fluidActionHandlerRef) as? (FluidStackAction) -> Void
@@ -708,16 +738,13 @@ extension UIViewController {
     }
   }
 
-}
-
-extension UIViewController {
-
   /// [Get]: Returns a stored instance or nearest parent's one.
   /// [Set]: Stores given instance.
   public internal(set) var fluidStackContext: FluidStackContext? {
     get {
 
-      guard let object = objc_getAssociatedObject(self, &ref) as? FluidStackContext else {
+      guard let object = objc_getAssociatedObject(self, &fluidStackContextRef) as? FluidStackContext
+      else {
         if parent is FluidStackController {
           // stop find
           return nil
@@ -732,7 +759,7 @@ extension UIViewController {
 
       objc_setAssociatedObject(
         self,
-        &ref,
+        &fluidStackContextRef,
         newValue,
         .OBJC_ASSOCIATION_RETAIN_NONATOMIC
       )
