@@ -2,6 +2,8 @@
 
 A framework to build flexible apps instead of using UIKit's standard container and transition components.
 
+- Builds app without UIKit modal-presentation
+
 ## Showcase
 
 |Instagram Threads like | Apple like |
