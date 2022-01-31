@@ -34,6 +34,32 @@ public final class AnyMirrorViewProvider {
 
 extension AnyMirrorViewProvider {
   
+  public static func portal(view: UIView) -> Self {
+    return .init { handlers in
+      handlers.make = { cached in
+        if let cached = cached {
+          return cached
+        }
+        let newView = PortalView(sourceView: view)
+        newView.isUserInteractionEnabled = false
+        return newView
+      }
+    }
+  }
+  
+  public static func portal(layer: CALayer) -> Self {
+    return .init { handlers in
+      handlers.make = { cached in
+        if let cached = cached {
+          return cached
+        }
+        let newView = PortalView(sourceLayer: layer)
+        newView.isUserInteractionEnabled = false
+        return newView
+      }
+    }
+  }
+  
   public static func snapshot(caches: Bool, viewProvider: @escaping () -> UIView) -> Self {
     
     return .init { handlers in

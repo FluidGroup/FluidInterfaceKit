@@ -102,6 +102,10 @@ let book = Book(title: "FluidInterfaceKit") {
     controller.modalPresentationStyle = .fullScreen
     return controller
   }
+  
+  BookPush(title: "CAPortalLayer") {
+    DemoPortalLayerViewController()
+  }
 
   BookNavigationLink(title: "iOS 14 Pickers") {
     BookSection(title: "Date picker .inline") {

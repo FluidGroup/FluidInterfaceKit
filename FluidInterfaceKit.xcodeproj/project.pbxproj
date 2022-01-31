@@ -40,6 +40,8 @@
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
+		4BFC696327A7F3BB0011238E /* CAPortalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696227A7F3BB0011238E /* CAPortalLayer.m */; };
+		4BFC696627A7F46D0011238E /* DemoPortalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +77,10 @@
 		4BDDF267277F509C00636B00 /* MondrianLayout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MondrianLayout; path = submodules/MondrianLayout; sourceTree = "<group>"; };
 		4BDDF26A277F548900636B00 /* GeometryKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GeometryKit; path = submodules/GeometryKit; sourceTree = "<group>"; };
 		4BE0AAC4277FD5620086FD7E /*  */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ""; sourceTree = "<group>"; };
+		4BFC696127A7F3BA0011238E /* FluidInterfaceKit-Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FluidInterfaceKit-Demo-Bridging-Header.h"; sourceTree = "<group>"; };
+		4BFC696227A7F3BB0011238E /* CAPortalLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAPortalLayer.m; sourceTree = "<group>"; };
+		4BFC696427A7F3DB0011238E /* CAPortalLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAPortalLayer.h; sourceTree = "<group>"; };
+		4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPortalLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,10 +134,14 @@
 				4B46805A279C58E800625FCB /* AppDelegate.swift */,
 				4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */,
 				4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */,
+				4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */,
 				4B46805D279C58E800625FCB /* DemoPresentationViewController.swift */,
 				4B46805E279C58E800625FCB /* UIControl+Closure.swift */,
 				4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */,
 				4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */,
+				4BFC696427A7F3DB0011238E /* CAPortalLayer.h */,
+				4BFC696227A7F3BB0011238E /* CAPortalLayer.m */,
+				4BFC696127A7F3BA0011238E /* FluidInterfaceKit-Demo-Bridging-Header.h */,
 			);
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
@@ -228,6 +238,7 @@
 				TargetAttributes = {
 					4B959B052764F77E0003FFB6 = {
 						CreatedOnToolsVersion = 13.2;
+						LastSwiftMigration = 1320;
 					};
 				};
 			};
@@ -273,6 +284,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B468062279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift in Sources */,
+				4BFC696327A7F3BB0011238E /* CAPortalLayer.m in Sources */,
+				4BFC696627A7F46D0011238E /* DemoPortalLayer.swift in Sources */,
 				4B468074279C58E800625FCB /* UIControl+Closure.swift in Sources */,
 				4B46806A279C58E800625FCB /* ViewModel.swift in Sources */,
 				4B468066279C58E800625FCB /* DemoControlCenterViewController.swift in Sources */,
@@ -464,6 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KU2QEJ9K3Z;
@@ -481,6 +495,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "app.muukii.FluidInterfaceKit-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/FluidInterfaceKit-Demo/FluidInterfaceKit-Demo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -491,6 +507,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KU2QEJ9K3Z;
@@ -508,6 +525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "app.muukii.FluidInterfaceKit-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/FluidInterfaceKit-Demo/FluidInterfaceKit-Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
