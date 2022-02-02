@@ -124,7 +124,7 @@ open class FluidStackController: UIViewController {
   private let __rootView: UIView?
 
   private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
-    .weakToStrongObjects()
+    .weakToWeakObjects()
 
   open override var childForStatusBarStyle: UIViewController? {
     return stackingViewControllers.last {

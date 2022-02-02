@@ -86,6 +86,10 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
       removingTransition: removingTransition
     )
   }
+  
+  deinit {
+    Log.debug(.fluidController, "Deinit \(self)")
+  }
 
   @available(*, unavailable)
   public required init?(
