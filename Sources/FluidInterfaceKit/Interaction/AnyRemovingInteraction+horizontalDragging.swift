@@ -6,7 +6,10 @@ extension AnyRemovingInteraction {
 
   public enum HorizontalDraggingBackwardingMode {
     // TODO: get a generic name
-    case instagramThreads(destinationView: UIView, interpolationView: UIView)
+    case instagramThreads(
+      destinationView: UIView,
+      destinationMirroViewProvider: AnyMirrorViewProvider
+    )
     case shape(
       destinationView: UIView,
       destinationMirroViewProvider: AnyMirrorViewProvider
@@ -202,7 +205,9 @@ extension AnyRemovingInteraction {
                 }
 
                 switch backwardingMode {
-                case .instagramThreads(let destinationView, let interpolationView):
+                case .instagramThreads(let destinationView, let destinationMirroViewProvider):
+                  
+                  let interpolationView = destinationMirroViewProvider.view()
 
                   var targetRect = Geometry.rectThatAspectFit(
                     aspectRatio: draggingView.bounds.size,

@@ -6,11 +6,13 @@ extension AnyAddingTransition {
 
   public static func contextualInstagramThreads(
     from entrypointView: UIView,
-    interpolationView: UIView,
+    mirrorViewProvider: AnyMirrorViewProvider,
     hidingViews: [UIView]
   ) -> Self {
 
     return .init { (context: AddingTransitionContext) in
+      
+      let interpolationView = mirrorViewProvider.view()
 
       // FIXME: tmp impl
       BatchApplier(hidingViews).setInvisible(true)
