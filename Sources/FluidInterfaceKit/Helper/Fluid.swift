@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import GeometryKit
 
-enum Fluid {
+public enum Fluid {
 
   public static func takeSnapshotVisible(view: UIView) -> UIView {
 
