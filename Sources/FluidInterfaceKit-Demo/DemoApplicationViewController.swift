@@ -61,7 +61,7 @@ final class AppSearchViewController: FluidStackController {
 
             let controller = AppOptionsController()
 
-            rootFluidStackController()?.addContentViewController(controller, transition: .modalIdiom())
+            fluidStackController(with: .root)?.addContentViewController(controller, transition: .modalIdiom())
 
           }
         )
