@@ -41,4 +41,6 @@ extension OSLog {
   static let portal: OSLog = makeOSLogInDebug(flagName: "FLUID_LOG_PORTAL") { OSLog.init(subsystem: "FluidUIKit", category: "Portal") }
   
   static let fluidController: OSLog = makeOSLogInDebug(flagName: "FLUID_LOG_FLUIDCONTROLLER") { OSLog.init(subsystem: "FluidUIKit", category: "FluidController") }
+    
+  static let viewController: OSLog = makeOSLogInDebug(flagName: "FLUID_LOG_VIEWCONTROLLER") { OSLog.init(subsystem: "FluidUIKit", category: "ViewController") }
 }

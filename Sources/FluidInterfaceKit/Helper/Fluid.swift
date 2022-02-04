@@ -127,3 +127,28 @@ enum Fluid {
   }
 
 }
+
+extension Fluid {
+  
+  /**
+   This exchanges method `UIViewController.dismiss` to avoid miss calling method to dismiss fluid-presentation against modal-presentation.
+   
+   To use this, call this property with drop return value in very beginning application launch code.
+   e.g ApplicationDelegate, or main.swift.
+   
+   - Warning: It uses method-swizzling with Objective-C
+   */
+  public static let enablesDismissSafetyChecks: Void = {
+    method_exchangeImplementations(
+      class_getInstanceMethod(
+        UIViewController.self,
+        #selector(UIViewController.dismiss(animated:completion:))
+      )!,
+      class_getInstanceMethod(
+        UIViewController.self,
+        #selector(UIViewController._fluid_swizzled_dismiss(animated:completion:))
+      )!
+    )
+  }()
+
+}
