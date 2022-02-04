@@ -106,72 +106,19 @@ let book = Book(title: "FluidInterfaceKit") {
   BookPush(title: "CAPortalLayer") {
     DemoPortalLayerViewController()
   }
+  
+  BookPush(title: "Composition") {
+    DemoCompositionOrderViewController()
+  }
 
   BookNavigationLink(title: "iOS 14 Pickers") {
-    BookSection(title: "Date picker .inline") {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 14.0, *) {
-          datePicker.preferredDatePickerStyle = .inline
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .date
-
-        return datePicker
+    
+    BookPreview(expandsWidth: true, maxHeight: 400, minHeight: 400) {
+      UIView()&>.do {
+        $0.backgroundColor = .white
       }
     }
-
-    BookSection(title: "Date picker .compact") {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 13.4, *) {
-          datePicker.preferredDatePickerStyle = .compact
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .date
-
-        return datePicker
-      }
-    }
-
-    BookSection(title: "Date picker .wheels") {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 13.4, *) {
-          datePicker.preferredDatePickerStyle = .wheels
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .date
-
-        return datePicker
-      }
-    }
-
-    BookSection(title: "Time picker .inline") {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 14.0, *) {
-          datePicker.preferredDatePickerStyle = .inline
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .time
-
-        return datePicker
-      }
-    }
-
+  
     BookSection(title: "Time picker .compact") {
       BookPreview {
         let datePicker = UIDatePicker()
@@ -187,88 +134,13 @@ let book = Book(title: "FluidInterfaceKit") {
         return datePicker
       }
     }
-
-    BookSection(title: "Time picker .wheels") {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 13.4, *) {
-          datePicker.preferredDatePickerStyle = .wheels
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .time
-
-        return datePicker
+    
+    BookPreview(expandsWidth: true, maxHeight: 800, minHeight: 800) {
+      UIView()&>.do {
+        $0.backgroundColor = .white
       }
     }
 
-    BookSection(title: "Date and time picker .inline") {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 14.0, *) {
-          datePicker.preferredDatePickerStyle = .inline
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .dateAndTime
-
-        return datePicker
-      }
-    }
-
-    BookSection(title: "Date and time picker .compact") {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 13.4, *) {
-          datePicker.preferredDatePickerStyle = .compact
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .dateAndTime
-
-        return datePicker
-      }
-    }
-
-    BookSection(title: "Date and time picker .wheels") {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 13.4, *) {
-          datePicker.preferredDatePickerStyle = .wheels
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .dateAndTime
-
-        return datePicker
-      }
-    }
-
-    BookSection(
-      title: "Count down timer picker (.countDownTimer doesn't support .compact and .inline)"
-    ) {
-      BookPreview {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        if #available(iOS 14.0, *) {
-          datePicker.preferredDatePickerStyle = .wheels
-        } else {
-          // Fallback on earlier versions
-        }
-        datePicker.calendar = Calendar(identifier: .japanese)
-        datePicker.datePickerMode = .countDownTimer
-
-        return datePicker
-      }
-    }
   }
 
 }
