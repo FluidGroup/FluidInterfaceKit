@@ -1,5 +1,6 @@
-import class UIKit.UIViewController
 import ObjectiveC
+
+import class UIKit.UIViewController
 
 extension UIViewController {
 
@@ -12,13 +13,13 @@ extension UIViewController {
       $0.next
     }
     .compactMap { $0 as? FluidStackController }
-    
+
   }
 
   public struct FluidStackFindStrategy {
-  
+
     let pick: ([FluidStackController]) -> FluidStackController?
-        
+
     /// Creates an instance
     /// - Parameter where: Solves find by return true. Given instances come from the nearest one.
     public init(_ pick: @escaping ([FluidStackController]) -> FluidStackController?) {
@@ -31,7 +32,7 @@ extension UIViewController {
         stackControllers.first { $0.identifier == identifier }
       }
     }
-    
+
     /**
      Finds a nearest ``FluidStackController``.
      */
@@ -40,7 +41,7 @@ extension UIViewController {
         controllers.first
       }
     }()
-    
+
     /**
      Finds a root ``FluidStackController`` in the UIWindow.
      */
@@ -49,7 +50,7 @@ extension UIViewController {
         controllers.last
       }
     }()
-    
+
     /// Finds by composed strategy
     public static func matching(
       _ strategies: [FluidStackFindStrategy]
@@ -63,18 +64,18 @@ extension UIViewController {
         return nil
       }
     }
-    
+
   }
 
   /**
    Returns the view controller's nearest ancestor ``FluidStackController`` (including itself) with a given strategy
-   
+
    ``FluidStackController`` can set an identifier on init.
    */
   public func fluidStackController(with strategy: FluidStackFindStrategy) -> FluidStackController? {
-    
+
     let controllersOrderByNearest = fluidStackControllers()
-    
+
     return strategy.pick(controllersOrderByNearest)
 
   }
@@ -151,3 +152,88 @@ extension UIViewController {
 
   }
 }
+
+// MARK: Presentation and dismissal
+
+extension UIViewController {
+  
+  /**
+   Presents given view controller as fluid-presentation.
+   
+   - Parameters:
+     - transition: You may set ``.noAnimation`` to disable animation
+   */
+  public func presentFluid(
+    _ viewController: UIViewController,
+    target strategy: UIViewController.FluidStackFindStrategy,
+    transition: AnyAddingTransition?
+  ) {
+
+    let controller = viewController
+
+    guard let stackController = fluidStackController(with: strategy) else {
+      
+      let message = "Could not present \(viewController) because not found target stack: \(strategy)"
+      
+      Log.error(.viewController, message)
+      assertionFailure(
+        message
+      )
+      return
+    }
+
+    stackController
+      .addContentViewController(controller, transition: transition)
+
+  }
+
+  /**
+   Dimisses this view controller if it's fluid-presentation.
+   
+   - Parameters:
+     - transition: You may set ``.noAnimation`` to disable animation
+   */
+  public func dismissFluid(
+    transition: AnyRemovingTransition = .modalIdiom(),
+    completion: (() -> Void)? = nil
+  ) {
+
+    if let fluidStackContext = fluidStackContext {
+      fluidStackContext.removeSelf(transition: transition)
+      completion?()
+      return
+    }
+    
+    let message = "\(self) is not presented as fluid-presentation, should not use `dismissFluid`."
+    Log.error(.viewController, message)
+    assertionFailure(message)
+    dismiss(animated: true, completion: completion)
+  }
+
+  /**
+   To work well with modal-presentation and FluidStackController
+   The developer can call `UIViewController.dismiss` as long as that is an open method.
+   That happens mistakes to dismiss view controller in that presented by another way.
+   
+   To avoid that, raising warnings to notify the developers that using wrong way by the swizzling method.
+   */
+  @objc
+  func _fluid_swizzled_dismiss(
+    animated: Bool,
+    completion: (() -> Void)? = nil
+  ) {
+    
+    if let fluidStackContext = fluidStackContext {
+      let message = "Called `dissmiss` but \(self) is presenting by FluidStackController. Should use `dismissFluid`."
+      Log.error(.viewController, message)
+      assertionFailure(message)
+      fluidStackContext.removeSelf(transition: .modalIdiom())
+      completion?()
+      return
+    }
+    
+    _fluid_swizzled_dismiss(animated: animated, completion: completion)
+        
+  }
+}
+
