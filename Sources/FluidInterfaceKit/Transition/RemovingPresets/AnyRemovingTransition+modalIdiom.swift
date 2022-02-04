@@ -7,10 +7,8 @@ extension AnyRemovingTransition {
   ) -> Self {
 
     return .init { context in
-      
-      if !Fluid.hasAnimations(view: context.contentView) {
-        context.contentView.backgroundColor = .init(white: 0, alpha: 0.5)
-      }
+
+      context.contentView.backgroundColor = .clear
 
       let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
 
@@ -19,7 +17,6 @@ extension AnyRemovingTransition {
           y: context.fromViewController.view.bounds.height
         ))
         context.fromViewController.view.alpha = 1
-        context.contentView.backgroundColor = .clear
         
       }
 
