@@ -204,36 +204,10 @@ extension UIViewController {
       return
     }
     
-    let message = "\(self) is not presented as fluid-presentation, should not use `dismissFluid`."
+    let message = "\(self) is not presented as fluid-presentation"
     Log.error(.viewController, message)
     assertionFailure(message)
-    dismiss(animated: true, completion: completion)
   }
 
-  /**
-   To work well with modal-presentation and FluidStackController
-   The developer can call `UIViewController.dismiss` as long as that is an open method.
-   That happens mistakes to dismiss view controller in that presented by another way.
-   
-   To avoid that, raising warnings to notify the developers that using wrong way by the swizzling method.
-   */
-  @objc
-  func _fluid_swizzled_dismiss(
-    animated: Bool,
-    completion: (() -> Void)? = nil
-  ) {
-    
-    if let fluidStackContext = fluidStackContext {
-      let message = "Called `dissmiss` but \(self) is presenting by FluidStackController. Should use `dismissFluid`."
-      Log.error(.viewController, message)
-      assertionFailure(message)
-      fluidStackContext.removeSelf(transition: .modalIdiom())
-      completion?()
-      return
-    }
-    
-    _fluid_swizzled_dismiss(animated: animated, completion: completion)
-        
-  }
 }
 
