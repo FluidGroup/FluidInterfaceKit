@@ -34,13 +34,14 @@ public final class AnyMirrorViewProvider {
 
 extension AnyMirrorViewProvider {
   
-  public static func portal(view: UIView) -> Self {
+  public static func portal(view: UIView, hidesSourceOnUsing: Bool = true) -> Self {
     return .init { handlers in
       handlers.make = { cached in
         if let cached = cached {
           return cached
         }
         let newView = PortalView(sourceView: view)
+        newView.hidesSourceLayer = hidesSourceOnUsing
         newView.isUserInteractionEnabled = false
         return newView
       }

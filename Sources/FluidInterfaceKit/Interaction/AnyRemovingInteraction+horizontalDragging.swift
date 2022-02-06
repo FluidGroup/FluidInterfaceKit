@@ -1,6 +1,6 @@
-import UIKit
 import GeometryKit
 import ResultBuilderKit
+import UIKit
 
 extension AnyRemovingInteraction {
 
@@ -37,32 +37,42 @@ extension AnyRemovingInteraction {
     return .init(
       handlers: [
         .gestureOnLeftEdge { gesture, context in
-          
-          // TODO: implement more
-          
+        
           switch gesture.state {
           case .began:
-            let transitionContext = context.startRemovingTransition()
-            
-            let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-              
-              context.viewController.view.alpha = 0
-              context.viewController.view.transform = .init(scaleX: 0.8, y: 0.8)
-              transitionContext.contentView.backgroundColor = .clear
-              
+
+            switch backwardingMode {
+            case .instagramThreads(
+              let destinationView,
+              let destinationMirroViewProvider
+            ):
+              // TODO: Impl
+              break
+            case .shape(
+              let destinationView,
+              let destinationMirroViewProvider
+            ):
+              let transitionContext = context.startRemovingTransition()
+
+              let sourceView = transitionContext.fromViewController.view!
+
+              AnyRemovingInteraction.Contextual.run(
+                transitionContext: transitionContext,
+                sourceView: sourceView,
+                destinationView: destinationView,
+                destinationMirroViewProvider: destinationMirroViewProvider,
+                gestureVelocity: .zero
+              )
+            case .none:
+              // TODO: handle
+              break
             }
-            
-            animator.addCompletion { _ in
-              transitionContext.notifyAnimationCompleted()
-            }
-            
-            animator.startAnimation()
 
           default:
             break
           }
         },
-                
+
         .gestureOnScreen(
           handler: { gesture, context in
 
@@ -85,21 +95,21 @@ extension AnyRemovingInteraction {
                 /**
                  Prepare to interact
                  */
-                             
+
                 let transitionContext = context.startRemovingTransition()
-                
+
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
                   transitionContext: transitionContext
                 )
-                                                                                               
+
                 BatchApplier(hidingViews).setInvisible(true)
 
                 transitionContext.addCompletionEventHandler { event in
                   BatchApplier(hidingViews).setInvisible(false)
                   gesture.view!.layer.cornerRadius = 0
                 }
-              
+
                 if let scrollView = gesture.trackingScrollView {
 
                   let representation = ScrollViewRepresentation(from: scrollView)
@@ -127,7 +137,7 @@ extension AnyRemovingInteraction {
               }
 
               let translation =
-              gesture
+                gesture
                 .translation(in: draggingView)
                 .applying(draggingView.transform)
 
@@ -167,8 +177,8 @@ extension AnyRemovingInteraction {
               )
 
               let startsBackwarding =
-              abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80
-              || abs(velocity.x) > 100 || abs(velocity.y) > 100
+                abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80
+                || abs(velocity.x) > 100 || abs(velocity.y) > 100
 
               defer {
                 trackingContext = nil
@@ -206,7 +216,7 @@ extension AnyRemovingInteraction {
 
                 switch backwardingMode {
                 case .instagramThreads(let destinationView, let destinationMirroViewProvider):
-                  
+
                   let interpolationView = destinationMirroViewProvider.view()
 
                   var targetRect = Geometry.rectThatAspectFit(
@@ -219,7 +229,10 @@ extension AnyRemovingInteraction {
                     dy: targetRect.height / 3
                   )
 
-                  let translation = Geometry.centerAndScale(from: draggingView.bounds, to: targetRect)
+                  let translation = Geometry.centerAndScale(
+                    from: draggingView.bounds,
+                    to: targetRect
+                  )
 
                   let velocityForAnimation: CGVector = {
 
@@ -277,14 +290,14 @@ extension AnyRemovingInteraction {
                     _trackingContext.transitionContext.contentView.addSubview(interpolationView)
 
                     let interpolationViewAnimators =
-                    Fluid.makePropertyAnimatorsForTranformUsingCenter(
-                      view: interpolationView,
-                      duration: 0.85,
-                      position: .custom(translation.center),
-                      scale: .init(x: 1, y: 1),
-                      velocityForTranslation: velocityForAnimation,
-                      velocityForScaling: velocityForScaling
-                    )
+                      Fluid.makePropertyAnimatorsForTranformUsingCenter(
+                        view: interpolationView,
+                        duration: 0.85,
+                        position: .custom(translation.center),
+                        scale: .init(x: 1, y: 1),
+                        velocityForTranslation: velocityForAnimation,
+                        velocityForScaling: velocityForScaling
+                      )
 
                     let interpolationViewStyleAnimator = UIViewPropertyAnimator(
                       duration: 0.85,
@@ -297,95 +310,19 @@ extension AnyRemovingInteraction {
                   }
 
                   Fluid.startPropertyAnimators(animators) {
-                    _trackingContext.transitionContext.notifyAnimationCompleted()
+                    transitionContext.notifyAnimationCompleted()
                   }
-                case .shape(let destinationView, let destinationMirroViewProvider):
+                case .shape(
+                  let destinationView,
+                  let destinationMirroViewProvider
+                ):
 
-                  let maskView = UIView()
-                  maskView.backgroundColor = .black
-
-                  maskView.frame = transitionContext.fromViewController.view.bounds
-                  transitionContext.fromViewController.view.mask = maskView
-                                    
-                  let entrypointSnapshotView = destinationMirroViewProvider.view()
-
-                  transitionContext.contentView.addSubview(entrypointSnapshotView)
-                  entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationView.bounds.size)
-                  entrypointSnapshotView.alpha = 0
-
-                  _trackingContext.transitionContext.addCompletionEventHandler { _ in
-                    entrypointSnapshotView.removeFromSuperview()
-                  }
-
-                  let translation = Geometry.centerAndScale(
-                    from: transitionContext.fromViewController.view.frame,
-                    to: CGRect(
-                      origin: transitionContext.frameInContentView(for: destinationView).origin,
-                      size: Geometry.sizeThatAspectFill(
-                        aspectRatio: transitionContext.fromViewController.view.bounds.size,
-                        minimumSize: destinationView.bounds.size
-                      )
-                    )
-                  )
-
-                  let velocityForAnimation: CGVector = {
-
-                    let targetCenter = translation.center
-                    let gestureVelocity = gesture.velocity(in: gesture.view!)
-                    let delta = CGPoint(
-                      x: targetCenter.x - draggingView.center.x,
-                      y: targetCenter.y - draggingView.center.y
-                    )
-
-                    let velocity = CGVector.init(
-                      dx: gestureVelocity.x / delta.x,
-                      dy: gestureVelocity.y / delta.y
-                    )
-
-                    return velocity
-
-                  }()
-
-                  let animators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
-                    view: transitionContext.fromViewController.view,
-                    duration: 0.8,
-                    position: .custom(translation.center),
-                    scale: translation.scale,
-                    velocityForTranslation: velocityForAnimation,
-                    velocityForScaling: .zero
-                  )
-
-                  let backgroundAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-                    _trackingContext.transitionContext.contentView.backgroundColor = .clear
-                  }
-
-                  let snapshotAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-                    transitionContext.fromViewController.view.alpha = 0
-                    entrypointSnapshotView.frame = transitionContext.frameInContentView(for: destinationView)
-                    entrypointSnapshotView.alpha = 1
-                  }
-
-                  let maskViewAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-                    maskView.frame = transitionContext.fromViewController.view.bounds
-                    maskView.frame.size.height = destinationView.bounds.height / translation.scale.y
-                    maskView.layer.cornerRadius = 24
-                    if #available(iOS 13.0, *) {
-                      maskView.layer.cornerCurve = .continuous
-                    } else {
-                      // Fallback on earlier versions
-                    }
-                  }
-
-                  Fluid.startPropertyAnimators(
-                    buildArray {
-                      animators
-                      backgroundAnimator
-                      maskViewAnimator
-                      snapshotAnimator
-                    },
-                    completion: {
-                      transitionContext.notifyAnimationCompleted()
-                    }
+                  AnyRemovingInteraction.Contextual.run(
+                    transitionContext: transitionContext,
+                    sourceView: draggingView,
+                    destinationView: destinationView,
+                    destinationMirroViewProvider: destinationMirroViewProvider,
+                    gestureVelocity: gesture.velocity(in: gesture.view)
                   )
 
                 }
@@ -432,12 +369,12 @@ extension AnyRemovingInteraction {
 
               trackingContext = nil
 
-              /// restore view state
+            /// restore view state
             @unknown default:
               break
             }
           }
-        )
+        ),
       ]
     )
   }
