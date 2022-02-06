@@ -6,6 +6,7 @@ public final class PortalView: UIView {
   private struct State: Equatable {
     var isEnabled: Bool = true
     var isInHierarchy: Bool = false
+    weak var sourceLayer: CALayer?
   }
   
   private var state: State = .init() {
@@ -20,9 +21,11 @@ public final class PortalView: UIView {
   }
   
   public var sourceLayer: CALayer? {
-    get { layer.value(forKey: "sourceLayer") as? CALayer }
+    get {
+      state.sourceLayer
+    }
     set {
-      layer.setValue(newValue, forKey: "sourceLayer")
+      state.sourceLayer = newValue
     }
   }
 
@@ -65,22 +68,21 @@ public final class PortalView: UIView {
     
     return super.action(for: layer, forKey: event)
   }
-  
-  private weak var currentSourceLayer: CALayer?
-  
+    
   public override init(frame: CGRect) {
     super.init(frame: frame)
+    isUserInteractionEnabled = false
   }
   
   public convenience init(sourceView: UIView) {
     self.init(frame: sourceView.bounds)
-    currentSourceLayer = sourceView.layer
+    self.sourceLayer = sourceView.layer
     update(with: state)
   }
   
   public convenience init(sourceLayer: CALayer) {
     self.init(frame: sourceLayer.bounds)
-    currentSourceLayer = sourceLayer
+    self.sourceLayer = sourceLayer
     update(with: state)
   }
   
@@ -94,10 +96,10 @@ public final class PortalView: UIView {
     assert(Thread.isMainThread)
     if state.isEnabled && state.isInHierarchy {
       Log.debug(.portal, "Enabled mirroring")
-      sourceLayer = currentSourceLayer
+      layer.setValue(state.sourceLayer, forKey: "sourceLayer")
     } else {
       Log.debug(.portal, "Disabled mirroring")
-      sourceLayer = nil
+      layer.setValue(nil, forKey: "sourceLayer")
     }
     
   }
