@@ -177,8 +177,13 @@ open class TransitionViewController: _fluid_WrapperViewController {
           self?.view.resetToVisible()
         })
 
+      },
+      onRequestedDisplayOnTop: { source in
+        // FIXME: Implement
+        assertionFailure("Unimplemented")
+        return .init(run: {})
       })
-
+    
     removingTransitionContext = context
 
     return context
@@ -216,6 +221,11 @@ open class TransitionViewController: _fluid_WrapperViewController {
           self?.view.resetToVisible()
         })
 
+      },
+      onRequestedDisplayOnTop: { source in
+        // FIXME: Implement
+        assertionFailure("Unimplemented")
+        return .init(run: {})
       })
 
     removingTransitionContext = context

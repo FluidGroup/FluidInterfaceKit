@@ -39,29 +39,39 @@ extension AnyRemovingInteraction {
     ) {
       
       let draggingView = sourceView
-
+      
+      let reparentView = transitionContext.makeReparentView(for: destinationView)
+      
+      let fromViewMirror = AnyMirrorViewProvider.snapshot(caches: true, viewProvider: { transitionContext.fromViewController.view! }).view()
       let maskView = UIView()
       maskView.backgroundColor = .black
 
       maskView.frame = transitionContext.fromViewController.view.bounds
-      transitionContext.fromViewController.view.mask = maskView
+      fromViewMirror.mask = maskView
+      fromViewMirror.alpha = 1
+      fromViewMirror.frame = transitionContext.fromViewController.view.frame
                         
       let entrypointSnapshotView = destinationMirroViewProvider.view()
+      
+      let displayingSubscription = transitionContext.requestDisplayOnTop(.view(entrypointSnapshotView))
 
-      transitionContext.contentView.addSubview(entrypointSnapshotView)
+      reparentView.addSubview(fromViewMirror)
+      reparentView.addSubview(entrypointSnapshotView)
       entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationView.bounds.size)
-      entrypointSnapshotView.alpha = 0
+      entrypointSnapshotView.alpha = 1
 
       transitionContext.addCompletionEventHandler { _ in
+        reparentView.removeFromSuperview()
         entrypointSnapshotView.removeFromSuperview()
+        displayingSubscription.dispose()
       }
 
       let translation = Geometry.centerAndScale(
-        from: transitionContext.fromViewController.view.frame,
+        from: fromViewMirror.frame,
         to: CGRect(
           origin: transitionContext.frameInContentView(for: destinationView).origin,
           size: Geometry.sizeThatAspectFill(
-            aspectRatio: transitionContext.fromViewController.view.bounds.size,
+            aspectRatio: fromViewMirror.bounds.size,
             minimumSize: destinationView.bounds.size
           )
         )
@@ -91,7 +101,7 @@ extension AnyRemovingInteraction {
       Fluid.startPropertyAnimators(
         buildArray {
           Fluid.makePropertyAnimatorsForTranformUsingCenter(
-            view: transitionContext.fromViewController.view,
+            view: fromViewMirror,
             duration: 0.8,
             position: .custom(translation.center),
             scale: translation.scale,

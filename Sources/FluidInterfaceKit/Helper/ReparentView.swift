@@ -26,6 +26,16 @@ open class ReparentView: UIView {
     super.layoutSubviews()
     updateFrame()
   }
+  
+  public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+
+    let view = super.hitTest(point, with: event)
+    if view == self {
+      return nil
+    } else {
+      return view
+    }
+  }
 
   private func updateFrame() {
 
@@ -44,6 +54,9 @@ open class ReparentView: UIView {
       size: window.bounds.size
     )
 
-    self.frame = frame
+    if self.frame != frame {
+      self.frame = frame
+    }
   }
+  
 }

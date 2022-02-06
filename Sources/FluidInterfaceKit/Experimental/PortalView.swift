@@ -2,7 +2,7 @@ import UIKit
 
 /// https://developer.limneos.net/index.php?ios=12.1&framework=QuartzCore.framework&header=CAPortalLayer.h
 public final class PortalView: UIView {
-  
+    
   private struct State: Equatable {
     var isEnabled: Bool = true
     var isInHierarchy: Bool = false
@@ -72,6 +72,15 @@ public final class PortalView: UIView {
   public override init(frame: CGRect) {
     super.init(frame: frame)
     isUserInteractionEnabled = false
+  }
+  
+  public convenience init(source: DisplaySource) {
+    switch source {
+    case .view(let view):
+      self.init(sourceView: view)
+    case .layer(let layer):
+      self.init(sourceLayer: layer)
+    }
   }
   
   public convenience init(sourceView: UIView) {
