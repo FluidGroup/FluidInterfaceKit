@@ -42,10 +42,16 @@ final class DemoListViewController: FluidStackController {
             }
 
           } else {
-            let controller = DetailViewController(viewModel: viewModel)
             
             let snapshot = AnyMirrorViewProvider.portal(view: view)
-
+            
+            let controller = DetailViewController(
+              viewModel: viewModel,
+              removingTransitionProvider: {
+                .contextual(destinationView: view, destinationMirroViewProvider: snapshot)
+              }
+            )
+                       
             let displayViewController = FluidViewController(
               bodyViewController: controller,
               addingTransition: .contextualExpanding(
@@ -106,11 +112,16 @@ final class DemoListViewController: FluidStackController {
 private final class DetailViewController: FluidNavigatedViewController {
 
   private let viewModel: ViewModel
+  private let removingTransitionProvider: () -> AnyRemovingTransition
 
   public init(
-    viewModel: ViewModel
+    viewModel: ViewModel,
+    removingTransitionProvider: @escaping () -> AnyRemovingTransition
   ) {
+    
     self.viewModel = viewModel
+    self.removingTransitionProvider = removingTransitionProvider
+    
     super.init(addingTransition: nil, removingTransition: nil, removingInteraction: nil)
 
     title = "Title"
@@ -129,7 +140,7 @@ private final class DetailViewController: FluidNavigatedViewController {
 
     Mondrian.buildSubviews(on: view) {
 
-      VStackBlock(alignment: .fill) {
+      VStackBlock(spacing: 16, alignment: .fill) {
 
         UILabel()&>.do {
           $0.text = "Detail"
@@ -142,11 +153,18 @@ private final class DetailViewController: FluidNavigatedViewController {
         }
         .viewBlock
         .aspectRatio(1)
-        .spacingBefore(8)
+        
+        UIButton.make(title: "Dismiss") { [unowned self] in
+          dismissFluid(
+            transition: removingTransitionProvider(),
+            completion: {}
+          )
+        }
 
         StackingSpacer(minLength: 0)
 
       }
+      .padding(.vertical, 16)
       .padding(.horizontal, 24)
       .container(respectingSafeAreaEdges: .all)
 

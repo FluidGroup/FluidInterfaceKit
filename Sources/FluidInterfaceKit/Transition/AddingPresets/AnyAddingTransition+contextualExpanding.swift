@@ -27,9 +27,8 @@ extension AnyAddingTransition {
       if context.contentView.backgroundColor == nil {
         context.contentView.backgroundColor = .clear
       }
-
-      if !Fluid.hasAnimations(view: context.toViewController.view) {
-
+      
+      Fluid.doIfNotAnimating(view: context.toViewController.view) { _ in
         maskView.frame = context.toViewController.view.bounds
 
         if #available(iOS 13.0, *) {
@@ -41,6 +40,7 @@ extension AnyAddingTransition {
 
         context.toViewController.view.mask = maskView
 
+        // dispose resource
         context.addCompletionEventHandler { _ in
           entrypointSnapshotView.removeFromSuperview()
         }

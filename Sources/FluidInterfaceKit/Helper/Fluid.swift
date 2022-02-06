@@ -31,6 +31,11 @@ public enum Fluid {
 
     return snapshot
   }
+  
+  public static func doIfNotAnimating<View: UIView>(view: View, perform: (View) -> Void) {
+    guard hasAnimations(view: view) == false else { return }
+    perform(view)
+  }
 
   public static func hasAnimations(view: UIView) -> Bool {
     return (view.layer.animationKeys() ?? []).count > 0

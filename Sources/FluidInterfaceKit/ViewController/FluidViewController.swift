@@ -26,9 +26,9 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
     super.navigationController
   }
 
-  public var interactiveUnwindGestureRecognizer: UIPanGestureRecognizer?
+  public var panGesture: UIPanGestureRecognizer?
 
-  public var interactiveEdgeUnwindGestureRecognizer: UIScreenEdgePanGestureRecognizer?
+  public var edgePanGesture: UIScreenEdgePanGestureRecognizer?
 
   private var registeredGestures: [UIGestureRecognizer] = []
 
@@ -114,6 +114,8 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
   }
 
   private func setupGestures() {
+    
+    assert(Thread.isMainThread)
 
     registeredGestures.forEach {
       view.removeGestureRecognizer($0)
@@ -127,6 +129,11 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
     for handler in interaction.handlers {
       switch handler {
       case .gestureOnLeftEdge:
+        
+        if let _ = edgePanGesture {
+          return
+        }
+        
         let edgeGesture = _EdgePanGestureRecognizer(
           target: self,
           action: #selector(handleEdgeLeftPanGesture)
@@ -134,17 +141,27 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
         edgeGesture.edges = .left
         view.addGestureRecognizer(edgeGesture)
         edgeGesture.delegate = self
-        self.interactiveEdgeUnwindGestureRecognizer = edgeGesture
+        self.edgePanGesture = edgeGesture
         registeredGestures.append(edgeGesture)
       case .gestureOnScreen:
+        
+        if let _ = panGesture {
+          return
+        }
+        
         let panGesture = _PanGestureRecognizer(target: self, action: #selector(handlePanGesture))
         view.addGestureRecognizer(panGesture)
         panGesture.delegate = self
-        self.interactiveUnwindGestureRecognizer = panGesture
+        self.panGesture = panGesture
 
         registeredGestures.append(panGesture)
       }
     }
+    
+    if let edgePanGesture = edgePanGesture, let panGesture = panGesture {
+      panGesture.require(toFail: edgePanGesture)
+    }
+    
   }
 
   @objc
