@@ -35,8 +35,6 @@ open class FluidStackController: UIViewController {
   /// A content view that stays in back
   public let contentView: UIView
     
-  private let decorationView: DecorationView
-
   /// An array of view controllers currently managed.
   /// Might be different with ``UIViewController.children``.
   public private(set) var stackingViewControllers: [UIViewController] = [] {
@@ -99,7 +97,6 @@ open class FluidStackController: UIViewController {
     self.identifier = identifier
     self.__rootView = view
     self.contentView = contentView ?? .init()
-    self.decorationView = DecorationView()
     self.configuration = configuration
     
     super.init(nibName: nil, bundle: nil)
@@ -125,19 +122,9 @@ open class FluidStackController: UIViewController {
     view.accessibilityIdentifier = "Fluid.Stack"
 
     view.addSubview(contentView)
-    view.addSubview(decorationView)
     
     contentView.frame = view.bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    
-    decorationView.frame = view.bounds
-    contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-  }
-  
-  open override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    
-    view.bringSubviewToFront(decorationView)
   }
 
   // TODO: Under considerations.
@@ -208,14 +195,14 @@ open class FluidStackController: UIViewController {
     if viewControllerToAdd.parent != self {
       addChild(viewControllerToAdd)
 
-      let containerView = WrapperView(
+      let containerView = PresentedViewControllerWrapperView(
         contentView: viewControllerToAdd.view,
         frame: self.view.bounds
       )
 
       viewControllerToAdd.view.resetToVisible()
 
-      view.insertSubview(containerView, belowSubview: decorationView)
+      view.addSubview(containerView)
 
       viewControllerToAdd.didMove(toParent: self)
     } else {
@@ -226,10 +213,10 @@ open class FluidStackController: UIViewController {
     viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
 
     assert(viewControllerToAdd.view.superview != nil)
-    assert(viewControllerToAdd.view.superview is WrapperView)
+    assert(viewControllerToAdd.view.superview is PresentedViewControllerWrapperView)
 
-    var wrapperView: WrapperView {
-      viewControllerToAdd.view.superview as! WrapperView
+    var wrapperView: PresentedViewControllerWrapperView {
+      viewControllerToAdd.view.superview as! PresentedViewControllerWrapperView
     }
 
     let transitionContext = AddingTransitionContext(
@@ -348,8 +335,8 @@ open class FluidStackController: UIViewController {
       }
     }()
 
-    var wrapperView: WrapperView {
-      viewControllerToRemove.view.superview as! WrapperView
+    var wrapperView: PresentedViewControllerWrapperView {
+      viewControllerToRemove.view.superview as! PresentedViewControllerWrapperView
     }
 
     let newTransitionContext = RemovingTransitionContext(
@@ -388,7 +375,7 @@ open class FluidStackController: UIViewController {
           return .init(run: {})
         }
         
-        return self.addPortalView(for: source)
+        return self.addPortalView(for: source, on: wrapperView)
       }
     )
 
@@ -574,18 +561,21 @@ open class FluidStackController: UIViewController {
     viewControllerStateMap.object(forKey: viewController)
   }
   
-  private func addPortalView(for source: DisplaySource) -> DisplayingOnTopSubscription {
+  private func addPortalView(
+    for source: DisplaySource,
+    on targetView: PresentedViewControllerWrapperView
+  ) -> DisplayingOnTopSubscription {
     
     assert(Thread.isMainThread)
     
     let portalView = PortalView(source: source)
-    portalView.frame = decorationView.bounds
+    portalView.frame = targetView.bounds
     portalView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     portalView.matchesPosition = true
     portalView.hidesSourceLayer = true
     portalView.matchesTransform = true
     portalView.matchesOpacity = true
-    decorationView.addSubview(portalView)
+    targetView.addSubview(portalView)
     
     return .init {
       portalView.removeFromSuperview()
@@ -632,7 +622,7 @@ extension FluidStackController {
 
   }
 
-  private final class WrapperView: UIView {
+  private final class PresentedViewControllerWrapperView: UIView {
 
     var isTouchThroughEnabled = true
 
@@ -665,18 +655,6 @@ extension FluidStackController {
       }
     }
 
-  }
-
-  private final class DecorationView: UIView {
-    override init(frame: CGRect) {
-      super.init(frame: frame)
-      isUserInteractionEnabled = false
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
-    }
   }
 
   private struct State: Equatable {

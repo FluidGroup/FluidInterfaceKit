@@ -61,7 +61,7 @@ extension AnyRemovingInteraction {
       entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationComponent.contentView.bounds.size)
       entrypointSnapshotView.alpha = 1
       
-      transitionContext.fromViewController.view.alpha = 0
+      transitionContext.fromViewController.view.layer.opacity = 0
 
       transitionContext.addCompletionEventHandler { _ in
         reparentingView.removeFromSuperview()
