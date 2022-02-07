@@ -13,7 +13,7 @@ extension AnyRemovingTransition {
       
       let sourceView = context.fromViewController.view!
       
-      AnyRemovingInteraction.Contextual.run(
+      AnyRemovingInteraction.Contextual.runEnclosing(
         transitionContext: context,
         disclosedView: sourceView,
         destinationComponent: destinationComponent,
@@ -30,7 +30,8 @@ extension AnyRemovingTransition {
 extension AnyRemovingInteraction {
   public enum Contextual {
         
-    public static func run(
+    // TODO: naming
+    public static func runEnclosing(
       transitionContext: RemovingTransitionContext,
       disclosedView: UIView,
       destinationComponent: ContextualTransitionSourceComponentType,
@@ -137,6 +138,118 @@ extension AnyRemovingInteraction {
           transitionContext.notifyAnimationCompleted()
         }
       )
+    }
+    
+    // TODO: naming
+    public static func runZoomOut(
+      transitionContext: RemovingTransitionContext,
+      disclosedView: UIView,
+      destinationView: UIView,
+      destinationMirroViewProvider: AnyMirrorViewProvider,
+      gestureVelocity: CGPoint?
+    ) {
+      
+      let draggingView = disclosedView
+      
+      let interpolationView = destinationMirroViewProvider.view()
+
+      var targetRect = Geometry.rectThatAspectFit(
+        aspectRatio: draggingView.bounds.size,
+        boundingRect: transitionContext.frameInContentView(for: destinationView)
+      )
+
+      targetRect = targetRect.insetBy(
+        dx: targetRect.width / 3,
+        dy: targetRect.height / 3
+      )
+
+      let translation = Geometry.centerAndScale(
+        from: draggingView.bounds,
+        to: targetRect
+      )
+
+      let velocityForAnimation: CGVector = {
+        
+        guard let gestureVelocity = gestureVelocity else {
+          return .zero
+        }
+
+        let targetCenter = translation.center
+        let delta = CGPoint(
+          x: targetCenter.x - draggingView.center.x,
+          y: targetCenter.y - draggingView.center.y
+        )
+
+        let velocity = CGVector.init(
+          dx: gestureVelocity.x / delta.x,
+          dy: gestureVelocity.y / delta.y
+        )
+
+        return velocity
+
+      }()
+
+      let velocityForScaling: CGFloat = {
+
+        //                    let gestureVelocity = gesture.velocity(in: gesture.view!)
+
+        // TODO: calculate dynamic velocity
+        // set greater than 0, throwing animation would be more clear. like springboard
+        return 6
+
+      }()
+
+      var animators: [UIViewPropertyAnimator] = []
+
+      let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
+        view: draggingView,
+        duration: 0.85,
+        position: .custom(translation.center),
+        scale: translation.scale,
+        velocityForTranslation: velocityForAnimation,
+        velocityForScaling: velocityForScaling  //sqrt(pow(velocityForAnimation.dx, 2) + pow(velocityForAnimation.dy, 2))
+      )
+
+      let backgroundAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+        transitionContext.contentView.backgroundColor = .clear
+      }
+
+      animators += translationAnimators + [backgroundAnimator]
+
+      /// handling interpolation view
+      do {
+        interpolationView.center = .init(
+          x: draggingView.frame.minX,
+          y: draggingView.frame.minY
+        )
+        interpolationView.transform = .init(scaleX: 0.5, y: 0.5)
+
+        transitionContext.contentView.addSubview(interpolationView)
+
+        let interpolationViewAnimators =
+          Fluid.makePropertyAnimatorsForTranformUsingCenter(
+            view: interpolationView,
+            duration: 0.85,
+            position: .custom(translation.center),
+            scale: .init(x: 1, y: 1),
+            velocityForTranslation: velocityForAnimation,
+            velocityForScaling: velocityForScaling
+          )
+
+        let interpolationViewStyleAnimator = UIViewPropertyAnimator(
+          duration: 0.85,
+          dampingRatio: 1
+        ) {
+          interpolationView.alpha = 1
+        }
+
+        animators += interpolationViewAnimators + [interpolationViewStyleAnimator]
+      }
+
+      Fluid.startPropertyAnimators(animators) {
+        transitionContext.notifyAnimationCompleted()
+      }
+      
     }
   }
 }
