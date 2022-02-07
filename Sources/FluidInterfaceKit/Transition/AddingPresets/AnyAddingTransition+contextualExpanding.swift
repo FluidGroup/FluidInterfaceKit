@@ -28,7 +28,8 @@ extension AnyAddingTransition {
         context.contentView.backgroundColor = .clear
       }
       
-      Fluid.doIfNotAnimating(view: context.toViewController.view) { _ in
+      //Fluid.doIfNotAnimating(view: context.toViewController.view) { _ in
+      do {
         maskView.frame = context.toViewController.view.bounds
 
         if #available(iOS 13.0, *) {
@@ -72,7 +73,7 @@ extension AnyAddingTransition {
 
       let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: context.toViewController.view,
-        duration: 0.7,
+        duration: 0.8,
         position: .center(of: context.toViewController.view.bounds),
         scale: .init(x: 1, y: 1),
         velocityForTranslation: .zero,
@@ -86,7 +87,7 @@ extension AnyAddingTransition {
 
       let snapshotTranslationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: entrypointSnapshotView,
-        duration: 0.7,
+        duration: 0.8,
         position: .custom(translationForSnapshot.center),
         scale: translationForSnapshot.scale,
         velocityForTranslation: .zero,

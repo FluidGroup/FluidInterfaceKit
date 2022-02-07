@@ -62,7 +62,11 @@ extension AnyRemovingInteraction {
       entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationComponent.contentView.bounds.size)
       entrypointSnapshotView.alpha = 1
       
-      transitionContext.fromViewController.view.layer.opacity = 0
+      transitionContext.fromViewController.view.isHidden = true
+      
+      transitionContext.addCompletionEventHandler { _ in
+        transitionContext.fromViewController.view.isHidden = false
+      }
 
       transitionContext.addCompletionEventHandler { _ in
         reparentingView.removeFromSuperview()
@@ -107,7 +111,7 @@ extension AnyRemovingInteraction {
         buildArray {
           Fluid.makePropertyAnimatorsForTranformUsingCenter(
             view: fromViewMirror,
-            duration: 0.8,
+            duration: 1,
             position: .custom(translation.center),
             scale: translation.scale,
             velocityForTranslation: velocityForAnimation,
@@ -116,7 +120,7 @@ extension AnyRemovingInteraction {
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
             transitionContext.contentView.backgroundColor = .clear
           }
-          UIViewPropertyAnimator(duration: 0.8, dampingRatio: 0.8) {
+          UIViewPropertyAnimator(duration: 1, dampingRatio: 0.8) {
             entrypointSnapshotView.frame = transitionContext.frameInContentView(for: destinationComponent.contentView)
             entrypointSnapshotView.alpha = 1
           }

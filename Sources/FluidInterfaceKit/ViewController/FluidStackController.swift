@@ -242,10 +242,13 @@ open class FluidStackController: UIViewController {
       completion(event)
     }
 
+    // Invalidate current transition before start new transition
+    // to prevent overlapping cleanup operations by completion handlers in transition context.
+    // For instance, when animating for adding, then interrupted by cleanup operation.
     self.transitionContext(viewController: viewControllerToAdd)?.invalidate()
     setTransitionContext(viewController: viewControllerToAdd, context: transitionContext)
 
-    // Start transition
+    // Start transition after invalidated current transition.
     do {
 
       // Turns off touch through to prevent the user attempt to start another adding-transition.
@@ -384,6 +387,7 @@ open class FluidStackController: UIViewController {
     wrapperView.isTouchThroughEnabled = true
 
     // invalidates a current transition (mostly adding transition)
+    // it's important to do this before starting a new transition.
     transitionContext(viewController: viewControllerToRemove)?.invalidate()
     // set a new context to receive invalidation from transition for adding started while removing.
     setTransitionContext(viewController: viewControllerToRemove, context: newTransitionContext)
