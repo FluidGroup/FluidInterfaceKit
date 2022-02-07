@@ -6,7 +6,9 @@ import Rideau
 import UIKit
 
 /// An Object that displays an RideauView with Presentation.
-open class FluidRideauViewController: UIViewController {
+///
+/// - FIXME: When specified ``.noAnimation``, it won't display anything.
+open class FluidRideauViewController: TransitionViewController {
 
   // MARK: - Properties
 
@@ -16,7 +18,9 @@ open class FluidRideauViewController: UIViewController {
 
   let backgroundView: UIView = .init()
 
-  private let backgroundColor: UIColor
+  let backgroundColor: UIColor
+  
+  let initialSnapPoint: RideauSnapPoint
 
   // MARK: - Initializers
 
@@ -35,11 +39,15 @@ open class FluidRideauViewController: UIViewController {
 
     c.snapPoints.insert(.hidden)
 
+    self.initialSnapPoint = initialSnapPoint
     self.rideauView = .init(frame: .zero, configuration: c)
 
     self.backgroundColor = backdropColor
 
-    super.init(nibName: nil, bundle: nil)
+    super.init(
+      addingTransition: .rideau,
+      removingTransition: .rideau
+    )
     
     self.backgroundView.backgroundColor = .clear
 
@@ -78,19 +86,6 @@ open class FluidRideauViewController: UIViewController {
       view.layoutIfNeeded()
     }
 
-    fluidStackActionHandler = { [weak self] action in
-      guard let self = self else { return }
-      switch action {
-      case .didSetContext:
-        break
-      case .didDisplay:
-        self.rideauView.move(to: initialSnapPoint, animated: true, completion: {})
-        UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-          self.backgroundView.backgroundColor = self.backgroundColor
-        }
-        .startAnimation()
-      }
-    }
   }
 
   @available(*, unavailable)
@@ -114,29 +109,20 @@ open class FluidRideauViewController: UIViewController {
 
   open override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-
+    
     rideauView.handlers.willMoveTo = { [weak self] point in
 
       guard point == .hidden else {
         return
       }
 
-      UIView.animate(
-        withDuration: 0.3,
-        delay: 0,
-        usingSpringWithDamping: 1,
-        initialSpringVelocity: 0,
-        options: [.beginFromCurrentState, .allowUserInteraction],
-        animations: {
-          self?.backgroundView.backgroundColor = UIColor(white: 0, alpha: 0)
-        },
-        completion: { _ in
-
-        }
-      )
+      UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+        self?.backgroundView.backgroundColor = .clear
+      }
+      .startAnimation()
 
     }
-
+      
     rideauView.handlers.didMoveTo = { [weak self] point in
 
       guard let self = self else { return }
@@ -144,10 +130,13 @@ open class FluidRideauViewController: UIViewController {
       guard point == .hidden else {
         return
       }
-      assert(self.fluidStackContext != nil)
-
+      
+      guard let fluidStackContext = self.fluidStackContext else {
+        return
+      }
+      
       self.onWillDismiss()
-      self.fluidStackContext?.removeSelf(transition: .noAnimation)
+      fluidStackContext.removeSelf(transition: .noAnimation)
 
     }
 
@@ -155,16 +144,65 @@ open class FluidRideauViewController: UIViewController {
 
   @objc private dynamic func didTapBackdropView(gesture: UITapGestureRecognizer) {
     assert(fluidStackContext != nil)
-    onWillDismiss()
-
-    // move snappoint to .hidden
-    // it triggers `rideauView.handlers.didMoveTo`, then dimiss.
-    rideauView.move(
-      to: .hidden,
-      animated: true,
-      completion: {
-      }
-    )
+    onWillDismiss()    
+    dismissFluid(transition: nil, completion: nil)
 
   }
+}
+
+
+extension AnyAddingTransition {
+  
+  public static var rideau: Self {
+    .init { context in
+      
+      guard let controller = context.toViewController as? FluidRideauViewController else {
+        context.notifyAnimationCompleted()
+        return
+      }
+            
+      // TODO: Use rideauView.handlers.animatorsAlongsideMoving instead
+      UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+        controller.backgroundView.backgroundColor = controller.backgroundColor
+      }
+      .startAnimation()
+      
+      controller.rideauView.move(
+        to: controller.initialSnapPoint,
+        animated: true,
+        completion: {
+          context.notifyAnimationCompleted()
+      })
+                                   
+    }
+  }
+}
+
+extension AnyRemovingTransition {
+  
+  public static var rideau: Self {
+    .init { context in
+      
+      guard let controller = context.fromViewController as? FluidRideauViewController else {
+        context.notifyAnimationCompleted()
+        return
+      }
+          
+      // TODO: Use rideauView.handlers.animatorsAlongsideMoving instead
+      UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+        controller.backgroundView.backgroundColor = .clear
+      }
+      .startAnimation()
+      
+      controller.rideauView.move(
+        to: .hidden,
+        animated: true,
+        completion: {
+          context.notifyAnimationCompleted()
+      })
+             
+      
+    }
+  }
+  
 }

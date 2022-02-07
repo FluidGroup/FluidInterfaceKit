@@ -41,4 +41,10 @@ public final class RemovingTransitionContext: TransitionContext {
     onRequestedDisplayOnTop(source)
   }
     
+  deinit {
+    assert(
+      isInvalidated == true || isCompleted == true,
+      "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()`"
+    )
+  }
 }

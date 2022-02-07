@@ -194,7 +194,7 @@ extension UIViewController {
      - transition: You may set ``.noAnimation`` to disable animation
    */
   public func dismissFluid(
-    transition: AnyRemovingTransition = .modalIdiom(),
+    transition: AnyRemovingTransition?,
     completion: (() -> Void)? = nil
   ) {
 
