@@ -1,9 +1,21 @@
 import UIKit
 
+/**
+ Describes component for contextual-component
+ */
 public protocol ContextualTransitionSourceComponentType {
+  
+  /// Should returns a view that used for disclosing source view.
   var contentView: UIView { get }
+  
   /**
-   Returns a new instance, consumers is responsible to dispose it.
+   Returns a new instance, consumers are responsible to dispose of it.
+   Created the view must be outside of the content view
+     
+   It should be this shape below.
+   - View
+     - contentView
+     - reparentingView
    */
   func requestReparentView() -> ReparentingView
 }
