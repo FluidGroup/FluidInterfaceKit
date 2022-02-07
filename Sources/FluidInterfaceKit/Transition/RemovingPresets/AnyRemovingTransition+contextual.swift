@@ -43,6 +43,7 @@ extension AnyRemovingInteraction {
       let reparentingView = destinationComponent.requestReparentView()
       
       let fromViewMirror = AnyMirrorViewProvider.snapshot(caches: true, viewProvider: { transitionContext.fromViewController.view! }).view()
+      
       let maskView = UIView()
       maskView.backgroundColor = .black
 
@@ -53,8 +54,7 @@ extension AnyRemovingInteraction {
                         
       let entrypointSnapshotView = destinationMirroViewProvider.view()
       
-      let displayingSubscription1 = transitionContext.requestDisplayOnTop(.view(entrypointSnapshotView))
-      let displayingSubscription2 = transitionContext.requestDisplayOnTop(.view(fromViewMirror))
+      let displayingSubscription = transitionContext.requestDisplayOnTop(.view(reparentingView))
 
       reparentingView.addSubview(fromViewMirror)
       reparentingView.addSubview(entrypointSnapshotView)
@@ -67,8 +67,7 @@ extension AnyRemovingInteraction {
         reparentingView.removeFromSuperview()
         entrypointSnapshotView.removeFromSuperview()
         fromViewMirror.removeFromSuperview()
-        displayingSubscription1.dispose()
-        displayingSubscription2.dispose()
+        displayingSubscription.dispose()
       }
 
       let translation = Geometry.centerAndScale(
@@ -103,8 +102,6 @@ extension AnyRemovingInteraction {
 
       }()
       
-//      return;
-
       Fluid.startPropertyAnimators(
         buildArray {
           Fluid.makePropertyAnimatorsForTranformUsingCenter(

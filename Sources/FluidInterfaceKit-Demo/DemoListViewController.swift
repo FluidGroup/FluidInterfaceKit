@@ -45,7 +45,7 @@ final class DemoListViewController: FluidStackController {
             
             let snapshot = AnyMirrorViewProvider.portal(view: view.contentView)
             
-            let controller = DetailViewController(
+            let controller = DemoListDetailViewController(
               viewModel: viewModel,
               removingTransitionProvider: {
                 .contextual(destinationComponent: view, destinationMirroViewProvider: snapshot)
@@ -109,7 +109,7 @@ final class DemoListViewController: FluidStackController {
   }
 }
 
-private final class DetailViewController: FluidNavigatedViewController {
+final class DemoListDetailViewController: FluidNavigatedViewController {
 
   private let viewModel: ViewModel
   private let removingTransitionProvider: () -> AnyRemovingTransition
