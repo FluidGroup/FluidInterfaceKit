@@ -329,6 +329,7 @@ extension AnyRemovingInteraction {
 
               } else {
 
+                transitionContext.notifyCancelled()
                 /// animation for cancel
 
                 let animator = UIViewPropertyAnimator(
@@ -352,10 +353,12 @@ extension AnyRemovingInteraction {
               }
 
             case .cancelled, .failed:
-
+                            
               guard let _trackingContext = trackingContext else {
                 return
               }
+              
+              _trackingContext.transitionContext.notifyCancelled()
 
               _trackingContext.scrollController?.unlockScrolling()
               _trackingContext.scrollController?.endTracking()

@@ -2,10 +2,17 @@ import UIKit
 
 /// A context object to interact with container view controller for transitions.
 public final class BatchRemovingTransitionContext: TransitionContext {
+  
+  public enum CompletionEvent {
+    /// Transition has been finished (no interruption was in there)
+    case succeeded
+    /// Transition has been interrupted
+    case interrupted
+  }
 
   final class ChildContext: TransitionContext {
     let targetViewController: UIViewController
-
+    
     init(
       targetViewController: UIViewController,
       contentView: UIView
@@ -25,8 +32,10 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   public private(set) var isCompleted: Bool = false
   public let fromViewControllers: [UIViewController]
   public let toViewController: UIViewController?
+  
   private let onCompleted: (BatchRemovingTransitionContext) -> Void
   private var childContexts: [ChildContext] = []
+  private var callbacks: [(CompletionEvent) -> Void] = []
 
   init(
     contentView: UIView,
@@ -69,5 +78,29 @@ public final class BatchRemovingTransitionContext: TransitionContext {
     childContexts.append(new)
 
     return new
+  }
+  
+  /// Marks as this current transition has been outdated.
+  /// Another transition's started by owner.
+  /// Triggers ``addCompletionEventHandler(_:)`` with ``TransitionContext/CompletionEvent/interrupted``
+  override func invalidate() {
+    assert(Thread.isMainThread)
+    isInvalidated = true
+    callbacks.forEach { $0(.interrupted) }
+  }
+  
+  /**
+   Adds closure that handles completion events (``CompletionEvent``)
+   */
+  public func addCompletionEventHandler(_ closure: @escaping (CompletionEvent) -> Void) {
+    assert(Thread.isMainThread)
+    callbacks.append(closure)
+  }
+
+  /**
+   Triggers ``addCompletionEventHandler(_:)`` with ``TransitionContext/CompletionEvent/succeeded``
+   */
+  func transitionSucceeded() {
+    callbacks.forEach{ $0(.succeeded) }
   }
 }

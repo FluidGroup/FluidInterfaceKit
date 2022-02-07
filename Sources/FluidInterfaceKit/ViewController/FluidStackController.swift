@@ -163,7 +163,7 @@ open class FluidStackController: UIViewController {
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?,
-    completion: @escaping (TransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
   ) -> FluidStackContext {
 
     /**
@@ -278,7 +278,7 @@ open class FluidStackController: UIViewController {
   public func addContentView(
     _ view: UIView,
     transition: AnyAddingTransition?,
-    completion: @escaping (TransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
   ) -> FluidStackContext {
 
     assert(Thread.isMainThread)
@@ -693,7 +693,7 @@ public struct FluidStackContext {
   public func addContentViewController(
     _ viewController: UIViewController,
     transition: AnyAddingTransition?,
-    completion: @escaping (TransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
   ) {
     fluidStackController?.addContentViewController(
       viewController,
@@ -705,7 +705,7 @@ public struct FluidStackContext {
   public func addContentView(
     _ view: UIView,
     transition: AnyAddingTransition?,
-    completion: @escaping (TransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
   ) {
     fluidStackController?.addContentView(
       view,
