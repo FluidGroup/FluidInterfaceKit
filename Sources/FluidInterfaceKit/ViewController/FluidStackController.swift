@@ -24,68 +24,6 @@ public struct FluidStackContentConfiguration {
 /// Use ``UIViewController/fluidStackController(with: )`` to find.
 open class FluidStackController: UIViewController {
 
-  // MARK: - Nested types
-
-  /// A wrapper object that stores an string value that identifies a instance of ``FluidStackController``.
-  public struct Identifier: Hashable {
-
-    public let rawValue: String
-
-    public init(_ rawValue: String) {
-      self.rawValue = rawValue
-    }
-
-  }
-
-  public struct Configuration {
-
-    public var retainsRootViewController: Bool
-
-    public init(retainsRootViewController: Bool = false) {
-      self.retainsRootViewController = retainsRootViewController
-    }
-
-  }
-
-  private final class WrapperView: UIView {
-
-    var isTouchThroughEnabled = true
-
-    init(contentView: UIView, frame: CGRect) {
-      super.init(frame: frame)
-
-      addSubview(contentView)
-      Fluid.setFrameAsIdentity(frame, for: contentView)
-      contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-      autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-      backgroundColor = .clear
-    }
-
-    required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
-    }
-
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-
-      if isTouchThroughEnabled {
-        let view = super.hitTest(point, with: event)
-        if view == self {
-          return nil
-        } else {
-          return view
-        }
-      } else {
-        return super.hitTest(point, with: event)
-      }
-    }
-
-  }
-
-  private struct State: Equatable {
-
-  }
-
   // MARK: - Properties
 
   /// A configuration
@@ -96,7 +34,7 @@ open class FluidStackController: UIViewController {
 
   /// A content view that stays in back
   public let contentView: UIView
-
+    
   /// An array of view controllers currently managed.
   /// Might be different with ``UIViewController.children``.
   public private(set) var stackingViewControllers: [UIViewController] = [] {
@@ -122,7 +60,7 @@ open class FluidStackController: UIViewController {
 
   private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
     .weakToWeakObjects()
-
+  
   open override var childForStatusBarStyle: UIViewController? {
     return stackingViewControllers.last {
       $0.fluidStackContentConfiguration.capturesStatusBarAppearance == true
@@ -184,6 +122,7 @@ open class FluidStackController: UIViewController {
     view.accessibilityIdentifier = "Fluid.Stack"
 
     view.addSubview(contentView)
+    
     contentView.frame = view.bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
   }
@@ -256,7 +195,7 @@ open class FluidStackController: UIViewController {
     if viewControllerToAdd.parent != self {
       addChild(viewControllerToAdd)
 
-      let containerView = WrapperView(
+      let containerView = PresentedViewControllerWrapperView(
         contentView: viewControllerToAdd.view,
         frame: self.view.bounds
       )
@@ -274,10 +213,10 @@ open class FluidStackController: UIViewController {
     viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
 
     assert(viewControllerToAdd.view.superview != nil)
-    assert(viewControllerToAdd.view.superview is WrapperView)
+    assert(viewControllerToAdd.view.superview is PresentedViewControllerWrapperView)
 
-    var wrapperView: WrapperView {
-      viewControllerToAdd.view.superview as! WrapperView
+    var wrapperView: PresentedViewControllerWrapperView {
+      viewControllerToAdd.view.superview as! PresentedViewControllerWrapperView
     }
 
     let transitionContext = AddingTransitionContext(
@@ -396,8 +335,8 @@ open class FluidStackController: UIViewController {
       }
     }()
 
-    var wrapperView: WrapperView {
-      viewControllerToRemove.view.superview as! WrapperView
+    var wrapperView: PresentedViewControllerWrapperView {
+      viewControllerToRemove.view.superview as! PresentedViewControllerWrapperView
     }
 
     let newTransitionContext = RemovingTransitionContext(
@@ -428,6 +367,15 @@ open class FluidStackController: UIViewController {
 
         context.transitionSucceeded()
 
+      },
+      onRequestedDisplayOnTop: { [weak self] source in
+        
+        guard let self = self else {
+          assertionFailure("FluidStackController has been already deallocated.")
+          return .init(run: {})
+        }
+        
+        return self.addPortalView(for: source, on: wrapperView)
       }
     )
 
@@ -611,6 +559,106 @@ open class FluidStackController: UIViewController {
     viewController: UIViewController
   ) -> TransitionContext? {
     viewControllerStateMap.object(forKey: viewController)
+  }
+  
+  private func addPortalView(
+    for source: DisplaySource,
+    on targetView: PresentedViewControllerWrapperView
+  ) -> DisplayingOnTopSubscription {
+    
+    assert(Thread.isMainThread)
+    
+    let portalView = PortalView(source: source)
+    portalView.frame = targetView.bounds
+    portalView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    portalView.matchesPosition = true
+    portalView.hidesSourceLayer = true
+    portalView.matchesTransform = true
+    portalView.matchesOpacity = true
+    targetView.addSubview(portalView)
+    
+    return .init {
+      portalView.removeFromSuperview()
+    }
+  }
+  
+}
+
+// MARK: - Nested types
+extension FluidStackController {
+  
+  public struct DisplayingOnTopSubscription {
+    
+    private let _run: () -> Void
+    
+    init(run: @escaping () -> Void) {
+      self._run = run
+    }
+    
+    public func dispose() {
+      _run()
+    }
+        
+  }
+  
+  /// A wrapper object that stores an string value that identifies a instance of ``FluidStackController``.
+  public struct Identifier: Hashable {
+
+    public let rawValue: String
+
+    public init(_ rawValue: String) {
+      self.rawValue = rawValue
+    }
+
+  }
+
+  public struct Configuration {
+
+    public var retainsRootViewController: Bool
+
+    public init(retainsRootViewController: Bool = false) {
+      self.retainsRootViewController = retainsRootViewController
+    }
+
+  }
+
+  private final class PresentedViewControllerWrapperView: UIView {
+
+    var isTouchThroughEnabled = true
+
+    init(contentView: UIView, frame: CGRect) {
+      super.init(frame: frame)
+
+      addSubview(contentView)
+      Fluid.setFrameAsIdentity(frame, for: contentView)
+      contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+      backgroundColor = .clear
+    }
+
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+
+      if isTouchThroughEnabled {
+        let view = super.hitTest(point, with: event)
+        if view == self {
+          return nil
+        } else {
+          return view
+        }
+      } else {
+        return super.hitTest(point, with: event)
+      }
+    }
+
+  }
+
+  private struct State: Equatable {
+
   }
 
 }

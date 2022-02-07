@@ -11,16 +11,19 @@ public final class RemovingTransitionContext: TransitionContext {
   public let toViewController: UIViewController?
   
   private let onAnimationCompleted: (RemovingTransitionContext) -> Void
+  private let onRequestedDisplayOnTop: (DisplaySource) -> FluidStackController.DisplayingOnTopSubscription
 
   init(
     contentView: UIView,
     fromViewController: UIViewController,
     toViewController: UIViewController?,
-    onAnimationCompleted: @escaping (RemovingTransitionContext) -> Void
+    onAnimationCompleted: @escaping (RemovingTransitionContext) -> Void,
+    onRequestedDisplayOnTop: @escaping (DisplaySource) -> FluidStackController.DisplayingOnTopSubscription
   ) {
     self.fromViewController = fromViewController
     self.toViewController = toViewController
     self.onAnimationCompleted = onAnimationCompleted
+    self.onRequestedDisplayOnTop = onRequestedDisplayOnTop
     super.init(contentView: contentView)
   }
 
@@ -33,5 +36,9 @@ public final class RemovingTransitionContext: TransitionContext {
     isCompleted = true
     onAnimationCompleted(self)
   }
-
+  
+  public func requestDisplayOnTop(_ source: DisplaySource) -> FluidStackController.DisplayingOnTopSubscription {
+    onRequestedDisplayOnTop(source)
+  }
+    
 }

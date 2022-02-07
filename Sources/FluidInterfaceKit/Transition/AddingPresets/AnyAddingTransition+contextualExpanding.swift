@@ -67,6 +67,8 @@ extension AnyAddingTransition {
         maskView.frame.size.height = entrypointView.bounds.height / translation.scale.y
 
       }
+      
+      context.toViewController.view.isHidden = false
 
       let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: context.toViewController.view,

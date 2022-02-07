@@ -11,7 +11,7 @@ extension AnyRemovingInteraction {
       destinationMirroViewProvider: AnyMirrorViewProvider
     )
     case shape(
-      destinationView: UIView,
+      destinationComponent: ContextualTransitionSourceComponentType,
       destinationMirroViewProvider: AnyMirrorViewProvider
     )
   }
@@ -49,7 +49,7 @@ extension AnyRemovingInteraction {
               // TODO: Impl
               break
             case .shape(
-              let destinationView,
+              let destinationComponent,
               let destinationMirroViewProvider
             ):
               let transitionContext = context.startRemovingTransition()
@@ -58,8 +58,8 @@ extension AnyRemovingInteraction {
 
               AnyRemovingInteraction.Contextual.run(
                 transitionContext: transitionContext,
-                sourceView: sourceView,
-                destinationView: destinationView,
+                disclosedView: sourceView,
+                destinationComponent: destinationComponent,
                 destinationMirroViewProvider: destinationMirroViewProvider,
                 gestureVelocity: .zero
               )
@@ -313,14 +313,14 @@ extension AnyRemovingInteraction {
                     transitionContext.notifyAnimationCompleted()
                   }
                 case .shape(
-                  let destinationView,
+                  let destinationComponent,
                   let destinationMirroViewProvider
                 ):
 
                   AnyRemovingInteraction.Contextual.run(
                     transitionContext: transitionContext,
-                    sourceView: draggingView,
-                    destinationView: destinationView,
+                    disclosedView: draggingView,
+                    destinationComponent: destinationComponent,
                     destinationMirroViewProvider: destinationMirroViewProvider,
                     gestureVelocity: gesture.velocity(in: gesture.view)
                   )

@@ -5,7 +5,7 @@ import UIKit
 extension AnyRemovingTransition {
 
   public static func contextual(
-    destinationView: UIView,
+    destinationComponent: ContextualTransitionSourceComponentType,
     destinationMirroViewProvider: AnyMirrorViewProvider
   ) -> Self {
 
@@ -15,8 +15,8 @@ extension AnyRemovingTransition {
       
       AnyRemovingInteraction.Contextual.run(
         transitionContext: context,
-        sourceView: sourceView,
-        destinationView: destinationView,
+        disclosedView: sourceView,
+        destinationComponent: destinationComponent,
         destinationMirroViewProvider: destinationMirroViewProvider,
         gestureVelocity: .zero
       )
@@ -32,37 +32,51 @@ extension AnyRemovingInteraction {
         
     public static func run(
       transitionContext: RemovingTransitionContext,
-      sourceView: UIView,
-      destinationView: UIView,
+      disclosedView: UIView,
+      destinationComponent: ContextualTransitionSourceComponentType,
       destinationMirroViewProvider: AnyMirrorViewProvider,
       gestureVelocity: CGPoint?
     ) {
       
-      let draggingView = sourceView
-
+      let draggingView = disclosedView
+      
+      let reparentingView = destinationComponent.requestReparentView()
+      
+      let fromViewMirror = AnyMirrorViewProvider.snapshot(caches: true, viewProvider: { transitionContext.fromViewController.view! }).view()
+      
       let maskView = UIView()
       maskView.backgroundColor = .black
 
       maskView.frame = transitionContext.fromViewController.view.bounds
-      transitionContext.fromViewController.view.mask = maskView
+      fromViewMirror.mask = maskView
+      fromViewMirror.alpha = 1
+      fromViewMirror.frame = transitionContext.fromViewController.view.frame
                         
       let entrypointSnapshotView = destinationMirroViewProvider.view()
+      
+      let displayingSubscription = transitionContext.requestDisplayOnTop(.view(reparentingView))
 
-      transitionContext.contentView.addSubview(entrypointSnapshotView)
-      entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationView.bounds.size)
-      entrypointSnapshotView.alpha = 0
+      reparentingView.addSubview(fromViewMirror)
+      reparentingView.addSubview(entrypointSnapshotView)
+      entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationComponent.contentView.bounds.size)
+      entrypointSnapshotView.alpha = 1
+      
+      transitionContext.fromViewController.view.layer.opacity = 0
 
       transitionContext.addCompletionEventHandler { _ in
+        reparentingView.removeFromSuperview()
         entrypointSnapshotView.removeFromSuperview()
+        fromViewMirror.removeFromSuperview()
+        displayingSubscription.dispose()
       }
 
       let translation = Geometry.centerAndScale(
-        from: transitionContext.fromViewController.view.frame,
+        from: fromViewMirror.frame,
         to: CGRect(
-          origin: transitionContext.frameInContentView(for: destinationView).origin,
+          origin: transitionContext.frameInContentView(for: destinationComponent.contentView).origin,
           size: Geometry.sizeThatAspectFill(
-            aspectRatio: transitionContext.fromViewController.view.bounds.size,
-            minimumSize: destinationView.bounds.size
+            aspectRatio: fromViewMirror.bounds.size,
+            minimumSize: destinationComponent.contentView.bounds.size
           )
         )
       )
@@ -87,30 +101,30 @@ extension AnyRemovingInteraction {
         return velocity
 
       }()
-
+      
       Fluid.startPropertyAnimators(
         buildArray {
           Fluid.makePropertyAnimatorsForTranformUsingCenter(
-            view: transitionContext.fromViewController.view,
+            view: fromViewMirror,
             duration: 0.8,
             position: .custom(translation.center),
             scale: translation.scale,
             velocityForTranslation: velocityForAnimation,
-            velocityForScaling: 2
+            velocityForScaling: 8
           )
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
             transitionContext.contentView.backgroundColor = .clear
           }
           UIViewPropertyAnimator(duration: 0.8, dampingRatio: 0.8) {
-            entrypointSnapshotView.frame = transitionContext.frameInContentView(for: destinationView)
+            entrypointSnapshotView.frame = transitionContext.frameInContentView(for: destinationComponent.contentView)
             entrypointSnapshotView.alpha = 1
           }
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-            transitionContext.fromViewController.view.alpha = 0
+            fromViewMirror.alpha = 0
           }
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
             maskView.frame = transitionContext.fromViewController.view.bounds
-            maskView.frame.size.height = destinationView.bounds.height / translation.scale.y
+            maskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
             maskView.layer.cornerRadius = 24
             if #available(iOS 13.0, *) {
               maskView.layer.cornerCurve = .continuous
