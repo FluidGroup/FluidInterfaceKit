@@ -82,9 +82,6 @@ open class FluidStackController: UIViewController {
 
   }
 
-  private final class RootContentView: UIView {
-  }
-
   private struct State: Equatable {
 
   }
@@ -156,12 +153,14 @@ open class FluidStackController: UIViewController {
   public init(
     identifier: Identifier? = nil,
     view: UIView? = nil,
+    contentView: UIView? = nil,
     configuration: Configuration = .init()
   ) {
     self.identifier = identifier
     self.__rootView = view
-    self.contentView = RootContentView()
+    self.contentView = contentView ?? .init()
     self.configuration = configuration
+    
     super.init(nibName: nil, bundle: nil)
 
     self.view.accessibilityIdentifier = "FluidStack.\(identifier?.rawValue ?? "unnamed")"
