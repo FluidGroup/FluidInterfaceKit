@@ -41,10 +41,4 @@ public final class RemovingTransitionContext: TransitionContext {
     onRequestedDisplayOnTop(source)
   }
     
-  public func makeReparentView(for view: UIView) -> ReparentView {
-    let reparentView = ReparentView()
-    view.addSubview(reparentView)
-    return reparentView
-  }
-
 }

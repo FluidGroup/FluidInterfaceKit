@@ -51,17 +51,17 @@ final class DemoCompositionOrderViewController: UIViewController {
 
     entrypoint.backgroundColor = .neon(.cyan)
 
-    let reparentView = ReparentView()
-    reparentView.backgroundColor = .neon(.red).withAlphaComponent(0.6)
+    let reparentingView = ReparentingView()
+    reparentingView.backgroundColor = .neon(.red).withAlphaComponent(0.6)
 
-    entrypoint.addSubview(reparentView)
+    entrypoint.addSubview(reparentingView)
     
     let animatingView = UIView()
     
     portalView.sourceLayer = animatingView.layer
     portalView.matchesPosition = true
 
-    Mondrian.buildSubviews(on: reparentView) {
+    Mondrian.buildSubviews(on: reparentingView) {
       ZStackBlock {
         animatingView
           .viewBlock

@@ -583,6 +583,7 @@ open class FluidStackController: UIViewController {
     portalView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     portalView.matchesPosition = true
     portalView.hidesSourceLayer = true
+    portalView.matchesTransform = true
     decorationView.addSubview(portalView)
     
     return .init {

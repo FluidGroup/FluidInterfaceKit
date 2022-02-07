@@ -46,6 +46,11 @@ public final class PortalView: UIView {
     set { layer.setValue(newValue, forKey: "matchesPosition") }
   }
   
+  public var matchesTransform: Bool {
+    get { layer.value(forKey: "matchesTransform") as? Bool ?? false }
+    set { layer.setValue(newValue, forKey: "matchesTransform") }
+  }
+  
   public var isEnabled: Bool {
     get {
       state.isEnabled

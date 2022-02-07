@@ -43,12 +43,12 @@ final class DemoListViewController: FluidStackController {
 
           } else {
             
-            let snapshot = AnyMirrorViewProvider.portal(view: view)
+            let snapshot = AnyMirrorViewProvider.portal(view: view.contentView)
             
             let controller = DetailViewController(
               viewModel: viewModel,
               removingTransitionProvider: {
-                .contextual(destinationView: view, destinationMirroViewProvider: snapshot)
+                .contextual(destinationComponent: view, destinationMirroViewProvider: snapshot)
               }
             )
                        
@@ -62,7 +62,7 @@ final class DemoListViewController: FluidStackController {
               removingTransition: nil,
               removingInteraction: .horizontalDragging(
                 backwardingMode: .shape(
-                  destinationView: view,
+                  destinationComponent: view,
                   destinationMirroViewProvider: snapshot
                 ),
                 hidingViews: [view]
@@ -173,7 +173,7 @@ private final class DetailViewController: FluidNavigatedViewController {
   }
 }
 
-private func makeListCell(viewModel: ViewModel, onTap: @escaping (UIView) -> Void) -> UIView {
+private func makeListCell(viewModel: ViewModel, onTap: @escaping (ContextualTransitionSourceView) -> Void) -> ContextualTransitionSourceView {
 
   let nameLabel = UILabel()&>.do {
     $0.text = "Muukii"
@@ -239,8 +239,8 @@ private func makeListCell(viewModel: ViewModel, onTap: @escaping (UIView) -> Voi
   )
 
   cell.handlers.onTap = { [unowned cell] in
-    onTap(cell)
+    onTap(cell.superview as! ContextualTransitionSourceView)
   }
-
-  return cell
+  
+  return .init(contentView: cell)
 }

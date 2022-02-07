@@ -3,7 +3,7 @@ import UIKit
 /**
  A view that makes container that fits to the window from the view of tree.
  */
-open class ReparentView: UIView {
+open class ReparentingView: UIView {
 
   open override var center: CGPoint {
     didSet {
