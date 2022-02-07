@@ -35,5 +35,12 @@ public final class AddingTransitionContext: TransitionContext {
     isCompleted = true
     onAnimationCompleted(self)
   }
+  
+  deinit {
+    assert(
+      isInvalidated == true || isCompleted == true,
+      "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()`"
+    )
+  }
 
 }
