@@ -65,7 +65,7 @@ final class DemoListViewController: FluidStackController {
                   destinationComponent: view,
                   destinationMirroViewProvider: snapshot
                 ),
-                hidingViews: [view]
+                hidingViews: [view.contentView]
               )
               //              removingInteraction: .leftEdge()
             )

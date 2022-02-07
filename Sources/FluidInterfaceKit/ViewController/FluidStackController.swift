@@ -584,6 +584,7 @@ open class FluidStackController: UIViewController {
     portalView.matchesPosition = true
     portalView.hidesSourceLayer = true
     portalView.matchesTransform = true
+    portalView.matchesOpacity = true
     decorationView.addSubview(portalView)
     
     return .init {
