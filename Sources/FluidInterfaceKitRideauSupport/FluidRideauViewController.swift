@@ -5,63 +5,9 @@ import FluidInterfaceKit
 import Rideau
 import UIKit
 
-extension AnyAddingTransition {
-  
-  public static var rideau: Self {
-    .init { context in
-      
-      guard let controller = context.toViewController as? FluidRideauViewController else {
-        context.notifyAnimationCompleted()
-        return
-      }      
-            
-      // TODO: Use rideauView.handlers.animatorsAlongsideMoving instead
-      UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-        controller.backgroundView.backgroundColor = controller.backgroundColor
-      }
-      .startAnimation()
-      
-      controller.rideauView.move(
-        to: controller.initialSnapPoint,
-        animated: true,
-        completion: {
-          context.notifyAnimationCompleted()
-      })
-                                   
-    }
-  }
-}
-
-extension AnyRemovingTransition {
-  
-  public static var rideau: Self {
-    .init { context in
-      
-      guard let controller = context.fromViewController as? FluidRideauViewController else {
-        context.notifyAnimationCompleted()
-        return
-      }
-          
-      // TODO: Use rideauView.handlers.animatorsAlongsideMoving instead
-      UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-        controller.backgroundView.backgroundColor = .clear
-      }
-      .startAnimation()
-      
-      controller.rideauView.move(
-        to: .hidden,
-        animated: true,
-        completion: {
-          context.notifyAnimationCompleted()
-      })
-             
-      
-    }
-  }
-  
-}
-
 /// An Object that displays an RideauView with Presentation.
+///
+/// - FIXME: When specified ``.noAnimation``, it won't display anything.
 open class FluidRideauViewController: TransitionViewController {
 
   // MARK: - Properties
@@ -140,19 +86,6 @@ open class FluidRideauViewController: TransitionViewController {
       view.layoutIfNeeded()
     }
 
-//    fluidStackActionHandler = { [weak self] action in
-//      guard let self = self else { return }
-//      switch action {
-//      case .didSetContext:
-//        break
-//      case .didDisplay:
-//        self.rideauView.move(to: initialSnapPoint, animated: true, completion: {})
-//        UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-//          self.backgroundView.backgroundColor = self.backgroundColor
-//        }
-//        .startAnimation()
-//      }
-//    }
   }
 
   @available(*, unavailable)
@@ -215,4 +148,61 @@ open class FluidRideauViewController: TransitionViewController {
     dismissFluid(transition: nil, completion: nil)
 
   }
+}
+
+
+extension AnyAddingTransition {
+  
+  public static var rideau: Self {
+    .init { context in
+      
+      guard let controller = context.toViewController as? FluidRideauViewController else {
+        context.notifyAnimationCompleted()
+        return
+      }
+            
+      // TODO: Use rideauView.handlers.animatorsAlongsideMoving instead
+      UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+        controller.backgroundView.backgroundColor = controller.backgroundColor
+      }
+      .startAnimation()
+      
+      controller.rideauView.move(
+        to: controller.initialSnapPoint,
+        animated: true,
+        completion: {
+          context.notifyAnimationCompleted()
+      })
+                                   
+    }
+  }
+}
+
+extension AnyRemovingTransition {
+  
+  public static var rideau: Self {
+    .init { context in
+      
+      guard let controller = context.fromViewController as? FluidRideauViewController else {
+        context.notifyAnimationCompleted()
+        return
+      }
+          
+      // TODO: Use rideauView.handlers.animatorsAlongsideMoving instead
+      UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+        controller.backgroundView.backgroundColor = .clear
+      }
+      .startAnimation()
+      
+      controller.rideauView.move(
+        to: .hidden,
+        animated: true,
+        completion: {
+          context.notifyAnimationCompleted()
+      })
+             
+      
+    }
+  }
+  
 }
