@@ -2,6 +2,8 @@ import UIKit
 
 /**
  Describes component for contextual-component
+ 
+ Implemented class: ``ContextualTransitionSourceView``
  */
 public protocol ContextualTransitionSourceComponentType {
   
