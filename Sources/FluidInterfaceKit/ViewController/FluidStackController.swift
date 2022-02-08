@@ -34,7 +34,7 @@ open class FluidStackController: UIViewController {
 
   /// A content view that stays in back
   public let contentView: UIView
-    
+
   /// An array of view controllers currently managed.
   /// Might be different with ``UIViewController.children``.
   public private(set) var stackingViewControllers: [UIViewController] = [] {
@@ -60,7 +60,7 @@ open class FluidStackController: UIViewController {
 
   private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
     .weakToWeakObjects()
-  
+
   open override var childForStatusBarStyle: UIViewController? {
     return stackingViewControllers.last {
       $0.fluidStackContentConfiguration.capturesStatusBarAppearance == true
@@ -98,7 +98,7 @@ open class FluidStackController: UIViewController {
     self.__rootView = view
     self.contentView = contentView ?? .init()
     self.configuration = configuration
-    
+
     super.init(nibName: nil, bundle: nil)
 
     self.view.accessibilityIdentifier = "FluidStack.\(identifier?.rawValue ?? "unnamed")"
@@ -122,7 +122,7 @@ open class FluidStackController: UIViewController {
     view.accessibilityIdentifier = "Fluid.Stack"
 
     view.addSubview(contentView)
-    
+
     contentView.frame = view.bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
   }
@@ -159,12 +159,12 @@ open class FluidStackController: UIViewController {
        a transition for adding. if view controller is type of ``TransitionViewController``, uses this transition instead of TransitionViewController's transition.
        You may set ``.noAnimation`` to disable animation
    */
-  @discardableResult
+  @available(*, renamed: "addContentViewController(_:transition:)")
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?,
     completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
-  ) -> FluidStackContext {
+  ) {
 
     /**
      possible to enter while previous adding operation.
@@ -258,7 +258,8 @@ open class FluidStackController: UIViewController {
       if let transition = transition {
 
         transition.startTransition(context: transitionContext)
-      } else if let transitionViewController = viewControllerToAdd as? FluidTransitionViewController {
+      } else if let transitionViewController = viewControllerToAdd as? FluidTransitionViewController
+      {
 
         transitionViewController.startAddingTransition(
           context: transitionContext
@@ -268,7 +269,20 @@ open class FluidStackController: UIViewController {
       }
     }
 
-    return context
+  }
+
+  @available(iOS 13.0, *)
+  @discardableResult
+  @MainActor
+  public func addContentViewController(
+    _ viewControllerToAdd: UIViewController,
+    transition: AnyAddingTransition?
+  ) async -> AddingTransitionContext.CompletionEvent {
+    return await withCheckedContinuation { continuation in
+      addContentViewController(viewControllerToAdd, transition: transition) { result in
+        continuation.resume(returning: result)
+      }
+    }
   }
 
   /**
@@ -277,18 +291,32 @@ open class FluidStackController: UIViewController {
    - Parameters:
      - transition: You may set ``.noAnimation`` to disable transition animation.
    */
-  @discardableResult
+
   public func addContentView(
     _ view: UIView,
     transition: AnyAddingTransition?,
     completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
-  ) -> FluidStackContext {
+  ) {
 
     assert(Thread.isMainThread)
 
     let viewController = ContentWrapperViewController(view: view)
-    return addContentViewController(viewController, transition: transition, completion: completion)
+    addContentViewController(viewController, transition: transition, completion: completion)
 
+  }
+
+  @available(iOS 13.0, *)
+  @discardableResult
+  @MainActor
+  public func addContentView(
+    _ view: UIView,
+    transition: AnyAddingTransition?
+  ) async -> AddingTransitionContext.CompletionEvent {
+    return await withCheckedContinuation { continuation in
+      addContentView(view, transition: transition) { result in
+        continuation.resume(returning: result)
+      }
+    }
   }
 
   /**
@@ -372,12 +400,12 @@ open class FluidStackController: UIViewController {
 
       },
       onRequestedDisplayOnTop: { [weak self] source in
-        
+
         guard let self = self else {
           assertionFailure("FluidStackController has been already deallocated.")
           return .init(run: {})
         }
-        
+
         return self.addPortalView(for: source, on: wrapperView)
       }
     )
@@ -425,7 +453,9 @@ open class FluidStackController: UIViewController {
 
     if let transition = transition {
       transition.startTransition(context: transitionContext)
-    } else if let transitionViewController = viewControllerToRemove as? FluidTransitionViewController {
+    } else if let transitionViewController = viewControllerToRemove
+      as? FluidTransitionViewController
+    {
       transitionViewController.startRemovingTransition(context: transitionContext)
     } else {
       transitionContext.notifyAnimationCompleted()
@@ -564,14 +594,14 @@ open class FluidStackController: UIViewController {
   ) -> TransitionContext? {
     viewControllerStateMap.object(forKey: viewController)
   }
-  
+
   private func addPortalView(
     for source: DisplaySource,
     on targetView: PresentedViewControllerWrapperView
   ) -> DisplayingOnTopSubscription {
-    
+
     assert(Thread.isMainThread)
-    
+
     let portalView = PortalView(source: source)
     portalView.frame = targetView.bounds
     portalView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -580,31 +610,31 @@ open class FluidStackController: UIViewController {
     portalView.matchesTransform = true
     portalView.matchesOpacity = true
     targetView.addSubview(portalView)
-    
+
     return .init {
       portalView.removeFromSuperview()
     }
   }
-  
+
 }
 
 // MARK: - Nested types
 extension FluidStackController {
-  
+
   public struct DisplayingOnTopSubscription {
-    
+
     private let _run: () -> Void
-    
+
     init(run: @escaping () -> Void) {
       self._run = run
     }
-    
+
     public func dispose() {
       _run()
     }
-        
+
   }
-  
+
   /// A wrapper object that stores an string value that identifies a instance of ``FluidStackController``.
   public struct Identifier: Hashable {
 
