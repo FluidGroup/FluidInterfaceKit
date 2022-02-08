@@ -8,12 +8,7 @@ final class DemoListViewController: FluidStackController {
 
   private let scrollableContainerView = ScrollableContainerView()
 
-  let usesPresentation: Bool
-
-  init(
-    usesPresentation: Bool
-  ) {
-    self.usesPresentation = usesPresentation
+  init() {
     super.init(view: nil)
   }
 
@@ -35,11 +30,7 @@ final class DemoListViewController: FluidStackController {
 
           if let cached = viewControllerCache[i] {
 
-            if usesPresentation {
-              present(cached, animated: false, completion: nil)
-            } else {
-              addContentViewController(cached, transition: nil)
-            }
+            addContentViewController(cached, transition: nil)
 
           } else {
             
@@ -72,11 +63,7 @@ final class DemoListViewController: FluidStackController {
 
             viewControllerCache[i] = displayViewController
 
-            if usesPresentation {
-              present(displayViewController, animated: false, completion: nil)
-            } else {
-              addContentViewController(displayViewController, transition: nil)
-            }
+            addContentViewController(displayViewController, transition: nil)
           }
 
         }

@@ -258,7 +258,7 @@ open class FluidStackController: UIViewController {
       if let transition = transition {
 
         transition.startTransition(context: transitionContext)
-      } else if let transitionViewController = viewControllerToAdd as? TransitionViewController {
+      } else if let transitionViewController = viewControllerToAdd as? FluidTransitionViewController {
 
         transitionViewController.startAddingTransition(
           context: transitionContext
@@ -425,7 +425,7 @@ open class FluidStackController: UIViewController {
 
     if let transition = transition {
       transition.startTransition(context: transitionContext)
-    } else if let transitionViewController = viewControllerToRemove as? TransitionViewController {
+    } else if let transitionViewController = viewControllerToRemove as? FluidTransitionViewController {
       transitionViewController.startRemovingTransition(context: transitionContext)
     } else {
       transitionContext.notifyAnimationCompleted()

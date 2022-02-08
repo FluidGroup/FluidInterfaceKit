@@ -8,12 +8,7 @@ import UIKit
 
 final class DemoTransitionViewController: FluidStackController {
 
-  private let usesFluid: Bool
-
-  init(
-    usesFluid: Bool
-  ) {
-    self.usesFluid = usesFluid
+  init() {
     super.init()
     definesPresentationContext = true
   }
@@ -58,37 +53,18 @@ final class DemoTransitionViewController: FluidStackController {
 
   private func _display(transition: AnyAddingTransition) {
 
-    let body = PlaceholderViewController { [usesFluid] instance in
-      if usesFluid {
-        instance.fluidStackContext?.removeSelf(transition: nil)
-      } else {
-        instance.dismiss(animated: false, completion: nil)
-      }
+    let body = PlaceholderViewController { instance in
+      instance.fluidStackContext?.removeSelf(transition: nil)
     }
 
-    if usesFluid {
+    let controller = FluidViewController(
+      bodyViewController: body,
+      addingTransition: nil,
+      removingTransition: nil,
+      removingInteraction: nil
+    )
 
-      let controller = FluidViewController(
-        bodyViewController: body,
-        addingTransition: nil,
-        removingTransition: nil,
-        removingInteraction: nil
-      )
-
-      addContentViewController(controller, transition: transition)
-
-    } else {
-
-      let controller = FluidViewController(
-        bodyViewController: body,
-        addingTransition: transition,
-        removingTransition: nil,
-        removingInteraction: nil
-      )
-
-      present(controller, animated: false, completion: nil)
-
-    }
+    addContentViewController(controller, transition: transition)
 
   }
 

@@ -17,7 +17,7 @@ import UIKit
  
  You may specify ``AnyRemovingInteraction``
  */
-open class FluidViewController: TransitionViewController, UIGestureRecognizerDelegate {
+open class FluidViewController: FluidTransitionViewController, UIGestureRecognizerDelegate {
 
   // MARK: - Properties
 
@@ -104,7 +104,7 @@ open class FluidViewController: TransitionViewController, UIGestureRecognizerDel
     super.viewDidLoad()
 
     setupGestures()
-  }
+  }  
 
   public func setInteraction(_ newInteraction: AnyRemovingInteraction) {
     assert(Thread.isMainThread)

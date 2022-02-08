@@ -25,7 +25,6 @@
 		4B468070279C58E800625FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805A279C58E800625FCB /* AppDelegate.swift */; };
 		4B468071279C58E800625FCB /* DemoSafeAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */; };
 		4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */; };
-		4B468073279C58E800625FCB /* DemoPresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805D279C58E800625FCB /* DemoPresentationViewController.swift */; };
 		4B468074279C58E800625FCB /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805E279C58E800625FCB /* UIControl+Closure.swift */; };
 		4B468075279C58E800625FCB /* DemoApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */; };
 		4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */; };
@@ -66,7 +65,6 @@
 		4B46805A279C58E800625FCB /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoSafeAreaViewController.swift; sourceTree = "<group>"; };
 		4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoContextMenuViewController.swift; sourceTree = "<group>"; };
-		4B46805D279C58E800625FCB /* DemoPresentationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPresentationViewController.swift; sourceTree = "<group>"; };
 		4B46805E279C58E800625FCB /* UIControl+Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
 		4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoApplicationViewController.swift; sourceTree = "<group>"; };
 		4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 				4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */,
 				4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */,
 				4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */,
-				4B46805D279C58E800625FCB /* DemoPresentationViewController.swift */,
 				4B46805E279C58E800625FCB /* UIControl+Closure.swift */,
 				4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */,
 				4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */,
@@ -300,7 +297,6 @@
 				4B468064279C58E800625FCB /* AnimatorPlaygroundViewController.swift in Sources */,
 				4B46806D279C58E800625FCB /* DemoListViewController.swift in Sources */,
 				4B468067279C58E800625FCB /* DemoThreadsMessagesViewController.swift in Sources */,
-				4B468073279C58E800625FCB /* DemoPresentationViewController.swift in Sources */,
 				4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */,
 				4B468065279C58E800625FCB /* RootContainerViewController.swift in Sources */,
 				4B468061279C58E800625FCB /* ViewController.swift in Sources */,
