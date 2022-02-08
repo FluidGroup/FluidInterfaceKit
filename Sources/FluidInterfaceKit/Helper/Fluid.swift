@@ -2,6 +2,13 @@ import Foundation
 import UIKit
 import GeometryKit
 
+public enum FluidFeatures {
+  /**
+   Calls `UIViewController.dismiss` from `presentingViewController` if the view controller is presenting as modal-presentation instead of fluid-presentation.
+   */
+  public static var enablesDismissalFallback = true
+}
+
 public enum Fluid {
 
   public static func takeSnapshotVisible(view: UIView) -> UIView {

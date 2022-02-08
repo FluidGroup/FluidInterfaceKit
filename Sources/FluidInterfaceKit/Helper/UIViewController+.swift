@@ -10,7 +10,7 @@ extension UIViewController {
   public func fluidStackControllers() -> [FluidStackController] {
 
     return sequence(first: self) {
-      $0.next
+      $0.parent
     }
     .compactMap { $0 as? FluidStackController }
 
@@ -204,9 +204,22 @@ extension UIViewController {
       return
     }
     
-    let message = "\(self) is not presented as fluid-presentation"
-    Log.error(.viewController, message)
-    assertionFailure(message)
+    if FluidFeatures.enablesDismissalFallback {
+      if
+        parent == nil,
+        presentedViewController == nil,
+        let presentingViewController = presentingViewController
+      {
+        // this view controller is presented as modal-presentation.
+        // dimiss itself
+        presentingViewController.dismiss(animated: true, completion: completion)
+        return
+      }
+    } else {
+      let message = "\(self) is not presented as fluid-presentation"
+      Log.error(.viewController, message)
+      assertionFailure(message)
+    }
   }
 
 }
