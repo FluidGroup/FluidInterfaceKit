@@ -113,17 +113,21 @@ final class ContentViewController: UIViewController {
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove self", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackContext?.removeSelf(transition: .vanishing())
+        dismissFluid(transition: .vanishing(), completion: nil)
       }
     }
 
     let addButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add", for: .normal)
       $0.onTap { [unowned self] in
-        fluidStackContext?.addContentViewController(
-          ContentViewController(color: .neonRandom()),
-          transition: nil
-        )
+        presentFluid(ContentViewController(color: .neonRandom()), target: .current, transition: .modalIdiom())
+      }
+    }
+    
+    let addModalButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Add as modal", for: .normal)
+      $0.onTap { [unowned self] in
+        present(ContentViewController(color: .neonRandom()), animated: true, completion: nil)
       }
     }
 
@@ -167,6 +171,8 @@ final class ContentViewController: UIViewController {
           VStackBlock {
 
             addButton
+            
+            addModalButton
 
             addInteractiveButton
 
