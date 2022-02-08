@@ -15,9 +15,9 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
   ///   - removingInteraction: it can be replaced later
   public init(
     bodyViewController: UIViewController,
-    addingTransition: AnyAddingTransition?,
-    removingTransition: AnyRemovingTransition?,
-    removingInteraction: AnyRemovingInteraction?,
+    addingTransition: AnyAddingTransition? = nil,
+    removingTransition: AnyRemovingTransition? = nil,
+    removingInteraction: AnyRemovingInteraction? = nil,
     navigationBarClass: UINavigationBar.Type = UINavigationBar.self
   ) {
     self.navigationBar = navigationBarClass.init()
@@ -36,9 +36,9 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
   ///   - removingInteraction: it can be replaced laterpublic
   public init(
     view: UIView,
-    addingTransition: AnyAddingTransition?,
-    removingTransition: AnyRemovingTransition?,
-    removingInteraction: AnyRemovingInteraction?,
+    addingTransition: AnyAddingTransition? = nil,
+    removingTransition: AnyRemovingTransition? = nil,
+    removingInteraction: AnyRemovingInteraction? = nil,
     navigationBarClass: UINavigationBar.Type = UINavigationBar.self
   ) {
 
@@ -52,9 +52,9 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
   }
 
   public init(
-    addingTransition: AnyAddingTransition?,
-    removingTransition: AnyRemovingTransition?,
-    removingInteraction: AnyRemovingInteraction?,
+    addingTransition: AnyAddingTransition? = nil,
+    removingTransition: AnyRemovingTransition? = nil,
+    removingInteraction: AnyRemovingInteraction? = nil,
     navigationBarClass: UINavigationBar.Type = UINavigationBar.self
   ) {
 
