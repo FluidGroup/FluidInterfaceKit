@@ -48,7 +48,8 @@ final class DemoViewController: FluidStackController {
           VStackBlock {
 
             UILabel()&>.do {
-              $0.text = "Here is FluidStackController"
+              $0.text = "Here is FluidStackController, components are in contentView."
+              $0.numberOfLines = 0
               $0.textColor = .label
             }
 
