@@ -8,7 +8,7 @@ import UIKit
 /// An Object that displays an RideauView with Presentation.
 ///
 /// - FIXME: When specified ``.noAnimation``, it won't display anything.
-open class FluidRideauViewController: TransitionViewController {
+open class FluidRideauViewController: FluidTransitionViewController {
 
   // MARK: - Properties
 

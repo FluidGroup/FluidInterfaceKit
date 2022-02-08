@@ -26,11 +26,7 @@ let book = Book(title: "FluidInterfaceKit") {
 
   BookNavigationLink(title: "Transition") {
     BookPush(title: "Adding - in fluid stack") {
-      DemoTransitionViewController(usesFluid: true)
-    }
-
-    BookPush(title: "Adding - in presentation") {
-      DemoTransitionViewController(usesFluid: false)
+      DemoTransitionViewController()
     }
   }
 
@@ -65,10 +61,6 @@ let book = Book(title: "FluidInterfaceKit") {
     DemoControlCenterViewController()
   }
 
-  BookPush(title: "Presentation") {
-    DemoPresentationViewController()
-  }
-
   BookPush(title: "AnimatorPlayground") {
     AnimatorPlaygroundViewController()
   }
@@ -80,13 +72,7 @@ let book = Book(title: "FluidInterfaceKit") {
   }
 
   BookPresent(title: "List + ZStack") {
-    let controller = DemoListViewController(usesPresentation: false)
-    controller.modalPresentationStyle = .fullScreen
-    return controller
-  }
-
-  BookPresent(title: "List + Presentation") {
-    let controller = DemoListViewController(usesPresentation: true)
+    let controller = DemoListViewController()
     controller.modalPresentationStyle = .fullScreen
     return controller
   }
