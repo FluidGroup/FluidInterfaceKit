@@ -8,19 +8,25 @@ import UIKit
 
 final class DemoTransitionViewController: FluidStackController {
 
+  private final class RootViewController: UIViewController {}
+
+  private let rootController = RootViewController()
+
   init() {
-    super.init()
+    super.init(configuration: .init(retainsRootViewController: true))
     definesPresentationContext = true
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .systemBackground
+    rootController.view.backgroundColor = .systemBackground
+
+    addContentViewController(rootController, transition: .noAnimation)
 
     let list = VGridView(numberOfColumns: 1)
 
-    Mondrian.buildSubviews(on: view) {
+    Mondrian.buildSubviews(on: rootController.view) {
       ZStackBlock(alignment: .attach(.all)) {
         list
           .viewBlock
@@ -35,7 +41,7 @@ final class DemoTransitionViewController: FluidStackController {
           title: "popup",
           onTap: { [unowned self] in
 
-            _display(transition: .popup())
+            _display(transition: .popup(), removingInteraction: nil)
           }
         )
 
@@ -43,7 +49,7 @@ final class DemoTransitionViewController: FluidStackController {
           title: "fadeIn",
           onTap: { [unowned self] in
 
-            _display(transition: .fadeIn())
+            _display(transition: .fadeIn(), removingInteraction: nil)
           }
         )
 
@@ -51,7 +57,12 @@ final class DemoTransitionViewController: FluidStackController {
           title: "push",
           onTap: { [unowned self] in
 
-            _display(transition: .pushIdiom())
+            _display(
+              transition: .pushIdiom(),
+              removingInteraction: .leftToRight(dismiss: {
+                $0.dismissFluid(transition: .noAnimation, completion: nil)
+              })
+            )
           }
         )
       }
@@ -59,7 +70,7 @@ final class DemoTransitionViewController: FluidStackController {
 
   }
 
-  private func _display(transition: AnyAddingTransition) {
+  private func _display(transition: AnyAddingTransition, removingInteraction: AnyRemovingInteraction?) {
 
     let body = PlaceholderViewController(
       dismissNoAnimation: { instance in
@@ -73,11 +84,11 @@ final class DemoTransitionViewController: FluidStackController {
       }
     )
 
-    let controller = FluidViewController(
+    let controller = FluidNavigatedViewController(
       bodyViewController: body,
       addingTransition: nil,
       removingTransition: nil,
-      removingInteraction: nil
+      removingInteraction: removingInteraction
     )
 
     addContentViewController(controller, transition: transition)

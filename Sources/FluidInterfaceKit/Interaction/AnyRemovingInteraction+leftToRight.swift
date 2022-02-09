@@ -40,6 +40,21 @@ extension AnyRemovingInteraction {
 
             let view = context.viewController.view!
 
+            let backViewController: UIViewController? = {
+              guard
+                let controllers = context.viewController.fluidStackContext?.fluidStackController?.stackingViewControllers,
+                let index = controllers.firstIndex(of: context.viewController)
+              else {
+                return nil
+              }
+              let target = index.advanced(by: -1)
+              if controllers.indices.contains(target) {
+                return controllers[target]
+              } else {
+                return nil
+              }
+            }()
+
             switch gesture.state {
             case .possible:
               break
@@ -75,9 +90,11 @@ extension AnyRemovingInteraction {
                   } ?? .identity
 
                 view.transform = currentTransform
+                backViewController?.view.transform = currentTransform.translatedBy(x: -view.bounds.width, y: 0)
 
                 let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
-                  view.transform = currentTransform.translatedBy(x: view.bounds.width * 1.3, y: 0)
+                  view.transform = currentTransform.translatedBy(x: view.bounds.width, y: 0)
+                  backViewController?.view.transform = .identity
                 }
 
                 animator.addCompletion { position in
@@ -134,6 +151,8 @@ extension AnyRemovingInteraction {
                 return
               }
 
+              backViewController?.view.transform = .identity
+
               _trackingContext.scrollController?.unlockScrolling()
               _trackingContext.scrollController?.endTracking()
 
@@ -152,10 +171,14 @@ extension AnyRemovingInteraction {
               } else {
 
                 _trackingContext.animator.stopAnimation(true)
-                UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
+                let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
                   view.transform = .identity
+                  backViewController?.view.transform = view.transform.translatedBy(x: -view.bounds.width, y: 0)
                 }
-                .startAnimation()
+                animator.addCompletion { _ in
+                  backViewController?.view.transform = .identity
+                }
+                animator.startAnimation()
 
               }
 
@@ -166,6 +189,8 @@ extension AnyRemovingInteraction {
               guard let _trackingContext = trackingContext else {
                 return
               }
+
+              backViewController?.view.transform = .identity
 
               _trackingContext.scrollController?.unlockScrolling()
               _trackingContext.scrollController?.endTracking()
