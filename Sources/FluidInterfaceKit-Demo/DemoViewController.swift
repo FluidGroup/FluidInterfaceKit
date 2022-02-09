@@ -34,9 +34,15 @@ final class DemoViewController: FluidStackController {
       $0.setTitle("Show UIAlertController", for: .normal)
       $0.onTap { [unowned self] in
         let alert = UIAlertController(title: "Hi", message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: "Close", style: .default, handler: { _ in
+        alert.addAction(
+          .init(
+            title: "Close",
+            style: .default,
+            handler: { _ in
 
-        }))
+            }
+          )
+        )
         present(alert, animated: true, completion: nil)
       }
     }
@@ -66,7 +72,7 @@ final class DemoViewController: FluidStackController {
 }
 
 final class ContentViewController: UIViewController {
-  
+
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
@@ -110,7 +116,7 @@ final class ContentViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-           
+
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove self", for: .normal)
       $0.onTap { [unowned self] in
@@ -121,10 +127,27 @@ final class ContentViewController: UIViewController {
     let addButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add", for: .normal)
       $0.onTap { [unowned self] in
-        presentFluid(ContentViewController(color: .neonRandom()), target: .current, transition: .modalIdiom())
+        presentFluid(
+          ContentViewController(color: .neonRandom()),
+          target: .current,
+          transition: .modalIdiom()
+        )
       }
     }
-    
+
+    let addNavigatedButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Add Navigated", for: .normal)
+      $0.onTap { [unowned self] in
+        presentFluid(
+          FluidNavigatedViewController(
+            bodyViewController: ContentViewController(color: .neonRandom())
+          ),
+          target: .current,
+          transition: .modalIdiom()
+        )
+      }
+    }
+
     let addModalButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add as modal", for: .normal)
       $0.onTap { [unowned self] in
@@ -136,15 +159,17 @@ final class ContentViewController: UIViewController {
       $0.setTitle("Add Interactive content", for: .normal)
       $0.onTap { [unowned self] in
 
-        fluidStackContext?.addContentViewController(
+        presentFluid(
           FluidViewController(
             bodyViewController: ContentViewController(color: .neonRandom()),
             addingTransition: nil,
             removingTransition: nil,
             removingInteraction: .horizontalDragging(backwardingMode: nil, hidingViews: [])
           ),
+          target: .current,
           transition: nil
         )
+
       }
     }
 
@@ -152,9 +177,15 @@ final class ContentViewController: UIViewController {
       $0.setTitle("Show UIAlertController", for: .normal)
       $0.onTap { [unowned self] in
         let alert = UIAlertController(title: "Hi", message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: "Close", style: .default, handler: { _ in
+        alert.addAction(
+          .init(
+            title: "Close",
+            style: .default,
+            handler: { _ in
 
-        }))
+            }
+          )
+        )
         present(alert, animated: true, completion: nil)
       }
     }
@@ -172,15 +203,17 @@ final class ContentViewController: UIViewController {
           VStackBlock {
 
             addButton
-            
+
             addModalButton
+
+            addNavigatedButton
 
             addInteractiveButton
 
             alertButton
 
             removeAllButton
-            
+
             dismissButton
 
           }
