@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@v1.1
         with:
-          xcode-version: "13.1"
+          xcode-version: "13.2"
       - uses: actions/checkout@v2
       - name: Run lint
         run: pod lib lint --allow-warnings
