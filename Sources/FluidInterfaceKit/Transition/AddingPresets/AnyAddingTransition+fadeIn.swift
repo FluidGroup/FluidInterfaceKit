@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Jinsei Shima on 2022/02/09.
-//
-
 import UIKit
 
 extension AnyAddingTransition {
