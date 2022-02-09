@@ -109,7 +109,7 @@ final class DemoListDetailViewController: FluidNavigatedViewController {
     self.viewModel = viewModel
     self.removingTransitionProvider = removingTransitionProvider
     
-    super.init(addingTransition: nil, removingTransition: nil, removingInteraction: nil)
+    super.init()
 
     title = "Title"
   }

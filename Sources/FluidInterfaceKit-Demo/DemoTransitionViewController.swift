@@ -58,7 +58,7 @@ final class DemoTransitionViewController: FluidStackController {
           onTap: { [unowned self] in
 
             _display(
-              transition: .pushIdiom(),
+              transition: .navigationIdiom(),
               removingInteraction: .leftToRight(dismiss: {
                 $0.dismissFluid(transition: .noAnimation, completion: nil)
               })
@@ -80,15 +80,13 @@ final class DemoTransitionViewController: FluidStackController {
         instance.fluidStackContext?.removeSelf(transition: .fadeOut())
       },
       pop: { instance in
-        instance.fluidStackContext?.removeSelf(transition: .popIdiom())
+        instance.fluidStackContext?.removeSelf(transition: .navigationIdiom())
       }
     )
 
     let controller = FluidNavigatedViewController(
       bodyViewController: body,
-      addingTransition: nil,
-      removingTransition: nil,
-      removingInteraction: removingInteraction
+      configuration: .init(removingInteraction: removingInteraction)
     )
 
     addContentViewController(controller, transition: transition)
