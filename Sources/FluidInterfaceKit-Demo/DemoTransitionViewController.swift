@@ -40,6 +40,14 @@ final class DemoTransitionViewController: FluidStackController {
         )
 
         Self.makeCell(
+          title: "fadeIn",
+          onTap: { [unowned self] in
+
+            _display(transition: .fadeIn())
+          }
+        )
+
+        Self.makeCell(
           title: "push",
           onTap: { [unowned self] in
 
@@ -53,9 +61,17 @@ final class DemoTransitionViewController: FluidStackController {
 
   private func _display(transition: AnyAddingTransition) {
 
-    let body = PlaceholderViewController { instance in
-      instance.fluidStackContext?.removeSelf(transition: nil)
-    }
+    let body = PlaceholderViewController(
+      dismissNoAnimation: { instance in
+        instance.fluidStackContext?.removeSelf(transition: nil)
+      },
+      dismissFadeOut: { instance in
+        instance.fluidStackContext?.removeSelf(transition: .fadeOut())
+      },
+      pop: { instance in
+        instance.fluidStackContext?.removeSelf(transition: .popIdiom())
+      }
+    )
 
     let controller = FluidViewController(
       bodyViewController: body,
@@ -87,12 +103,18 @@ final class DemoTransitionViewController: FluidStackController {
 
 private final class PlaceholderViewController: UIViewController {
 
-  private let _dismiss: (PlaceholderViewController) -> Void
+  private let _dismissNoAnimation: (PlaceholderViewController) -> Void
+  private let _dismissFadeOut: (PlaceholderViewController) -> Void
+  private let _pop: (PlaceholderViewController) -> Void
 
   init(
-    dismiss: @escaping (PlaceholderViewController) -> Void
+    dismissNoAnimation: @escaping (PlaceholderViewController) -> Void,
+    dismissFadeOut: @escaping (PlaceholderViewController) -> Void,
+    pop: @escaping (PlaceholderViewController) -> Void
   ) {
-    self._dismiss = dismiss
+    self._dismissNoAnimation = dismissNoAnimation
+    self._dismissFadeOut = dismissFadeOut
+    self._pop = pop
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -107,17 +129,32 @@ private final class PlaceholderViewController: UIViewController {
 
     view.backgroundColor = .neonRandom()
 
-    let dismissButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Dismiss", for: .normal)
+    let dismissNoAnimationButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Dismiss(noAnimation)", for: .normal)
       $0.onTap { [unowned self] in
-        _dismiss(self)
+        _dismissNoAnimation(self)
+      }
+    }
+    let dismissFadeOutButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Dismiss(fadeOut)", for: .normal)
+      $0.onTap { [unowned self] in
+        _dismissFadeOut(self)
+      }
+    }
+
+    let popButton = UIButton(type: .system)&>.do {
+      $0.setTitle("Pop", for: .normal)
+      $0.onTap { [unowned self] in
+        _pop(self)
       }
     }
 
     Mondrian.buildSubviews(on: view) {
       ZStackBlock {
         VStackBlock {
-          dismissButton
+          dismissNoAnimationButton
+          dismissFadeOutButton
+          popButton
         }
       }
     }
