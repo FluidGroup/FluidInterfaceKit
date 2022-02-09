@@ -1,5 +1,7 @@
 # FluidInterfaceKit
 
+**Replacement for modal-presentation, navigation controller**
+
 A framework to build flexible apps instead of using UIKit's standard container and transition components.
 
 - Builds app without UIKit modal-presentation
