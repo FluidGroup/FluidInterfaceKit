@@ -135,5 +135,89 @@ final class AppOtherController: CodeBasedViewController {
     super.viewDidLoad()
 
     view.backgroundColor = .neon(.blue)
+    
+    let list = VGridView(numberOfColumns: 1)
+
+    Mondrian.buildSubviews(on: view) {
+      ZStackBlock(alignment: .attach(.all)) {
+        list
+          .viewBlock
+      }
+      .container(respectingSafeAreaEdges: .all)
+    }
+
+    list.setContents(
+      buildArray {
+
+        makeButtonView(
+          title: "Push",
+          onTap: { [unowned self] in
+
+            let controller = NavigationChildViewController(hidesBottomBar: false)
+            
+            navigationController?.pushViewController(controller, animated: true)
+
+          }
+        )
+
+      }
+    )
+  }
+}
+
+final class NavigationChildViewController: UIViewController {
+  
+  init(hidesBottomBar: Bool) {
+    super.init(nibName: nil, bundle: nil)
+    self.hidesBottomBarWhenPushed = hidesBottomBar
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    view.backgroundColor = .systemBackground
+    
+    let list = VGridView(numberOfColumns: 1)
+
+    Mondrian.buildSubviews(on: view) {
+      ZStackBlock(alignment: .attach(.all)) {
+        list
+          .viewBlock
+      }
+      .container(respectingSafeAreaEdges: .all)
+    }
+
+    list.setContents(
+      buildArray {
+
+        makeButtonView(
+          title: "Push",
+          onTap: { [unowned self] in
+
+            let controller = NavigationChildViewController(hidesBottomBar: false)
+
+            self.navigationController?.pushViewController(controller, animated: true)
+
+          }
+        )
+        
+        makeButtonView(
+          title: "Push hidesBottomBar",
+          onTap: { [unowned self] in
+
+            let controller = NavigationChildViewController(hidesBottomBar: true)
+
+            self.navigationController?.pushViewController(controller, animated: true)
+
+          }
+        )
+
+      }
+    )
+    
   }
 }
