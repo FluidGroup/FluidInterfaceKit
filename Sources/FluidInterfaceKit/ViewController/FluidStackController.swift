@@ -35,6 +35,11 @@ open class FluidStackController: UIViewController {
   /// A content view that stays in back
   public let contentView: UIView
 
+  /// The view controller at the top of the stack.
+  public var topViewController: UIViewController? {
+    return stackingViewControllers.last
+  }
+
   /// An array of view controllers currently managed.
   /// Might be different with ``UIViewController.children``.
   public private(set) var stackingViewControllers: [UIViewController] = [] {
