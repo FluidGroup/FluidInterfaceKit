@@ -9,6 +9,7 @@ extension AnyAddingTransition {
     return .init { context in
 
       context.contentView.backgroundColor = .clear
+      context.toViewController.view.alpha = 0
 
       let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
         context.toViewController.view.alpha = 1

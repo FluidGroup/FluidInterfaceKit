@@ -3,6 +3,7 @@ import MatchedTransition
 import MondrianLayout
 import StorybookKit
 import UIKit
+import FluidInterfaceKit
 
 let book = Book(title: "FluidInterfaceKit") {
 
@@ -25,7 +26,7 @@ let book = Book(title: "FluidInterfaceKit") {
   }
 
   BookNavigationLink(title: "Transition") {
-    BookPush(title: "Adding - in fluid stack") {
+    BookPresent(title: "Adding - in fluid stack") {
       DemoTransitionViewController()
     }
   }

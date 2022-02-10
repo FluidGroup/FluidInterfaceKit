@@ -2,7 +2,7 @@ import UIKit
 
 extension AnyRemovingTransition {
 
-  public static func popIdiom(
+  public static func navigationIdiom(
     duration: TimeInterval = 0.6
   ) -> Self {
 

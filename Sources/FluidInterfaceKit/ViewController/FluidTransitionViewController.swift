@@ -68,7 +68,7 @@ open class FluidTransitionViewController: _fluid_WrapperViewController {
     removingTransition.startTransition(context: context)
   }
   
-  open override func didMove(toParent parent: UIViewController?) {
+  open override func didMove(toParent parent: UIViewController?) {    
     super.didMove(toParent: parent)
     
     assert({

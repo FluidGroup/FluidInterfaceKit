@@ -2,7 +2,7 @@ import UIKit
 
 extension AnyAddingTransition {
 
-  public static func pushIdiom(
+  public static func navigationIdiom(
     duration: TimeInterval = 0.6
   ) -> Self {
 
