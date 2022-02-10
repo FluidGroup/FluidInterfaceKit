@@ -131,7 +131,7 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
   }
 
   @objc private func onTapBackButton() {
-    dismissFluid(transition: nil, completion: nil)
+    fluidPop(transition: nil, completion: nil)
   }
 
 }

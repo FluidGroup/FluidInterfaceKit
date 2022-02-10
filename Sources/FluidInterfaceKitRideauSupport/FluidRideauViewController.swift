@@ -145,7 +145,7 @@ open class FluidRideauViewController: FluidTransitionViewController {
   @objc private dynamic func didTapBackdropView(gesture: UITapGestureRecognizer) {
     assert(fluidStackContext != nil)
     onWillDismiss()    
-    dismissFluid(transition: nil, completion: nil)
+    fluidPop(transition: nil, completion: nil)
 
   }
 }

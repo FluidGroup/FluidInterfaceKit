@@ -54,7 +54,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
   private func _display() {
 
     let body = PlaceholderViewController { instance in
-      instance.dismissFluid(transition: nil, completion: nil)
+      instance.fluidPop(transition: nil, completion: nil)
     }
 
     let rideauController = FluidRideauViewController(

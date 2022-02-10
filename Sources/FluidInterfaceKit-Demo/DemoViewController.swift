@@ -120,14 +120,14 @@ final class ContentViewController: UIViewController {
     let dismissButton = UIButton(type: .system)&>.do {
       $0.setTitle("Remove self", for: .normal)
       $0.onTap { [unowned self] in
-        dismissFluid(transition: .vanishing(), completion: nil)
+        fluidPop(transition: .vanishing(), completion: nil)
       }
     }
 
     let addButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add", for: .normal)
       $0.onTap { [unowned self] in
-        presentFluid(
+        fluidPush(
           ContentViewController(color: .neonRandom()),
           target: .current,
           transition: .modalIdiom()
@@ -138,7 +138,7 @@ final class ContentViewController: UIViewController {
     let addNavigatedButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add Navigated", for: .normal)
       $0.onTap { [unowned self] in
-        presentFluid(
+        fluidPush(
           FluidNavigatedViewController(
             bodyViewController: ContentViewController(color: .neonRandom())
           ),
@@ -159,7 +159,7 @@ final class ContentViewController: UIViewController {
       $0.setTitle("Add Interactive content", for: .normal)
       $0.onTap { [unowned self] in
 
-        presentFluid(
+        fluidPush(
           FluidViewController(
             bodyViewController: ContentViewController(color: .neonRandom()),
             addingTransition: nil,
