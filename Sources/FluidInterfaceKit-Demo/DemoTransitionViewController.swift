@@ -59,9 +59,7 @@ final class DemoTransitionViewController: FluidStackController {
 
             _display(
               transition: .navigationIdiom(),
-              removingInteraction: .leftToRight(dismiss: {
-                $0.dismissFluid(transition: .noAnimation, completion: nil)
-              })
+              removingInteraction: .leftToRight()
             )
           }
         )
@@ -74,7 +72,7 @@ final class DemoTransitionViewController: FluidStackController {
 
     let body = PlaceholderViewController(
       dismissNoAnimation: { instance in
-        instance.fluidStackContext?.removeSelf(transition: nil)
+        instance.fluidStackContext?.removeSelf(transition: .noAnimation)
       },
       dismissFadeOut: { instance in
         instance.fluidStackContext?.removeSelf(transition: .fadeOut())

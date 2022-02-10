@@ -202,8 +202,7 @@ open class FluidViewController: FluidTransitionViewController, UIGestureRecogniz
   ) -> Bool {
 
     if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
-
-      return (otherGestureRecognizer is UIScreenEdgePanGestureRecognizer) == false
+      return false
     }
 
     if otherGestureRecognizer is UIPanGestureRecognizer {

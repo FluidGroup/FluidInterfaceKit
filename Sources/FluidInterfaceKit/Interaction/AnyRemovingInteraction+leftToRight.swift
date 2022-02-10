@@ -3,13 +3,11 @@ import UIKit
 extension AnyRemovingInteraction {
 
   // FIXME: not completed
-  public static func leftToRight(
-    dismiss: @escaping (FluidViewController) -> Void
-  ) -> Self {
+  public static func leftToRight() -> Self {
 
     struct TrackingContext {
 
-      var scrollController: ScrollController?
+      let transitionContext: RemovingTransitionContext
       let viewFrame: CGRect
       let beganPoint: CGPoint
       let animator: UIViewPropertyAnimator
@@ -35,7 +33,7 @@ extension AnyRemovingInteraction {
 
     return .init(
       handlers: [
-        .gestureOnScreen(
+        .gestureOnLeftEdge(
           handler: { gesture, context in
 
             let view = context.viewController.view!
@@ -92,6 +90,8 @@ extension AnyRemovingInteraction {
                 view.transform = currentTransform
                 backViewController?.view.transform = currentTransform.translatedBy(x: -view.bounds.width, y: 0)
 
+                let transitionContext = context.startRemovingTransition()
+
                 let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {
                   view.transform = currentTransform.translatedBy(x: view.bounds.width, y: 0)
                   backViewController?.view.transform = .identity
@@ -100,7 +100,7 @@ extension AnyRemovingInteraction {
                 animator.addCompletion { position in
                   switch position {
                   case .end:
-                    dismiss(context.viewController)
+                    transitionContext.notifyAnimationCompleted()
                   case .start:
                     break
                   case .current:
@@ -111,30 +111,12 @@ extension AnyRemovingInteraction {
                   }
                 }
 
-                var newTrackingContext = TrackingContext(
-                  scrollController: nil,
+                let newTrackingContext = TrackingContext(
+                  transitionContext: transitionContext,
                   viewFrame: view.bounds,
                   beganPoint: gesture.location(in: view),
                   animator: animator
                 )
-
-                if let scrollView = gesture.trackingScrollView {
-
-                  let representation = ScrollViewRepresentation(from: scrollView)
-
-                  if representation.isReachedToEdge(.left) {
-
-                    let newScrollController = ScrollController(scrollView: scrollView)
-                    newScrollController.lockScrolling()
-
-                    newTrackingContext.scrollController = newScrollController
-
-                  } else {
-                    gesture.state = .failed
-                    return
-                  }
-
-                }
 
                 trackingContext = newTrackingContext
 
@@ -153,13 +135,11 @@ extension AnyRemovingInteraction {
 
               backViewController?.view.transform = .identity
 
-              _trackingContext.scrollController?.unlockScrolling()
-              _trackingContext.scrollController?.endTracking()
-
               let progress = _trackingContext.calulateProgress(gesture: gesture)
               let velocity = gesture.velocity(in: gesture.view)
 
               if progress > 0.5 || velocity.x > 300 {
+
                 let velocityX = _trackingContext.normalizedVelocity(gesture: gesture)
                 _trackingContext.animator.continueAnimation(
                   withTimingParameters: UISpringTimingParameters(
@@ -168,6 +148,7 @@ extension AnyRemovingInteraction {
                   ),
                   durationFactor: 1
                 )
+
               } else {
 
                 _trackingContext.animator.stopAnimation(true)
@@ -175,8 +156,9 @@ extension AnyRemovingInteraction {
                   view.transform = .identity
                   backViewController?.view.transform = view.transform.translatedBy(x: -view.bounds.width, y: 0)
                 }
-                animator.addCompletion { _ in
+                animator.addCompletion { position in
                   backViewController?.view.transform = .identity
+                  _trackingContext.transitionContext.notifyCancelled()
                 }
                 animator.startAnimation()
 
@@ -192,8 +174,7 @@ extension AnyRemovingInteraction {
 
               backViewController?.view.transform = .identity
 
-              _trackingContext.scrollController?.unlockScrolling()
-              _trackingContext.scrollController?.endTracking()
+              _trackingContext.transitionContext.notifyCancelled()
 
               trackingContext = nil
 
