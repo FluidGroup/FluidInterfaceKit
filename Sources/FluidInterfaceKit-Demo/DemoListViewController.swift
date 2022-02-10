@@ -142,7 +142,7 @@ final class DemoListDetailViewController: FluidNavigatedViewController {
         .aspectRatio(1)
         
         UIButton.make(title: "Dismiss") { [unowned self] in
-          dismissFluid(
+          fluidPop(
             transition: removingTransitionProvider(),
             completion: {}
           )

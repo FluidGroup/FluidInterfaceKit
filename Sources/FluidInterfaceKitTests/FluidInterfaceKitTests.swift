@@ -27,14 +27,14 @@ final class DismissTests: XCTestCase {
     stackController.addContentViewController(fluidPresentation, transition: .noAnimation)
     XCTAssertEqual(stackController.stackingViewControllers.count, 1)
       
-    fluidPresentation.dismissFluid(transition: .noAnimation, completion: nil)
+    fluidPresentation.fluidPop(transition: .noAnimation, completion: nil)
     XCTAssertEqual(stackController.stackingViewControllers.count, 0)
     
     stackController.present(fluidPresentation)
     
     XCTAssertEqual(fluidPresentation.presentingViewController, rootViewController)
     
-    fluidPresentation.dismissFluid(transition: .noAnimation, completion: {
+    fluidPresentation.fluidPop(transition: .noAnimation, completion: {
     })
     
     XCTAssertEqual(fluidPresentation.presentingViewController, nil)

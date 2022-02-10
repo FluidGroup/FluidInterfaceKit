@@ -158,12 +158,12 @@ extension UIViewController {
 extension UIViewController {
   
   /**
-   Presents given view controller as fluid-presentation.
+   Adds a given view controller to the target ``FluidStackController``.
    
    - Parameters:
-     - transition: You may set ``.noAnimation`` to disable animation
+     - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation
    */
-  public func presentFluid(
+  public func fluidPush(
     _ viewController: UIViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition?
@@ -188,12 +188,12 @@ extension UIViewController {
   }
 
   /**
-   Dimisses this view controller if it's fluid-presentation.
+   Removes this view controller from the target ``FluidStackController``.
    
    - Parameters:
-     - transition: You may set ``.noAnimation`` to disable animation
+     - transition: You may set ``AnyRemovingTransition/noAnimation`` to disable animation
    */
-  public func dismissFluid(
+  public func fluidPop(
     transition: AnyRemovingTransition?,
     completion: (() -> Void)? = nil
   ) {
@@ -204,22 +204,16 @@ extension UIViewController {
       return
     }
     
-    if FluidFeatures.enablesDismissalFallback {
-      if presentedViewController == nil,
-         let presentingViewController = presentingViewController
-      {
-        // this view controller is presented as modal-presentation.
-        // dimiss itself
-        presentingViewController.dismiss(animated: true, completion: completion)
-        return
-      } else {
-        assertionFailure("Nothing happens")
-      }
-    } else {
-      let message = "\(self) is not presented as fluid-presentation"
-      Log.error(.viewController, message)
-      assertionFailure(message)
-    }
+    let message = "\(self) is not presented as fluid-presentation"
+    Log.error(.viewController, message)
+    assertionFailure(message)
+  }
+  
+  /**
+   Whether this view controller or its parent recursively is in ``FluidStackController``.
+   */
+  public var isInFluidStackController: Bool {
+    fluidStackContext != nil
   }
 
 }
