@@ -205,15 +205,15 @@ extension UIViewController {
     }
     
     if FluidFeatures.enablesDismissalFallback {
-      if
-        parent == nil,
-        presentedViewController == nil,
-        let presentingViewController = presentingViewController
+      if presentedViewController == nil,
+         let presentingViewController = presentingViewController
       {
         // this view controller is presented as modal-presentation.
         // dimiss itself
         presentingViewController.dismiss(animated: true, completion: completion)
         return
+      } else {
+        assertionFailure("Nothing happens")
       }
     } else {
       let message = "\(self) is not presented as fluid-presentation"
