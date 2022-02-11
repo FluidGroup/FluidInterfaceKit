@@ -12,7 +12,7 @@ public struct AnyRemovingInteraction {
 
   public struct Context {
     /// a ``FluidViewController`` that runs ``AnyRemovingInteraction``
-    public let viewController: FluidViewController
+    public let viewController: FluidGestureHandlingViewController
     
     public func startRemovingTransition() -> RemovingTransitionContext {
       precondition(viewController.fluidStackContext != nil)

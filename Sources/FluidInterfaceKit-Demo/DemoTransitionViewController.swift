@@ -8,7 +8,7 @@ import UIKit
 
 final class DemoTransitionViewController: FluidStackController {
 
-  private final class RootViewController: UIViewController {}
+  private final class RootViewController: FluidViewController {}
 
   private let rootController = RootViewController()
 
@@ -82,9 +82,9 @@ final class DemoTransitionViewController: FluidStackController {
       }
     )
 
-    let controller = FluidNavigatedViewController(
-      bodyViewController: body,
-      configuration: .init(transition: .navigation(), navigation: .init(backBarButton: .multiply))
+    let controller = FluidViewController(
+      content: .init(bodyViewController: body),
+      transition: .navigation()
     )
 
     addContentViewController(controller, transition: transition)

@@ -1,101 +1,67 @@
-import Foundation
+import ResultBuilderKit
 import UIKit
 
-/**
- A view controller that supports interaction to start removing transiton.
- It works as a wrapper for another view controller or using with subclassing.
- If you have already implementation of view controller and want to get flexibility, you can use this class as a wrapper.
- 
- ```swift
- let yourController = YourViewController()
- 
- let fluidController = FluidViewController(
-   bodyViewController: yourController,
-   ...
- )
- ```
- 
- You may specify ``AnyRemovingInteraction``
- */
-open class FluidViewController: FluidTransitionViewController, UIGestureRecognizerDelegate {
+/// A view controller that extended from ``FluidViewController``.
+/// It has ``UINavigationBar`` that working with navigation item of itself or `bodyViewController`.
+open class FluidViewController: FluidGestureHandlingViewController, UINavigationBarDelegate {
 
   // MARK: - Properties
 
-  @available(*, unavailable, message: "Unsupported")
-  open override var navigationController: UINavigationController? {
-    super.navigationController
-  }
+  public private(set) var topBar: UIView?
 
-  public var panGesture: UIPanGestureRecognizer?
+  private(set) var isTopBarHidden: Bool = false
 
-  public var edgePanGesture: UIScreenEdgePanGestureRecognizer?
+  public let configuration: Configuration
 
-  private var registeredGestures: [UIGestureRecognizer] = []
+  private var subscriptions: [NSKeyValueObservation] = []
 
-  private var removingInteraction: AnyRemovingInteraction?
+  private var _onTapBackButton: (FluidViewController) -> Void = { _ in }
 
   // MARK: - Initializers
 
-  public init(
-    addingTransition: AnyAddingTransition?,
-    removingTransition: AnyRemovingTransition?,
-    removingInteraction: AnyRemovingInteraction?
-  ) {
-    self.removingInteraction = removingInteraction
-    super.init(
-      addingTransition: addingTransition,
-      removingTransition: removingTransition
-    )
-  }
-
   /// Creates an instance
   ///
   /// - Parameters:
-  ///   - bodyViewController: a view controller that displays as a child view controller. It helps a case of can't create a subclass of FluidViewController.
+  ///   - content:
   ///   - removingInteraction: it can be replaced later
   public init(
-    bodyViewController: UIViewController,
-    addingTransition: AnyAddingTransition?,
-    removingTransition: AnyRemovingTransition?,
-    removingInteraction: AnyRemovingInteraction?
+    content: FluidWrapperViewController.Content? = nil,
+    configuration: Configuration
   ) {
-    self.removingInteraction = removingInteraction
+    self.configuration = configuration
     super.init(
-      bodyViewController: bodyViewController,
-      addingTransition: addingTransition,
-      removingTransition: removingTransition
+      content: content,
+      addingTransition: configuration.transition.addingTransition,
+      removingTransition: configuration.transition.removingTransition,
+      removingInteraction: configuration.transition.removingInteraction
     )
   }
 
-  /// Creates an instance
-  ///
-  /// - Parameters:
-  ///   - view: a view controller that displays as a child view controller. It helps a case of can't create a subclass of FluidViewController.
-  ///   - removingInteraction: it can be replaced laterpublic
   public init(
-    view: UIView,
-    addingTransition: AnyAddingTransition?,
-    removingTransition: AnyRemovingTransition?,
-    removingInteraction: AnyRemovingInteraction?
+    content: FluidWrapperViewController.Content? = nil,
+    transition: Configuration.Transition = .modal(),
+    topBar: Configuration.TopBar = .navigation(
+      .init(
+        displayMode: .automatic,
+        usesBodyViewController: true,
+        backBarButton: .chevronBackward,
+        navigationBarClass: UINavigationBar.self
+      )
+    )
   ) {
-
-    self.removingInteraction = removingInteraction
+    self.configuration = .init(transition: transition, topBar: topBar)
     super.init(
-      view: view,
-      addingTransition: addingTransition,
-      removingTransition: removingTransition
+      content: content,
+      addingTransition: configuration.transition.addingTransition,
+      removingTransition: configuration.transition.removingTransition,
+      removingInteraction: configuration.transition.removingInteraction
     )
   }
-  
-  deinit {
-    Log.debug(.fluidController, "Deinit \(self)")
-  }
 
-  @available(*, unavailable)
-  public required init?(
-    coder: NSCoder
-  ) {
-    fatalError()
+  deinit {
+    subscriptions.forEach {
+      $0.invalidate()
+    }
   }
 
   // MARK: - Functions
@@ -103,202 +69,281 @@ open class FluidViewController: FluidTransitionViewController, UIGestureRecogniz
   open override func viewDidLoad() {
     super.viewDidLoad()
 
-    setupGestures()
-  }  
+    switch configuration.topBar {
+    case .navigation(let navigation):
 
-  public func setInteraction(_ newInteraction: AnyRemovingInteraction) {
-    assert(Thread.isMainThread)
+      let navigationBar = navigation.navigationBarClass.init()
 
-    removingInteraction = newInteraction
-    setupGestures()
+      navigationBar.delegate = self
+
+      view.addSubview(navigationBar)
+
+      navigationBar.translatesAutoresizingMaskIntoConstraints = false
+      NSLayoutConstraint.activate([
+        navigationBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        navigationBar.rightAnchor.constraint(equalTo: view.rightAnchor),
+        navigationBar.leftAnchor.constraint(equalTo: view.leftAnchor),
+      ])
+
+      let targetNavigationItem =
+        navigation.usesBodyViewController
+        ? (content.bodyViewController?.navigationItem ?? navigationItem) : navigationItem
+
+      if let backBarButton = navigation.backBarButton {
+
+        let item = backBarButton._make()
+        _onTapBackButton = backBarButton._onTap
+        item.action = #selector(onTapBackButton)
+        item.target = self
+        targetNavigationItem.leftBarButtonItem = item
+
+      }
+
+      navigationBar.pushItem(targetNavigationItem, animated: false)
+
+      subscriptions = Self.observeNavigationItem(navigationItem: targetNavigationItem) {
+        [weak self, displayMode = navigation.displayMode] item in
+
+        guard let self = self else { return }
+
+        let isNavigationBarHidden: Bool
+
+        switch displayMode {
+        case .hidden:
+          isNavigationBarHidden = true
+        case .automatic:
+
+          let flags = [
+            (targetNavigationItem.rightBarButtonItems ?? []).isEmpty,
+            (targetNavigationItem.leftBarButtonItems ?? []).isEmpty,
+            (targetNavigationItem.title ?? "").isEmpty,
+            targetNavigationItem.titleView == nil,
+          ]
+          .compactMap { $0 }
+
+          isNavigationBarHidden = !flags.contains(false)
+        case .always:
+          isNavigationBarHidden = false
+        }
+
+        if self.isTopBarHidden != isNavigationBarHidden {
+          self.isTopBarHidden = isNavigationBarHidden
+          self.updateTopBarLayout()
+        }
+
+      }
+
+      self.topBar = navigationBar
+
+    case .custom:
+      break
+    }
+
   }
 
-  private func setupGestures() {
-    
-    assert(Thread.isMainThread)
+  open override func viewDidLayoutSubviews() {
+    updateTopBarLayout()
+  }
 
-    registeredGestures.forEach {
-      view.removeGestureRecognizer($0)
-    }
-    registeredGestures = []
+  //  open override func didMove(toParent parent: UIViewController?) {
+  //    super.didMove(toParent: parent)
+  //
+  //    if let parent = parent as? FluidStackController {
+  //
+  //      if parent.configuration.retainsRootViewController {
+  //
+  //        if parent.stackingViewControllers.count > 1 {
+  //
+  //        }
+  //
+  //      } else {
+  //
+  //        if parent.stackingViewControllers.count > 0 {
+  //
+  //        }
+  //
+  //      }
+  //
+  //    }
+  //  }
 
-    guard let interaction = removingInteraction else {
+  public func position(for bar: UIBarPositioning) -> UIBarPosition {
+    return .topAttached
+  }
+
+  @objc private func onTapBackButton() {
+    _onTapBackButton(self)
+  }
+
+  private func updateTopBarLayout() {
+
+    guard let topBar = topBar else {
+      self.additionalSafeAreaInsets.top = 0
       return
     }
 
-    for handler in interaction.handlers {
-      switch handler {
-      case .gestureOnLeftEdge:
-        
-        if let _ = edgePanGesture {
-          return
-        }
-        
-        let edgeGesture = _EdgePanGestureRecognizer(
-          target: self,
-          action: #selector(handleEdgeLeftPanGesture)
+    view.bringSubviewToFront(topBar)
+
+    if isTopBarHidden {
+
+      topBar.isHidden = true
+      additionalSafeAreaInsets.top = 0
+
+    } else {
+      topBar.isHidden = false
+      self.additionalSafeAreaInsets.top = topBar.frame.height
+    }
+
+  }
+
+  private static func observeNavigationItem(
+    navigationItem: UINavigationItem,
+    onUpdated: @escaping (UINavigationItem) -> Void
+  ) -> [NSKeyValueObservation] {
+
+    let tokens = buildArray {
+      navigationItem.observe(\.titleView, options: [.new]) { item, _ in
+        onUpdated(item)
+      }
+
+      navigationItem.observe(\.leftBarButtonItems, options: [.new]) { item, _ in
+        onUpdated(item)
+      }
+
+      navigationItem.observe(\.rightBarButtonItems, options: [.new]) { item, _ in
+        onUpdated(item)
+      }
+
+      navigationItem.observe(\.title, options: [.new]) { item, _ in
+        onUpdated(item)
+      }
+    }
+
+    return tokens
+
+  }
+
+}
+
+extension FluidViewController {
+
+  public struct Configuration {
+
+    public struct Transition {
+
+      public var addingTransition: AnyAddingTransition?
+      public var removingTransition: AnyRemovingTransition?
+      public var removingInteraction: AnyRemovingInteraction?
+
+      public init(
+        addingTransition: AnyAddingTransition? = nil,
+        removingTransition: AnyRemovingTransition? = nil,
+        removingInteraction: AnyRemovingInteraction? = nil
+      ) {
+        self.addingTransition = addingTransition
+        self.removingTransition = removingTransition
+        self.removingInteraction = removingInteraction
+      }
+
+      public static func navigation() -> Self {
+        return .init(
+          addingTransition: .navigationIdiom(),
+          removingTransition: .navigationIdiom(),
+          removingInteraction: .leftToRight()
         )
-        edgeGesture.edges = .left
-        view.addGestureRecognizer(edgeGesture)
-        edgeGesture.delegate = self
-        self.edgePanGesture = edgeGesture
-        registeredGestures.append(edgeGesture)
-      case .gestureOnScreen:
-        
-        if let _ = panGesture {
-          return
-        }
-        
-        let panGesture = _PanGestureRecognizer(target: self, action: #selector(handlePanGesture))
-        view.addGestureRecognizer(panGesture)
-        panGesture.delegate = self
-        self.panGesture = panGesture
-
-        registeredGestures.append(panGesture)
       }
-    }
-    
-    if let edgePanGesture = edgePanGesture, let panGesture = panGesture {
-      panGesture.require(toFail: edgePanGesture)
-    }
-    
-  }
 
-  @objc
-  private func handleEdgeLeftPanGesture(_ gesture: _EdgePanGestureRecognizer) {
-
-    guard let interaction = removingInteraction else {
-      return
-    }
-
-    for handler in interaction.handlers {
-      if case .gestureOnLeftEdge(let handler) = handler {
-
-        handler(gesture, .init(viewController: self))
-
+      public static func modal() -> Self {
+        return .init(
+          addingTransition: .modalIdiom(),
+          removingTransition: .modalIdiom(),
+          removingInteraction: nil
+        )
       }
+
     }
 
-  }
+    public enum TopBar {
 
-  @objc
-  private func handlePanGesture(_ gesture: _PanGestureRecognizer) {
+      public struct Navigation {
 
-    guard let interaction = removingInteraction else {
-      return
-    }
-
-    for handler in interaction.handlers {
-      if case .gestureOnScreen(let handler) = handler {
-        handler(gesture, .init(viewController: self))
-      }
-    }
-
-  }
-
-  public func gestureRecognizer(
-    _ gestureRecognizer: UIGestureRecognizer,
-    shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
-  ) -> Bool {
-
-    if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
-      return false
-    }
-
-    if otherGestureRecognizer is UIPanGestureRecognizer {
-      // to make ScrollView prior.
-      return false
-    }
-
-    return true
-  }
-
-}
-
-final class _EdgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer {
-
-  weak var trackingScrollView: UIScrollView?
-
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-    trackingScrollView = event.findScrollView()
-    super.touchesBegan(touches, with: event)
-  }
-
-  override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
-
-    super.touchesMoved(touches, with: event)
-  }
-
-  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
-    super.touchesEnded(touches, with: event)
-  }
-
-  override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
-    super.touchesCancelled(touches, with: event)
-  }
-
-}
-
-public final class _PanGestureRecognizer: UIPanGestureRecognizer {
-
-  public private(set) weak var trackingScrollView: UIScrollView?
-
-  public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-    trackingScrollView = event.findScrollView()
-    super.touchesBegan(touches, with: event)
-  }
-
-  public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
-
-    super.touchesMoved(touches, with: event)
-  }
-
-  public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
-    super.touchesEnded(touches, with: event)
-  }
-
-  public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
-    super.touchesCancelled(touches, with: event)
-  }
-
-}
-
-extension UIEvent {
-
-  fileprivate func findScrollView() -> UIScrollView? {
-
-    guard
-      let firstTouch = allTouches?.first,
-      let targetView = firstTouch.view
-    else { return nil }
-
-    let scrollView = sequence(first: targetView, next: \.next).map { $0 }
-      .first {
-        guard let scrollView = $0 as? UIScrollView else {
-          return false
+        public enum DisplayMode {
+          case hidden
+          case automatic
+          case always
         }
 
-        func isScrollable(scrollView: UIScrollView) -> Bool {
+        public struct BackBarButton {
 
-          let contentInset: UIEdgeInsets
+          let _make: () -> UIBarButtonItem
+          let _onTap: (FluidViewController) -> Void
 
-          if #available(iOS 11.0, *) {
-            contentInset = scrollView.adjustedContentInset
-          } else {
-            contentInset = scrollView.contentInset
+          public init(
+            make: @escaping () -> UIBarButtonItem,
+            onTap: @escaping (FluidViewController) -> Void = {
+              $0.fluidPop(transition: nil, completion: nil)
+            }
+          ) {
+            self._make = make
+            self._onTap = onTap
           }
 
-          return
-            (scrollView.bounds.width - (contentInset.right + contentInset.left)
-            <= scrollView.contentSize.width)
-            || (scrollView.bounds.height - (contentInset.top + contentInset.bottom)
-              <= scrollView.contentSize.height)
+          public static var chevronBackward: Self {
+            return .init {
+              ._fluid_chevronBackward()
+            }
+          }
+
+          public static var multiply: Self {
+            return .init {
+              ._fluid_chevronBackward()
+            }
+          }
         }
 
-        return isScrollable(scrollView: scrollView)
+        public var displayMode: DisplayMode
+
+        public var usesBodyViewController: Bool
+
+        public let backBarButton: BackBarButton?
+
+        public let navigationBarClass: UINavigationBar.Type
+
+        public init(
+          displayMode: DisplayMode = .automatic,
+          usesBodyViewController: Bool = true,
+          backBarButton: BackBarButton?,
+          navigationBarClass: UINavigationBar.Type = UINavigationBar.self
+        ) {
+          self.displayMode = displayMode
+          self.usesBodyViewController = usesBodyViewController
+          self.backBarButton = backBarButton
+          self.navigationBarClass = navigationBarClass
+        }
+
       }
 
-    return (scrollView as? UIScrollView)
+      case navigation(Navigation)
+
+      // FIXME: Unimplemented
+      case custom
+    }
+
+    //    public struct BottomBar {
+    //
+    //    }
+
+    public let transition: Transition
+    public let topBar: TopBar
+
+    public init(
+      transition: Transition,
+      topBar: TopBar
+    ) {
+      self.transition = transition
+      self.topBar = topBar
+    }
+
   }
 
 }

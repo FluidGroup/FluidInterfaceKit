@@ -29,6 +29,7 @@
 		4B468075279C58E800625FCB /* DemoApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */; };
 		4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
+		4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */; };
 		4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */; };
 		4B7410B927ACE975003D8AB5 /* DemoCompositionOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */; };
 		4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B1B2764F7B30003FFB6 /* StorybookKit */; };
@@ -72,6 +73,7 @@
 		4B46805E279C58E800625FCB /* UIControl+Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
 		4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoApplicationViewController.swift; sourceTree = "<group>"; };
 		4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
+		4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidViewControllerTests.swift; sourceTree = "<group>"; };
 		4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemTests.swift; sourceTree = "<group>"; };
 		4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCompositionOrderViewController.swift; sourceTree = "<group>"; };
 		4B79CAAA2792A3A0002DA1DF /* Ne */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Ne; path = submodules/Ne; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			children = (
 				4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */,
 				4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */,
+				4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */,
 			);
 			path = FluidInterfaceKitTests;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */,
 				4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */,
 				4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */,
 			);
