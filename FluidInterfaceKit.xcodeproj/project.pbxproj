@@ -43,6 +43,7 @@
 		4BC667C127B2E6B300182E6C /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */; };
 		4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F327B6B02300095412 /* StorybookKit */; };
 		4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F527B6B02300095412 /* StorybookUI */; };
+		4BC8F5F827B6B1DA00095412 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
 		4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
@@ -84,6 +85,7 @@
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
 		4BC667B727B2E69C00182E6C /* FluidInterfaceKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluidInterfaceKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidInterfaceKitTests.swift; sourceTree = "<group>"; };
+		4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeBuilder.swift; sourceTree = "<group>"; };
 		4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidStackControllerTests.swift; sourceTree = "<group>"; };
 		4BDDF267277F509C00636B00 /* MondrianLayout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MondrianLayout; path = submodules/MondrianLayout; sourceTree = "<group>"; };
 		4BDDF26A277F548900636B00 /* GeometryKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GeometryKit; path = submodules/GeometryKit; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */,
 				4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */,
 				4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */,
+				4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */,
 			);
 			path = FluidInterfaceKitTests;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 			files = (
 				4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */,
 				4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */,
+				4BC8F5F827B6B1DA00095412 /* TreeBuilder.swift in Sources */,
 				4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */,
 				4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */,
 			);

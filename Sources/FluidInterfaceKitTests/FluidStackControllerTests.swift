@@ -51,19 +51,75 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
   }
 
-  func testFindContext() {
+  func testRemoving2() {
 
     let stack = FluidStackController()
 
+    _ = Node(stack) {
+      Node {}
+      Node {}
+      Node {}
+      Node {}
+      Node {}
+    }
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 5)
+    
+    stack.removeLastViewController(transition: .noAnimation)
+    
+    XCTAssertEqual(stack.stackingViewControllers.count, 4)
+  }
+
+  func testFindContext() {
+
     let controller = UIViewController()
 
-    let wrapper = FluidWrapperViewController(
-      content: .init(bodyViewController: controller, view: nil)
-    )
+    _ = Node(FluidStackController()) {
+      Node {
+        Node {
+          Node(controller) {
 
-    stack.addContentViewController(wrapper, transition: .noAnimation)
+          }
+        }
+      }
+    }
 
     XCTAssertNotNil(controller.fluidStackContext)
+
+  }
+
+  func testFindStackByIdentifier() {
+
+    let controller = UIViewController()
+
+    _ = Node(FluidStackController(identifier: .init("1"))) {
+      Node {
+        Node(FluidStackController(identifier: .init("2"))) {
+          Node {
+            Node {
+              Node {
+
+              }
+            }
+          }
+        }
+        Node {
+          Node(FluidStackController(identifier: .init("3"))) {
+            Node {
+              Node {
+                Node(controller) {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    XCTAssertNotNil(controller.fluidStackController(with: .identifier(.init("1"))))
+    XCTAssertNotNil(controller.fluidStackController(with: .identifier(.init("3"))))
+    XCTAssertNil(controller.fluidStackController(with: .identifier(.init("2"))))
 
   }
 
