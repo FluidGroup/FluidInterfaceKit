@@ -1,6 +1,7 @@
 import FluidInterfaceKit
 import Foundation
 import XCTest
+@testable import FluidInterfaceKit_Demo
 
 final class FluidStackControllerTests: XCTestCase {
 

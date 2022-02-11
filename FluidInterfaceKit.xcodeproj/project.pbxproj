@@ -43,13 +43,24 @@
 		4BC667C127B2E6B300182E6C /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */; };
 		4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F327B6B02300095412 /* StorybookKit */; };
 		4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F527B6B02300095412 /* StorybookUI */; };
-		4BC8F5F827B6B1DA00095412 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
+		4BC8F5F927B6CAA200095412 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
+		4BC8F5FE27B6CB3800095412 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
 		4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
 		4BFC696327A7F3BB0011238E /* CAPortalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696227A7F3BB0011238E /* CAPortalLayer.m */; };
 		4BFC696627A7F46D0011238E /* DemoPortalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4BC8F5FC27B6CB1A00095412 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4B959AEF2764F7180003FFB6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4B959B052764F77E0003FFB6;
+			remoteInfo = "FluidInterfaceKit-Demo";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
@@ -163,6 +174,7 @@
 				4B46805E279C58E800625FCB /* UIControl+Closure.swift */,
 				4B46804A279C58E800625FCB /* ViewController.swift */,
 				4B468053279C58E800625FCB /* ViewModel.swift */,
+				4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */,
 				4B468051279C58E800625FCB /* Assets.xcassets */,
 				4B468055279C58E800625FCB /* LaunchScreen.storyboard */,
 			);
@@ -217,7 +229,6 @@
 				4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */,
 				4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */,
 				4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */,
-				4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */,
 			);
 			path = FluidInterfaceKitTests;
 			sourceTree = "<group>";
@@ -273,6 +284,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4BC8F5FD27B6CB1A00095412 /* PBXTargetDependency */,
 			);
 			name = FluidInterfaceKitTests;
 			packageProductDependencies = (
@@ -370,6 +382,7 @@
 				4B468061279C58E800625FCB /* ViewController.swift in Sources */,
 				4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */,
 				4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */,
+				4BC8F5F927B6CAA200095412 /* TreeBuilder.swift in Sources */,
 				4B468070279C58E800625FCB /* AppDelegate.swift in Sources */,
 				4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */,
 				4B468075279C58E800625FCB /* DemoApplicationViewController.swift in Sources */,
@@ -381,9 +394,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BC8F5FE27B6CB3800095412 /* TreeBuilder.swift in Sources */,
 				4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */,
 				4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */,
-				4BC8F5F827B6B1DA00095412 /* TreeBuilder.swift in Sources */,
 				4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */,
 				4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */,
 			);
@@ -392,6 +405,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4BC8F5FD27B6CB1A00095412 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4B959B052764F77E0003FFB6 /* FluidInterfaceKit-Demo */;
+			targetProxy = 4BC8F5FC27B6CB1A00095412 /* PBXContainerItemProxy */;
+		};
 		4BDDF26F277F554700636B00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 		};

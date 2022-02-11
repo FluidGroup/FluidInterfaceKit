@@ -28,6 +28,8 @@ struct VC: Hashable {
         } else {
           parent.addChild(child.instance)
           parent.view.addSubview(child.instance.view)
+          child.instance.view.frame = parent.view.bounds
+          child.instance.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
           child.instance.didMove(toParent: parent)
         }
         
