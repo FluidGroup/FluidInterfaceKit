@@ -427,6 +427,17 @@ open class FluidStackController: UIViewController {
 
     return newTransitionContext
   }
+  
+  public func canRemove(viewController: UIViewController) -> Bool {
+    
+    if configuration.retainsRootViewController,
+       viewController == stackingViewControllers.first
+    {
+      return false
+    }
+
+    return true
+  }
 
   /**
    Removes given view controller with transition
@@ -437,13 +448,19 @@ open class FluidStackController: UIViewController {
   ) {
 
     // Handles configuration
-    if configuration.retainsRootViewController,
-      viewControllerToRemove == stackingViewControllers.first
-    {
+    
+    guard canRemove(viewController: viewControllerToRemove) else {
       Log.error(
         .stack,
         "Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller."
       )
+      return
+    }
+    
+    if configuration.retainsRootViewController,
+      viewControllerToRemove == stackingViewControllers.first
+    {
+      
       return
     }
 
@@ -655,7 +672,7 @@ extension FluidStackController {
 
     public var retainsRootViewController: Bool
 
-    public init(retainsRootViewController: Bool = false) {
+    public init(retainsRootViewController: Bool = true) {
       self.retainsRootViewController = retainsRootViewController
     }
 
