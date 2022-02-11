@@ -55,12 +55,12 @@ final class FluidStackControllerTests: XCTestCase {
 
     let stack = FluidStackController()
 
-    _ = Node(stack) {
-      Node {}
-      Node {}
-      Node {}
-      Node {}
-      Node {}
+    _ = VC(stack) {
+      VC {}
+      VC {}
+      VC {}
+      VC {}
+      VC {}
     }
 
     XCTAssertEqual(stack.stackingViewControllers.count, 5)
@@ -74,10 +74,10 @@ final class FluidStackControllerTests: XCTestCase {
 
     let controller = UIViewController()
 
-    _ = Node(FluidStackController()) {
-      Node {
-        Node {
-          Node(controller) {
+    _ = VC(FluidStackController()) {
+      VC {
+        VC {
+          VC(controller) {
 
           }
         }
@@ -92,22 +92,22 @@ final class FluidStackControllerTests: XCTestCase {
 
     let controller = UIViewController()
 
-    _ = Node(FluidStackController(identifier: .init("1"))) {
-      Node {
-        Node(FluidStackController(identifier: .init("2"))) {
-          Node {
-            Node {
-              Node {
+    _ = VC(FluidStackController(identifier: .init("1"))) {
+      VC {
+        VC(FluidStackController(identifier: .init("2"))) {
+          VC {
+            VC {
+              VC {
 
               }
             }
           }
         }
-        Node {
-          Node(FluidStackController(identifier: .init("3"))) {
-            Node {
-              Node {
-                Node(controller) {
+        VC {
+          VC(FluidStackController(identifier: .init("3"))) {
+            VC {
+              VC {
+                VC(controller) {
 
                 }
               }

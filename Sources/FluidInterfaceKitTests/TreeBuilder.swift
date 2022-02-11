@@ -2,21 +2,21 @@ import FluidInterfaceKit
 import ResultBuilderKit
 import UIKit
 
-struct Node: Hashable {
+struct VC: Hashable {
 
   let instance: UIViewController
 
-  let children: [Node]
+  let children: [VC]
 
   init(
     _ instance: UIViewController = UIViewController(),
-    @ArrayBuilder<Node> _ build: () -> [Node]
+    @ArrayBuilder<VC> _ build: () -> [VC]
   ) {
     
     self.instance = instance
     self.children = build()
     
-    func make(node: Node) {
+    func make(node: VC) {
 
       for child in node.children {
         
