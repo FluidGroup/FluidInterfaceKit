@@ -1,21 +1,21 @@
 [submodule "submodules/MatchedTransition"]
 	path = submodules/MatchedTransition
-	url = git@github.com:muukii/MatchedTransition.git
+	url = https://github.com/muukii/MatchedTransition.git
 [submodule "submodules/CompositionKit"]
 	path = submodules/CompositionKit
-	url = git@github.com:muukii/CompositionKit.git
+	url = https://github.com/muukii/CompositionKit.git
 [submodule "submodules/ViewRepresentationKit"]
 	path = submodules/ViewRepresentationKit
-	url = git@github.com:muukii/ViewRepresentationKit.git
+	url = https://github.com/muukii/ViewRepresentationKit.git
 [submodule "submodules/MondrianLayout"]
 	path = submodules/MondrianLayout
-	url = git@github.com:muukii/MondrianLayout.git
+	url = https://github.com/muukii/MondrianLayout.git
 [submodule "submodules/GeometryKit"]
 	path = submodules/GeometryKit
-	url = git@github.com:muukii/GeometryKit.git
+	url = https://github.com/muukii/GeometryKit.git
 [submodule "submodules/Descriptors"]
 	path = submodules/Descriptors
-	url = git@github.com:muukii/Descriptors.git
+	url = https://github.com/muukii/Descriptors.git
 [submodule "submodules/Ne"]
 	path = submodules/Ne
-	url = git@github.com:muukii/Ne.git
+	url = https://github.com/muukii/Ne.git
