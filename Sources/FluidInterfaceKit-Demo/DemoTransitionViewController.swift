@@ -10,7 +10,7 @@ final class DemoTransitionViewController: FluidStackController {
 
   private final class RootViewController: FluidViewController {}
 
-  private let rootController = RootViewController(topBar: .navigation(.init(backBarButton: nil)))
+  private let rootController = RootViewController(topBar: .navigation())
 
   init() {
     super.init(configuration: .init(retainsRootViewController: true))
@@ -88,7 +88,11 @@ final class DemoTransitionViewController: FluidStackController {
       content: .init(bodyViewController: body),
       transition: .navigation()
     )
-
+    
+    body.navigationItem.leftBarButtonItem = .fluidChevronBackward { [unowned body] in
+      body.fluidPop(transition: .navigationIdiom())
+    }
+    
     addContentViewController(controller, transition: transition)
 
   }
