@@ -37,10 +37,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run
         run: |
-          xcodebuild -scheme FluidInterfaceKitTests -resultBundlePath TestResults test
-      - name: xcresulttool
-        uses: kishikawakatsumi/xcresulttool@v1.3.1
-        with:
-          path: TestResults.xcresult
-        if: success() || failure()
-
+          fastlane scan -s FluidInterfaceKitTests
