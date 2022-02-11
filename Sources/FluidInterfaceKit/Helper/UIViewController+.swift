@@ -209,6 +209,11 @@ extension UIViewController {
     forwardingToParent: Bool = true,
     completion: (() -> Void)? = nil
   ) {
+    
+    guard next != nil else {
+      // got the end of tree.
+      return
+    }
 
     guard
       let fluidStackContext = fluidStackContext,
