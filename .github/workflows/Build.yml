@@ -17,6 +17,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run lint
         run: pod lib lint --allow-warnings
+  build:
+    runs-on: macos-11
+    
+    steps:
+      - name: xcodebuild
+        run: xcodebuild -scheme FluidInterfaceKit -sdk iphoneos | xcbeautify
   test:
     runs-on: macos-11
 
