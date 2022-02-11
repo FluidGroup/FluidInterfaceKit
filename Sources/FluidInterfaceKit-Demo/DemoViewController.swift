@@ -142,7 +142,7 @@ final class ContentViewController: UIViewController {
           FluidViewController(
             content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
             transition: .navigation(),
-            topBar: .navigation(.init(backBarButton: .multiply))
+            topBar: .navigation()
           ),
           target: .current,
           transition: .modalIdiom()

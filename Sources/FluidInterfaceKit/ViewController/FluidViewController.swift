@@ -44,7 +44,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       .init(
         displayMode: .automatic,
         usesBodyViewController: true,
-        backBarButton: .chevronBackward,
+//        backBarButton: .chevronBackward,
         navigationBarClass: UINavigationBar.self
       )
     )
@@ -89,15 +89,15 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
         navigation.usesBodyViewController
         ? (content.bodyViewController?.navigationItem ?? navigationItem) : navigationItem
 
-      if let backBarButton = navigation.backBarButton {
-
-        let item = backBarButton._make()
-        _onTapBackButton = backBarButton._onTap
-        item.action = #selector(onTapBackButton)
-        item.target = self
-        targetNavigationItem.leftBarButtonItem = item
-
-      }
+//      if let backBarButton = navigation.backBarButton {
+//
+//        let item = backBarButton._make()
+//        _onTapBackButton = backBarButton._onTap
+//        item.action = #selector(onTapBackButton)
+//        item.target = self
+//        targetNavigationItem.leftBarButtonItem = item
+//
+//      }
 
       navigationBar.pushItem(targetNavigationItem, animated: false)
 
@@ -276,57 +276,57 @@ extension FluidViewController {
           case always
         }
 
-        public struct BackBarButton {
-
-          let _make: () -> UIBarButtonItem
-          let _onTap: (FluidViewController) -> Void
-
-          public init(
-            make: @escaping () -> UIBarButtonItem,
-            onTap: @escaping (FluidViewController) -> Void = {
-              $0.fluidPop(transition: nil, completion: nil)
-            }
-          ) {
-            self._make = make
-            self._onTap = onTap
-          }
-
-          public static var chevronBackward: Self {
-            return .init {
-              ._fluid_chevronBackward()
-            }
-          }
-
-          public static var multiply: Self {
-            return .init {
-              ._fluid_chevronBackward()
-            }
-          }
-        }
+//        public struct BackBarButton {
+//
+//          let _make: () -> UIBarButtonItem
+//          let _onTap: (FluidViewController) -> Void
+//
+//          public init(
+//            make: @escaping () -> UIBarButtonItem,
+//            onTap: @escaping (FluidViewController) -> Void = {
+//              $0.fluidPop(transition: nil, completion: nil)
+//            }
+//          ) {
+//            self._make = make
+//            self._onTap = onTap
+//          }
+//
+//          public static var chevronBackward: Self {
+//            return .init {
+//              ._fluid_chevronBackward()
+//            }
+//          }
+//
+//          public static var multiply: Self {
+//            return .init {
+//              ._fluid_chevronBackward()
+//            }
+//          }
+//        }
 
         public var displayMode: DisplayMode
 
         public var usesBodyViewController: Bool
 
-        public let backBarButton: BackBarButton?
+//        public let backBarButton: BackBarButton?
 
         public let navigationBarClass: UINavigationBar.Type
 
         public init(
           displayMode: DisplayMode = .automatic,
           usesBodyViewController: Bool = true,
-          backBarButton: BackBarButton?,
+//          backBarButton: BackBarButton?,
           navigationBarClass: UINavigationBar.Type = UINavigationBar.self
         ) {
           self.displayMode = displayMode
           self.usesBodyViewController = usesBodyViewController
-          self.backBarButton = backBarButton
+//          self.backBarButton = backBarButton
           self.navigationBarClass = navigationBarClass
         }
 
       }
 
-      case navigation(Navigation)
+      case navigation(Navigation = .init())
 
       // FIXME: Unimplemented
       case custom
