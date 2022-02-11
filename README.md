@@ -1,5 +1,7 @@
 # FluidInterfaceKit
 
+[![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
+
 **Replacement for modal-presentation, navigation controller**
 
 A framework to build flexible apps instead of using UIKit's standard container and transition components.
