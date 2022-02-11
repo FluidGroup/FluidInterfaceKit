@@ -32,8 +32,6 @@
 		4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */; };
 		4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */; };
 		4B7410B927ACE975003D8AB5 /* DemoCompositionOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */; };
-		4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B1B2764F7B30003FFB6 /* StorybookKit */; };
-		4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4B959B1D2764F7B30003FFB6 /* StorybookUI */; };
 		4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */; };
 		4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */; };
 		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
@@ -43,6 +41,8 @@
 		4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */; };
 		4BC667BF27B2E6B300182E6C /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667BE27B2E6B300182E6C /* FluidInterfaceKit */; };
 		4BC667C127B2E6B300182E6C /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */; };
+		4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F327B6B02300095412 /* StorybookKit */; };
+		4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F527B6B02300095412 /* StorybookUI */; };
 		4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
@@ -99,14 +99,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */,
 				4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */,
-				4B959B1C2764F7B30003FFB6 /* StorybookKit in Frameworks */,
 				4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */,
 				4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */,
-				4B959B1E2764F7B30003FFB6 /* StorybookUI in Frameworks */,
 				4BB5B319277077CC00EE1028 /* Ne in Frameworks */,
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
 				4B658D0F276A59F700A17878 /* Wrap in Frameworks */,
+				4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */,
 				4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */,
 				4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */,
 			);
@@ -244,8 +244,6 @@
 			);
 			name = "FluidInterfaceKit-Demo";
 			packageProductDependencies = (
-				4B959B1B2764F7B30003FFB6 /* StorybookKit */,
-				4B959B1D2764F7B30003FFB6 /* StorybookUI */,
 				4BBDECDF276648FD00982229 /* CompositionKit */,
 				4BBDECE1276648FD00982229 /* MatchedTransition */,
 				4B658D0E276A59F700A17878 /* Wrap */,
@@ -254,6 +252,8 @@
 				4BDDF268277F50C100636B00 /* MondrianLayout */,
 				4BDDF26C277F553200636B00 /* FluidInterfaceKit */,
 				4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */,
+				4BC8F5F327B6B02300095412 /* StorybookKit */,
+				4BC8F5F527B6B02300095412 /* StorybookUI */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -309,10 +309,10 @@
 			);
 			mainGroup = 4B959AEE2764F7180003FFB6;
 			packageReferences = (
-				4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */,
 				4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */,
 				4BB5B317277077CC00EE1028 /* XCRemoteSwiftPackageReference "Ne" */,
 				4BB5B31A277077EA00EE1028 /* XCRemoteSwiftPackageReference "MockKit" */,
+				4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */,
 			);
 			productRefGroup = 4B959AF92764F7180003FFB6 /* Products */;
 			projectDirPath = "";
@@ -672,14 +672,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:eure/Storybook-ios.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		4BB5B317277077CC00EE1028 /* XCRemoteSwiftPackageReference "Ne" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/muukii/Ne.git";
@@ -704,6 +696,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/eure/Storybook-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -711,16 +711,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */;
 			productName = Wrap;
-		};
-		4B959B1B2764F7B30003FFB6 /* StorybookKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
-			productName = StorybookKit;
-		};
-		4B959B1D2764F7B30003FFB6 /* StorybookUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B959B1A2764F7B30003FFB6 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
-			productName = StorybookUI;
 		};
 		4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -751,6 +741,16 @@
 		4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FluidInterfaceKitRideauSupport;
+		};
+		4BC8F5F327B6B02300095412 /* StorybookKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
+			productName = StorybookKit;
+		};
+		4BC8F5F527B6B02300095412 /* StorybookUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
+			productName = StorybookUI;
 		};
 		4BDDF268277F50C100636B00 /* MondrianLayout */ = {
 			isa = XCSwiftPackageProductDependency;
