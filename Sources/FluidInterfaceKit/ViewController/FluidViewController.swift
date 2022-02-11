@@ -109,8 +109,6 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
         let isNavigationBarHidden: Bool
 
         switch displayMode {
-        case .hidden:
-          isNavigationBarHidden = true
         case .automatic:
 
           let flags = [
@@ -136,6 +134,10 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       self.topBar = navigationBar
 
     case .custom:
+      assertionFailure("Unimplemented")
+      break
+      
+    case .hidden:
       break
     }
 
@@ -218,6 +220,8 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
         onUpdated(item)
       }
     }
+    
+    onUpdated(navigationItem)
 
     return tokens
 
@@ -268,7 +272,6 @@ extension FluidViewController {
       public struct Navigation {
 
         public enum DisplayMode {
-          case hidden
           case automatic
           case always
         }
@@ -327,6 +330,8 @@ extension FluidViewController {
 
       // FIXME: Unimplemented
       case custom
+      
+      case hidden
     }
 
     //    public struct BottomBar {

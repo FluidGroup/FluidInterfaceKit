@@ -10,7 +10,7 @@ final class DemoTransitionViewController: FluidStackController {
 
   private final class RootViewController: FluidViewController {}
 
-  private let rootController = RootViewController()
+  private let rootController = RootViewController(topBar: .navigation(.init(backBarButton: nil)))
 
   init() {
     super.init(configuration: .init(retainsRootViewController: true))
@@ -20,6 +20,8 @@ final class DemoTransitionViewController: FluidStackController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+//    rootController.title = "Hey"
+//    rootController.navigationItem.title = "Hello"
     rootController.view.backgroundColor = .systemBackground
 
     addContentViewController(rootController, transition: .noAnimation)

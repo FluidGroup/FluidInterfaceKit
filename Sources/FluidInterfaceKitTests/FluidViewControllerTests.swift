@@ -12,14 +12,7 @@ import FluidInterfaceKit
 final class FluidViewControllerTests: XCTestCase {
   
   func testInit() {
-    
-    FluidViewController(
-      configuration: .init(
-        transition: .navigation(),
-        navigation: .init(backBarButton: nil)
-      )
-    )
-    
+        
   }
   
 }
