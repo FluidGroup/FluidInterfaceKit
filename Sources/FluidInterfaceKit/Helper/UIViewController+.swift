@@ -34,11 +34,20 @@ extension UIViewController {
     }
 
     /**
-     Finds a nearest ``FluidStackController``.
+     Finds a nearest ``FluidStackController`` including itself
      */
     public static let current: Self = {
       .init { controllers in
         controllers.first
+      }
+    }()
+
+    /**
+     Finds a nearest ``FluidStackController`` excluding itself
+     */
+    public static let nearestAncestor: Self = {
+      .init { controllers in
+        controllers.dropFirst(1).first
       }
     }()
 
@@ -156,10 +165,10 @@ extension UIViewController {
 // MARK: Presentation and dismissal
 
 extension UIViewController {
-  
+
   /**
    Adds a given view controller to the target ``FluidStackController``.
-   
+
    - Parameters:
      - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation
    */
@@ -172,9 +181,10 @@ extension UIViewController {
     let controller = viewController
 
     guard let stackController = fluidStackController(with: strategy) else {
-      
-      let message = "Could not present \(viewController) because not found target stack: \(strategy)"
-      
+
+      let message =
+        "Could not present \(viewController) because not found target stack: \(strategy)"
+
       Log.error(.viewController, message)
       assertionFailure(
         message
@@ -189,26 +199,50 @@ extension UIViewController {
 
   /**
    Removes this view controller from the target ``FluidStackController``.
-   
+
    - Parameters:
      - transition: You may set ``AnyRemovingTransition/noAnimation`` to disable animation
+     - fowardingToParent: Forwards to parent to pop if current stack do not have view controller to pop.
    */
   public func fluidPop(
     transition: AnyRemovingTransition?,
+    forwardingToParent: Bool = true,
     completion: (() -> Void)? = nil
   ) {
 
-    if let fluidStackContext = fluidStackContext {
-      fluidStackContext.removeSelf(transition: transition)
-      completion?()
+    guard
+      let fluidStackContext = fluidStackContext,
+      let stack = fluidStackContext.fluidStackController
+    else {
+      let message = "\(self) is not presented as fluid-presentation"
+      Log.error(.viewController, message)
+      assertionFailure(message)
       return
     }
-    
-    let message = "\(self) is not presented as fluid-presentation"
-    Log.error(.viewController, message)
-    assertionFailure(message)
+
+    if
+      forwardingToParent == true,
+      stack.configuration.retainsRootViewController,
+      stack.stackingViewControllers.first.map({ self.isDescendant(of: $0) }) == true
+    {
+      
+      // there is no view controller to remove in current stack.
+      // forwards to the parent attempt to pop itself in the stack
+      
+      stack.fluidPop(
+        transition: transition,
+        forwardingToParent: forwardingToParent,
+        completion: completion
+      )
+     
+    } else {
+
+      fluidStackContext.removeSelf(transition: transition)
+      completion?()
+    }
+
   }
-  
+
   /**
    Whether this view controller or its parent recursively is in ``FluidStackController``.
    */
@@ -218,3 +252,12 @@ extension UIViewController {
 
 }
 
+extension UIViewController {
+  
+  func isDescendant(of viewController: UIViewController) -> Bool {
+    
+    viewController == self || viewController.children.contains(self)
+    
+  }
+  
+}
