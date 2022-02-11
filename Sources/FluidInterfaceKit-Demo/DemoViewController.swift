@@ -140,7 +140,8 @@ final class ContentViewController: UIViewController {
       $0.onTap { [unowned self] in
         fluidPush(
           FluidNavigatedViewController(
-            bodyViewController: ContentViewController(color: .neonRandom())
+            bodyViewController: ContentViewController(color: .neonRandom()),
+            configuration: .init(transition: .navigation(), navigation: .init(backBarButton: .multiply))
           ),
           target: .current,
           transition: .modalIdiom()

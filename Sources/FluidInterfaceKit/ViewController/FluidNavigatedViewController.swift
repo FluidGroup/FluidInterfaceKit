@@ -1,60 +1,123 @@
-import UIKit
 import ResultBuilderKit
+import UIKit
 
 /// A view controller that extended from ``FluidViewController``.
 /// It has ``UINavigationBar`` that working with navigation item of itself or `bodyViewController`.
 open class FluidNavigatedViewController: FluidViewController, UINavigationBarDelegate {
 
   public struct Configuration {
-    
-    public enum NavigationBarDisplayMode {
-      case hidden
-      case automatic
-      case always
-    }
-               
-    public var addingTransition: AnyAddingTransition?
-    public var removingTransition: AnyRemovingTransition?
-    public var removingInteraction: AnyRemovingInteraction?
-    
-    public var navigationBarBehavior: NavigationBarDisplayMode
 
-    public var makeBackBarButtonItem: () -> UIBarButtonItem
-    public var makeNavigationBar: () -> UINavigationBar
+    public struct Transition {
+
+      public var addingTransition: AnyAddingTransition?
+      public var removingTransition: AnyRemovingTransition?
+      public var removingInteraction: AnyRemovingInteraction?
+
+      public init(
+        addingTransition: AnyAddingTransition? = nil,
+        removingTransition: AnyRemovingTransition? = nil,
+        removingInteraction: AnyRemovingInteraction? = nil
+      ) {
+        self.addingTransition = addingTransition
+        self.removingTransition = removingTransition
+        self.removingInteraction = removingInteraction
+      }
+
+      public static func navigation() -> Self {
+        return .init(
+          addingTransition: .navigationIdiom(),
+          removingTransition: .navigationIdiom(),
+          removingInteraction: .leftToRight()
+        )
+      }
+
+      public static func modal() -> Self {
+        return .init(
+          addingTransition: .modalIdiom(),
+          removingTransition: .modalIdiom(),
+          removingInteraction: nil
+        )
+      }
+
+    }
+
+    public struct Navigation {
+
+      public enum DisplayMode {
+        case hidden
+        case automatic
+        case always
+      }
+
+      public struct BackBarButton {
+
+        private let _make: () -> UIBarButtonItem
+
+        public init(_ make: @escaping () -> UIBarButtonItem) {
+          self._make = make
+        }
+
+        public func make() -> UIBarButtonItem {
+          _make()
+        }
+
+        public static var chevronBackward: Self {
+          return .init {
+            ._fluid_chevronBackward()
+          }
+        }
+
+        public static var multiply: Self {
+          return .init {
+            ._fluid_chevronBackward()
+          }
+        }
+      }
+
+      public var displayMode: DisplayMode
+
+      public let backBarButton: BackBarButton?
+
+      public let navigationBarClass: UINavigationBar.Type
+
+      public init(
+        displayMode: DisplayMode = .automatic,
+        backBarButton: BackBarButton?,
+        navigationBarClass: UINavigationBar.Type = UINavigationBar.self
+      ) {
+        self.displayMode = displayMode
+        self.backBarButton = backBarButton
+        self.navigationBarClass = navigationBarClass
+      }
+
+    }
+
+    public var transition: Transition
+    public var navigation: Navigation
 
     public init(
-      addingTransition: AnyAddingTransition? = .navigationIdiom(),
-      removingTransition: AnyRemovingTransition? = .navigationIdiom(),
-      removingInteraction: AnyRemovingInteraction? = nil,
-      navigationBarDisplayMode: NavigationBarDisplayMode = .automatic,
-      makeNavigationBar: @escaping () -> UINavigationBar = { UINavigationBar() },
-      makeBackBarButtonItem: @escaping () -> UIBarButtonItem = { ._fluid_backButton() }
+      transition: Transition,
+      navigation: Navigation
     ) {
-      self.addingTransition = addingTransition
-      self.removingTransition = removingTransition
-      self.removingInteraction = removingInteraction
-      self.navigationBarBehavior = navigationBarDisplayMode
-      self.makeNavigationBar = makeNavigationBar
-      self.makeBackBarButtonItem = makeBackBarButtonItem
+      self.transition = transition
+      self.navigation = navigation
     }
 
   }
-  
+
   // MARK: - Properties
 
-  public private(set) lazy var navigationBar: UINavigationBar = {
-    configuration.makeNavigationBar()
-  }()
-  
+  public private(set) var topBar: UIView?
+
   public var configuration: Configuration {
     didSet {
       configurationDidUpdate(newConfiguration: configuration)
     }
   }
-  
+
   private var targetNavigationItem: UINavigationItem!
   private var subscriptions: [NSKeyValueObservation] = []
-  
+
   // MARK: - Initializers
 
   /// Creates an instance
@@ -65,16 +128,17 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
   public init(
     bodyViewController: UIViewController,
     usesNavigationItemOfBodyViewController: Bool = true,
-    configuration: Configuration = .init()
+    configuration: Configuration
   ) {
     self.configuration = configuration
     super.init(
       bodyViewController: bodyViewController,
-      addingTransition: configuration.addingTransition,
-      removingTransition: configuration.removingTransition,
-      removingInteraction: configuration.removingInteraction
+      addingTransition: configuration.transition.addingTransition,
+      removingTransition: configuration.transition.removingTransition,
+      removingInteraction: configuration.transition.removingInteraction
     )
-    self.targetNavigationItem = usesNavigationItemOfBodyViewController ? bodyViewController.navigationItem : navigationItem
+    self.targetNavigationItem =
+      usesNavigationItemOfBodyViewController ? bodyViewController.navigationItem : navigationItem
   }
 
   /// Creates an instance
@@ -84,42 +148,44 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
   ///   - removingInteraction: it can be replaced laterpublic
   public init(
     view: UIView,
-    configuration: Configuration = .init()
+    configuration: Configuration
   ) {
 
     self.configuration = configuration
     super.init(
       view: view,
-      addingTransition: configuration.addingTransition,
-      removingTransition: configuration.removingTransition,
-      removingInteraction: configuration.removingInteraction
+      addingTransition: configuration.transition.addingTransition,
+      removingTransition: configuration.transition.removingTransition,
+      removingInteraction: configuration.transition.removingInteraction
     )
     self.targetNavigationItem = navigationItem
   }
 
   public init(
-    configuration: Configuration = .init()
+    configuration: Configuration
   ) {
 
     self.configuration = configuration
     super.init(
-      addingTransition: configuration.addingTransition,
-      removingTransition: configuration.removingTransition,
-      removingInteraction: configuration.removingInteraction
+      addingTransition: configuration.transition.addingTransition,
+      removingTransition: configuration.transition.removingTransition,
+      removingInteraction: configuration.transition.removingInteraction
     )
     self.targetNavigationItem = navigationItem
   }
-  
+
   deinit {
     subscriptions.forEach {
       $0.invalidate()
     }
   }
-  
+
   // MARK: - Functions
 
   open override func viewDidLoad() {
     super.viewDidLoad()
+
+    let navigationBar = configuration.navigation.navigationBarClass.init()
 
     navigationBar.delegate = self
 
@@ -132,29 +198,24 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
       navigationBar.leftAnchor.constraint(equalTo: view.leftAnchor),
     ])
 
+    if let backBarButtonItem = configuration.navigation.backBarButton?.make() {
+      backBarButtonItem.action = #selector(onTapBackButton)
+      backBarButtonItem.target = self
+      targetNavigationItem.leftBarButtonItem = backBarButtonItem
+    }
+
     navigationBar.pushItem(targetNavigationItem, animated: false)
-    
+
     observeNavigationItem(navigationItem: targetNavigationItem)
+
+    self.topBar = navigationBar
+
   }
-  
+
   open override func viewDidLayoutSubviews() {
     configurationDidUpdate(newConfiguration: configuration)
-    view.bringSubviewToFront(navigationBar)
-  }
-
-  open override func didMove(toParent parent: UIViewController?) {
-    super.didMove(toParent: parent)
-
-    if let parent = parent as? FluidStackController {
-
-      if parent.stackingViewControllers.count > 1 {
-
-        let targetNavigationItem = navigationBar.topItem
-        let backBarButtonItem = configuration.makeBackBarButtonItem()
-        backBarButtonItem.action = #selector(onTapBackButton)
-        backBarButtonItem.target = self
-        targetNavigationItem?.leftBarButtonItem = backBarButtonItem
-      }
+    if let topBar = topBar {
+      view.bringSubviewToFront(topBar)
     }
   }
 
@@ -165,80 +226,85 @@ open class FluidNavigatedViewController: FluidViewController, UINavigationBarDel
   @objc private func onTapBackButton() {
     fluidPop(transition: nil, completion: nil)
   }
-  
+
   private func configurationDidUpdate(newConfiguration: Configuration) {
-    
+
     let isNavigationBarHidden: Bool
-    
-    switch configuration.navigationBarBehavior {
+
+    switch configuration.navigation.displayMode {
     case .hidden:
       isNavigationBarHidden = true
     case .automatic:
-      
+
       let flags = [
         (targetNavigationItem.rightBarButtonItems ?? []).isEmpty,
         (targetNavigationItem.leftBarButtonItems ?? []).isEmpty,
         (targetNavigationItem.title ?? "").isEmpty,
-        targetNavigationItem.titleView == nil
+        targetNavigationItem.titleView == nil,
       ]
-        .compactMap { $0 }
-      
+      .compactMap { $0 }
+
       isNavigationBarHidden = !flags.contains(false)
     case .always:
       isNavigationBarHidden = false
     }
-    
-    if isNavigationBarHidden {
-      
-      navigationBar.isHidden = true
-      additionalSafeAreaInsets.top = 0
-      
+
+    if let topBar = topBar {
+      if isNavigationBarHidden {
+
+        topBar.isHidden = true
+        additionalSafeAreaInsets.top = 0
+
+      } else {
+        topBar.isHidden = false
+        additionalSafeAreaInsets.top = topBar.frame.height
+      }
+
     } else {
-      navigationBar.isHidden = false
-      additionalSafeAreaInsets.top = navigationBar.frame.height
+      additionalSafeAreaInsets.top = 0
     }
 
   }
-  
+
   private func observeNavigationItem(navigationItem: UINavigationItem) {
-    
+
     let navigationItemDidChange: (UINavigationItem) -> Void = { [weak self] _ in
       guard let self = self else { return }
       self.configurationDidUpdate(newConfiguration: self.configuration)
     }
-    
+
     subscriptions.forEach {
       $0.invalidate()
     }
-        
+
     let tokens = buildArray {
       navigationItem.observe(\.titleView, options: [.new]) { item, _ in
         navigationItemDidChange(item)
       }
-      
+
       navigationItem.observe(\.leftBarButtonItem, options: [.new]) { item, _ in
         navigationItemDidChange(item)
       }
-      
+
       navigationItem.observe(\.leftBarButtonItems, options: [.new]) { item, _ in
         navigationItemDidChange(item)
       }
-      
+
       navigationItem.observe(\.rightBarButtonItem, options: [.new]) { item, _ in
         navigationItemDidChange(item)
       }
-      
+
       navigationItem.observe(\.rightBarButtonItems, options: [.new]) { item, _ in
         navigationItemDidChange(item)
       }
-      
-      navigationItem.observe(\.title, options: [.new]){ item, _ in
+
+      navigationItem.observe(\.title, options: [.new]) { item, _ in
         navigationItemDidChange(item)
       }
     }
-    
+
     subscriptions = tokens
-    
+
   }
 
 }

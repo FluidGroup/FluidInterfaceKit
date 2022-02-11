@@ -84,7 +84,7 @@ final class DemoTransitionViewController: FluidStackController {
 
     let controller = FluidNavigatedViewController(
       bodyViewController: body,
-      configuration: .init(removingInteraction: removingInteraction)
+      configuration: .init(transition: .navigation(), navigation: .init(backBarButton: .multiply))
     )
 
     addContentViewController(controller, transition: transition)
