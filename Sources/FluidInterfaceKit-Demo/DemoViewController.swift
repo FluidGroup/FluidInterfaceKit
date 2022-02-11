@@ -139,8 +139,10 @@ final class ContentViewController: UIViewController {
       $0.setTitle("Add Navigated", for: .normal)
       $0.onTap { [unowned self] in
         fluidPush(
-          FluidNavigatedViewController(
-            bodyViewController: ContentViewController(color: .neonRandom())
+          FluidViewController(
+            content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
+            transition: .navigation(),
+            topBar: .navigation(.init(backBarButton: .multiply))
           ),
           target: .current,
           transition: .modalIdiom()
@@ -161,10 +163,8 @@ final class ContentViewController: UIViewController {
 
         fluidPush(
           FluidViewController(
-            bodyViewController: ContentViewController(color: .neonRandom()),
-            addingTransition: nil,
-            removingTransition: nil,
-            removingInteraction: .horizontalDragging(backwardingMode: nil, hidingViews: [])
+            content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
+            transition: .init(addingTransition: nil, removingTransition: nil, removingInteraction: .horizontalDragging(backwardingMode: nil, hidingViews: []))
           ),
           target: .current,
           transition: nil

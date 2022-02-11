@@ -42,25 +42,26 @@ final class DemoListViewController: FluidStackController {
                 .contextual(destinationComponent: view, destinationMirroViewProvider: snapshot)
               }
             )
-                       
+            
             let displayViewController = FluidViewController(
-              bodyViewController: controller,
-              addingTransition: .contextualExpanding(
-                from: view,
-                entrypointMirrorViewProvider: snapshot,
-                hidingViews: [view]
-              ),
-              removingTransition: nil,
-              removingInteraction: .horizontalDragging(
-                backwardingMode: .shape(
-                  destinationComponent: view,
-                  destinationMirroViewProvider: snapshot
+              content: .init(bodyViewController: controller),
+              transition: .init(
+                addingTransition: .contextualExpanding(
+                  from: view,
+                  entrypointMirrorViewProvider: snapshot,
+                  hidingViews: [view]
                 ),
-                hidingViews: [view.contentView]
+                removingTransition: nil,
+                removingInteraction: .horizontalDragging(
+                  backwardingMode: .shape(
+                    destinationComponent: view,
+                    destinationMirroViewProvider: snapshot
+                  ),
+                  hidingViews: [view.contentView]
+                )
               )
-              //              removingInteraction: .leftEdge()
             )
-
+            
             viewControllerCache[i] = displayViewController
 
             addContentViewController(displayViewController, transition: nil)
@@ -96,7 +97,7 @@ final class DemoListViewController: FluidStackController {
   }
 }
 
-final class DemoListDetailViewController: FluidNavigatedViewController {
+final class DemoListDetailViewController: UIViewController {
 
   private let viewModel: ViewModel
   private let removingTransitionProvider: () -> AnyRemovingTransition
@@ -109,7 +110,7 @@ final class DemoListDetailViewController: FluidNavigatedViewController {
     self.viewModel = viewModel
     self.removingTransitionProvider = removingTransitionProvider
     
-    super.init()
+    super.init(nibName: nil, bundle: nil)
 
     title = "Title"
   }

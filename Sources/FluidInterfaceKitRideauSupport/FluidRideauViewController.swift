@@ -45,6 +45,7 @@ open class FluidRideauViewController: FluidTransitionViewController {
     self.backgroundColor = backdropColor
 
     super.init(
+      content: nil,
       addingTransition: .rideau,
       removingTransition: .rideau
     )

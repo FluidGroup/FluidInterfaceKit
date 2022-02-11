@@ -20,6 +20,20 @@
                ReferencedContainer = "container:FluidInterfaceKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4BC667B627B2E69C00182E6C"
+               BuildableName = "FluidInterfaceKitTests.xctest"
+               BlueprintName = "FluidInterfaceKitTests"
+               ReferencedContainer = "container:FluidInterfaceKit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,6 +42,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4BC667B627B2E69C00182E6C"
+               BuildableName = "FluidInterfaceKitTests.xctest"
+               BlueprintName = "FluidInterfaceKitTests"
+               ReferencedContainer = "container:FluidInterfaceKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

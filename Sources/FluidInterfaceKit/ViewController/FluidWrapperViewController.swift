@@ -1,41 +1,41 @@
 
 import UIKit
 
-open class _fluid_WrapperViewController: UIViewController {
-
-  public let bodyViewController: UIViewController?
-  private let customView: UIView?
+open class FluidWrapperViewController: UIViewController {
+  
+  public struct Content: Equatable {
+    
+    /**
+     View Controller to embed
+     */
+    public var bodyViewController: UIViewController?
+    
+    /**
+     View to use as root view
+     */
+    public var view: UIView?
+    
+    public init(bodyViewController: UIViewController? = nil, view: UIView? = nil) {
+      self.bodyViewController = bodyViewController
+      self.view = view
+    }
+    
+  }
+  
+  public let content: Content
 
   public override var childForStatusBarStyle: UIViewController? {
-    return bodyViewController
+    return content.bodyViewController
   }
 
   public override var childForStatusBarHidden: UIViewController? {
-    return bodyViewController
+    return content.bodyViewController
   }
 
-  public init() {
+  public init(content: Content?) {
 
-    self.bodyViewController = nil
-    self.customView = nil
-    super.init(nibName: nil, bundle: nil)
-  }
-
-  public init(
-    bodyViewController: UIViewController
-  ) {
-
-    self.bodyViewController = bodyViewController
-    self.customView = nil
-    super.init(nibName: nil, bundle: nil)
-  }
-
-  public init(
-    view: UIView
-  ) {
-
-    self.bodyViewController = nil
-    self.customView = view
+    self.content = content ?? .init(bodyViewController: nil, view: nil)
+    
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -45,7 +45,7 @@ open class _fluid_WrapperViewController: UIViewController {
   }
 
   open override func loadView() {
-    if let customView = customView {
+    if let customView = content.view {
       view = customView
     } else {
       super.loadView()
@@ -55,7 +55,7 @@ open class _fluid_WrapperViewController: UIViewController {
   open override func viewDidLoad() {
     super.viewDidLoad()
 
-    if let bodyViewController = bodyViewController {
+    if let bodyViewController = content.bodyViewController {
       addChild(bodyViewController)
       view.addSubview(bodyViewController.view)
       bodyViewController.view.translatesAutoresizingMaskIntoConstraints = false

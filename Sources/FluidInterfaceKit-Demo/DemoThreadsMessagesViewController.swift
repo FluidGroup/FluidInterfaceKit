@@ -96,19 +96,21 @@ final class DemoThreadsMessagesViewController: FluidStackController {
                   interpolationView.isUserInteractionEnabled = false
 
                   let controller = FluidViewController(
-                    bodyViewController: DemoThreadsDetailViewController(color: color),
-                    addingTransition: .contextualInstagramThreads(
-                      from: cell,
-                      mirrorViewProvider: mirrorViewProvider,
-                      hidingViews: [cell]
-                    ),
-                    removingTransition: nil,
-                    removingInteraction: .horizontalDragging(
-                      backwardingMode: .instagramThreads(
-                        destinationView: cell,
-                        destinationMirroViewProvider: mirrorViewProvider
+                    content: .init(bodyViewController: DemoThreadsDetailViewController(color: color)),
+                    transition: .init(
+                      addingTransition: .contextualInstagramThreads(
+                        from: cell,
+                        mirrorViewProvider: mirrorViewProvider,
+                        hidingViews: [cell]
                       ),
-                      hidingViews: [cell]
+                      removingTransition: nil,
+                      removingInteraction: .horizontalDragging(
+                        backwardingMode: .instagramThreads(
+                          destinationView: cell,
+                          destinationMirroViewProvider: mirrorViewProvider
+                        ),
+                        hidingViews: [cell]
+                      )
                     )
                   )
 

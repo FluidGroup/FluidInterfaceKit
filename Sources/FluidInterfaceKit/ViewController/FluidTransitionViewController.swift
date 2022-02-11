@@ -2,7 +2,7 @@ import UIKit
 
 /// Supports transition
 /// compatible with ``FluidStackController``
-open class FluidTransitionViewController: _fluid_WrapperViewController {
+open class FluidTransitionViewController: FluidWrapperViewController {
 
   public var addingTransition: AnyAddingTransition?
   public var removingTransition: AnyRemovingTransition?
@@ -11,6 +11,7 @@ open class FluidTransitionViewController: _fluid_WrapperViewController {
   private var removingTransitionContext: RemovingTransitionContext?
 
   public init(
+    content: FluidWrapperViewController.Content?,
     addingTransition: AnyAddingTransition?,
     removingTransition: AnyRemovingTransition?
   ) {
@@ -18,29 +19,7 @@ open class FluidTransitionViewController: _fluid_WrapperViewController {
     self.addingTransition = addingTransition
     self.removingTransition = removingTransition
 
-    super.init()
-  }
-
-  public init(
-    bodyViewController: UIViewController,
-    addingTransition: AnyAddingTransition?,
-    removingTransition: AnyRemovingTransition?
-  ) {
-
-    self.addingTransition = addingTransition
-    self.removingTransition = removingTransition
-    super.init(bodyViewController: bodyViewController)
-  }
-
-  public init(
-    view: UIView,
-    addingTransition: AnyAddingTransition?,
-    removingTransition: AnyRemovingTransition?
-  ) {
-
-    self.addingTransition = addingTransition
-    self.removingTransition = removingTransition
-    super.init(view: view)
+    super.init(content: content)
   }
 
   /// From ``FluidStackController``
