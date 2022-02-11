@@ -26,7 +26,7 @@ jobs:
           xcode-version: "13.2"
       - uses: actions/checkout@v2
       - name: xcodebuild
-        run: xcodebuild -scheme FluidInterfaceKit -sdk iphoneos | xcpretty
+        run: xcodebuild -scheme FluidInterfaceKit -sdk iphoneos
   test:
     runs-on: macos-11
 
