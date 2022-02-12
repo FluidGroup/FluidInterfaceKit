@@ -73,7 +73,7 @@ let book = Book(title: "FluidInterfaceKit") {
   }
 
   BookPresent(title: "List + ZStack") {
-    let controller = DemoListViewController()
+    let controller = DemoListContainerViewController()
     controller.modalPresentationStyle = .fullScreen
     return controller
   }

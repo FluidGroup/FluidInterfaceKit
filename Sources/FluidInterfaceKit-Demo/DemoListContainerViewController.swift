@@ -4,14 +4,34 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 
-final class DemoListViewController: FluidStackController {
-
-  private let scrollableContainerView = ScrollableContainerView()
+final class DemoListContainerViewController: FluidStackController {
 
   init() {
     super.init(view: nil)
   }
 
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let rootViewController = DemoListViewController()
+    
+    addContentViewController(rootViewController, transition: .noAnimation)
+
+  }
+}
+
+final class DemoListViewController: UIViewController {
+
+  private let scrollableContainerView = ScrollableContainerView()
+
+  init() {
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -30,7 +50,7 @@ final class DemoListViewController: FluidStackController {
 
           if let cached = viewControllerCache[i] {
 
-            addContentViewController(cached, transition: nil)
+            fluidPush(cached, target: .current, transition: nil)
 
           } else {
             
@@ -64,7 +84,8 @@ final class DemoListViewController: FluidStackController {
             
             viewControllerCache[i] = displayViewController
 
-            addContentViewController(displayViewController, transition: nil)
+            fluidPush(displayViewController, target: .current, transition: nil)
+
           }
 
         }
@@ -96,6 +117,7 @@ final class DemoListViewController: FluidStackController {
 
   }
 }
+
 
 final class DemoListDetailViewController: UIViewController {
 

@@ -37,18 +37,22 @@ open class FluidStackController: UIViewController {
 
   /// The view controller at the top of the stack.
   public var topViewController: UIViewController? {
-    return stackingViewControllers.last
+    return stackingItems.last?.viewController
   }
 
   /// An array of view controllers currently managed.
   /// Might be different with ``UIViewController.children``.
-  public private(set) var stackingViewControllers: [UIViewController] = [] {
+  public var stackingViewControllers: [UIViewController] {
+    stackingItems.map { $0.viewController }
+  }
+
+  private var stackingItems: [PresentedViewControllerWrapperView] = [] {
     didSet {
       Log.debug(
         .stack,
         """
-        Updated Stacking: \(stackingViewControllers.count)
-        \(stackingViewControllers.map { "  - \($0.debugDescription)" }.joined(separator: "\n"))
+        Updated Stacking: \(stackingItems.count)
+        \(stackingItems.map { "  - \($0.debugDescription)" }.joined(separator: "\n"))
         """
       )
       // TODO: Update with animation
@@ -67,15 +71,15 @@ open class FluidStackController: UIViewController {
     .weakToWeakObjects()
 
   open override var childForStatusBarStyle: UIViewController? {
-    return stackingViewControllers.last {
-      $0.fluidStackContentConfiguration.capturesStatusBarAppearance == true
-    }
+    return stackingItems.last {
+      $0.viewController.fluidStackContentConfiguration.capturesStatusBarAppearance == true
+    }?.viewController
   }
 
   open override var childForStatusBarHidden: UIViewController? {
-    return stackingViewControllers.last {
-      $0.fluidStackContentConfiguration.capturesStatusBarAppearance == true
-    }
+    return stackingItems.last {
+      $0.viewController.fluidStackContentConfiguration.capturesStatusBarAppearance == true
+    }?.viewController
   }
 
   open override func loadView() {
@@ -146,14 +150,12 @@ open class FluidStackController: UIViewController {
 
     assert(Thread.isMainThread)
 
-    guard let viewControllerToRemove = stackingViewControllers.last else {
+    guard let wrapperView = stackingItems.last else {
       Log.error(.stack, "The last view controller was not found to remove")
       return
     }
 
-    removeViewController(viewControllerToRemove, transition: transition)
-
-    viewControllerToRemove.fluidStackContext = nil
+    removeViewController(wrapperView.viewController, transition: transition)
   }
 
   /**
@@ -178,51 +180,57 @@ open class FluidStackController: UIViewController {
 
     assert(Thread.isMainThread)
 
-    let currentTopViewController = stackingViewControllers.last
-
-    // Adds the view controller at the latest position.
-    do {
-      stackingViewControllers.removeAll { $0 == viewControllerToAdd }
-      stackingViewControllers.append(viewControllerToAdd)
-    }
-
-    let context = FluidStackContext(
-      fluidStackController: self,
-      targetViewController: viewControllerToAdd
-    )
-
+    let currentTopViewController = stackingItems.last?.viewController
+   
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
+      let context = FluidStackContext(
+        fluidStackController: self,
+        targetViewController: viewControllerToAdd
+      )
       // set context
       viewControllerToAdd.fluidStackContext = context
     }
-
-    if viewControllerToAdd.parent != self {
-      addChild(viewControllerToAdd)
-
+    
+    let wrapperView: PresentedViewControllerWrapperView
+    
+    if let currentWrapperView = viewControllerToAdd.view.superview as? PresentedViewControllerWrapperView {
+      // reuse
+      wrapperView = currentWrapperView
+    } else {
+      // create new one
       let containerView = PresentedViewControllerWrapperView(
-        contentView: viewControllerToAdd.view,
+        viewController: viewControllerToAdd,
         frame: self.view.bounds
       )
+      wrapperView = containerView
+    }
 
+    if viewControllerToAdd.parent != self {
+      
+      addChild(viewControllerToAdd)
+      
       viewControllerToAdd.view.resetToVisible()
-
-      view.addSubview(containerView)
-
+      
       viewControllerToAdd.didMove(toParent: self)
+      
     } else {
       // case of adding while removing
       // TODO: might something needed
+    }
+    
+    view.addSubview(wrapperView)
+    
+    // Adds the view controller at the latest position.
+    do {
+      stackingItems.removeAll { $0 == wrapperView }
+      stackingItems.append(wrapperView)
     }
 
     viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
 
     assert(viewControllerToAdd.view.superview != nil)
     assert(viewControllerToAdd.view.superview is PresentedViewControllerWrapperView)
-
-    var wrapperView: PresentedViewControllerWrapperView {
-      viewControllerToAdd.view.superview as! PresentedViewControllerWrapperView
-    }
 
     let transitionContext = AddingTransitionContext(
       contentView: viewControllerToAdd.view.superview!,
@@ -334,7 +342,7 @@ open class FluidStackController: UIViewController {
 
     // Handles configuration
     if configuration.retainsRootViewController,
-      viewControllerToRemove == stackingViewControllers.first
+       viewControllerToRemove == stackingItems.first?.viewController
     {
       Log.error(
         .stack,
@@ -355,7 +363,7 @@ open class FluidStackController: UIViewController {
 
     // Ensure it's managed
     guard
-      let index = stackingViewControllers.firstIndex(of: viewControllerToRemove)
+      let index = stackingItems.firstIndex(where: { $0.viewController == viewControllerToRemove })
     else {
       Log.error(.stack, "\(viewControllerToRemove) was not found to remove")
       fatalError()
@@ -364,8 +372,8 @@ open class FluidStackController: UIViewController {
     // finds a view controller that will be displayed next.
     let backViewController: UIViewController? = {
       let target = index.advanced(by: -1)
-      if stackingViewControllers.indices.contains(target) {
-        return stackingViewControllers[target]
+      if stackingItems.indices.contains(target) {
+        return stackingItems[target].viewController
       } else {
         return nil
       }
@@ -393,8 +401,7 @@ open class FluidStackController: UIViewController {
          */
 
         self.setTransitionContext(viewController: viewControllerToRemove, context: nil)
-
-        self.stackingViewControllers.removeAll { $0 == viewControllerToRemove }
+        self.stackingItems.removeAll { $0.viewController == viewControllerToRemove }
         viewControllerToRemove.fluidStackContext = nil
 
         viewControllerToRemove.willMove(toParent: nil)
@@ -431,7 +438,7 @@ open class FluidStackController: UIViewController {
   public func canRemove(viewController: UIViewController) -> Bool {
     
     if configuration.retainsRootViewController,
-       viewController == stackingViewControllers.first
+       viewController == stackingItems.first?.viewController
     {
       return false
     }
@@ -456,15 +463,8 @@ open class FluidStackController: UIViewController {
       )
       return
     }
-    
-    if configuration.retainsRootViewController,
-      viewControllerToRemove == stackingViewControllers.first
-    {
-      
-      return
-    }
-
-    if stackingViewControllers.last != viewControllerToRemove {
+        
+    if stackingItems.last?.viewController != viewControllerToRemove {
       Log.error(
         .stack,
         "The removing view controller is not displaying on top. the screen won't change at the look, but the stack will change."
@@ -496,11 +496,11 @@ open class FluidStackController: UIViewController {
   ) {
 
     if configuration.retainsRootViewController {
-      guard let target = stackingViewControllers.prefix(2).last else { return }
-      removeAllViewController(from: target, transition: transition)
+      guard let target = stackingItems.prefix(2).last else { return }
+      removeAllViewController(from: target.viewController, transition: transition)
     } else {
-      guard let target = stackingViewControllers.first else { return }
-      removeAllViewController(from: target, transition: transition)
+      guard let target = stackingItems.first else { return }
+      removeAllViewController(from: target.viewController, transition: transition)
     }
   }
 
@@ -516,21 +516,22 @@ open class FluidStackController: UIViewController {
     transition: AnyBatchRemovingTransition?
   ) {
 
-    Log.debug(.stack, "Remove \(viewController) from \(stackingViewControllers)")
+    Log.debug(.stack, "Remove \(viewController) from \(stackingItems)")
 
     assert(Thread.isMainThread)
 
-    guard let index = stackingViewControllers.firstIndex(where: { $0 == viewController }) else {
+    guard let index = stackingItems.firstIndex(where: { $0.viewController == viewController }) else {
       Log.error(.stack, "\(viewController) was not found to remove")
       return
     }
 
-    let targetTopViewController: UIViewController? = stackingViewControllers[0..<(index)].last
+    let targetTopViewController: UIViewController? = stackingItems[0..<(index)].last?.viewController
 
     let viewControllersToRemove = Array(
-      stackingViewControllers[
-        index...stackingViewControllers.indices.last!
+      stackingItems[
+        index...stackingItems.indices.last!
       ]
+        .map(\.viewController)
     )
 
     assert(viewControllersToRemove.count > 0)
@@ -563,8 +564,8 @@ open class FluidStackController: UIViewController {
             viewControllerToRemove.fluidStackContext = nil
           }
 
-          self.stackingViewControllers.removeAll { instance in
-            viewControllersToRemove.contains(where: { $0 == instance })
+          self.stackingItems.removeAll { instance in
+            viewControllersToRemove.contains(where: { $0 == instance.viewController })
           }
 
           context.transitionSucceeded()
@@ -584,19 +585,19 @@ open class FluidStackController: UIViewController {
 
     } else {
 
-      while stackingViewControllers.last != targetTopViewController {
+      while stackingItems.last?.viewController != targetTopViewController {
 
-        let viewControllerToRemove = stackingViewControllers.last!
+        let viewControllerToRemove = stackingItems.last!.viewController
         transitionContext(viewController: viewControllerToRemove)?.invalidate()
         setTransitionContext(viewController: viewControllerToRemove, context: nil)
 
-        assert(stackingViewControllers.last === viewControllerToRemove)
+        assert(stackingItems.last?.viewController === viewControllerToRemove)
 
         viewControllerToRemove.willMove(toParent: nil)
         viewControllerToRemove.view.removeFromSuperview()
         viewControllerToRemove.removeFromParent()
 
-        stackingViewControllers.removeLast()
+        stackingItems.removeLast()
 
       }
 
@@ -637,6 +638,14 @@ open class FluidStackController: UIViewController {
       portalView.removeFromSuperview()
     }
   }
+  
+//  private func updateHierarchy() {
+//    
+//    let visibleViewControllers = stackingItems.suffix(2)
+//    
+//    let invisibleViewControllers = stackingItems.dropLast(2)
+//    
+//  }
 
 }
 
@@ -681,18 +690,26 @@ extension FluidStackController {
   private final class PresentedViewControllerWrapperView: UIView {
 
     var isTouchThroughEnabled = true
+    
+    let viewController: UIViewController
 
-    init(contentView: UIView, frame: CGRect) {
+    init(
+      viewController: UIViewController,
+      frame: CGRect
+    ) {
+      
+      self.viewController = viewController
+      
       super.init(frame: frame)
 
-      addSubview(contentView)
-      Fluid.setFrameAsIdentity(frame, for: contentView)
-      contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      addSubview(viewController.view)
+      Fluid.setFrameAsIdentity(frame, for: viewController.view)
+      viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
       autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
       backgroundColor = .clear
     }
-
+    
     required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }

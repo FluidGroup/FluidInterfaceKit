@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F619427B818E800363580 /* DemoListContainerViewController.swift */; };
 		4B468061279C58E800625FCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804A279C58E800625FCB /* ViewController.swift */; };
 		4B468062279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */; };
 		4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */; };
@@ -19,7 +20,6 @@
 		4B46806A279C58E800625FCB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468053279C58E800625FCB /* ViewModel.swift */; };
 		4B46806B279C58E800625FCB /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468054279C58E800625FCB /* DemoViewController.swift */; };
 		4B46806C279C58E800625FCB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B468055279C58E800625FCB /* LaunchScreen.storyboard */; };
-		4B46806D279C58E800625FCB /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468057279C58E800625FCB /* DemoListViewController.swift */; };
 		4B46806E279C58E800625FCB /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468058279C58E800625FCB /* Book.swift */; };
 		4B46806F279C58E800625FCB /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468059279C58E800625FCB /* UIColor+Presets.swift */; };
 		4B468070279C58E800625FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805A279C58E800625FCB /* AppDelegate.swift */; };
@@ -65,6 +65,7 @@
 /* Begin PBXFileReference section */
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
 		4B2CCB88278DD21400EAB928 /* Descriptors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Descriptors; path = submodules/Descriptors; sourceTree = "<group>"; };
+		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
 		4B46804A279C58E800625FCB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
@@ -77,7 +78,6 @@
 		4B468053279C58E800625FCB /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		4B468054279C58E800625FCB /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		4B468056279C58E800625FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		4B468057279C58E800625FCB /* DemoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListViewController.swift; sourceTree = "<group>"; };
 		4B468058279C58E800625FCB /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		4B468059279C58E800625FCB /* UIColor+Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
 		4B46805A279C58E800625FCB /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 				4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */,
 				4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */,
 				4B46804F279C58E800625FCB /* DemoControlCenterViewController.swift */,
-				4B468057279C58E800625FCB /* DemoListViewController.swift */,
+				4B2F619427B818E800363580 /* DemoListContainerViewController.swift */,
 				4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */,
 				4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */,
 				4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */,
@@ -375,9 +375,9 @@
 				4B468071279C58E800625FCB /* DemoSafeAreaViewController.swift in Sources */,
 				4B7410B927ACE975003D8AB5 /* DemoCompositionOrderViewController.swift in Sources */,
 				4B468064279C58E800625FCB /* AnimatorPlaygroundViewController.swift in Sources */,
-				4B46806D279C58E800625FCB /* DemoListViewController.swift in Sources */,
 				4B468067279C58E800625FCB /* DemoThreadsMessagesViewController.swift in Sources */,
 				4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */,
+				4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */,
 				4B468065279C58E800625FCB /* RootContainerViewController.swift in Sources */,
 				4B468061279C58E800625FCB /* ViewController.swift in Sources */,
 				4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */,
