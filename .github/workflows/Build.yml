@@ -35,6 +35,8 @@ jobs:
         with:
           xcode-version: "13.2"
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Run
         run: |
           fastlane scan -s FluidInterfaceKitTests
