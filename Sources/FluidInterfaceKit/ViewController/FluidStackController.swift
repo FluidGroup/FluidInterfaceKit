@@ -179,9 +179,7 @@ open class FluidStackController: UIViewController {
      */
 
     assert(Thread.isMainThread)
-
-    let currentTopViewController = stackingItems.last?.viewController
-   
+      
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
       let context = FluidStackContext(
@@ -221,6 +219,9 @@ open class FluidStackController: UIViewController {
     
     view.addSubview(wrapperView)
     
+    // take before modifying.
+    let currentTop = stackingItems.last
+    
     // Adds the view controller at the latest position.
     do {
       stackingItems.removeAll { $0 == wrapperView }
@@ -233,8 +234,8 @@ open class FluidStackController: UIViewController {
     assert(viewControllerToAdd.view.superview is PresentedViewControllerWrapperView)
 
     let transitionContext = AddingTransitionContext(
-      contentView: viewControllerToAdd.view.superview!,
-      fromViewController: currentTopViewController,
+      contentView: wrapperView,
+      fromViewController: currentTop?.viewController,
       toViewController: viewControllerToAdd,
       onAnimationCompleted: { [weak self] context in
 
@@ -246,6 +247,7 @@ open class FluidStackController: UIViewController {
         }
 
         self.setTransitionContext(viewController: viewControllerToAdd, context: nil)
+              
         context.transitionSucceeded()
 
       }
@@ -349,8 +351,12 @@ open class FluidStackController: UIViewController {
         "the stacking will broke. Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller."
       )
     }
+    
+    guard let viewToRemove = stackingItems.first(where: { $0.viewController == viewControllerToRemove }) else {
+      preconditionFailure("Not found wrapper view to manage \(viewControllerToRemove)")
+    }
 
-    return _startRemoving(viewControllerToRemove)
+    return _startRemoving(viewToRemove)
   }
 
   /**
@@ -358,35 +364,31 @@ open class FluidStackController: UIViewController {
    Make sure to complete the transition with the context.
    */
   private func _startRemoving(
-    _ viewControllerToRemove: UIViewController
+    _ viewToRemove: PresentedViewControllerWrapperView
   ) -> RemovingTransitionContext {
 
     // Ensure it's managed
     guard
-      let index = stackingItems.firstIndex(where: { $0.viewController == viewControllerToRemove })
+      let index = stackingItems.firstIndex(of: viewToRemove)
     else {
-      Log.error(.stack, "\(viewControllerToRemove) was not found to remove")
+      Log.error(.stack, "\(viewToRemove.viewController) was not found to remove")
       fatalError()
     }
 
     // finds a view controller that will be displayed next.
-    let backViewController: UIViewController? = {
+    let backView: PresentedViewControllerWrapperView? = {
       let target = index.advanced(by: -1)
       if stackingItems.indices.contains(target) {
-        return stackingItems[target].viewController
+        return stackingItems[target]
       } else {
         return nil
       }
     }()
-
-    var wrapperView: PresentedViewControllerWrapperView {
-      viewControllerToRemove.view.superview as! PresentedViewControllerWrapperView
-    }
-
+    
     let newTransitionContext = RemovingTransitionContext(
-      contentView: viewControllerToRemove.view.superview!,
-      fromViewController: viewControllerToRemove,
-      toViewController: backViewController,
+      contentView: viewToRemove,
+      fromViewController: viewToRemove.viewController,
+      toViewController: backView?.viewController,
       onAnimationCompleted: { [weak self] context in
 
         guard let self = self else { return }
@@ -400,13 +402,14 @@ open class FluidStackController: UIViewController {
          Completion of transition, cleaning up
          */
 
+        let viewControllerToRemove = viewToRemove.viewController
         self.setTransitionContext(viewController: viewControllerToRemove, context: nil)
         self.stackingItems.removeAll { $0.viewController == viewControllerToRemove }
         viewControllerToRemove.fluidStackContext = nil
 
         viewControllerToRemove.willMove(toParent: nil)
-        viewControllerToRemove.view.superview!.removeFromSuperview()
         viewControllerToRemove.removeFromParent()
+        viewToRemove.removeFromSuperview()
 
         context.transitionSucceeded()
 
@@ -418,19 +421,24 @@ open class FluidStackController: UIViewController {
           return .init(run: {})
         }
 
-        return self.addPortalView(for: source, on: wrapperView)
+        return self.addPortalView(for: source, on: viewToRemove)
       }
     )
 
     // To enable through to make back view controller can be interactive.
     // Consequently, the user can start another transition.
-    wrapperView.isTouchThroughEnabled = true
-
+    viewToRemove.isTouchThroughEnabled = true
+    
+    /*
+    viewToRemove.loadViewController()
+    backView?.loadViewController()
+     */
+    
     // invalidates a current transition (mostly adding transition)
     // it's important to do this before starting a new transition.
-    transitionContext(viewController: viewControllerToRemove)?.invalidate()
+    transitionContext(viewController: viewToRemove.viewController)?.invalidate()
     // set a new context to receive invalidation from transition for adding started while removing.
-    setTransitionContext(viewController: viewControllerToRemove, context: newTransitionContext)
+    setTransitionContext(viewController: viewToRemove.viewController, context: newTransitionContext)
 
     return newTransitionContext
   }
@@ -470,12 +478,17 @@ open class FluidStackController: UIViewController {
         "The removing view controller is not displaying on top. the screen won't change at the look, but the stack will change."
       )
     }
+    
+    guard let viewToRemove = stackingItems.first(where: { $0.viewController == viewControllerToRemove }) else {
+      assertionFailure("Not found wrapper view to manage \(viewControllerToRemove)")
+      return
+    }
 
-    let transitionContext = _startRemoving(viewControllerToRemove)
+    let transitionContext = _startRemoving(viewToRemove)
 
     if let transition = transition {
       transition.startTransition(context: transitionContext)
-    } else if let transitionViewController = viewControllerToRemove
+    } else if let transitionViewController = viewToRemove.viewController
       as? FluidTransitionViewController
     {
       transitionViewController.startRemovingTransition(context: transitionContext)
@@ -639,13 +652,13 @@ open class FluidStackController: UIViewController {
     }
   }
   
-//  private func updateHierarchy() {
-//    
-//    let visibleViewControllers = stackingItems.suffix(2)
-//    
-//    let invisibleViewControllers = stackingItems.dropLast(2)
-//    
-//  }
+  private func updateHierarchy() {
+    
+    let visibleViewControllers = stackingItems.suffix(2)
+    
+    let invisibleViewControllers = stackingItems.dropLast(2)
+    
+  }
 
 }
 
@@ -687,7 +700,7 @@ extension FluidStackController {
 
   }
 
-  private final class PresentedViewControllerWrapperView: UIView {
+  final class PresentedViewControllerWrapperView: UIView {
 
     var isTouchThroughEnabled = true
     
@@ -712,10 +725,14 @@ extension FluidStackController {
     }
     
     func loadViewController() {
-      addSubview(viewController.view)
-      Fluid.setFrameAsIdentity(frame, for: viewController.view)
-      viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-      autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      if let superview = viewController.view.superview {
+        assert(superview == self)
+      } else {
+        addSubview(viewController.view)
+        Fluid.setFrameAsIdentity(frame, for: viewController.view)
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      }
     }
     
     func offloadViewController() {
