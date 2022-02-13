@@ -702,16 +702,24 @@ extension FluidStackController {
       
       super.init(frame: frame)
 
-      addSubview(viewController.view)
-      Fluid.setFrameAsIdentity(frame, for: viewController.view)
-      viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-      autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
       backgroundColor = .clear
+      
+      loadViewController()
     }
     
     required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
+    }
+    
+    func loadViewController() {
+      addSubview(viewController.view)
+      Fluid.setFrameAsIdentity(frame, for: viewController.view)
+      viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+    
+    func offloadViewController() {
+      viewController.view.removeFromSuperview()
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
