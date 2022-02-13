@@ -4,6 +4,37 @@ import XCTest
 @testable import FluidInterfaceKit_Demo
 
 final class FluidStackControllerTests: XCTestCase {
+  
+  func testStackTree() {
+    
+    let stack = FluidStackController()
+    
+    let rep: ViewControllerRep = stack.makeRepresentation()
+    
+    let result = rep.compare(
+      expectation: ViewControllerRep(
+        pointer: Unmanaged.passUnretained(stack),
+        view: ViewRep(
+          pointer: nil,
+          subviews: {
+            
+            ViewRep(
+              pointer: nil,
+              subviews: {
+                
+              }
+            )
+            
+          }
+        ),
+        children: {
+          
+        }
+      )
+    )
+    
+    XCTAssertEqual(result.result, true)
+  }
 
   func testAddingRemovingDefaultBehavior() {
 

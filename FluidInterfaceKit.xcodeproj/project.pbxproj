@@ -32,6 +32,7 @@
 		4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */; };
 		4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */; };
 		4B7410B927ACE975003D8AB5 /* DemoCompositionOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */; };
+		4B97A9E527B9828E0068B330 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
 		4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */; };
 		4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */; };
 		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
@@ -43,8 +44,6 @@
 		4BC667C127B2E6B300182E6C /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */; };
 		4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F327B6B02300095412 /* StorybookKit */; };
 		4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F527B6B02300095412 /* StorybookUI */; };
-		4BC8F5F927B6CAA200095412 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
-		4BC8F5FE27B6CB3800095412 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
 		4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
@@ -61,6 +60,18 @@
 			remoteInfo = "FluidInterfaceKit-Demo";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4B97A9E327B9826C0068B330 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
@@ -174,7 +185,6 @@
 				4B46805E279C58E800625FCB /* UIControl+Closure.swift */,
 				4B46804A279C58E800625FCB /* ViewController.swift */,
 				4B468053279C58E800625FCB /* ViewModel.swift */,
-				4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */,
 				4B468051279C58E800625FCB /* Assets.xcassets */,
 				4B468055279C58E800625FCB /* LaunchScreen.storyboard */,
 			);
@@ -225,6 +235,7 @@
 		4BC667B827B2E69C00182E6C /* FluidInterfaceKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */,
 				4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */,
 				4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */,
 				4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */,
@@ -280,6 +291,7 @@
 				4BC667B327B2E69C00182E6C /* Sources */,
 				4BC667B427B2E69C00182E6C /* Frameworks */,
 				4BC667B527B2E69C00182E6C /* Resources */,
+				4B97A9E327B9826C0068B330 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -382,7 +394,6 @@
 				4B468061279C58E800625FCB /* ViewController.swift in Sources */,
 				4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */,
 				4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */,
-				4BC8F5F927B6CAA200095412 /* TreeBuilder.swift in Sources */,
 				4B468070279C58E800625FCB /* AppDelegate.swift in Sources */,
 				4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */,
 				4B468075279C58E800625FCB /* DemoApplicationViewController.swift in Sources */,
@@ -394,9 +405,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BC8F5FE27B6CB3800095412 /* TreeBuilder.swift in Sources */,
 				4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */,
 				4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */,
+				4B97A9E527B9828E0068B330 /* TreeBuilder.swift in Sources */,
 				4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */,
 				4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */,
 			);
