@@ -247,6 +247,14 @@ open class FluidStackController: UIViewController {
         }
 
         self.setTransitionContext(viewController: viewControllerToAdd, context: nil)
+        
+        // handling offload
+        if self.configuration.isOffloadViewsEnabled {
+          self.stackingItems.last?.loadViewController()
+          self.stackingItems.dropLast().forEach {
+            $0.offloadViewController()
+          }
+        }
               
         context.transitionSucceeded()
 
@@ -429,10 +437,11 @@ open class FluidStackController: UIViewController {
     // Consequently, the user can start another transition.
     viewToRemove.isTouchThroughEnabled = true
     
-    /*
-    viewToRemove.loadViewController()
-    backView?.loadViewController()
-     */
+    // handling offload
+    if self.configuration.isOffloadViewsEnabled {
+      viewToRemove.loadViewController()
+      backView?.loadViewController()
+    }
     
     // invalidates a current transition (mostly adding transition)
     // it's important to do this before starting a new transition.
@@ -691,11 +700,19 @@ extension FluidStackController {
   }
 
   public struct Configuration {
-
+    
+    /// Keeps hodling a root view controller.
     public var retainsRootViewController: Bool
+    
+    /// Offloads background view controllers from hierarchy.
+    public var isOffloadViewsEnabled: Bool
 
-    public init(retainsRootViewController: Bool = true) {
+    public init(
+      retainsRootViewController: Bool = true,
+      isOffloadViewsEnabled: Bool = true
+    ) {
       self.retainsRootViewController = retainsRootViewController
+      self.isOffloadViewsEnabled = isOffloadViewsEnabled
     }
 
   }
