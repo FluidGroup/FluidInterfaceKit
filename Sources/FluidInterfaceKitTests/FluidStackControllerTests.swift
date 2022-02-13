@@ -288,4 +288,22 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack1.stackingViewControllers.count, 2)
           
   }
+  
+  func testAddingDuplicated() {
+    
+    let content1 = UIViewController()
+    let content2 = UIViewController()
+    let stack1 = FluidStackController()
+    
+    stack1.addContentViewController(content1, transition: .noAnimation)
+    stack1.addContentViewController(content1, transition: .noAnimation)
+    stack1.addContentViewController(content1, transition: .noAnimation)
+        
+    XCTAssertEqual(stack1.stackingViewControllers.count, 1)
+    
+    stack1.addContentViewController(content2, transition: .noAnimation)
+    stack1.addContentViewController(content1, transition: .noAnimation)
+    
+    XCTAssertEqual(stack1.stackingViewControllers.count, 2)
+  }
 }

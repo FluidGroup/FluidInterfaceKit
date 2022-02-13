@@ -241,7 +241,7 @@ open class FluidStackController: UIViewController {
     
     // Adds the view controller at the latest position.
     do {
-      stackingItems.removeAll { $0 == wrapperView }
+      stackingItems.removeAll { $0.viewController == viewControllerToAdd }
       stackingItems.append(wrapperView)
     }
 
