@@ -217,11 +217,32 @@ extension UIViewController {
 
     guard
       let fluidStackContext = fluidStackContext,
-      let stack = fluidStackContext.fluidStackController
+      let _ = fluidStackContext.fluidStackController
     else {
       let message = "\(self) is not presented as fluid-presentation"
       Log.error(.viewController, message)
-      assertionFailure(message)
+      return
+    }
+
+    _fluidPop(transition: transition, forwardingToParent: forwardingToParent, completion: completion)
+
+  }
+  
+  private func _fluidPop(
+    transition: AnyRemovingTransition?,
+    forwardingToParent: Bool = true,
+    completion: (() -> Void)? = nil
+  ) {
+    
+    guard next != nil else {
+      // got the end of tree.
+      return
+    }
+
+    guard
+      let fluidStackContext = fluidStackContext,
+      let stack = fluidStackContext.fluidStackController
+    else {
       return
     }
 
@@ -234,7 +255,7 @@ extension UIViewController {
       // there is no view controller to remove in current stack.
       // forwards to the parent attempt to pop itself in the stack
       
-      stack.fluidPop(
+      stack._fluidPop(
         transition: transition,
         forwardingToParent: forwardingToParent,
         completion: completion

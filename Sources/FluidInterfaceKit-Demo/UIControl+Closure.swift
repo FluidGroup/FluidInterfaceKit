@@ -43,9 +43,23 @@ extension UIControl {
 
 extension UIButton {
 
-  static func make(title: String, onTap: @escaping () -> Void) -> UIButton {
+  static func make(
+    title: String,
+    color: UIColor? = nil,
+    onTap: @escaping () -> Void
+  ) -> UIButton {
     let button = UIButton(type: .system)
-    button.setTitle(title, for: .normal)
+    button.setAttributedTitle(
+      NSAttributedString(
+        string: title,
+        attributes: ([
+          .font: UIFont.preferredFont(forTextStyle: .headline),
+          .foregroundColor : color
+        ] as [NSAttributedString.Key : AnyHashable?])
+          .compactMapValues { $0 }
+      ),
+      for: .normal
+    )
     button.onTap(onTap)
     return button
   }

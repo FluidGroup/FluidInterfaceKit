@@ -9,9 +9,18 @@ public enum FluidStackAction {
 
 /// A struct that configures how to display in ``FluidStackController``
 public struct FluidStackContentConfiguration {
+  
+  public enum ContentType {
+    /// Allows background view offloads.
+    case opaque
+    /// Leaves background view controller in the hierarchy.
+    case overlay
+  }
 
   /// Specifies whether ``FluidStackController`` updates status bar appearance when displaying its target view controller.
   public var capturesStatusBarAppearance: Bool = true
+  
+  public var contentType: ContentType = .opaque
 
 }
 
@@ -95,22 +104,30 @@ open class FluidStackController: UIViewController {
   /// Creates an instance
   /// - Parameters:
   ///   - identifier: ``Identifier-swift.struct`` to find the instance in hierarchy.
-  ///   - view:
-  ///   - configuration:
+  ///   - view: a view that used in ``loadView()``
+  ///   - contentView: a view that displays as first view in hierarchy of ``UIViewController/view``
+  ///   - configuration: ``Configuration-swift.struct``
+  ///   - rootViewController: Adds as a first content
   public init(
     identifier: Identifier? = nil,
     view: UIView? = nil,
     contentView: UIView? = nil,
-    configuration: Configuration = .init()
+    configuration: Configuration = .init(),
+    rootViewController: UIViewController? = nil
   ) {
     self.identifier = identifier
     self.__rootView = view
     self.contentView = contentView ?? .init()
     self.configuration = configuration
-
+    
     super.init(nibName: nil, bundle: nil)
 
     self.view.accessibilityIdentifier = "FluidStack.\(identifier?.rawValue ?? "unnamed")"
+    
+    if let rootViewController = rootViewController {
+      addContentViewController(rootViewController, transition: .noAnimation)
+    }
+    
   }
 
   @available(*, unavailable)
@@ -251,9 +268,19 @@ open class FluidStackController: UIViewController {
         // handling offload
         if self.configuration.isOffloadViewsEnabled {
           self.stackingItems.last?.loadViewController()
-          self.stackingItems.dropLast().forEach {
-            $0.offloadViewController()
+          
+          // starts from last
+          // if foreground view's content is overlay, background view loads view.
+          zip(self.stackingItems.reversed(), self.stackingItems.reversed().dropFirst())
+            .forEach { previous, value in
+              switch previous.viewController.fluidStackContentConfiguration.contentType {
+              case .opaque:
+                value.offloadViewController()
+              case .overlay:
+                value.loadViewController()
+              }
           }
+          
         }
               
         context.transitionSucceeded()

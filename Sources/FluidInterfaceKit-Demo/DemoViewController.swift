@@ -13,6 +13,10 @@ import UIKit
 
 final class DemoViewController: FluidStackController {
 
+  init() {
+    super.init()
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -21,7 +25,7 @@ final class DemoViewController: FluidStackController {
     view.backgroundColor = .systemBackground
 
     let addButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Add", for: .normal)
+      $0.setTitle("Add root view controller", for: .normal)
       $0.onTap { [unowned self] in
         addContentViewController(
           ContentViewController(color: .neonRandom()),
@@ -71,7 +75,7 @@ final class DemoViewController: FluidStackController {
 
 }
 
-final class ContentViewController: UIViewController {
+private final class ContentViewController: UIViewController {
 
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
@@ -116,105 +120,104 @@ final class ContentViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    let dismissButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Remove self", for: .normal)
-      $0.onTap { [unowned self] in
-        fluidPop(transition: .vanishing(), completion: nil)
-      }
-    }
-
-    let addButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Add", for: .normal)
-      $0.onTap { [unowned self] in
-        fluidPush(
-          ContentViewController(color: .neonRandom()),
-          target: .current,
-          transition: .modalIdiom()
-        )
-      }
-    }
-
-    let addNavigatedButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Add Navigated", for: .normal)
-      $0.onTap { [unowned self] in
-        fluidPush(
-          FluidViewController(
-            content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
-            transition: .navigation(),
-            topBar: .navigation()
-          ),
-          target: .current,
-          transition: .modalIdiom()
-        )
-      }
-    }
-
-    let addModalButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Add as modal", for: .normal)
-      $0.onTap { [unowned self] in
-        present(ContentViewController(color: .neonRandom()), animated: true, completion: nil)
-      }
-    }
-
-    let addInteractiveButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Add Interactive content", for: .normal)
-      $0.onTap { [unowned self] in
-
-        fluidPush(
-          FluidViewController(
-            content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
-            transition: .init(addingTransition: nil, removingTransition: nil, removingInteraction: .horizontalDragging(backwardingMode: nil, hidingViews: []))
-          ),
-          target: .current,
-          transition: nil
-        )
-
-      }
-    }
-
-    let alertButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Show UIAlertController", for: .normal)
-      $0.onTap { [unowned self] in
-        let alert = UIAlertController(title: "Hi", message: nil, preferredStyle: .alert)
-        alert.addAction(
-          .init(
-            title: "Close",
-            style: .default,
-            handler: { _ in
-
-            }
-          )
-        )
-        present(alert, animated: true, completion: nil)
-      }
-    }
-
-    let removeAllButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Remove all", for: .normal)
-      $0.onTap { [unowned self] in
-        fluidStackContext?.removeAllViewController(transition: .vanishing())
-      }
-    }
-
+    
     Mondrian.buildSubviews(on: view) {
-      LayoutContainer(attachedSafeAreaEdges: .all) {
+      LayoutContainer(attachedSafeAreaEdges: .all) { [unowned self] /* trick to disable writing `self` */ in
         ZStackBlock {
           VStackBlock {
 
-            addButton
+            UIButton.make(title: "Add in current", color: .white) {
+              fluidPush(
+                ContentViewController(color: .neonRandom()),
+                target: .current,
+                transition: .modalIdiom()
+              )
+            }
 
-            addModalButton
+            UIButton.make(title: "Add as modal", color: .white) {
+              present(ContentViewController(color: .neonRandom()), animated: true, completion: nil)
+            }
 
-            addNavigatedButton
+            UIButton.make(title: "Add Navigated", color: .white) {
+              fluidPush(
+                FluidViewController(
+                  content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
+                  transition: .navigation(),
+                  topBar: .navigation()
+                ),
+                target: .current,
+                transition: .modalIdiom()
+              )
 
-            addInteractiveButton
+            }
 
-            alertButton
+            UIButton.make(title: "Add Interactive content", color: .white) {
 
-            removeAllButton
+              fluidPush(
+                FluidViewController(
+                  content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
+                  transition: .init(
+                    addingTransition: nil,
+                    removingTransition: nil,
+                    removingInteraction: .horizontalDragging(backwardingMode: nil, hidingViews: [])
+                  )
+                ),
+                target: .current,
+                transition: nil
+              )
 
-            dismissButton
+            }
+
+            UIButton.make(title: "Show UIAlertController", color: .white) {
+              let alert = UIAlertController(title: "Hi", message: nil, preferredStyle: .alert)
+              alert.addAction(
+                .init(
+                  title: "Close",
+                  style: .default,
+                  handler: { _ in
+
+                  }
+                )
+              )
+              present(alert, animated: true, completion: nil)
+
+            }
+
+            UIButton.make(title: "Add new stack", color: .white) {
+
+              let padding = UIViewController()
+              let content = ContentViewController(color: .neonRandom())
+              let stack = FluidStackController(
+                identifier: .init("nested"),
+                rootViewController: content
+              )
+              padding.addChild(stack)
+              Mondrian.buildSubviews(on: padding.view) {
+                stack.view
+                  .viewBlock
+                  .padding(20)
+                  .container(respectingSafeAreaEdges: .all)
+              }
+              stack.didMove(toParent: padding)
+
+              padding.fluidStackContentConfiguration.contentType = .overlay
+
+              fluidPush(
+                padding,
+                target: .current,
+                transition: .modalIdiom()
+              )
+            }
+
+            UIButton.make(title: "Remove all", color: .white) {
+
+              fluidStackContext?.removeAllViewController(transition: .vanishing())
+
+            }
+
+            UIButton.make(title: "Remove self", color: .white) {
+              fluidPop(transition: .vanishing(), completion: nil)
+            }
 
           }
         }
