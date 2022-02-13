@@ -20,8 +20,6 @@ public struct VC: Hashable {
 
       for child in node.children {
 
-        make(node: child)
-
         let parent = node.instance
         if let stack = parent as? FluidStackController {
           stack.addContentViewController(child.instance, transition: .noAnimation)

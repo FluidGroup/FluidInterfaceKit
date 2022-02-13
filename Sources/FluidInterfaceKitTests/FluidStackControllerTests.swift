@@ -257,7 +257,7 @@ final class FluidStackControllerTests: XCTestCase {
     
     let stack1 = FluidStackController()
     let stack2 = FluidStackController()
-    let stack3 = FluidStackController()
+    let stack3 = FluidStackController(identifier: .init("3"))
     
     _ = VC(stack1) {
       VC {}
@@ -276,6 +276,7 @@ final class FluidStackControllerTests: XCTestCase {
     
     XCTAssertEqual(stack1.stackingViewControllers.count, 3)
     XCTAssertEqual(stack2.stackingViewControllers.count, 1)
+    XCTAssertEqual(stack3.stackingViewControllers.count, 2)
     
     dispatcher1.fluidPop(transition: .noAnimation)
     
