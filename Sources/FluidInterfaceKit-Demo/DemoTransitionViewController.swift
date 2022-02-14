@@ -10,7 +10,7 @@ final class DemoTransitionViewController: FluidStackController {
 
   private final class RootViewController: FluidViewController {}
 
-  private let rootController = RootViewController(topBar: .navigation())
+  private let rootController = RootViewController(topBar: .navigation)
 
   init() {
     super.init(configuration: .init(retainsRootViewController: true))
@@ -60,8 +60,8 @@ final class DemoTransitionViewController: FluidStackController {
           onTap: { [unowned self] in
 
             _display(
-              transition: .navigationIdiom(),
-              removingInteraction: .leftToRight()
+              transition: .navigationStyle,
+              removingInteraction: .leftToRight
             )
           }
         )
@@ -80,17 +80,17 @@ final class DemoTransitionViewController: FluidStackController {
         instance.fluidStackContext?.removeSelf(transition: .fadeOut())
       },
       pop: { instance in
-        instance.fluidStackContext?.removeSelf(transition: .navigationIdiom())
+        instance.fluidStackContext?.removeSelf(transition: .navigationStyle)
       }
     )
 
     let controller = FluidViewController(
       content: .init(bodyViewController: body),
-      transition: .navigation()
+      transition: .navigationStyle
     )
     
     body.navigationItem.leftBarButtonItem = .fluidChevronBackward { [unowned body] in
-      body.fluidPop(transition: .navigationIdiom())
+      body.fluidPop(transition: .navigationStyle)
     }
     
     addContentViewController(controller, transition: transition)

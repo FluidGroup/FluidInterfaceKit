@@ -3,7 +3,7 @@ import UIKit
 extension AnyRemovingInteraction {
 
   // FIXME: not completed
-  public static func leftToRight() -> Self {
+  public static var leftToRight: Self {
 
     struct TrackingContext {
 

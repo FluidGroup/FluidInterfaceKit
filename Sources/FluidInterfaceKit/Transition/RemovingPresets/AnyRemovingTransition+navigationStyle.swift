@@ -2,9 +2,7 @@ import UIKit
 
 extension AnyRemovingTransition {
 
-  public static func navigationIdiom(
-    duration: TimeInterval = 0.6
-  ) -> Self {
+  public static var navigationStyle: Self {
 
     return .init { context in
 
@@ -14,7 +12,7 @@ extension AnyRemovingTransition {
         fromViewController.view.transform = .init(translationX: -fromViewController.view.bounds.width, y: 0)
       }
 
-      let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+      let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
 
         context.fromViewController.view.transform = .init(translationX: context.fromViewController.view.bounds.width, y: 0)
 

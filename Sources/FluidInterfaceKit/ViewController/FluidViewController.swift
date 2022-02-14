@@ -37,7 +37,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
   public init(
     content: FluidWrapperViewController.Content? = nil,
-    transition: Configuration.Transition = .modal(),
+    transition: Configuration.Transition = .modalStyle,
     topBar: Configuration.TopBar = .navigation(
       .init(
         displayMode: .automatic,
@@ -192,6 +192,26 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
 extension FluidViewController {
 
+  /**
+   Configurations for ``FluidViewController``
+   
+   This struct contains nested structures for creating convenience extensions.
+   You may create static members, methods to return constant value.
+   
+   ```swift
+   extension FluidViewController.Configuration {
+     static var yourConfiguration: Self { ... }
+   }
+   
+   extension FluidViewController.Configuration.Transition {
+     static var yourTransition: Self { ... }
+   }
+   
+   extension FluidViewController.Configuration.TopBar.Navigation {
+     static var yourNavigation: Self { ... }
+   }
+   ```
+   */
   public struct Configuration {
 
     public struct Transition {
@@ -210,18 +230,25 @@ extension FluidViewController {
         self.removingInteraction = removingInteraction
       }
 
-      public static func navigation() -> Self {
+      /**
+       push, pop, Edge pan gesture to pop
+       */
+      public static var navigationStyle: Self {
         return .init(
-          addingTransition: .navigationIdiom(),
-          removingTransition: .navigationIdiom(),
-          removingInteraction: .leftToRight()
+          addingTransition: .navigationStyle,
+          removingTransition: .navigationStyle,
+          removingInteraction: .leftToRight
         )
       }
 
-      public static func modal() -> Self {
+      /**
+       like UIModalPresentationStyle.fullScreen
+       slide in/out vertically, no gesture
+       */
+      public static var modalStyle: Self {
         return .init(
-          addingTransition: .modalIdiom(),
-          removingTransition: .modalIdiom(),
+          addingTransition: .modalStyle,
+          removingTransition: .modalStyle,
           removingInteraction: nil
         )
       }
@@ -233,14 +260,16 @@ extension FluidViewController {
       public struct Navigation {
 
         public enum DisplayMode {
+          /// It shows `UINavigationBar` if the target navigation-item has items (title, left items, right items).
           case automatic
+          /// It shows always `UINavigationBar`.
           case always
         }
 
         public var displayMode: DisplayMode
 
+        /// Whether uses navigationItem of the body view controller.
         public var usesBodyViewController: Bool
-
 
         public let navigationBarClass: UINavigationBar.Type
 
@@ -256,12 +285,16 @@ extension FluidViewController {
 
       }
 
-      case navigation(Navigation = .init())
+      case navigation(Navigation)
 
       // FIXME: Unimplemented
       case custom
       
       case hidden
+      
+      public static var navigation: Self {
+        .navigation(.init())
+      }
     }
 
     //    public struct BottomBar {

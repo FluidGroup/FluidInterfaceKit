@@ -131,7 +131,7 @@ private final class ContentViewController: UIViewController {
               fluidPush(
                 ContentViewController(color: .neonRandom()),
                 target: .current,
-                transition: .modalIdiom()
+                transition: .modalStyle
               )
             }
             
@@ -161,7 +161,7 @@ private final class ContentViewController: UIViewController {
               content.title = "Navigated"
               
               fluidPush(
-                content.fluidWrapped(transition: .navigation(), topBar: .navigation()),
+                content.fluidWrapped(transition: .navigationStyle, topBar: .navigation),
                 target: .current,
                 transition: nil
               )
@@ -222,7 +222,7 @@ private final class ContentViewController: UIViewController {
               fluidPush(
                 padding,
                 target: .current,
-                transition: .modalIdiom()
+                transition: .modalStyle
               )
             }
 
@@ -233,7 +233,7 @@ private final class ContentViewController: UIViewController {
             }
 
             UIButton.make(title: "Remove self", color: .white) {
-              fluidPop(transition: .vanishing(), completion: nil)
+              fluidPop(transition: .vanishing, completion: nil)
             }
 
           }
