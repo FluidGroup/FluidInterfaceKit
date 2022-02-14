@@ -288,6 +288,34 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack1.stackingViewControllers.count, 2)
 
   }
+  
+  func testRemovingRecursively_5() {
+
+    let dispatcher1 = UIViewController()
+
+    let stack1 = FluidStackController()
+    let stack2 = FluidStackController(configuration: .init(preventsFowardingPop: true))
+
+    _ = VC(stack1) {
+      VC {}
+      VC {
+        VC(stack2) {
+          VC(dispatcher1) {}
+        }
+      }
+      VC {}
+    }
+
+    XCTAssertEqual(stack1.stackingViewControllers.count, 3)
+    XCTAssertEqual(stack2.stackingViewControllers.count, 1)
+
+    dispatcher1.fluidPop(transition: .noAnimation)
+
+    XCTAssertEqual(stack2.stackingViewControllers.count, 1)
+
+    XCTAssertEqual(stack1.stackingViewControllers.count, 3)
+
+  }
 
   func testAddingDuplicated() {
 

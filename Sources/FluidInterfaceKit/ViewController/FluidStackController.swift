@@ -776,13 +776,19 @@ extension FluidStackController {
     
     /// Offloads background view controllers from hierarchy.
     public var isOffloadViewsEnabled: Bool
-
+    
+    /// Whether prevents `forwading-pop`
+    /// `forwarding-pop` is forwarding pop-operation to the parent stack if there are no items to pop in the current stack.
+    public var preventsFowardingPop: Bool
+    
     public init(
       retainsRootViewController: Bool = true,
-      isOffloadViewsEnabled: Bool = true
+      isOffloadViewsEnabled: Bool = true,
+      preventsFowardingPop: Bool = false
     ) {
       self.retainsRootViewController = retainsRootViewController
       self.isOffloadViewsEnabled = isOffloadViewsEnabled
+      self.preventsFowardingPop = preventsFowardingPop
     }
 
   }
