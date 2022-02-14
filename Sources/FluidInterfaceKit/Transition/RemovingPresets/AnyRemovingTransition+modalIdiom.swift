@@ -2,15 +2,13 @@ import UIKit
 
 extension AnyRemovingTransition {
 
-  public static func modalIdiom(
-    duration: TimeInterval = 0.6
-  ) -> Self {
+  public static var modalStyle: Self {
 
     return .init { context in
 
       context.contentView.backgroundColor = .clear
 
-      let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+      let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
 
         context.fromViewController.view.layer.transform = CATransform3DMakeAffineTransform(.init(
           translationX: 0,

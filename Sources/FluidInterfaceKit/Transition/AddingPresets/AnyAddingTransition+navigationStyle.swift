@@ -2,9 +2,7 @@ import UIKit
 
 extension AnyAddingTransition {
 
-  public static func navigationIdiom(
-    duration: TimeInterval = 0.6
-  ) -> Self {
+  public static var navigationStyle: Self {
 
     return .init { context in
      
@@ -14,7 +12,7 @@ extension AnyAddingTransition {
         fromViewController.view.transform = .identity
       }
 
-      let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+      let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
 
         context.toViewController.view.transform = .identity
 

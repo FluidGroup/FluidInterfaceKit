@@ -328,7 +328,7 @@ extension UIViewController {
    ```
    */
   public func fluidWrapped(
-    transition: FluidViewController.Configuration.Transition = .modal(),
+    transition: FluidViewController.Configuration.Transition = .modalStyle,
     topBar: FluidViewController.Configuration.TopBar = .navigation(
       .init(
         displayMode: .automatic,

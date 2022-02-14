@@ -5,7 +5,7 @@ extension AnyRemovingInteraction {
   /**
    Removes by left edge gesture
    */
-  public static func leftEdge() -> Self {
+  public static var leftEdge: Self {
         
     return .init(handlers: [
       .gestureOnLeftEdge { gesture, context in
