@@ -15,8 +15,6 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
   private var subscriptions: [NSKeyValueObservation] = []
 
-  private var _onTapBackButton: (FluidViewController) -> Void = { _ in }
-
   // MARK: - Initializers
 
   /// Creates an instance
@@ -44,7 +42,6 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       .init(
         displayMode: .automatic,
         usesBodyViewController: true,
-//        backBarButton: .chevronBackward,
         navigationBarClass: UINavigationBar.self
       )
     )
@@ -88,16 +85,6 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       let targetNavigationItem =
         navigation.usesBodyViewController
         ? (content.bodyViewController?.navigationItem ?? navigationItem) : navigationItem
-
-//      if let backBarButton = navigation.backBarButton {
-//
-//        let item = backBarButton._make()
-//        _onTapBackButton = backBarButton._onTap
-//        item.action = #selector(onTapBackButton)
-//        item.target = self
-//        targetNavigationItem.leftBarButtonItem = item
-//
-//      }
 
       navigationBar.pushItem(targetNavigationItem, animated: false)
 
@@ -147,34 +134,8 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     updateTopBarLayout()
   }
 
-  //  open override func didMove(toParent parent: UIViewController?) {
-  //    super.didMove(toParent: parent)
-  //
-  //    if let parent = parent as? FluidStackController {
-  //
-  //      if parent.configuration.retainsRootViewController {
-  //
-  //        if parent.stackingViewControllers.count > 1 {
-  //
-  //        }
-  //
-  //      } else {
-  //
-  //        if parent.stackingViewControllers.count > 0 {
-  //
-  //        }
-  //
-  //      }
-  //
-  //    }
-  //  }
-
   public func position(for bar: UIBarPositioning) -> UIBarPosition {
     return .topAttached
-  }
-
-  @objc private func onTapBackButton() {
-    _onTapBackButton(self)
   }
 
   private func updateTopBarLayout() {
