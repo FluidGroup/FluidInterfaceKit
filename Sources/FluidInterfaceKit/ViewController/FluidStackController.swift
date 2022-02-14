@@ -547,7 +547,7 @@ open class FluidStackController: UIViewController {
   ) {
 
     if configuration.retainsRootViewController {
-      guard let target = stackingItems.prefix(2).last else { return }
+      guard let target = stackingItems.dropFirst().first else { return }
       removeAllViewController(from: target.viewController, transition: transition)
     } else {
       guard let target = stackingItems.first else { return }
@@ -557,12 +557,15 @@ open class FluidStackController: UIViewController {
 
   /**
    Removes all view controllers which displaying on top of the given view controller.
+   
+   - FIXME
+     - Supports re-entrant operation - adding-transition. It's undefined behavior to get adding while removing.
 
    - Parameters:
      - from:
      - transition:
    */
-  public func removeAllViewController(
+  private func removeAllViewController(
     from viewController: UIViewController,
     transition: AnyBatchRemovingTransition?
   ) {
@@ -570,92 +573,73 @@ open class FluidStackController: UIViewController {
     Log.debug(.stack, "Remove \(viewController) from \(stackingItems)")
 
     assert(Thread.isMainThread)
+    
+    let targetStackingItems = stackingItems
 
-    guard let index = stackingItems.firstIndex(where: { $0.viewController == viewController }) else {
+    guard let index = targetStackingItems.firstIndex(where: { $0.viewController == viewController }) else {
       Log.error(.stack, "\(viewController) was not found to remove")
       return
     }
 
-    let targetTopViewController: UIViewController? = stackingItems[0..<(index)].last?.viewController
+    let targetTopItem = targetStackingItems[0..<(index)].last
 
-    let viewControllersToRemove = Array(
-      stackingItems[
+    let itemsToRemove = Array(
+      targetStackingItems[
         index...stackingItems.indices.last!
       ]
-        .map(\.viewController)
     )
 
-    assert(viewControllersToRemove.count > 0)
-
-    if let transition = transition {
-
-      viewControllersToRemove.forEach {
-        $0.willMove(toParent: nil)
-        $0.removeFromParent()
-      }
-
-      let newTransitionContext = BatchRemovingTransitionContext(
-        contentView: viewControllersToRemove.first!.view.superview!,
-        fromViewControllers: viewControllersToRemove,
-        toViewController: targetTopViewController,
-        onCompleted: { [weak self] context in
+    assert(itemsToRemove.count > 0)
+    
+    let transition: AnyBatchRemovingTransition = transition ?? .noAnimation
+    
+    let newTransitionContext = BatchRemovingTransitionContext(
+      contentView: itemsToRemove.first!,
+      fromViewControllers: itemsToRemove.map(\.viewController),
+      toViewController: targetTopItem?.viewController,
+      onCompleted: { [weak self] context in
+        
+        assert(Thread.isMainThread)
+        
+        guard let self = self else { return }
+        
+        /**
+         Completion of transition, cleaning up
+         */
+        
+        for itemToRemove in itemsToRemove {
           
-          assert(Thread.isMainThread)
-
-          guard let self = self else { return }
-
-          /**
-           Completion of transition, cleaning up
-           */
-
-          for viewControllerToRemove in viewControllersToRemove
-          where context.isInvalidated(for: viewControllerToRemove) == false {
-            self.setTransitionContext(viewController: viewControllerToRemove, context: nil)
-            viewControllerToRemove.willMove(toParent: nil)
-            viewControllerToRemove.view.superview!.removeFromSuperview()
-            viewControllerToRemove.removeFromParent()
-            viewControllerToRemove.fluidStackContext = nil
-          }
-
+          self.setTransitionContext(viewController: itemToRemove.viewController, context: nil)
+          
+          itemToRemove.viewController.willMove(toParent: nil)
+          itemToRemove.removeFromSuperview()
+          itemToRemove.viewController.removeFromParent()
+          itemToRemove.viewController.fluidStackContext = nil
+          
           self.stackingItems.removeAll { instance in
-            viewControllersToRemove.contains(where: { $0 == instance.viewController })
+            (instance as PresentedViewControllerWrapperView) == (itemToRemove as PresentedViewControllerWrapperView)
           }
-
-          context.transitionSucceeded()
-
         }
+                      
+        context.transitionSucceeded()
+        
+      }
+    )
+    
+    for itemToRemove in itemsToRemove {
+      transitionContext(viewController: itemToRemove.viewController)?.invalidate()
+      setTransitionContext(
+        viewController: itemToRemove.viewController,
+        context: newTransitionContext
       )
-
-      for viewControllerToRemove in viewControllersToRemove {
-        transitionContext(viewController: viewControllerToRemove)?.invalidate()
-        setTransitionContext(
-          viewController: viewControllerToRemove,
-          context: newTransitionContext.child(for: viewControllerToRemove)
-        )
-      }
-
-      transition.startTransition(context: newTransitionContext)
-
-    } else {
-
-      while stackingItems.last?.viewController != targetTopViewController {
-
-        let viewControllerToRemove = stackingItems.last!.viewController
-        transitionContext(viewController: viewControllerToRemove)?.invalidate()
-        setTransitionContext(viewController: viewControllerToRemove, context: nil)
-
-        assert(stackingItems.last?.viewController === viewControllerToRemove)
-
-        viewControllerToRemove.willMove(toParent: nil)
-        viewControllerToRemove.view.removeFromSuperview()
-        viewControllerToRemove.removeFromParent()
-
-        stackingItems.removeLast()
-
-      }
-
     }
-
+    
+    if let targetTopItem = targetTopItem {
+      updateOffloadingItems(displayItem: targetTopItem)
+    }
+    
+    transition.startTransition(context: newTransitionContext)
+    
   }
 
   private func setTransitionContext(
@@ -705,6 +689,9 @@ open class FluidStackController: UIViewController {
     
   }
   
+  /**
+   Offloads view controllers which do not need to display from their wrapper view.
+   */
   private func updateOffloadingItems(displayItem: PresentedViewControllerWrapperView) {
     
     let items = stackingItems

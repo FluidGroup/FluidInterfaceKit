@@ -228,7 +228,7 @@ private final class ContentViewController: UIViewController {
 
             UIButton.make(title: "Remove all", color: .white) {
 
-              fluidStackContext?.removeAllViewController(transition: .vanishing())
+              fluidStackContext?.removeAllViewController(transition: .springFlourish())
 
             }
 

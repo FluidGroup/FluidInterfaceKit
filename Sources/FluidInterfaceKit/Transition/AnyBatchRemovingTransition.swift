@@ -19,6 +19,12 @@ public struct AnyBatchRemovingTransition {
 }
 
 extension AnyBatchRemovingTransition {
+  
+  public static var noAnimation: Self {
+    return .init { context in
+      context.notifyCompleted()
+    }
+  }
 
   public static func vanishing(duration: TimeInterval = 0.6) -> Self {
 
@@ -60,4 +66,30 @@ extension AnyBatchRemovingTransition {
 
   }
 
+  public static func springFlourish() -> Self {
+    
+    return .init { context in
+      
+      let animators: [UIViewPropertyAnimator] = context.fromViewControllers
+        .reversed()
+        .enumerated()
+        .map { i, viewController in
+          
+          let animator = UIViewPropertyAnimator(duration: 0.6 + (Double(i) * 0.2), dampingRatio: 1) {
+            
+            viewController.view.transform = .init(translationX: 0, y: viewController.view.bounds.height)
+            
+          }
+          
+          return animator
+          
+        }
+      
+      Fluid.startPropertyAnimators(animators) {
+        context.notifyCompleted()
+      }
+
+    }
+    
+  }
 }
