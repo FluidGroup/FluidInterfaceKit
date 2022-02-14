@@ -247,6 +247,7 @@ extension UIViewController {
     }
 
     if
+      stack.configuration.preventsFowardingPop == false,
       forwardingToParent == true,
       stack.configuration.retainsRootViewController,
       stack.stackingViewControllers.first.map({ self.isDescendant(of: $0) }) == true
