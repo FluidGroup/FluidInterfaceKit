@@ -71,7 +71,7 @@ open class FluidStackController: UIViewController {
       .startAnimation()
     }
   }
-
+  
   private var state: State = .init()
 
   private let __rootView: UIView?
@@ -253,12 +253,16 @@ open class FluidStackController: UIViewController {
     assert(viewControllerToAdd.view.superview != nil)
     assert(viewControllerToAdd.view.superview is PresentedViewControllerWrapperView)
 
-    let transitionContext = AddingTransitionContext(
+    let newTransitionContext = AddingTransitionContext(
       contentView: wrapperView,
       fromViewController: currentTop?.viewController,
       toViewController: viewControllerToAdd,
       onAnimationCompleted: { [weak self] context in
-
+                        
+        // MARK: Handling after animation
+        
+        assert(Thread.isMainThread)
+        
         guard let self = self else { return }
 
         guard context.isInvalidated == false else {
@@ -267,26 +271,32 @@ open class FluidStackController: UIViewController {
         }
 
         self.setTransitionContext(viewController: viewControllerToAdd, context: nil)
-        
-        // handling offload
-        if self.configuration.isOffloadViewsEnabled {
-          self.updateOffloadingItems()
+           
+        if self.state.latestAddingTransitionContext == context {
+          // handling offload
+          if self.configuration.isOffloadViewsEnabled {
+            self.updateOffloadingItems()
+          }
         }
-              
+        
         context.transitionSucceeded()
 
       }
     )
+    
+    // To run offloading after latest adding transition.
+    // it won't run if got invalidation by started removing-transition.
+    state.latestAddingTransitionContext = newTransitionContext
 
-    transitionContext.addCompletionEventHandler { event in
+    newTransitionContext.addCompletionEventHandler { event in
       completion(event)
     }
 
     // Invalidate current transition before start new transition
     // to prevent overlapping cleanup operations by completion handlers in transition context.
     // For instance, when animating for adding, then interrupted by cleanup operation.
-    self.transitionContext(viewController: viewControllerToAdd)?.invalidate()
-    setTransitionContext(viewController: viewControllerToAdd, context: transitionContext)
+    transitionContext(viewController: viewControllerToAdd)?.invalidate()
+    setTransitionContext(viewController: viewControllerToAdd, context: newTransitionContext)
 
     // Start transition after invalidated current transition.
     do {
@@ -297,15 +307,15 @@ open class FluidStackController: UIViewController {
 
       if let transition = transition {
 
-        transition.startTransition(context: transitionContext)
+        transition.startTransition(context: newTransitionContext)
       } else if let transitionViewController = viewControllerToAdd as? FluidTransitionViewController
       {
 
         transitionViewController.startAddingTransition(
-          context: transitionContext
+          context: newTransitionContext
         )
       } else {
-        AnyAddingTransition.noAnimation.startTransition(context: transitionContext)
+        AnyAddingTransition.noAnimation.startTransition(context: newTransitionContext)
       }
     }
 
@@ -858,7 +868,7 @@ extension FluidStackController {
   }
 
   private struct State: Equatable {
-
+    weak var latestAddingTransitionContext: AddingTransitionContext?
   }
 
 }
