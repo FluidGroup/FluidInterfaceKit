@@ -466,9 +466,6 @@ open class FluidStackController: UIViewController {
     
     // handling offload
     if self.configuration.isOffloadViewsEnabled {
-//      viewToRemove.loadViewController()
-//      backView?.loadViewController()
-      
       updateOffloadingItems(displayItem: backView ?? viewToRemove)
     }
     
