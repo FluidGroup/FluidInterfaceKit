@@ -84,8 +84,8 @@ let book = Book(title: "FluidInterfaceKit") {
     return controller
   }
 
-  BookPresent(title: "Stack") {
-    let controller = DemoViewController()
+  BookPresent(title: "Stacking") {
+    let controller = DemoStackingViewController()
     controller.modalPresentationStyle = .fullScreen
     return controller
   }

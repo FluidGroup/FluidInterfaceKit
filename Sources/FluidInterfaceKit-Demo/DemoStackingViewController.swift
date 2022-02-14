@@ -10,8 +10,9 @@ import Foundation
 import MondrianLayout
 import StorybookKit
 import UIKit
+import FluidInterfaceKitRideauSupport
 
-final class DemoViewController: FluidStackController {
+final class DemoStackingViewController: FluidStackController {
 
   init() {
     super.init()
@@ -131,6 +132,22 @@ private final class ContentViewController: UIViewController {
                 ContentViewController(color: .neonRandom()),
                 target: .current,
                 transition: .modalIdiom()
+              )
+            }
+            
+            UIButton.make(title: "Add sheet", color: .white) {
+              
+              let controller = FluidRideauViewController(
+                bodyViewController: ContentViewController(color: .neonRandom()),
+                configuration: .init(snapPoints: [.pointsFromTop(200)], topMarginOption: .fromSafeArea(0)),
+                initialSnapPoint: .pointsFromTop(200),
+                resizingOption: .resizeToVisibleArea
+              )
+              
+              fluidPush(
+                controller,
+                target: .current,
+                transition: nil
               )
             }
 

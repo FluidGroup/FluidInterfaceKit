@@ -196,6 +196,9 @@ open class FluidStackController: UIViewController {
      */
 
     assert(Thread.isMainThread)
+    
+    // Trigger `viewDidLoad` explicitly.
+    viewControllerToAdd.loadViewIfNeeded()
       
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {

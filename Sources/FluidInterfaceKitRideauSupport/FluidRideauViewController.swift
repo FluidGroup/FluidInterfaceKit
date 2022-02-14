@@ -97,6 +97,13 @@ open class FluidRideauViewController: FluidTransitionViewController {
   }
 
   // MARK: - Functions
+  
+  open override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    fluidStackContentConfiguration.contentType = .overlay
+    
+  }
 
   open func set(
     bodyViewController: UIViewController,

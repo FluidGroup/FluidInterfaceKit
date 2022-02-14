@@ -18,7 +18,7 @@
 		4B468068279C58E800625FCB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B468051279C58E800625FCB /* Assets.xcassets */; };
 		4B468069279C58E800625FCB /* DemoPictureInPictureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */; };
 		4B46806A279C58E800625FCB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468053279C58E800625FCB /* ViewModel.swift */; };
-		4B46806B279C58E800625FCB /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468054279C58E800625FCB /* DemoViewController.swift */; };
+		4B46806B279C58E800625FCB /* DemoStackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468054279C58E800625FCB /* DemoStackingViewController.swift */; };
 		4B46806C279C58E800625FCB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B468055279C58E800625FCB /* LaunchScreen.storyboard */; };
 		4B46806E279C58E800625FCB /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468058279C58E800625FCB /* Book.swift */; };
 		4B46806F279C58E800625FCB /* UIColor+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468059279C58E800625FCB /* UIColor+Presets.swift */; };
@@ -87,7 +87,7 @@
 		4B468051279C58E800625FCB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPictureInPictureController.swift; sourceTree = "<group>"; };
 		4B468053279C58E800625FCB /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		4B468054279C58E800625FCB /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
+		4B468054279C58E800625FCB /* DemoStackingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoStackingViewController.swift; sourceTree = "<group>"; };
 		4B468056279C58E800625FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B468058279C58E800625FCB /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		4B468059279C58E800625FCB /* UIColor+Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Presets.swift"; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 				4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */,
 				4B468050279C58E800625FCB /* DemoThreadsMessagesViewController.swift */,
 				4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */,
-				4B468054279C58E800625FCB /* DemoViewController.swift */,
+				4B468054279C58E800625FCB /* DemoStackingViewController.swift */,
 				4B46804E279C58E800625FCB /* RootContainerViewController.swift */,
 				4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */,
 				4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */,
@@ -381,7 +381,7 @@
 				4B468074279C58E800625FCB /* UIControl+Closure.swift in Sources */,
 				4B46806A279C58E800625FCB /* ViewModel.swift in Sources */,
 				4B468066279C58E800625FCB /* DemoControlCenterViewController.swift in Sources */,
-				4B46806B279C58E800625FCB /* DemoViewController.swift in Sources */,
+				4B46806B279C58E800625FCB /* DemoStackingViewController.swift in Sources */,
 				4B46806E279C58E800625FCB /* Book.swift in Sources */,
 				4B468069279C58E800625FCB /* DemoPictureInPictureController.swift in Sources */,
 				4B468071279C58E800625FCB /* DemoSafeAreaViewController.swift in Sources */,
