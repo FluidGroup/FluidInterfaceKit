@@ -1,6 +1,5 @@
 import ObjectiveC
-
-import class UIKit.UIViewController
+import UIKit
 
 extension UIViewController {
 
@@ -170,7 +169,8 @@ extension UIViewController {
    Adds a given view controller to the target ``FluidStackController``.
 
    - Parameters:
-     - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation
+     - target: Specify how to find a target to display
+     - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
    */
   public func fluidPush(
     _ viewController: UIViewController,
@@ -201,7 +201,7 @@ extension UIViewController {
    Removes this view controller from the target ``FluidStackController``.
 
    - Parameters:
-     - transition: You may set ``AnyRemovingTransition/noAnimation`` to disable animation
+     - transition: You may set ``AnyRemovingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
      - fowardingToParent: Forwards to parent to pop if current stack do not have view controller to pop.
    */
   public func fluidPop(
@@ -287,3 +287,68 @@ extension UIViewController {
   }
   
 }
+
+extension UIViewController {
+  
+  /**
+   Creates ``FluidViewController`` with itself.
+   
+   You may use this method in ``UIViewController/fluidPush``.
+   
+   ```swift
+   let controller: YourViewController
+   
+   fluidPush(controller.fluidWrapped(...), ...)
+   ```
+   */
+  public func fluidWrapped(
+    configuration: FluidViewController.Configuration
+  ) -> FluidViewController {
+    
+    if let self = self as? FluidViewController {
+      Log.error(.viewController, "Attempt to wrap with FluidViewController \(self), but it's been wrapped already.")
+      return self
+    }
+    
+    return .init(
+      content: .init(bodyViewController: self, view: nil),
+      configuration: configuration
+    )
+  }
+  
+  /**
+   Creates ``FluidViewController`` with itself.
+   
+   You may use this method in ``UIViewController/fluidPush``.
+   
+   ```swift
+   let controller: YourViewController
+   
+   fluidPush(controller.fluidWrapped(...), ...)
+   ```
+   */
+  public func fluidWrapped(
+    transition: FluidViewController.Configuration.Transition = .modal(),
+    topBar: FluidViewController.Configuration.TopBar = .navigation(
+      .init(
+        displayMode: .automatic,
+        usesBodyViewController: true,
+        navigationBarClass: UINavigationBar.self
+      )
+    )
+  ) -> FluidViewController {
+    
+    if let self = self as? FluidViewController {
+      Log.error(.viewController, "Attempt to wrap with FluidViewController \(self), but it's been wrapped already.")
+      return self
+    }
+    
+    return .init(
+      content: .init(bodyViewController: self, view: nil),
+      transition: transition,
+      topBar: topBar
+    )
+  }
+  
+}
+
