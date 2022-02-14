@@ -1,38 +1,39 @@
-import FluidInterfaceKit
 import Foundation
 import XCTest
+
+@testable import FluidInterfaceKit
 @testable import FluidInterfaceKit_Demo
 
 final class FluidStackControllerTests: XCTestCase {
-  
+
   func testStackTree() {
-    
+
     let stack = FluidStackController()
-    
+
     let rep: ViewControllerRep = stack.makeRepresentation()
-    
+
     let result = rep.compare(
       expectation: ViewControllerRep(
         pointer: Unmanaged.passUnretained(stack),
         view: ViewRep(
           pointer: nil,
           subviews: {
-            
+
             ViewRep(
               pointer: nil,
               subviews: {
-                
+
               }
             )
-            
+
           }
         ),
         children: {
-          
+
         }
       )
     )
-    
+
     XCTAssertEqual(result.result, true)
   }
 
@@ -96,9 +97,9 @@ final class FluidStackControllerTests: XCTestCase {
     }
 
     XCTAssertEqual(stack.stackingViewControllers.count, 5)
-    
+
     stack.removeLastViewController(transition: .noAnimation)
-    
+
     XCTAssertEqual(stack.stackingViewControllers.count, 4)
   }
 
@@ -154,38 +155,37 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertNil(controller.fluidStackController(with: .identifier(.init("2"))))
 
   }
- 
+
   /**
    UINavigationController retains root view controller
    */
   func testNavigation() {
-    
+
     let n = UINavigationController()
-    
+
     XCTAssertEqual(n.viewControllers.count, 0)
-    
+
     n.pushViewController(.init(), animated: false)
     n.pushViewController(.init(), animated: false)
-    
+
     XCTAssertEqual(n.viewControllers.count, 2)
-           
+
     n.popViewController(animated: false)
-    
+
     XCTAssertEqual(n.viewControllers.count, 1)
-    
+
     n.popViewController(animated: false)
-    
+
     XCTAssertEqual(n.viewControllers.count, 1)
-    
+
   }
 
-  
   func testRemovingRecursively_1() {
-    
+
     let dispatcher = UIViewController()
-    
+
     let stack = FluidStackController()
-    
+
     _ = VC(stack) {
       VC {
       }
@@ -195,21 +195,21 @@ final class FluidStackControllerTests: XCTestCase {
         }
       }
     }
-    
+
     XCTAssertEqual(stack.stackingViewControllers.count, 2)
-    
+
     // forwards to parent stack
     dispatcher.fluidPop(transition: .noAnimation)
-            
+
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
   }
-  
+
   func testRemovingRecursively_2() {
-    
+
     let dispatcher = UIViewController()
-    
+
     let stack = FluidStackController()
-    
+
     _ = VC(stack) {
       VC {
         VC(FluidStackController()) {
@@ -217,21 +217,21 @@ final class FluidStackControllerTests: XCTestCase {
         }
       }
     }
-    
+
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
-    
+
     // forwards to parent stack
     dispatcher.fluidPop(transition: .noAnimation)
-            
+
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
   }
-  
+
   func testRemovingRecursively_3() {
-    
+
     let dispatcher = UIViewController()
-    
+
     let stack = FluidStackController()
-    
+
     _ = VC(stack) {
       VC {}
       VC {
@@ -241,24 +241,24 @@ final class FluidStackControllerTests: XCTestCase {
         }
       }
     }
-    
+
     XCTAssertEqual(stack.stackingViewControllers.count, 2)
-    
+
     // forwards to parent stack
     dispatcher.fluidPop(transition: .noAnimation)
-            
+
     XCTAssertEqual(stack.stackingViewControllers.count, 2)
   }
-  
+
   func testRemovingRecursively_4() {
-    
+
     let dispatcher1 = UIViewController()
     let dispatcher2 = UIViewController()
-    
+
     let stack1 = FluidStackController()
     let stack2 = FluidStackController()
     let stack3 = FluidStackController(identifier: .init("3"))
-    
+
     _ = VC(stack1) {
       VC {}
       VC {
@@ -273,37 +273,131 @@ final class FluidStackControllerTests: XCTestCase {
       }
       VC {}
     }
-    
+
     XCTAssertEqual(stack1.stackingViewControllers.count, 3)
     XCTAssertEqual(stack2.stackingViewControllers.count, 1)
     XCTAssertEqual(stack3.stackingViewControllers.count, 2)
-    
+
     dispatcher1.fluidPop(transition: .noAnimation)
-    
+
     XCTAssertEqual(stack3.stackingViewControllers.count, 1)
-    
+
     // forwards to parent stack
     dispatcher2.fluidPop(transition: .noAnimation)
-    
+
     XCTAssertEqual(stack1.stackingViewControllers.count, 2)
-          
+
   }
-  
+
   func testAddingDuplicated() {
-    
+
     let content1 = UIViewController()
     let content2 = UIViewController()
     let stack1 = FluidStackController()
-    
+
     stack1.addContentViewController(content1, transition: .noAnimation)
     stack1.addContentViewController(content1, transition: .noAnimation)
     stack1.addContentViewController(content1, transition: .noAnimation)
-        
+
     XCTAssertEqual(stack1.stackingViewControllers.count, 1)
-    
+
     stack1.addContentViewController(content2, transition: .noAnimation)
     stack1.addContentViewController(content1, transition: .noAnimation)
-    
+
     XCTAssertEqual(stack1.stackingViewControllers.count, 2)
+  }
+
+  func testOffload_1() {
+   
+    let stack = FluidStackController()
+
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .noAnimation)
+
+    XCTAssertEqual(
+      stack.stackingItems.map { $0.isLoaded },
+      [
+        false,
+        false,
+        false,
+        false,
+        true,
+      ]
+    )
+    
+    stack.removeLastViewController(transition: .noAnimation)
+    
+    XCTAssertEqual(
+      stack.stackingItems.map { $0.isLoaded },
+      [
+        true,
+        true,
+        true,
+        true,
+      ]
+    )
+    
+  }
+  
+  func testOffload_2() {
+   
+    let stack = FluidStackController()
+
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+
+    XCTAssertEqual(
+      stack.stackingItems.map { $0.isLoaded },
+      [
+        false,
+        false,
+        true,
+        true,
+        true,
+      ]
+    )
+
+  }
+  
+  func testOffload_3() {
+   
+    let stack = FluidStackController()
+
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .noAnimation)
+
+    XCTAssertEqual(
+      stack.stackingItems.map { $0.isLoaded },
+      [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+      ]
+    )
+
+  }
+  
+  final class ContentTypeOption: UIViewController {
+    init(contentType: FluidStackContentConfiguration.ContentType) {
+      super.init(nibName: nil, bundle: nil)
+      self.fluidStackContentConfiguration.contentType = contentType
+    }
+
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
   }
 }
