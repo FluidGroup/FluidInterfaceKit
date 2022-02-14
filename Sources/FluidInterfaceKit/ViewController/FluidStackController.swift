@@ -599,6 +599,8 @@ open class FluidStackController: UIViewController {
         fromViewControllers: viewControllersToRemove,
         toViewController: targetTopViewController,
         onCompleted: { [weak self] context in
+          
+          assert(Thread.isMainThread)
 
           guard let self = self else { return }
 
