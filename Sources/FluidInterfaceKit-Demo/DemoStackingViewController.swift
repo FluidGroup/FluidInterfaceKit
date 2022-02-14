@@ -156,14 +156,14 @@ private final class ContentViewController: UIViewController {
             }
 
             UIButton.make(title: "Add Navigated", color: .white) {
+              
+              let content = ContentViewController(color: .neonRandom())
+              content.title = "Navigated"
+              
               fluidPush(
-                FluidViewController(
-                  content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
-                  transition: .navigation(),
-                  topBar: .navigation()
-                ),
+                content.fluidWrapped(transition: .navigation(), topBar: .navigation()),
                 target: .current,
-                transition: .modalIdiom()
+                transition: nil
               )
 
             }
