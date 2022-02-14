@@ -87,6 +87,8 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
         ? (content.bodyViewController?.navigationItem ?? navigationItem) : navigationItem
 
       navigationBar.pushItem(targetNavigationItem, animated: false)
+      
+      navigation._updateNavigationBar(self, navigationBar)
 
       subscriptions = Self.observeNavigationItem(navigationItem: targetNavigationItem) {
         [weak self, displayMode = navigation.displayMode] item in
@@ -272,15 +274,25 @@ extension FluidViewController {
         public var usesBodyViewController: Bool
 
         public let navigationBarClass: UINavigationBar.Type
-
-        public init(
+        
+        let _updateNavigationBar: (FluidViewController, UINavigationBar) -> Void
+        
+        /// Initializer
+        ///
+        /// - Parameters:
+        ///   - updateNavigationBar: A closure to update the navigation bar with the owner.
+        public init<NavigationBar: UINavigationBar>(
           displayMode: DisplayMode = .automatic,
           usesBodyViewController: Bool = true,
-          navigationBarClass: UINavigationBar.Type = UINavigationBar.self
+          navigationBarClass: NavigationBar.Type,
+          updateNavigationBar: @escaping (FluidViewController, NavigationBar) -> Void = { _, _ in }
         ) {
           self.displayMode = displayMode
           self.usesBodyViewController = usesBodyViewController
           self.navigationBarClass = navigationBarClass
+          self._updateNavigationBar = { controller, navigationBar in
+            updateNavigationBar(controller, navigationBar as! NavigationBar)
+          }
         }
 
       }
@@ -293,7 +305,7 @@ extension FluidViewController {
       case hidden
       
       public static var navigation: Self {
-        .navigation(.init())
+        .navigation(.init(navigationBarClass: UINavigationBar.self))
       }
     }
 
