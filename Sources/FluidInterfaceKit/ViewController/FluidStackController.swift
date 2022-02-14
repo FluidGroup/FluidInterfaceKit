@@ -55,7 +55,7 @@ open class FluidStackController: UIViewController {
     stackingItems.map { $0.viewController }
   }
 
-  private var stackingItems: [PresentedViewControllerWrapperView] = [] {
+  private(set) var stackingItems: [PresentedViewControllerWrapperView] = [] {
     didSet {
       Log.debug(
         .stack,
@@ -270,20 +270,7 @@ open class FluidStackController: UIViewController {
         
         // handling offload
         if self.configuration.isOffloadViewsEnabled {
-          self.stackingItems.last?.loadViewController()
-          
-          // starts from last
-          // if foreground view's content is overlay, background view loads view.
-          zip(self.stackingItems.reversed(), self.stackingItems.reversed().dropFirst())
-            .forEach { previous, value in
-              switch previous.viewController.fluidStackContentConfiguration.contentType {
-              case .opaque:
-                value.offloadViewController()
-              case .overlay:
-                value.loadViewController()
-              }
-          }
-          
+          self.updateOffloadingItems()
         }
               
         context.transitionSucceeded()
@@ -469,8 +456,10 @@ open class FluidStackController: UIViewController {
     
     // handling offload
     if self.configuration.isOffloadViewsEnabled {
-      viewToRemove.loadViewController()
-      backView?.loadViewController()
+//      viewToRemove.loadViewController()
+//      backView?.loadViewController()
+      
+      updateOffloadingItems(displayItem: backView ?? viewToRemove)
     }
     
     // invalidates a current transition (mostly adding transition)
@@ -690,14 +679,69 @@ open class FluidStackController: UIViewController {
       portalView.removeFromSuperview()
     }
   }
-  
-  private func updateHierarchy() {
+     
+  private func updateOffloadingItems() {
     
-    let visibleViewControllers = stackingItems.suffix(2)
+    let items = stackingItems
     
-    let invisibleViewControllers = stackingItems.dropLast(2)
+    guard let last = items.last else {
+      // seems no there to update offloading.
+      return
+    }
+    
+    updateOffloadingItems(displayItem: last)
     
   }
+  
+  private func updateOffloadingItems(displayItem: PresentedViewControllerWrapperView) {
+    
+    let items = stackingItems
+    
+    var order: [(PresentedViewControllerWrapperView, Bool)] = []
+          
+    var offloads: Bool = false
+    var isInBehindDisplayItem: Bool = false
+        
+    for item in items.reversed() {
+      
+      if isInBehindDisplayItem {
+        if offloads {
+          order.append((item, true))
+        } else {
+          order.append((item, false))
+          
+          switch item.viewController.fluidStackContentConfiguration.contentType {
+          case .opaque:
+            offloads = true
+          case .overlay:
+            break
+          }
+        }
+      } else {
+        order.append((item, false))
+        switch item.viewController.fluidStackContentConfiguration.contentType {
+        case .opaque:
+          offloads = true
+        case .overlay:
+          offloads = false
+        }
+        isInBehindDisplayItem = item == displayItem
+      }
+            
+    }
+    
+    Log.debug(.stack, "Update offloading:\n\(order.map { "\($0.0 == displayItem ? "->" : "  ") \($0.1 ? "off" : "on ") \($0.0.viewController.fluidStackContentConfiguration.contentType)" }.joined(separator: "\n"))")
+    
+    for (item, offloads) in order {
+      if offloads {
+        item.offloadViewController()
+      } else {
+        item.loadViewController()
+      }
+    }
+    
+  }
+  
 
 }
 
@@ -748,6 +792,8 @@ extension FluidStackController {
   }
 
   final class PresentedViewControllerWrapperView: UIView {
+    
+    private(set) var isLoaded: Bool = true
 
     var isTouchThroughEnabled = true
     
@@ -772,6 +818,10 @@ extension FluidStackController {
     }
     
     func loadViewController() {
+      assert(Thread.isMainThread)
+      
+      isLoaded = true
+      
       if let superview = viewController.view.superview {
         assert(superview == self)
       } else {
@@ -783,6 +833,11 @@ extension FluidStackController {
     }
     
     func offloadViewController() {
+      
+      assert(Thread.isMainThread)
+      
+      isLoaded = false
+      
       viewController.view.removeFromSuperview()
     }
 
