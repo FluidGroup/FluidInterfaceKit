@@ -86,6 +86,17 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   }
 
   // MARK: - Functions
+  
+  open func willTransition(with relation: StackingRelation) {
+    switch configuration.topBar {
+    case .navigation(let navigation):
+      navigation._activityHandler(.willTransition(relation))
+    case .custom:
+      break
+    case .hidden:
+      break
+    }
+  }
 
   open override func viewDidLoad() {
     super.viewDidLoad()
@@ -113,7 +124,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
       navigationBar.pushItem(targetNavigationItem, animated: false)
 
-      navigation._updateNavigationBar(self, navigationBar)
+      navigation._activityHandler(.didLoad(self, navigationBar))
 
       // Triggers update
       state.createdTopBar = navigationBar
@@ -157,7 +168,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       break
 
     case .hidden:
-      break
+      self.state.isTopBarAvailable = false
     }
 
   }
@@ -299,6 +310,11 @@ extension FluidViewController {
     public enum TopBar {
 
       public struct Navigation {
+        
+        public enum Activity<NavigationBar: UINavigationBar> {
+          case didLoad(FluidViewController, NavigationBar)
+          case willTransition(StackingRelation)
+        }
 
         public enum DisplayMode {
           /// It shows `UINavigationBar` if the target navigation-item has items (title, left items, right items).
@@ -314,7 +330,7 @@ extension FluidViewController {
 
         public let navigationBarClass: UINavigationBar.Type
 
-        let _updateNavigationBar: (FluidViewController, UINavigationBar) -> Void
+        let _activityHandler: (Activity<UINavigationBar>) -> Void
 
         /// Initializer
         ///
@@ -324,13 +340,18 @@ extension FluidViewController {
           displayMode: DisplayMode = .automatic,
           usesBodyViewController: Bool = true,
           navigationBarClass: NavigationBar.Type,
-          updateNavigationBar: @escaping (FluidViewController, NavigationBar) -> Void = { _, _ in }
+          activityHandler: @escaping (Activity<NavigationBar>) -> Void = { _ in }
         ) {
           self.displayMode = displayMode
           self.usesBodyViewController = usesBodyViewController
           self.navigationBarClass = navigationBarClass
-          self._updateNavigationBar = { controller, navigationBar in
-            updateNavigationBar(controller, navigationBar as! NavigationBar)
+          self._activityHandler = { activity in
+            switch activity {
+            case .didLoad(let c, let b):
+              activityHandler(.didLoad(c, b as! NavigationBar))
+            case .willTransition(let relation):
+              activityHandler(.willTransition(relation))
+            }
           }
         }
 

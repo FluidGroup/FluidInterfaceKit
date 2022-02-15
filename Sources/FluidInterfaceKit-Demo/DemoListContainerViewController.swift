@@ -50,7 +50,7 @@ final class DemoListViewController: UIViewController {
 
           if let cached = viewControllerCache[i] {
 
-            fluidPush(cached, target: .current, transition: nil)
+            fluidPush(cached, target: .current, relation: .hierarchicalNavigation, transition: nil)
 
           } else {
             
@@ -84,7 +84,7 @@ final class DemoListViewController: UIViewController {
             
             viewControllerCache[i] = displayViewController
 
-            fluidPush(displayViewController, target: .current, transition: nil)
+            fluidPush(displayViewController, target: .current, relation: .hierarchicalNavigation, transition: nil)
 
           }
 
