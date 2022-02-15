@@ -87,10 +87,15 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
   // MARK: - Functions
   
+  @objc
+  open func triggerFluidPop() {
+    fluidPop(transition: nil)
+  }
+    
   open func willTransition(with relation: StackingRelation) {
     switch configuration.topBar {
     case .navigation(let navigation):
-      navigation._activityHandler(.willTransition(relation))
+      navigation._activityHandler(.willTransition(self, relation, topBar as! UINavigationBar))
     case .custom:
       break
     case .hidden:
@@ -313,7 +318,7 @@ extension FluidViewController {
         
         public enum Activity<NavigationBar: UINavigationBar> {
           case didLoad(FluidViewController, NavigationBar)
-          case willTransition(StackingRelation)
+          case willTransition(FluidViewController, StackingRelation, NavigationBar)
         }
 
         public enum DisplayMode {
@@ -347,10 +352,10 @@ extension FluidViewController {
           self.navigationBarClass = navigationBarClass
           self._activityHandler = { activity in
             switch activity {
-            case .didLoad(let c, let b):
-              activityHandler(.didLoad(c, b as! NavigationBar))
-            case .willTransition(let relation):
-              activityHandler(.willTransition(relation))
+            case .didLoad(let controller, let navigationBar):
+              activityHandler(.didLoad(controller, navigationBar as! NavigationBar))
+            case .willTransition(let controller, let relation, let navigationBar):
+              activityHandler(.willTransition(controller, relation, navigationBar as! NavigationBar))
             }
           }
         }

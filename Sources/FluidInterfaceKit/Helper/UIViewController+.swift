@@ -177,7 +177,7 @@ extension UIViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil
   ) {
-    
+        
     let controller = viewController
 
     guard let stackController = fluidStackController(with: strategy) else {
@@ -210,12 +210,14 @@ extension UIViewController {
     relation: StackingRelation,
     transition: AnyAddingTransition? = nil
   ) {
-    
-    viewController.willTransition(with: relation)
-    
+            
     let proposedTransition: AnyAddingTransition?
     
-    if transition == nil, viewController.addingTransition == nil {
+    if let transition = transition {
+      proposedTransition = transition
+    } else if let transition = viewController.addingTransition {
+      proposedTransition = transition
+    } else {
       switch relation {
       case .modality:
         proposedTransition = .modalStyle
@@ -224,16 +226,16 @@ extension UIViewController {
       default:
         proposedTransition = nil
       }
-    } else {
-      proposedTransition = nil
     }
-    
+           
     fluidPushUnsafely(
       viewController,
       target: strategy,
       transition: proposedTransition
     )
  
+    viewController.willTransition(with: relation)
+      
   }
 
   /**
