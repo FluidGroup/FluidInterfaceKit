@@ -177,26 +177,7 @@ extension UIViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition?
   ) {
-    fluidPush(
-      viewController,
-      target: strategy,
-      transition: transition
-    )
-  }
-
-  /**
-   Adds a given view controller to the target ``FluidStackController``.
-
-   - Parameters:
-     - target: Specify how to find a target to display
-     - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
-   */
-  public func fluidPush(
-    _ viewController: FluidViewController,
-    target strategy: UIViewController.FluidStackFindStrategy,
-    transition: AnyAddingTransition?
-  ) {
-
+    
     let controller = viewController
 
     guard let stackController = fluidStackController(with: strategy) else {
@@ -213,7 +194,28 @@ extension UIViewController {
 
     stackController
       .addContentViewController(controller, transition: transition)
+  
+  }
 
+  /**
+   Adds a given view controller to the target ``FluidStackController``.
+
+   - Parameters:
+     - target: Specify how to find a target to display
+     - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
+   */
+  public func fluidPush(
+    _ viewController: FluidViewController,
+    target strategy: UIViewController.FluidStackFindStrategy,
+    transition: AnyAddingTransition?
+  ) {
+    
+    fluidPushUnsafely(
+      viewController,
+      target: strategy,
+      transition: transition
+    )
+ 
   }
 
   /**
