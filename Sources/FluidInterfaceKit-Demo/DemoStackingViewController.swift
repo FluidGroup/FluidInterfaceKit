@@ -150,8 +150,7 @@ private final class ContentViewController: UIViewController {
               
               fluidPush(
                 controller,
-                target: .current,
-                transition: nil
+                target: .current
               )
             }
 
@@ -206,7 +205,7 @@ private final class ContentViewController: UIViewController {
 
             UIButton.make(title: "Add new stack", color: .white) {
 
-              let padding = UIViewController()
+              let padding = FluidViewController()
               let content = ContentViewController(color: .neonRandom())
               let stack = FluidStackController(
                 identifier: .init("nested"),

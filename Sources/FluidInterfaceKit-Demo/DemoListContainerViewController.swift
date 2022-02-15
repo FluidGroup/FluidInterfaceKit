@@ -38,7 +38,7 @@ final class DemoListViewController: UIViewController {
     view.backgroundColor = .systemBackground
     scrollableContainerView.delaysContentTouches = false
 
-    var viewControllerCache: [Int: UIViewController] = [:]
+    var viewControllerCache: [Int: FluidViewController] = [:]
 
     let listCells: [UIView] = (0..<40).map { i in
 

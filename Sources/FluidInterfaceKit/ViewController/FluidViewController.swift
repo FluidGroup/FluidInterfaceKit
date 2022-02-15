@@ -1,8 +1,9 @@
 import ResultBuilderKit
 import UIKit
 
-/// A view controller that extended from ``FluidViewController``.
-/// It has ``UINavigationBar`` that working with navigation item of itself or `bodyViewController`.
+/**
+ A view controller that can display on ``FluidStackController``.   
+ */
 open class FluidViewController: FluidGestureHandlingViewController, UINavigationBarDelegate {
 
   private struct State: Equatable {
