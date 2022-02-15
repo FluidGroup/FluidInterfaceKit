@@ -175,7 +175,7 @@ extension UIViewController {
   public func fluidPushUnsafely(
     _ viewController: UIViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
-    transition: AnyAddingTransition?
+    transition: AnyAddingTransition? = nil
   ) {
     
     let controller = viewController
@@ -191,7 +191,7 @@ extension UIViewController {
       )
       return
     }
-
+        
     stackController
       .addContentViewController(controller, transition: transition)
   
@@ -207,13 +207,31 @@ extension UIViewController {
   public func fluidPush(
     _ viewController: FluidViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
-    transition: AnyAddingTransition?
+    relation: StackingRelation,
+    transition: AnyAddingTransition? = nil
   ) {
+    
+    viewController.willTransition(with: relation)
+    
+    let proposedTransition: AnyAddingTransition?
+    
+    if transition == nil, viewController.addingTransition == nil {
+      switch relation {
+      case .modality:
+        proposedTransition = .modalStyle
+      case .hierarchicalNavigation:
+        proposedTransition = .navigationStyle
+      default:
+        proposedTransition = nil
+      }
+    } else {
+      proposedTransition = nil
+    }
     
     fluidPushUnsafely(
       viewController,
       target: strategy,
-      transition: transition
+      transition: proposedTransition
     )
  
   }

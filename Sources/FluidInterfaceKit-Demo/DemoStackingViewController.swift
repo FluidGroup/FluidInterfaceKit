@@ -135,6 +135,7 @@ private final class ContentViewController: UIViewController {
                     topBar: .navigation
                   ),
                 target: .current,
+                relation: .hierarchicalNavigation,
                 transition: .modalStyle
               )
             }
@@ -166,6 +167,7 @@ private final class ContentViewController: UIViewController {
               fluidPush(
                 content.fluidWrapped(transition: .navigationStyle, topBar: .navigation),
                 target: .current,
+                relation: .modality,
                 transition: nil
               )
 
@@ -183,6 +185,7 @@ private final class ContentViewController: UIViewController {
                   )
                 ),
                 target: .current,
+                relation: .hierarchicalNavigation,
                 transition: nil
               )
 
@@ -225,6 +228,7 @@ private final class ContentViewController: UIViewController {
               fluidPush(
                 padding,
                 target: .current,
+                relation: .modality,
                 transition: .modalStyle
               )
             }
