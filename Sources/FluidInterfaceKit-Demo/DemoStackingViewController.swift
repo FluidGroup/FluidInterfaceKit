@@ -29,7 +29,7 @@ final class DemoStackingViewController: FluidStackController {
       $0.setTitle("Add root view controller", for: .normal)
       $0.onTap { [unowned self] in
         addContentViewController(
-          ContentViewController(color: .neonRandom()),
+          ContentViewController(color: .neonRandom()).fluidWrapped(),
           transition: .popup()
         )
       }
@@ -129,7 +129,11 @@ private final class ContentViewController: UIViewController {
 
             UIButton.make(title: "Add in current", color: .white) {
               fluidPush(
-                ContentViewController(color: .neonRandom()),
+                ContentViewController(color: .neonRandom())
+                  .fluidWrapped(
+                    transition: .navigationStyle,
+                    topBar: .navigation
+                  ),
                 target: .current,
                 transition: .modalStyle
               )
@@ -236,6 +240,14 @@ private final class ContentViewController: UIViewController {
               fluidPop(transition: .vanishing, completion: nil)
             }
 
+            UIButton.make(title: "Set title", color: .white) {
+              self.title = "Fluid!"
+            }
+            
+            UIButton.make(title: "Toggle fluidIsEnabled", color: .white) {
+              self.navigationItem.fluidIsEnabled.toggle()
+            }
+            
           }
         }
       }

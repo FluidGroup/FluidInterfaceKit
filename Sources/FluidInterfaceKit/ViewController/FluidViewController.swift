@@ -5,15 +5,38 @@ import UIKit
 /// It has ``UINavigationBar`` that working with navigation item of itself or `bodyViewController`.
 open class FluidViewController: FluidGestureHandlingViewController, UINavigationBarDelegate {
 
+  private struct State: Equatable {
+
+    var isTopBarHidden: Bool = false
+
+    var isTopBarAvailable: Bool = false
+
+    var viewBounds: CGRect = .zero
+
+    var createdTopBar: UIView?
+  }
+
   // MARK: - Properties
 
-  public private(set) var topBar: UIView?
+  public var topBar: UIView? {
+    state.createdTopBar
+  }
 
-  private(set) var isTopBarHidden: Bool = false
+  public var isTopBarHidden: Bool {
+    get { state.isTopBarHidden }
+    set { state.isTopBarHidden = newValue }
+  }
 
   public let configuration: Configuration
 
   private var subscriptions: [NSKeyValueObservation] = []
+
+  private var state: State = .init() {
+    didSet {
+      guard state != oldValue else { return }
+      stateDidUpdate(state: state, previous: oldValue)
+    }
+  }
 
   // MARK: - Initializers
 
@@ -76,6 +99,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       view.addSubview(navigationBar)
 
       navigationBar.translatesAutoresizingMaskIntoConstraints = false
+
       NSLayoutConstraint.activate([
         navigationBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
         navigationBar.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -87,15 +111,19 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
         ? (content.bodyViewController?.navigationItem ?? navigationItem) : navigationItem
 
       navigationBar.pushItem(targetNavigationItem, animated: false)
-      
+
       navigation._updateNavigationBar(self, navigationBar)
 
-      subscriptions = Self.observeNavigationItem(navigationItem: targetNavigationItem) {
-        [weak self, displayMode = navigation.displayMode] item in
+      // Triggers update
+      state.createdTopBar = navigationBar
+
+      subscriptions = Self.observeNavigationItem(
+        navigationItem: targetNavigationItem
+      ) { [weak self, displayMode = navigation.displayMode] item in
 
         guard let self = self else { return }
 
-        let isNavigationBarHidden: Bool
+        let isNavigationBarAvailable: Bool
 
         switch displayMode {
         case .automatic:
@@ -108,24 +136,25 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
           ]
           .compactMap { $0 }
 
-          isNavigationBarHidden = !flags.contains(false)
-        case .always:
-          isNavigationBarHidden = false
-        }
+          isNavigationBarAvailable = flags.contains(false)
 
-        if self.isTopBarHidden != isNavigationBarHidden {
-          self.isTopBarHidden = isNavigationBarHidden
-          self.updateTopBarLayout()
+        case .always:
+
+          isNavigationBarAvailable = true
+        }
+        
+        if targetNavigationItem.fluidIsEnabled {
+          self.state.isTopBarAvailable = isNavigationBarAvailable
+        } else {
+          self.state.isTopBarAvailable = false
         }
 
       }
 
-      self.topBar = navigationBar
-
     case .custom:
       assertionFailure("Unimplemented")
       break
-      
+
     case .hidden:
       break
     }
@@ -133,30 +162,35 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   }
 
   open override func viewDidLayoutSubviews() {
-    updateTopBarLayout()
+
+    super.viewDidLayoutSubviews()
+
+    if let topBar = topBar {
+      view.bringSubviewToFront(topBar)
+    }
+
+    state.viewBounds = view.bounds
+
   }
 
   public func position(for bar: UIBarPositioning) -> UIBarPosition {
     return .topAttached
   }
 
-  private func updateTopBarLayout() {
+  private func stateDidUpdate(state: State, previous: State) {
 
-    guard let topBar = topBar else {
-      self.additionalSafeAreaInsets.top = 0
-      return
-    }
+    if let topBar = topBar {
 
-    view.bringSubviewToFront(topBar)
-
-    if isTopBarHidden {
-
-      topBar.isHidden = true
-      additionalSafeAreaInsets.top = 0
+      if !state.isTopBarHidden && state.isTopBarAvailable {
+        topBar.isHidden = false
+        additionalSafeAreaInsets.top = topBar.frame.height
+      } else {
+        topBar.isHidden = true
+        additionalSafeAreaInsets.top = 0
+      }
 
     } else {
-      topBar.isHidden = false
-      self.additionalSafeAreaInsets.top = topBar.frame.height
+      additionalSafeAreaInsets.top = 0
     }
 
   }
@@ -167,6 +201,10 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   ) -> [NSKeyValueObservation] {
 
     let tokens = buildArray {
+      navigationItem.observe(\.fluidIsEnabled, options: [.new]) { item, _ in
+        onUpdated(item)
+      }
+      
       navigationItem.observe(\.titleView, options: [.new]) { item, _ in
         onUpdated(item)
       }
@@ -183,7 +221,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
         onUpdated(item)
       }
     }
-    
+
     onUpdated(navigationItem)
 
     return tokens
@@ -196,19 +234,19 @@ extension FluidViewController {
 
   /**
    Configurations for ``FluidViewController``
-   
+
    This struct contains nested structures for creating convenience extensions.
    You may create static members, methods to return constant value.
-   
+
    ```swift
    extension FluidViewController.Configuration {
      static var yourConfiguration: Self { ... }
    }
-   
+
    extension FluidViewController.Configuration.Transition {
      static var yourTransition: Self { ... }
    }
-   
+
    extension FluidViewController.Configuration.TopBar.Navigation {
      static var yourNavigation: Self { ... }
    }
@@ -274,9 +312,9 @@ extension FluidViewController {
         public var usesBodyViewController: Bool
 
         public let navigationBarClass: UINavigationBar.Type
-        
+
         let _updateNavigationBar: (FluidViewController, UINavigationBar) -> Void
-        
+
         /// Initializer
         ///
         /// - Parameters:
@@ -301,9 +339,9 @@ extension FluidViewController {
 
       // FIXME: Unimplemented
       case custom
-      
+
       case hidden
-      
+
       public static var navigation: Self {
         .navigation(.init(navigationBarClass: UINavigationBar.self))
       }
