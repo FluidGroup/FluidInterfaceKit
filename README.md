@@ -7,6 +7,7 @@
 FluidInterfaceKit targets:
 - Screen management - replacement for modal-presentation, navigation controller
 - Flexible transitions - animations, interactions and interruptions
+- Components
 
 > 🚜 It still is in development. It's very beginning.
 
