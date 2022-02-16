@@ -135,8 +135,7 @@ private final class ContentViewController: UIViewController {
                     topBar: .navigation
                   ),
                 target: .current,
-                relation: .hierarchicalNavigation,
-                transition: .modalStyle
+                relation: .hierarchicalNavigation
               )
             }
             

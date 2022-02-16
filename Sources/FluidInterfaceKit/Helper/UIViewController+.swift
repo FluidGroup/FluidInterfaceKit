@@ -210,31 +210,44 @@ extension UIViewController {
     relation: StackingRelation,
     transition: AnyAddingTransition? = nil
   ) {
-            
-    let proposedTransition: AnyAddingTransition?
     
-    if let transition = transition {
-      proposedTransition = transition
-    } else if let transition = viewController.addingTransition {
-      proposedTransition = transition
-    } else {
-      switch relation {
-      case .modality:
-        proposedTransition = .modalStyle
-      case .hierarchicalNavigation:
-        proposedTransition = .navigationStyle
-      default:
-        proposedTransition = nil
+    switch relation {
+    case .modality:
+      
+      if viewController.addingTransition == nil {
+        viewController.addingTransition = .modalStyle
       }
+      
+      if viewController.removingTransition == nil {
+        viewController.addingTransition = .modalStyle
+      }
+      
+    case .hierarchicalNavigation:
+      if viewController.addingTransition == nil {
+        viewController.addingTransition = .navigationStyle
+      }
+      
+      if viewController.removingTransition == nil {
+        viewController.addingTransition = .navigationStyle
+      }
+      
+      if viewController.removingInteraction == nil {
+        viewController.removingInteraction = .leftToRight
+      }
+      
+    default:
+      break
     }
-           
+    
+    viewController.loadViewIfNeeded()
+    
+    viewController.willTransition(with: relation)
+
     fluidPushUnsafely(
       viewController,
       target: strategy,
-      transition: proposedTransition
+      transition: transition
     )
- 
-    viewController.willTransition(with: relation)
       
   }
 

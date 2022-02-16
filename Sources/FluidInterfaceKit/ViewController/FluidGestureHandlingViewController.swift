@@ -32,7 +32,7 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
 
   private var registeredGestures: [UIGestureRecognizer] = []
 
-  private var removingInteraction: AnyRemovingInteraction?
+  public var removingInteraction: AnyRemovingInteraction?
 
   // MARK: - Initializers
 
