@@ -93,6 +93,9 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   }
     
   open func willTransition(with relation: StackingRelation) {
+    
+    assert(isViewLoaded, "library is broke.")
+    
     switch configuration.topBar {
     case .navigation(let navigation):
       navigation._activityHandler(.willTransition(self, relation, topBar as! UINavigationBar))
@@ -100,6 +103,26 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       break
     case .hidden:
       break
+    }
+    
+    // setting transitions and interactions accroding to the relation
+    // TODO: Make here letting the consumer passing as a parameter.
+    do {
+      switch relation {
+      case .modality:
+        
+        addingTransition = addingTransition ?? .modalStyle
+        removingTransition = removingTransition ?? .modalStyle
+        
+      case .hierarchicalNavigation:
+        
+        addingTransition = addingTransition ?? .navigationStyle
+        removingTransition = removingTransition ?? .navigationStyle
+        removingInteraction = removingInteraction ?? .leftToRight
+        
+      default:
+        break
+      }
     }
   }
 

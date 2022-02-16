@@ -210,35 +210,7 @@ extension UIViewController {
     relation: StackingRelation,
     transition: AnyAddingTransition? = nil
   ) {
-    
-    switch relation {
-    case .modality:
-      
-      if viewController.addingTransition == nil {
-        viewController.addingTransition = .modalStyle
-      }
-      
-      if viewController.removingTransition == nil {
-        viewController.addingTransition = .modalStyle
-      }
-      
-    case .hierarchicalNavigation:
-      if viewController.addingTransition == nil {
-        viewController.addingTransition = .navigationStyle
-      }
-      
-      if viewController.removingTransition == nil {
-        viewController.addingTransition = .navigationStyle
-      }
-      
-      if viewController.removingInteraction == nil {
-        viewController.removingInteraction = .leftToRight
-      }
-      
-    default:
-      break
-    }
-    
+
     viewController.loadViewIfNeeded()
     
     viewController.willTransition(with: relation)

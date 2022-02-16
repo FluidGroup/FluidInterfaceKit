@@ -32,7 +32,12 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
 
   private var registeredGestures: [UIGestureRecognizer] = []
 
-  public var removingInteraction: AnyRemovingInteraction?
+  public var removingInteraction: AnyRemovingInteraction? {
+    didSet {
+      guard isViewLoaded else { return }
+      setupGestures()
+    }
+  }
 
   // MARK: - Initializers
 
@@ -66,13 +71,6 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
   open override func viewDidLoad() {
     super.viewDidLoad()
 
-    setupGestures()
-  }  
-
-  public func setInteraction(_ newInteraction: AnyRemovingInteraction) {
-    assert(Thread.isMainThread)
-
-    removingInteraction = newInteraction
     setupGestures()
   }
 
