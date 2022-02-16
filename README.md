@@ -1,4 +1,4 @@
-# FluidInterfaceKit
+# FluidInterfaceKit - Components library that makes apps more flexible.
 
 [![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
 
