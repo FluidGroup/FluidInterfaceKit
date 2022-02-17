@@ -9,6 +9,12 @@ import UIKit
 ///
 /// - FIXME: When specified ``.noAnimation``, it won't display anything.
 open class FluidRideauViewController: FluidTransitionViewController {
+  
+  /**
+   Whether supports modal-presentation.
+   For transition period.
+   */
+  public static var supportsModalPresentation = true
 
   // MARK: - Properties
 
@@ -49,6 +55,11 @@ open class FluidRideauViewController: FluidTransitionViewController {
       addingTransition: .rideau,
       removingTransition: .rideau
     )
+    
+    if Self.supportsModalPresentation {
+      self.modalPresentationStyle = .overFullScreen
+      self.transitioningDelegate = self
+    }
     
     self.backgroundView.backgroundColor = .clear
 
@@ -144,16 +155,42 @@ open class FluidRideauViewController: FluidTransitionViewController {
       }
       
       self.onWillDismiss()
-      fluidStackContext.removeSelf(transition: .noAnimation)
+      
+      if Self.supportsModalPresentation {
+        
+        if self.isInFluidStackController {
+          fluidStackContext.removeSelf(transition: .noAnimation)
+        } else {
+          self.dismiss(animated: true, completion: nil)
+        }
+              
+      } else {
+        fluidStackContext.removeSelf(transition: .noAnimation)
+      }
 
     }
 
   }
 
   @objc private dynamic func didTapBackdropView(gesture: UITapGestureRecognizer) {
-    assert(fluidStackContext != nil)
-    onWillDismiss()    
-    fluidPop(transition: nil, completion: nil)
+    
+    if Self.supportsModalPresentation {
+      
+      if self.isInFluidStackController {
+        assert(fluidStackContext != nil)
+        onWillDismiss()
+        fluidPop(transition: nil, completion: nil)
+      } else {
+        self.dismiss(animated: true, completion: nil)
+      }
+            
+    } else {
+      assert(fluidStackContext != nil)
+      onWillDismiss()
+      fluidPop(transition: nil, completion: nil)
+    }
+    
+    
 
   }
 }
@@ -184,6 +221,22 @@ extension AnyAddingTransition {
                                    
     }
   }
+}
+
+extension FluidRideauViewController: UIViewControllerTransitioningDelegate {
+
+  public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+    return __RideauPresentTransitionController(targetSnapPoint: initialSnapPoint, backgroundColor: backgroundColor)
+  }
+
+  public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+    // WORKAROUND: Currently, we can not get the timing of beginning dismissal.
+    onWillDismiss()
+    return __RideauDismissTransitionController()
+  }
+
 }
 
 extension AnyRemovingTransition {
@@ -221,4 +274,91 @@ extension UIViewController {
     fluidPushUnsafely(viewController, target: strategy, transition: nil)
   }
   
+}
+
+
+// MARK: - Modal-presentation support
+
+fileprivate final class __RideauPresentTransitionController: NSObject, UIViewControllerAnimatedTransitioning {
+
+  let targetSnapPoint: RideauSnapPoint
+  let backgroundColor: UIColor
+
+  init(
+    targetSnapPoint: RideauSnapPoint,
+    backgroundColor: UIColor
+  ) {
+    self.targetSnapPoint = targetSnapPoint
+    self.backgroundColor = backgroundColor
+    super.init()
+  }
+
+  func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    return 0.3
+  }
+
+  func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+
+    guard let controller = transitionContext.viewController(forKey: .to) as? FluidRideauViewController else {
+      fatalError()
+    }
+
+    transitionContext.containerView.addSubview(controller.view)
+
+    transitionContext.containerView.layoutIfNeeded()
+
+    transitionContext.completeTransition(true)
+
+    controller.backgroundView.backgroundColor = UIColor(white: 0, alpha: 0)
+
+    UIView.animate(
+      withDuration: 0.4,
+      delay: 0,
+      usingSpringWithDamping: 1,
+      initialSpringVelocity: 0,
+      options: [.beginFromCurrentState],
+      animations: {
+        controller.backgroundView.backgroundColor = self.backgroundColor
+      },
+      completion: nil
+    )
+
+    controller.rideauView.move(to: targetSnapPoint, animated: true) {
+    }
+  }
+}
+
+fileprivate final class __RideauDismissTransitionController: NSObject, UIViewControllerAnimatedTransitioning {
+  
+  override init() {
+    super.init()
+  }
+
+  func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    return 0
+  }
+
+  func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+
+    guard let controller = transitionContext.viewController(forKey: .from) as? FluidRideauViewController else {
+      fatalError()
+    }
+
+    UIView.animate(
+      withDuration: 0.3,
+      delay: 0,
+      usingSpringWithDamping: 1,
+      initialSpringVelocity: 0,
+      options: [.beginFromCurrentState, .allowUserInteraction],
+      animations: {
+        controller.backgroundView.backgroundColor = UIColor(white: 0, alpha: 0)
+      },
+      completion: { _ in
+        transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+      }
+    )
+
+    controller.rideauView.move(to: .hidden, animated: true) {
+    }
+  }
 }
