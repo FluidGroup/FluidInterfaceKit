@@ -89,28 +89,33 @@ final class DemoThreadsMessagesViewController: FluidStackController {
                   addContentViewController(cached, transition: nil)
 
                 } else {
-                  
+
                   let mirrorViewProvider = AnyMirrorViewProvider.portal(view: cell)
 
                   let interpolationView = makeListCell(color: color, onTap: { _ in })
                   interpolationView.isUserInteractionEnabled = false
 
                   let controller = FluidViewController(
-                    content: .init(bodyViewController: DemoThreadsDetailViewController(color: color)),
-                    transition: .init(
-                      addingTransition: .contextualInstagramThreads(
-                        from: cell,
-                        mirrorViewProvider: mirrorViewProvider,
-                        hidingViews: [cell]
-                      ),
-                      removingTransition: nil,
-                      removingInteraction: .horizontalDragging(
-                        backwardingMode: .instagramThreads(
-                          destinationView: cell,
-                          destinationMirroViewProvider: mirrorViewProvider
+                    content: .init(
+                      bodyViewController: DemoThreadsDetailViewController(color: color)
+                    ),
+                    configuration: .init(
+                      transition: .init(
+                        addingTransition: .contextualInstagramThreads(
+                          from: cell,
+                          mirrorViewProvider: mirrorViewProvider,
+                          hidingViews: [cell]
                         ),
-                        hidingViews: [cell]
-                      )
+                        removingTransition: nil,
+                        removingInteraction: .horizontalDragging(
+                          backwardingMode: .instagramThreads(
+                            destinationView: cell,
+                            destinationMirroViewProvider: mirrorViewProvider
+                          ),
+                          hidingViews: [cell]
+                        )
+                      ),
+                      topBar: .navigation
                     )
                   )
 

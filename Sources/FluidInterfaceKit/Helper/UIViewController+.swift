@@ -207,7 +207,7 @@ extension UIViewController {
   public func fluidPush(
     _ viewController: FluidViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
-    relation: StackingRelation,
+    relation: StackingRelation?,
     transition: AnyAddingTransition? = nil
   ) {
 
@@ -342,40 +342,6 @@ extension UIViewController {
       configuration: configuration
     )
   }
-  
-  /**
-   Creates ``FluidViewController`` with itself.
-   
-   You may use this method in ``UIViewController/fluidPush``.
-   
-   ```swift
-   let controller: YourViewController
-   
-   fluidPush(controller.fluidWrapped(...), ...)
-   ```
-   */
-  public func fluidWrapped(
-    transition: FluidViewController.Configuration.Transition = .modalStyle,
-    topBar: FluidViewController.Configuration.TopBar = .navigation(
-      .init(
-        displayMode: .automatic,
-        usesBodyViewController: true,
-        navigationBarClass: UINavigationBar.self
-      )
-    )
-  ) -> FluidViewController {
-    
-    if let self = self as? FluidViewController {
-      Log.error(.viewController, "Attempt to wrap with FluidViewController \(self), but it's been wrapped already.")
-      return self
-    }
-    
-    return .init(
-      content: .init(bodyViewController: self, view: nil),
-      transition: transition,
-      topBar: topBar
-    )
-  }
-  
+      
 }
 

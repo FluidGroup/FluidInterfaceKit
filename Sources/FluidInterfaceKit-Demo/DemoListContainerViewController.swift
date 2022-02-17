@@ -65,20 +65,23 @@ final class DemoListViewController: UIViewController {
             
             let displayViewController = FluidViewController(
               content: .init(bodyViewController: controller),
-              transition: .init(
-                addingTransition: .contextualExpanding(
-                  from: view,
-                  entrypointMirrorViewProvider: snapshot,
-                  hidingViews: [view]
-                ),
-                removingTransition: nil,
-                removingInteraction: .horizontalDragging(
-                  backwardingMode: .shape(
-                    destinationComponent: view,
-                    destinationMirroViewProvider: snapshot
+              configuration: .init(
+                transition: .init(
+                  addingTransition: .contextualExpanding(
+                    from: view,
+                    entrypointMirrorViewProvider: snapshot,
+                    hidingViews: [view]
                   ),
-                  hidingViews: [view.contentView]
-                )
+                  removingTransition: nil,
+                  removingInteraction: .horizontalDragging(
+                    backwardingMode: .shape(
+                      destinationComponent: view,
+                      destinationMirroViewProvider: snapshot
+                    ),
+                    hidingViews: [view.contentView]
+                  )
+                ),
+                topBar: .navigation
               )
             )
             
