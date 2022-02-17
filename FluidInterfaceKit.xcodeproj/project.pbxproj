@@ -75,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
+		4B259A4327BED2C700F53B4C /* FluidInterfaceKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluidInterfaceKit.podspec; sourceTree = "<group>"; };
 		4B2CCB88278DD21400EAB928 /* Descriptors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Descriptors; path = submodules/Descriptors; sourceTree = "<group>"; };
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
 		4B46804A279C58E800625FCB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +195,7 @@
 		4B959AEE2764F7180003FFB6 = {
 			isa = PBXGroup;
 			children = (
+				4B259A4327BED2C700F53B4C /* FluidInterfaceKit.podspec */,
 				4BBDECDC276646E300982229 /* Packages */,
 				4B468046279C588E00625FCB /* Sources */,
 				4B959AF92764F7180003FFB6 /* Products */,

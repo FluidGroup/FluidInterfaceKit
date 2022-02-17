@@ -2,6 +2,8 @@ import UIKit
 
 /// Supports transition
 /// compatible with ``FluidStackController``
+///
+/// Won't work on modal-presentation
 open class FluidTransitionViewController: FluidWrapperViewController {
 
   public var addingTransition: AnyAddingTransition?

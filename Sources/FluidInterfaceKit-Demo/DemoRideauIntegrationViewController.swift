@@ -17,7 +17,7 @@ import UIKit
 final class DemoRideauIntegrationViewController: FluidStackController {
 
   init() {
-    super.init()
+    super.init(configuration: .init(retainsRootViewController: false))
     definesPresentationContext = true
   }
 
@@ -40,10 +40,18 @@ final class DemoRideauIntegrationViewController: FluidStackController {
       buildArray {
 
         Self.makeCell(
-          title: "Present",
+          title: "Present as Fluid",
           onTap: { [unowned self] in
 
             _display()
+          }
+        )
+        
+        Self.makeCell(
+          title: "Present as modal",
+          onTap: { [unowned self] in
+
+            _display2()
           }
         )
       }
@@ -68,6 +76,26 @@ final class DemoRideauIntegrationViewController: FluidStackController {
     )
 
     addContentViewController(rideauController, transition: nil)
+
+  }
+  
+  private func _display2() {
+
+    let body = PlaceholderViewController { instance in
+      instance.dismiss(animated: true, completion: nil)
+    }
+
+    let rideauController = FluidRideauViewController(
+      bodyViewController: body,
+      configuration: .init(
+        snapPoints: [.pointsFromTop(200)],
+        topMarginOption: .fromSafeArea(0)
+      ),
+      initialSnapPoint: .pointsFromTop(200),
+      resizingOption: .noResize
+    )
+
+    present(rideauController, animated: true)
 
   }
 
