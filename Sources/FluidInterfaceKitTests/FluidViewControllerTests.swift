@@ -16,8 +16,7 @@ final class FluidViewControllerTests: XCTestCase {
     let body = UIViewController()
     let controller = FluidViewController(
       content: .init(bodyViewController: body),
-      transition: .navigationStyle,
-      topBar: .navigation
+      configuration: .defaultNavigation
     )
 
     prepare(controller)
@@ -34,8 +33,7 @@ final class FluidViewControllerTests: XCTestCase {
     body.title = "Hello"
     let controller = FluidViewController(
       content: .init(bodyViewController: body),
-      transition: .navigationStyle,
-      topBar: .navigation
+      configuration: .defaultNavigation
     )
 
     prepare(controller)
@@ -65,8 +63,7 @@ final class FluidViewControllerTests: XCTestCase {
     let body = UIViewController()
     let controller = FluidViewController(
       content: .init(bodyViewController: body),
-      transition: .navigationStyle,
-      topBar: .navigation
+      configuration: .defaultNavigation
     )
 
     prepare(controller)
@@ -114,8 +111,7 @@ final class FluidViewControllerTests: XCTestCase {
     
     let controller = FluidViewController(
       content: .init(bodyViewController: body),
-      transition: .navigationStyle,
-      topBar: .navigation
+      configuration: .defaultNavigation
     )
 
     prepare(controller)

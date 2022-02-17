@@ -6,11 +6,11 @@
 //
 
 import FluidInterfaceKit
+import FluidInterfaceKitRideauSupport
 import Foundation
 import MondrianLayout
 import StorybookKit
 import UIKit
-import FluidInterfaceKitRideauSupport
 
 final class DemoStackingViewController: FluidStackController {
 
@@ -28,10 +28,14 @@ final class DemoStackingViewController: FluidStackController {
     let addButton = UIButton(type: .system)&>.do {
       $0.setTitle("Add root view controller", for: .normal)
       $0.onTap { [unowned self] in
-        addContentViewController(
-          ContentViewController(color: .neonRandom()).fluidWrapped(),
-          transition: .popup()
+
+        fluidPush(
+          ContentViewController(color: .neonRandom())
+            .fluidWrapped(configuration: .defaultModal),
+          target: .current,
+          relation: nil
         )
+
       }
     }
 
@@ -121,9 +125,10 @@ private final class ContentViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     Mondrian.buildSubviews(on: view) {
-      LayoutContainer(attachedSafeAreaEdges: .all) { [unowned self] /* trick to disable writing `self` */ in
+      LayoutContainer(attachedSafeAreaEdges: .all) {
+        [unowned self] /* trick to disable writing `self` */ in
         ZStackBlock {
           VStackBlock {
 
@@ -131,23 +136,25 @@ private final class ContentViewController: UIViewController {
               fluidPush(
                 ContentViewController(color: .neonRandom())
                   .fluidWrapped(
-                    transition: .navigationStyle,
-                    topBar: .navigation
+                    configuration: .defaultNavigation
                   ),
                 target: .current,
                 relation: .hierarchicalNavigation
               )
             }
-            
+
             UIButton.make(title: "Add sheet", color: .white) {
-              
+
               let controller = FluidRideauViewController(
                 bodyViewController: ContentViewController(color: .neonRandom()),
-                configuration: .init(snapPoints: [.pointsFromTop(200)], topMarginOption: .fromSafeArea(0)),
+                configuration: .init(
+                  snapPoints: [.pointsFromTop(200)],
+                  topMarginOption: .fromSafeArea(0)
+                ),
                 initialSnapPoint: .pointsFromTop(200),
                 resizingOption: .resizeToVisibleArea
               )
-              
+
               fluidPush(
                 controller,
                 target: .current
@@ -159,12 +166,12 @@ private final class ContentViewController: UIViewController {
             }
 
             UIButton.make(title: "Add Navigated", color: .white) {
-              
+
               let content = ContentViewController(color: .neonRandom())
               content.title = "Navigated"
-              
+
               fluidPush(
-                content.fluidWrapped(transition: .navigationStyle, topBar: .navigation),
+                content.fluidWrapped(configuration: .init(transition: .navigationStyle, topBar: .navigation)),
                 target: .current,
                 relation: .modality,
                 transition: nil
@@ -177,11 +184,18 @@ private final class ContentViewController: UIViewController {
               fluidPush(
                 FluidViewController(
                   content: .init(bodyViewController: ContentViewController(color: .neonRandom())),
-                  transition: .init(
-                    addingTransition: nil,
-                    removingTransition: nil,
-                    removingInteraction: .horizontalDragging(backwardingMode: nil, hidingViews: [])
+                  configuration: .init(
+                    transition: .init(
+                      addingTransition: nil,
+                      removingTransition: nil,
+                      removingInteraction: .horizontalDragging(
+                        backwardingMode: nil,
+                        hidingViews: []
+                      )
+                    ),
+                    topBar: .navigation
                   )
+
                 ),
                 target: .current,
                 relation: .hierarchicalNavigation,
@@ -245,11 +259,11 @@ private final class ContentViewController: UIViewController {
             UIButton.make(title: "Set title", color: .white) {
               self.title = "Fluid!"
             }
-            
+
             UIButton.make(title: "Toggle fluidIsEnabled", color: .white) {
               self.navigationItem.fluidIsEnabled.toggle()
             }
-            
+
           }
         }
       }

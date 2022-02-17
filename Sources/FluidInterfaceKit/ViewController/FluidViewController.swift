@@ -48,29 +48,9 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   ///   - removingInteraction: it can be replaced later
   public init(
     content: FluidWrapperViewController.Content? = nil,
-    configuration: Configuration
+    configuration: Configuration = .init(transition: .modalStyle, topBar: .navigation)
   ) {
     self.configuration = configuration
-    super.init(
-      content: content,
-      addingTransition: configuration.transition.addingTransition,
-      removingTransition: configuration.transition.removingTransition,
-      removingInteraction: configuration.transition.removingInteraction
-    )
-  }
-
-  public init(
-    content: FluidWrapperViewController.Content? = nil,
-    transition: Configuration.Transition = .modalStyle,
-    topBar: Configuration.TopBar = .navigation(
-      .init(
-        displayMode: .automatic,
-        usesBodyViewController: true,
-        navigationBarClass: UINavigationBar.self
-      )
-    )
-  ) {
-    self.configuration = .init(transition: transition, topBar: topBar)
     super.init(
       content: content,
       addingTransition: configuration.transition.addingTransition,
@@ -92,7 +72,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     fluidPop(transition: nil)
   }
     
-  open func willTransition(with relation: StackingRelation) {
+  open func willTransition(with relation: StackingRelation?) {
     
     assert(isViewLoaded, "library is broke.")
     
@@ -105,9 +85,10 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       break
     }
     
+    
     // setting transitions and interactions accroding to the relation
     // TODO: Make here letting the consumer passing as a parameter.
-    do {
+    if let relation = relation {
       switch relation {
       case .modality:
         
@@ -345,7 +326,7 @@ extension FluidViewController {
         
         public enum Activity<NavigationBar: UINavigationBar> {
           case didLoad(FluidViewController, NavigationBar)
-          case willTransition(FluidViewController, StackingRelation, NavigationBar)
+          case willTransition(FluidViewController, StackingRelation?, NavigationBar)
         }
 
         public enum DisplayMode {
@@ -415,6 +396,9 @@ extension FluidViewController {
       self.transition = transition
       self.topBar = topBar
     }
+    
+    public static let defaultModal = Self.init(transition: .modalStyle, topBar: .navigation)
+    public static let defaultNavigation = Self.init(transition: .navigationStyle, topBar: .navigation)
 
   }
 
