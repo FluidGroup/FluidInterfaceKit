@@ -149,23 +149,19 @@ open class FluidRideauViewController: FluidTransitionViewController {
       guard point == .hidden else {
         return
       }
-      
-      guard let fluidStackContext = self.fluidStackContext else {
-        return
-      }
-      
+                  
       self.onWillDismiss()
       
       if Self.supportsModalPresentation {
         
         if self.isInFluidStackController {
-          fluidStackContext.removeSelf(transition: .noAnimation)
+          self.fluidStackContext?.removeSelf(transition: .noAnimation)
         } else {
           self.dismiss(animated: true, completion: nil)
         }
               
       } else {
-        fluidStackContext.removeSelf(transition: .noAnimation)
+        self.fluidStackContext?.removeSelf(transition: .noAnimation)
       }
 
     }
