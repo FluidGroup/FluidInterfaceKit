@@ -239,7 +239,7 @@ extension UIViewController {
      - fowardingToParent: Forwards to parent to pop if current stack do not have view controller to pop. No effects if the current stack prevents it by ``FluidStackController/Configuration-swift.struct/preventsFowardingPop``
    */
   public func fluidPop(
-    transition: AnyRemovingTransition?,
+    transition: AnyRemovingTransition? = nil,
     forwardingToParent: Bool = true,
     completion: (() -> Void)? = nil
   ) {
@@ -264,8 +264,8 @@ extension UIViewController {
   
   private func _fluidPop(
     transition: AnyRemovingTransition?,
-    forwardingToParent: Bool = true,
-    completion: (() -> Void)? = nil
+    forwardingToParent: Bool,
+    completion: (() -> Void)?
   ) {
     
     guard next != nil else {
