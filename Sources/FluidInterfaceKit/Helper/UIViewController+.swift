@@ -9,7 +9,7 @@ extension UIViewController {
   public func fluidStackControllers() -> [FluidStackController] {
 
     return sequence(first: self) {
-      $0.next
+      $0.parent
     }
     .compactMap { $0 as? FluidStackController }
 
