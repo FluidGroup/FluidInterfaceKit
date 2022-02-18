@@ -8,6 +8,7 @@ extension UIViewController {
    */
   public func fluidStackControllers() -> [FluidStackController] {
 
+    /// going back using `.parent` instead of `.next` because to ignore modal-presentation.
     return sequence(first: self) {
       $0.parent
     }
@@ -17,17 +18,23 @@ extension UIViewController {
 
   public struct FluidStackFindStrategy {
 
+    public let name: String
+    
     let pick: ([FluidStackController]) -> FluidStackController?
 
     /// Creates an instance
     /// - Parameter where: Solves find by return true. Given instances come from the nearest one.
-    public init(_ pick: @escaping ([FluidStackController]) -> FluidStackController?) {
+    public init(
+      name: String,
+      pick: @escaping ([FluidStackController]) -> FluidStackController?
+    ) {
+      self.name = name
       self.pick = pick
     }
 
     /// Finds by identifier
     public static func identifier(_ identifier: FluidStackController.Identifier) -> Self {
-      .init { stackControllers in
+      .init(name: "identifier.\(identifier)") { stackControllers in
         stackControllers.first { $0.identifier == identifier }
       }
     }
@@ -36,7 +43,7 @@ extension UIViewController {
      Finds a nearest ``FluidStackController`` including itself
      */
     public static let current: Self = {
-      .init { controllers in
+      .init(name: "current") { controllers in
         controllers.first
       }
     }()
@@ -45,7 +52,7 @@ extension UIViewController {
      Finds a nearest ``FluidStackController`` excluding itself
      */
     public static let nearestAncestor: Self = {
-      .init { controllers in
+      .init(name: "nearestAncestor") { controllers in
         controllers.dropFirst(1).first
       }
     }()
@@ -54,16 +61,17 @@ extension UIViewController {
      Finds a root ``FluidStackController`` in the UIWindow.
      */
     public static let root: Self = {
-      .init { controllers in
+      .init(name: "root") { controllers in
         controllers.last
       }
     }()
 
     /// Finds by composed strategy
     public static func matching(
-      _ strategies: [FluidStackFindStrategy]
+      name: String,
+      strategies: [FluidStackFindStrategy]
     ) -> Self {
-      return .init { stackControllers in
+      return .init(name: name) { stackControllers in
         for strategy in strategies {
           if let found = strategy.pick(stackControllers) {
             return found
@@ -181,9 +189,9 @@ extension UIViewController {
     let controller = viewController
 
     guard let stackController = fluidStackController(with: strategy) else {
-
+            
       let message =
-        "Could not present \(viewController) because not found target stack: \(strategy)"
+      "Could not present \(viewController) because not found target stack: \(strategy). Found tree: \(sequence(first: self, next: \.parent).map { $0 }). This view controller \(self) might be presented as modal-presentation."
 
       Log.error(.viewController, message)
       assertionFailure(
