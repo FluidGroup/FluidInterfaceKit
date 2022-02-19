@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
 
-## Overview
+# Overview
 
 **FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.  
 
@@ -21,7 +21,7 @@ Apps run with this component, only stacking but it can get flexibility instead.
 For instance: the history menu of the back bar button, page-sheet modal, and accessibility.
 > This framework tries to follow the updates of UIKit as long as.
 
-## Showcase
+# Showcase
 
 |Instagram Threads like | Apple like |
 |---|---|
@@ -31,7 +31,7 @@ For instance: the history menu of the back bar button, page-sheet modal, and acc
 https://user-images.githubusercontent.com/1888355/154357197-e18bf3c4-323f-4ff3-b159-6d67458ec047.mp4
 
 
-## Motivation
+# Motivation
 
 Normally, UIKit offers us to get screen management with `UIViewController.present`, `UIViewController.dismiss`, `UINavigationController.push`, `UINavigationController.pop`.
 
@@ -59,20 +59,20 @@ It supports cancellation, which would be a part of flexibility, but it's not eno
 
 Please see what happens in iOS Home Screen, it supports completely responding to user interaction - opening an app, canceling opening by Home bar, moving back the home, then opening the app again by touch.
 
-## Detail
+# Detail
 
 [**Open Document**](https://bit.ly/3FJxNFJ)
 
-## Stacking view controller
+# Stacking view controller
 
 <img width="882" alt="CleanShot 2022-02-13 at 01 55 46@2x" src="https://user-images.githubusercontent.com/1888355/153720497-91eff2cc-890c-4b7b-b194-ab558c82829a.png">
 
-## Support those projects
+# Support those projects
 <a href="https://www.buymeacoffee.com/muukii">
 <img width="230" alt="yellow-button" src="https://user-images.githubusercontent.com/1888355/146226808-eb2e9ee0-c6bd-44a2-a330-3bbc8a6244cf.png">
 </a>
 
-## Authors
+# Authors
 
 - [muukii](https://github.com/muukii)
 - [shima11](https://github.com/shima11)
