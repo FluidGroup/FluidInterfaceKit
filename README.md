@@ -36,6 +36,9 @@ For instance: the history menu of the back bar button, page-sheet modal, and acc
 
 https://user-images.githubusercontent.com/1888355/154357197-e18bf3c4-323f-4ff3-b159-6d67458ec047.mp4
 
+# Structure of App with FluidInterfaceKit
+
+<img width="882" alt="CleanShot 2022-02-13 at 01 55 46@2x" src="https://user-images.githubusercontent.com/1888355/153720497-91eff2cc-890c-4b7b-b194-ab558c82829a.png">
 
 # Motivation
 
@@ -113,10 +116,6 @@ final class FirstViewController: FluidViewController {
   }
 }
 ```
-
-# Stacking view controller
-
-<img width="882" alt="CleanShot 2022-02-13 at 01 55 46@2x" src="https://user-images.githubusercontent.com/1888355/153720497-91eff2cc-890c-4b7b-b194-ab558c82829a.png">
 
 # Support this projects
 <a href="https://www.buymeacoffee.com/muukii">
