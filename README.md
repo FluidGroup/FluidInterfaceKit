@@ -1,7 +1,5 @@
 # FluidInterfaceKit - A framework that provides the advanced infrastructure for your iPhone apps
 
-[![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
-
 # Overview
 
 **FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.  
@@ -20,6 +18,14 @@ Apps run with this component, only stacking but it can get flexibility instead.
 > Please take care of the risks to using this framework; the meaning of using this detaches from Apple's UIKit eco-system.
 For instance: the history menu of the back bar button, page-sheet modal, and accessibility.
 > This framework tries to follow the updates of UIKit as long as.
+
+[🔗 **Detailed Documentation**](https://bit.ly/3FJxNFJ)
+
+# Development Status
+
+[![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
+
+- Aggressive development with breaking changes
 
 # Showcase
 
