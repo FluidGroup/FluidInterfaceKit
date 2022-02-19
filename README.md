@@ -61,13 +61,52 @@ Please see what happens in iOS Home Screen, it supports completely responding to
 
 # Setting up your app
 
-ExampleApp in this project shows how setting up.
+**ExampleApp** in this project shows how setting up.  
+**FluidInterfaceKit-Demo** shows a lot of examples.
 
 First of all, you need to put a `FluidStackController` in a root view controller for a `UIWindow`.
 
 In Storyboard based app, set the entry pointed view controller as `FluidStackController` or subclass of it.  
 In Code based app, set a root view controller of `UIWindow` as `FluidStackController` or subclass of it.  
 
+**`didFinishLaunchingWithOptions` in AppDelegate**
+```swift
+let newWindow = UIWindow()
+       
+newWindow.rootViewController = RootViewController()
+newWindow.makeKeyAndVisible()
+    
+window = newWindow
+```
+
+**RootViewController**
+```swift
+final class RootViewController: FluidViewController {
+ 
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    view.backgroundColor = .systemBackground
+    
+    // 📍
+    addContentViewController(FirstViewController(), transition: .noAnimation)
+  }
+}
+```
+
+**FirstViewController**
+
+```swift
+final class FirstViewController: FluidViewController {
+    
+  override func viewDidLoad() {
+    super.viewDidLoad()
+       
+    // 📍
+    fluidPush(SecondViewController(), target: .current, relation: .hierarchicalNavigation)
+  }
+}
+```
 
 # Stacking view controller
 
