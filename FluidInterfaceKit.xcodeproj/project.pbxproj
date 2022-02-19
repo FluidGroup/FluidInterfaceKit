@@ -39,6 +39,13 @@
 		4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B31B277077EA00EE1028 /* MockKit */; };
 		4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECDF276648FD00982229 /* CompositionKit */; };
 		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
+		4BC0A14F27C1731D00CD3A46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0A14927C1731D00CD3A46 /* Assets.xcassets */; };
+		4BC0A15027C1731D00CD3A46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0A14A27C1731D00CD3A46 /* LaunchScreen.storyboard */; };
+		4BC0A15127C1731D00CD3A46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0A14C27C1731D00CD3A46 /* AppDelegate.swift */; };
+		4BC0A15427C1733600CD3A46 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC0A15327C1733600CD3A46 /* FluidInterfaceKit */; };
+		4BC0A15627C1749100CD3A46 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0A15527C1749100CD3A46 /* RootViewController.swift */; };
+		4BC0A15827C178A300CD3A46 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0A15727C178A300CD3A46 /* FirstViewController.swift */; };
+		4BC0A15A27C178C000CD3A46 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0A15927C178C000CD3A46 /* SecondViewController.swift */; };
 		4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */; };
 		4BC667BF27B2E6B300182E6C /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667BE27B2E6B300182E6C /* FluidInterfaceKit */; };
 		4BC667C127B2E6B300182E6C /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */; };
@@ -103,9 +110,16 @@
 		4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCompositionOrderViewController.swift; sourceTree = "<group>"; };
 		4B79CAAA2792A3A0002DA1DF /* Ne */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Ne; path = submodules/Ne; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BB404E227C17146000BA6B9 /* ExampleFluidApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleFluidApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRideauIntegrationViewController.swift; sourceTree = "<group>"; };
 		4BBDECDD276646E300982229 /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = submodules/CompositionKit; sourceTree = "<group>"; };
 		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
+		4BC0A14927C1731D00CD3A46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4BC0A14B27C1731D00CD3A46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4BC0A14C27C1731D00CD3A46 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4BC0A15527C1749100CD3A46 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		4BC0A15727C178A300CD3A46 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		4BC0A15927C178C000CD3A46 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		4BC667B727B2E69C00182E6C /* FluidInterfaceKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluidInterfaceKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidInterfaceKitTests.swift; sourceTree = "<group>"; };
 		4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeBuilder.swift; sourceTree = "<group>"; };
@@ -137,6 +151,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4BB404DF27C17146000BA6B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BC0A15427C1733600CD3A46 /* FluidInterfaceKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4BC667B427B2E69C00182E6C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,6 +174,7 @@
 		4B468046279C588E00625FCB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4BC0A14727C1731D00CD3A46 /* ExampleFluidApp */,
 				4B468049279C58E800625FCB /* FluidInterfaceKit-Demo */,
 				4BC667B827B2E69C00182E6C /* FluidInterfaceKitTests */,
 			);
@@ -208,6 +231,7 @@
 			children = (
 				4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */,
 				4BC667B727B2E69C00182E6C /* FluidInterfaceKitTests.xctest */,
+				4BB404E227C17146000BA6B9 /* ExampleFluidApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -232,6 +256,19 @@
 				4BE0AAC4277FD5620086FD7E /*  */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		4BC0A14727C1731D00CD3A46 /* ExampleFluidApp */ = {
+			isa = PBXGroup;
+			children = (
+				4BC0A14927C1731D00CD3A46 /* Assets.xcassets */,
+				4BC0A14A27C1731D00CD3A46 /* LaunchScreen.storyboard */,
+				4BC0A14C27C1731D00CD3A46 /* AppDelegate.swift */,
+				4BC0A15527C1749100CD3A46 /* RootViewController.swift */,
+				4BC0A15727C178A300CD3A46 /* FirstViewController.swift */,
+				4BC0A15927C178C000CD3A46 /* SecondViewController.swift */,
+			);
+			path = ExampleFluidApp;
 			sourceTree = "<group>";
 		};
 		4BC667B827B2E69C00182E6C /* FluidInterfaceKitTests */ = {
@@ -286,6 +323,26 @@
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4BB404E127C17146000BA6B9 /* ExampleFluidApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BB404F527C17147000BA6B9 /* Build configuration list for PBXNativeTarget "ExampleFluidApp" */;
+			buildPhases = (
+				4BB404DE27C17146000BA6B9 /* Sources */,
+				4BB404DF27C17146000BA6B9 /* Frameworks */,
+				4BB404E027C17146000BA6B9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ExampleFluidApp;
+			packageProductDependencies = (
+				4BC0A15327C1733600CD3A46 /* FluidInterfaceKit */,
+			);
+			productName = ExampleFluidApp;
+			productReference = 4BB404E227C17146000BA6B9 /* ExampleFluidApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		4BC667B627B2E69C00182E6C /* FluidInterfaceKitTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BC667BD27B2E69C00182E6C /* Build configuration list for PBXNativeTarget "FluidInterfaceKitTests" */;
@@ -323,6 +380,9 @@
 						CreatedOnToolsVersion = 13.2;
 						LastSwiftMigration = 1320;
 					};
+					4BB404E127C17146000BA6B9 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					4BC667B627B2E69C00182E6C = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -349,6 +409,7 @@
 			targets = (
 				4B959B052764F77E0003FFB6 /* FluidInterfaceKit-Demo */,
 				4BC667B627B2E69C00182E6C /* FluidInterfaceKitTests */,
+				4BB404E127C17146000BA6B9 /* ExampleFluidApp */,
 			);
 		};
 /* End PBXProject section */
@@ -360,6 +421,15 @@
 			files = (
 				4B46806C279C58E800625FCB /* LaunchScreen.storyboard in Resources */,
 				4B468068279C58E800625FCB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BB404E027C17146000BA6B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BC0A14F27C1731D00CD3A46 /* Assets.xcassets in Resources */,
+				4BC0A15027C1731D00CD3A46 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +470,17 @@
 				4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */,
 				4B468075279C58E800625FCB /* DemoApplicationViewController.swift in Sources */,
 				4B46806F279C58E800625FCB /* UIColor+Presets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BB404DE27C17146000BA6B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BC0A15A27C178C000CD3A46 /* SecondViewController.swift in Sources */,
+				4BC0A15827C178A300CD3A46 /* FirstViewController.swift in Sources */,
+				4BC0A15627C1749100CD3A46 /* RootViewController.swift in Sources */,
+				4BC0A15127C1731D00CD3A46 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +535,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				4B468056279C58E800625FCB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4BC0A14A27C1731D00CD3A46 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4BC0A14B27C1731D00CD3A46 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -642,6 +731,58 @@
 			};
 			name = Release;
 		};
+		4BB404F327C17147000BA6B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.muukii.ExampleFluidApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		4BB404F427C17147000BA6B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.muukii.ExampleFluidApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		4BC667BB27B2E69C00182E6C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -691,6 +832,15 @@
 			buildConfigurations = (
 				4B959B182764F77F0003FFB6 /* Debug */,
 				4B959B192764F77F0003FFB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BB404F527C17147000BA6B9 /* Build configuration list for PBXNativeTarget "ExampleFluidApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BB404F327C17147000BA6B9 /* Debug */,
+				4BB404F427C17147000BA6B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -768,6 +918,10 @@
 		4BBDECE1276648FD00982229 /* MatchedTransition */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MatchedTransition;
+		};
+		4BC0A15327C1733600CD3A46 /* FluidInterfaceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluidInterfaceKit;
 		};
 		4BC667BE27B2E6B300182E6C /* FluidInterfaceKit */ = {
 			isa = XCSwiftPackageProductDependency;
