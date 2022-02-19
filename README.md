@@ -4,6 +4,9 @@
 
 ## Overview
 
+**FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.
+
+
 FluidInterfaceKit targets:
 - Screen management - replacement for modal-presentation, navigation controller
 - Flexible transitions - animations, interactions and interruptions
