@@ -4,15 +4,34 @@
 
 ## Overview
 
-**FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.
+**FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.  
+It provides components that make your app more flexible.
 
+**Motivations**
 
-FluidInterfaceKit targets:
-- Screen management - replacement for modal-presentation, navigation controller
-- Flexible transitions - animations, interactions and interruptions
-- Components
+Normally, UIKit offers us to get screen management with `UIViewController.present`, `UIViewController.dismiss`, `UINavigationController.push`, `UINavigationController.pop`.
 
-> 🚜 It still is in development. It's very beginning.
+In the case of a view controller that needs to display on modal and navigation, that view controller requires to supports both. In modal, what if it uses `navigationItem`, should be wrapped with `UINavigationController` to display.
+
+Moreover, that view controller would consider how to dismiss itself unless handled by outside. Pop or dismiss which depends on the context.
+
+**FluidInterfaceKit** provides `FluidStackController`, which is similar to `UINavigationController`.
+It offers all of the view controllers that are managed in stacking as a child of the stack.
+
+Try to think of it with what if we're using `UINavigationController`.
+All view controllers will display on that, and push to the next view controller, what if needed nesting, push another UINavigationController.  
+Expression of transition would not be a problem, we can create a custom transition, so it can be like a modal presentation - slide in from the bottom.
+
+If the app runs like that, we only use `push` and `pop` to manage screens except for the special case of using `present` - UIAlertController or other modals in third-party libraries.
+Still, modals work very well since nobody use presentation.
+
+As above mentioned, `FluidStackController` is similar to `UINavigationController`, it just stacks view controllers that are managed as a child.  
+What difference with `UINavigationController` is **transitions**, it provides interfaces to create custom transition and it supports more flexibility.
+
+Custom transitions that run with `UIViewControllerAnimatedTransitioning` have some limitations in modal-presentation and push-transition.  
+It supports cancellation, which would be a part of flexibility, but it's not enough.
+
+Please see what happens in iOS Home Screen, it supports completely responding to user interaction - opening an app, canceling opening by Home bar, moving back the home, then opening the app again by touch.
 
 ## Showcase
 
