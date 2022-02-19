@@ -16,6 +16,7 @@ FluidInterfaceKit's essential component is `FluidStackController`, which stacks 
 
 Apps run with this component, only stacking but it can get flexibility instead.
 
+> 💔
 > Please take care of the risks to using this framework; the meaning of using this detaches from Apple's UIKit eco-system.
 For instance: the history menu of the back bar button, page-sheet modal, and accessibility.
 > This framework tries to follow the updates of UIKit as long as.
