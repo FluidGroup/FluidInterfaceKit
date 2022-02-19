@@ -16,8 +16,7 @@ FluidInterfaceKit's essential component is `FluidStackController`, which stacks 
 
 Apps run with this component, only stacking but it can get flexibility instead.
 
-> 💔
->  Please take care of the risks to using this framework; the meaning of using this detaches from Apple's UIKit eco-system.
+> Please take care of the risks to using this framework; the meaning of using this detaches from Apple's UIKit eco-system.
 For instance: the history menu of the back bar button, page-sheet modal, and accessibility.
 > This framework tries to follow the updates of UIKit as long as.
 
@@ -35,9 +34,11 @@ https://user-images.githubusercontent.com/1888355/154357197-e18bf3c4-323f-4ff3-b
 
 Normally, UIKit offers us to get screen management with `UIViewController.present`, `UIViewController.dismiss`, `UINavigationController.push`, `UINavigationController.pop`.
 
-In the case of a view controller that needs to display on modal and navigation, that view controller requires to supports both. In modal, what if it uses `navigationItem`, should be wrapped with `UINavigationController` to display.
+In the case of a view controller that needs to display on modal and navigation, that view controller requires to supports both.  
+In modal, what if it uses `navigationItem`, should be wrapped with `UINavigationController` to display.
 
-Moreover, that view controller would consider how to dismiss itself unless handled by outside. Pop or dismiss which depends on the context.
+Moreover, that view controller would consider how to dismiss itself unless handled by outside.  
+Pop or dismiss which depends on the context.
 
 **FluidInterfaceKit** provides `FluidStackController`, which is similar to `UINavigationController`.
 It offers all of the view controllers that are managed in stacking as a child of the stack.
