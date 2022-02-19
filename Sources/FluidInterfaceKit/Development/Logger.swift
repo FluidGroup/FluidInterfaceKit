@@ -34,31 +34,13 @@ extension OSLog {
 #endif
   }
 
-  static let stack: OSLog = makeOSLogInDebug(flagName: Fluid.LogCategory.stack.rawValue) { OSLog.init(subsystem: "FluidUIKit", category: "Stack") }
+  static let stack: OSLog = makeOSLogInDebug(flagName: "FLUID_LOG_STACK") { OSLog.init(subsystem: "FluidUIKit", category: "Stack") }
 
-  static let pip: OSLog = makeOSLogInDebug(flagName: Fluid.LogCategory.pip.rawValue) { OSLog.init(subsystem: "FluidUIKit", category: "PIP") }
+  static let pip: OSLog = makeOSLogInDebug(flagName: "FLUID_LOG_PIP") { OSLog.init(subsystem: "FluidUIKit", category: "PIP") }
   
-  static let portal: OSLog = makeOSLogInDebug(flagName: Fluid.LogCategory.portal.rawValue) { OSLog.init(subsystem: "FluidUIKit", category: "Portal") }
+  static let portal: OSLog = makeOSLogInDebug(flagName: "FLUID_LOG_PORTAL") { OSLog.init(subsystem: "FluidUIKit", category: "Portal") }
   
-  static let fluidController: OSLog = makeOSLogInDebug(flagName: Fluid.LogCategory.fluidController.rawValue) { OSLog.init(subsystem: "FluidUIKit", category: "FluidController") }
+  static let fluidController: OSLog = makeOSLogInDebug(flagName: "FLUID_LOG_FLUIDCONTROLLER") { OSLog.init(subsystem: "FluidUIKit", category: "FluidController") }
     
-  static let viewController: OSLog = makeOSLogInDebug(flagName: Fluid.LogCategory.viewController.rawValue) { OSLog.init(subsystem: "FluidUIKit", category: "ViewController") }
-}
-
-extension Fluid {
-  
-  /**
-   To enable logging,
-   Set the raw value in name for Xcode scheme environment variable with value to set nil.
-   */
-  public enum LogCategory: String {
-    
-    case stack = "FLUID_LOG_STACK"
-    case pip = "FLUID_LOG_PIP"
-    case portal = "FLUID_LOG_PORTAL"
-    case fluidController = "FLUID_LOG_FLUIDCONTROLLER"
-    case viewController = "FLUID_LOG_VIEWCONTROLLER"
-    
-  }
-  
+  static let viewController: OSLog = makeOSLogInDebug(flagName: "FLUID_LOG_VIEWCONTROLLER") { OSLog.init(subsystem: "FluidUIKit", category: "ViewController") }
 }
