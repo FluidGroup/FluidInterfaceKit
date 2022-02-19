@@ -31,6 +31,8 @@ public struct FluidStackContentConfiguration {
 ///
 /// Passing an identifier on initializing, make it could be found in hierarchy.
 /// Use ``UIViewController/fluidStackController(with: )`` to find.
+///
+/// About logging in here ``Fluid/LogCategory/stack``
 open class FluidStackController: UIViewController {
 
   // MARK: - Properties
