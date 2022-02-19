@@ -1,4 +1,4 @@
-# FluidInterfaceKit - Components library that makes apps more flexible.
+# FluidInterfaceKit - A framework that provides the advanced infrastructure for your iPhone apps
 
 [![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
 
