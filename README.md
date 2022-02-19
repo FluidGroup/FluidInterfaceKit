@@ -5,7 +5,20 @@
 ## Overview
 
 **FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.  
-It provides components that make your app more flexible.
+
+Built on top of UIKit, replace UIKit standard transitions with the custom components.
+
+It provides components that make your app more flexible - interactive and interruptible transition, free to unwind view controllers without `pop` or `dismiss`.
+
+That would fit to create fully customized UI apps such as Snapchat, Zenly, Uber, Instagram Threads.
+
+FluidInterfaceKit's essential component is `FluidStackController`, which stacks view controllers with customized transitions.
+
+Apps run with this component, only stacking but it can get flexibility instead.
+
+> Please take care of the risks to using this framework; the meaning of using this detaches from Apple's UIKit eco-system.
+For instance: the history menu of the back bar button, page-sheet modal, and accessibility.
+> This framework tries to follow the updates of UIKit as long as.
 
 ## Showcase
 
