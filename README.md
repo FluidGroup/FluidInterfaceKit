@@ -67,9 +67,9 @@ Please see what happens in iOS Home Screen, it supports completely responding to
 
 <img width="882" alt="CleanShot 2022-02-13 at 01 55 46@2x" src="https://user-images.githubusercontent.com/1888355/153720497-91eff2cc-890c-4b7b-b194-ab558c82829a.png">
 
-# Support those projects
+# Support this projects
 <a href="https://www.buymeacoffee.com/muukii">
-<img width="230" alt="yellow-button" src="https://user-images.githubusercontent.com/1888355/146226808-eb2e9ee0-c6bd-44a2-a330-3bbc8a6244cf.png">
+<img width="120" alt="yellow-button" src="https://user-images.githubusercontent.com/1888355/146226808-eb2e9ee0-c6bd-44a2-a330-3bbc8a6244cf.png">
 </a>
 
 # Authors
