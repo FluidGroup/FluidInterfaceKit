@@ -28,7 +28,7 @@ Moreover, that view controller would consider how to dismiss itself unless handl
 **FluidInterfaceKit** provides `FluidStackController`, which is similar to `UINavigationController`.
 It offers all of the view controllers that are managed in stacking as a child of the stack.
 
-Try to think of it with what if we're using `UINavigationController`.
+Try to think of it with what if we're using `UINavigationController`.  
 All view controllers will display on that, and push to the next view controller, what if needed nesting, push another UINavigationController.  
 Expression of transition would not be a problem, we can create a custom transition, so it can be like a modal presentation - slide in from the bottom.
 
