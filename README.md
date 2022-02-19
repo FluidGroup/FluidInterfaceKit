@@ -7,7 +7,17 @@
 **FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.  
 It provides components that make your app more flexible.
 
-**Motivations**
+## Showcase
+
+|Instagram Threads like | Apple like |
+|---|---|
+|<img width=200px src=https://user-images.githubusercontent.com/1888355/147848629-031e1c5c-0c52-4674-8d9a-dad034b6e87f.gif />| <img width=200px src=https://user-images.githubusercontent.com/1888355/147852736-9e926a14-d30f-40ad-9733-c92546d4f8b6.gif /> |
+
+
+https://user-images.githubusercontent.com/1888355/154357197-e18bf3c4-323f-4ff3-b159-6d67458ec047.mp4
+
+
+## Motivation
 
 Normally, UIKit offers us to get screen management with `UIViewController.present`, `UIViewController.dismiss`, `UINavigationController.push`, `UINavigationController.pop`.
 
@@ -32,18 +42,6 @@ Custom transitions that run with `UIViewControllerAnimatedTransitioning` have so
 It supports cancellation, which would be a part of flexibility, but it's not enough.
 
 Please see what happens in iOS Home Screen, it supports completely responding to user interaction - opening an app, canceling opening by Home bar, moving back the home, then opening the app again by touch.
-
-## Showcase
-
-|Instagram Threads like | Apple like |
-|---|---|
-|<img width=200px src=https://user-images.githubusercontent.com/1888355/147848629-031e1c5c-0c52-4674-8d9a-dad034b6e87f.gif />| <img width=200px src=https://user-images.githubusercontent.com/1888355/147852736-9e926a14-d30f-40ad-9733-c92546d4f8b6.gif /> |
-
-
-
-https://user-images.githubusercontent.com/1888355/154357197-e18bf3c4-323f-4ff3-b159-6d67458ec047.mp4
-
-
 
 ## Detail
 
