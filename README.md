@@ -59,9 +59,15 @@ It supports cancellation, which would be a part of flexibility, but it's not eno
 
 Please see what happens in iOS Home Screen, it supports completely responding to user interaction - opening an app, canceling opening by Home bar, moving back the home, then opening the app again by touch.
 
-# Detail
+# Setting up your app
 
-[**Open Document**](https://bit.ly/3FJxNFJ)
+ExampleApp in this project shows how setting up.
+
+First of all, you need to put a `FluidStackController` in a root view controller for a `UIWindow`.
+
+In Storyboard based app, set the entry pointed view controller as `FluidStackController` or subclass of it.  
+In Code based app, set a root view controller of `UIWindow` as `FluidStackController` or subclass of it.  
+
 
 # Stacking view controller
 
@@ -71,6 +77,13 @@ Please see what happens in iOS Home Screen, it supports completely responding to
 <a href="https://www.buymeacoffee.com/muukii">
 <img width="120" alt="yellow-button" src="https://user-images.githubusercontent.com/1888355/146226808-eb2e9ee0-c6bd-44a2-a330-3bbc8a6244cf.png">
 </a>
+
+# Muukii sponsers your contributions
+
+I sponser you with one-time sponser tiers if you could have contributions.
+- Improvement core components
+- Improvement documentations
+- Growing demo applications
 
 # Authors
 
