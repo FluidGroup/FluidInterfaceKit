@@ -252,11 +252,11 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     return tokens
 
   }
-
+     
 }
 
 extension FluidViewController {
-
+  
   /**
    Configurations for ``FluidViewController``
 

@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import ResultBuilderKit
 
 /// Actions that comes from ``FluidStackController``
 public enum FluidStackAction {
@@ -55,15 +56,8 @@ open class FluidStackController: UIViewController {
     stackingItems.map { $0.viewController }
   }
 
-  private(set) var stackingItems: [PresentedViewControllerWrapperView] = [] {
+  private(set) var stackingItems: [StackingPlatterView] = [] {
     didSet {
-      Log.debug(
-        .stack,
-        """
-        Updated Stacking: \(stackingItems.count)
-        \(stackingItems.map { "  - \($0.debugDescription)" }.joined(separator: "\n"))
-        """
-      )
       // TODO: Update with animation
       UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1) {
         self.setNeedsStatusBarAppearanceUpdate()
@@ -138,6 +132,19 @@ open class FluidStackController: UIViewController {
   }
 
   // MARK: - Functions
+  
+  public func stackingDescription() -> String {
+    
+    let body = stackingItems.map { item in
+      "- isLoaded: \(item.isLoaded), \(item.viewController.debugDescription)"
+    }
+    .joined(separator: "\n")
+    
+    return """
+      Stacking: \(stackingItems.count), \(self.debugDescription)
+      \(body)
+      """
+  }
 
   /**
    Make sure call super method when you create override.
@@ -210,14 +217,14 @@ open class FluidStackController: UIViewController {
       viewControllerToAdd.fluidStackContext = context
     }
     
-    let wrapperView: PresentedViewControllerWrapperView
+    let wrapperView: StackingPlatterView
     
-    if let currentWrapperView = viewControllerToAdd.view.superview as? PresentedViewControllerWrapperView {
+    if let currentWrapperView = viewControllerToAdd.view.superview as? StackingPlatterView {
       // reuse
       wrapperView = currentWrapperView
     } else {
       // create new one
-      let containerView = PresentedViewControllerWrapperView(
+      let containerView = StackingPlatterView(
         viewController: viewControllerToAdd,
         frame: self.view.bounds
       )
@@ -251,7 +258,7 @@ open class FluidStackController: UIViewController {
     viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
 
     assert(viewControllerToAdd.view.superview != nil)
-    assert(viewControllerToAdd.view.superview is PresentedViewControllerWrapperView)
+    assert(viewControllerToAdd.view.superview is StackingPlatterView)
 
     let newTransitionContext = AddingTransitionContext(
       contentView: wrapperView,
@@ -280,6 +287,8 @@ open class FluidStackController: UIViewController {
         }
         
         context.transitionSucceeded()
+        
+        Log.debug(.stack, self.stackingDescription())
 
       }
     )
@@ -399,7 +408,7 @@ open class FluidStackController: UIViewController {
    Make sure to complete the transition with the context.
    */
   private func _startRemoving(
-    _ viewToRemove: PresentedViewControllerWrapperView
+    _ viewToRemove: StackingPlatterView
   ) -> RemovingTransitionContext {
 
     // Ensure it's managed
@@ -411,7 +420,7 @@ open class FluidStackController: UIViewController {
     }
 
     // finds a view controller that will be displayed next.
-    let backView: PresentedViewControllerWrapperView? = {
+    let backView: StackingPlatterView? = {
       let target = index.advanced(by: -1)
       if stackingItems.indices.contains(target) {
         return stackingItems[target]
@@ -448,6 +457,8 @@ open class FluidStackController: UIViewController {
 
         context.transitionSucceeded()
 
+        Log.debug(.stack, self.stackingDescription())
+        
       },
       onRequestedDisplayOnTop: { [weak self] source in
 
@@ -535,9 +546,6 @@ open class FluidStackController: UIViewController {
 
   /**
    Removes all view controllers which are displaying
-
-   - Parameters:
-     - leavesRoot: If true, the first view controller will still be alive.
    */
   public func removeAllViewController(
     transition: AnyBatchRemovingTransition?
@@ -614,12 +622,13 @@ open class FluidStackController: UIViewController {
           itemToRemove.viewController.fluidStackContext = nil
           
           self.stackingItems.removeAll { instance in
-            (instance as PresentedViewControllerWrapperView) == (itemToRemove as PresentedViewControllerWrapperView)
+            (instance as StackingPlatterView) == (itemToRemove as StackingPlatterView)
           }
         }
                       
         context.transitionSucceeded()
         
+        Log.debug(.stack, self.stackingDescription())
       }
     )
     
@@ -654,7 +663,7 @@ open class FluidStackController: UIViewController {
 
   private func addPortalView(
     for source: DisplaySource,
-    on targetView: PresentedViewControllerWrapperView
+    on targetView: StackingPlatterView
   ) -> DisplayingOnTopSubscription {
 
     assert(Thread.isMainThread)
@@ -689,11 +698,11 @@ open class FluidStackController: UIViewController {
   /**
    Offloads view controllers which do not need to display from their wrapper view.
    */
-  private func updateOffloadingItems(displayItem: PresentedViewControllerWrapperView) {
+  private func updateOffloadingItems(displayItem: StackingPlatterView) {
     
     let items = stackingItems
     
-    var order: [(PresentedViewControllerWrapperView, Bool)] = []
+    var order: [(StackingPlatterView, Bool)] = []
           
     var offloads: Bool = false
     var isInBehindDisplayItem: Bool = false
@@ -725,9 +734,7 @@ open class FluidStackController: UIViewController {
       }
             
     }
-    
-    Log.debug(.stack, "Update offloading:\n\(order.map { "\($0.0 == displayItem ? "->" : "  ") \($0.1 ? "off" : "on ") \($0.0.viewController.fluidStackContentConfiguration.contentType)" }.joined(separator: "\n"))")
-    
+        
     for (item, offloads) in order {
       if offloads {
         item.offloadViewController()
@@ -738,7 +745,25 @@ open class FluidStackController: UIViewController {
     
   }
   
+  
+}
 
+extension FluidStackController {
+  
+  open override var debugDescription: String {
+    let pointer = Unmanaged.passUnretained(self).toOpaque()
+    
+    let properties: [(String, String)] = buildArray {
+                 
+      ("identifier", identifier?.rawValue ?? "null")
+      
+    }
+    
+    let body = properties.map { "\($0.0) = \($0.1);" }.joined(separator: " ")
+    
+    return "<\(String(reflecting: type(of: self))): \(pointer.debugDescription); \(body)>"
+  }
+  
 }
 
 // MARK: - Nested types
@@ -793,7 +818,10 @@ extension FluidStackController {
 
   }
 
-  final class PresentedViewControllerWrapperView: UIView {
+  /**
+   A view that manages view controller in stack
+   */
+  final class StackingPlatterView: UIView {
     
     private(set) var isLoaded: Bool = true
 
@@ -807,8 +835,10 @@ extension FluidStackController {
     ) {
       
       self.viewController = viewController
-      
+            
       super.init(frame: frame)
+      
+      accessibilityIdentifier = String(reflecting: viewController)
 
       backgroundColor = .clear
       
