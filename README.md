@@ -108,10 +108,7 @@ final class RootViewController: FluidViewController {
 ```swift
 final class FirstViewController: FluidViewController {
     
-  override func viewDidLoad() {
-    super.viewDidLoad()
-       
-    // 📍
+  func runSomething() {
     fluidPush(SecondViewController(), target: .current, relation: .hierarchicalNavigation)
   }
 }
