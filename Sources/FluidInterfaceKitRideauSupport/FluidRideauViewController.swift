@@ -266,7 +266,13 @@ extension AnyRemovingTransition {
 
 extension UIViewController {
     
-  public func fluidPush(_ viewController: FluidRideauViewController, target strategy: FluidStackFindStrategy) {
+  /**
+   Displays given instance of ``FluidRideauViewController`` on ``FluidStackController``.
+   */
+  public func fluidPush(
+    _ viewController: FluidRideauViewController,
+    target strategy: FluidStackFindStrategy
+  ) {
     fluidPushUnsafely(viewController, target: strategy, transition: nil)
   }
   
