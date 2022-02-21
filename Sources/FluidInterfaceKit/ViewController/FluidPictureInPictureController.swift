@@ -77,6 +77,9 @@ extension FluidPictureInPictureController {
 
     weak var content: UIView?
 
+    /**
+      Displays a given view, and the current displaying view would be removed instead.
+    */
     public func setContent(_ content: UIView) {
       self.content?.removeFromSuperview()
       addSubview(content)
