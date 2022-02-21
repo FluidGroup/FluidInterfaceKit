@@ -114,6 +114,14 @@ final class FirstViewController: FluidViewController {
 }
 ```
 
+**SecondViewController**
+
+To dimisss itself, call `fluidPop()`
+
+---
+
+[🔗 **Detailed Documentation**](https://bit.ly/3FJxNFJ)
+
 # Support this projects
 <a href="https://www.buymeacoffee.com/muukii">
 <img width="120" alt="yellow-button" src="https://user-images.githubusercontent.com/1888355/146226808-eb2e9ee0-c6bd-44a2-a330-3bbc8a6244cf.png">
