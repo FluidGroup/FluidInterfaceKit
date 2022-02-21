@@ -2,7 +2,17 @@ import ResultBuilderKit
 import UIKit
 
 /**
- A view controller that can display on ``FluidStackController``.   
+ Annotations this view controller can't display on ``FluidStackController``.
+ Wrapping with ``FluidViewController`` is also prohibited.
+ */
+public protocol ViewControllerAssertionProhibitedPresentInFluidStack: UIViewController {
+  
+}
+
+/**
+ A view controller that can display on ``FluidStackController``.
+ 
+ If you annotate a view controller should not be displayed as ``FluidViewController`` and ``FluidStackController``, apply ``ViewControllerAssertionProhibitedPresentInFluidStack`` to the view controller.
  */
 open class FluidViewController: FluidGestureHandlingViewController, UINavigationBarDelegate {
 
@@ -50,6 +60,25 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     content: FluidWrapperViewController.Content? = nil,
     configuration: Configuration = .init(transition: .modalStyle, topBar: .navigation)
   ) {
+    
+    assert({
+      guard let bodyViewController = content?.bodyViewController else {
+        return true
+      }
+      
+      guard !(bodyViewController is UIAlertController) else {
+        assertionFailure("UIAlertController can't be wrapped.")
+        return false
+      }
+      
+      guard !(bodyViewController is ViewControllerAssertionProhibitedPresentInFluidStack) else {
+        assertionFailure("\(bodyViewController) is restricted in presenting stack.")
+        return false
+      }
+            
+      return true
+    }(), "\(String(reflecting: Self.self)) can't wrap inappropriate view controller as body. \(content?.bodyViewController as Any)")
+        
     self.configuration = configuration
     super.init(
       content: content,

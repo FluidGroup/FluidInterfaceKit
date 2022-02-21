@@ -10,6 +10,27 @@ import Foundation
 import XCTest
 
 final class FluidViewControllerTests: XCTestCase {
+  
+  func checkProtocol() {
+    
+    class ProhibitedVC: UIViewController, ViewControllerAssertionProhibitedPresentInFluidStack {
+      
+    }
+    
+    class VC: UIViewController {
+      
+    }
+    
+    let pvc = ProhibitedVC()
+    
+    _ = pvc.fluidWrapped(configuration: .defaultModal)
+   
+    let vc = VC()
+    
+    _ = vc.fluidWrapped(configuration: .defaultModal)
+    
+    
+  }
 
   func testNavigationItemFromBody_no_bar() {
 
