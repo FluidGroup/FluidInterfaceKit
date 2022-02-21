@@ -75,8 +75,12 @@ extension FluidPictureInPictureController {
 
   public final class ContainerView: UIView {
 
+    weak var content: UIView?
+
     public func setContent(_ content: UIView) {
+      self.content?.removeFromSuperview()
       addSubview(content)
+      self.content = content
       content.frame = bounds
       content.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
@@ -132,8 +136,6 @@ extension FluidPictureInPictureController {
       containerView.addGestureRecognizer(dragGesture)
 
       addSubview(containerView)
-
-      containerView.backgroundColor = .init(white: 0.5, alpha: 0.3)
     }
 
     required init?(
@@ -158,7 +160,7 @@ extension FluidPictureInPictureController {
       }
 
       let animator = UIViewPropertyAnimator(
-        duration: 0.8,
+        duration: 0.6,
         timingParameters: UISpringTimingParameters(
           dampingRatio: 0.9,
           initialVelocity: .zero
