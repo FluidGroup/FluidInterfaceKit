@@ -230,7 +230,7 @@ extension UIViewController {
     )
       
   }
-
+  
   /**
    Removes this view controller from the target ``FluidStackController``.
 
@@ -336,6 +336,7 @@ extension UIViewController {
    fluidPush(controller.fluidWrapped(...), ...)
    ```
    */
+  @_disfavoredOverload
   public func fluidWrapped(
     configuration: FluidViewController.Configuration
   ) -> FluidViewController {
@@ -350,6 +351,18 @@ extension UIViewController {
       configuration: configuration
     )
   }
-      
+ 
+}
+
+extension ViewControllerAssertionProhibitedPresentInFluidStack {
+  
+  @available(*, deprecated, message: "This view controller can't be wrapped. Prohibited by `ViewControllerAssertionProhibitedPresentInFluidStack`.")
+  public func fluidWrapped(
+    configuration: FluidViewController.Configuration
+  ) -> FluidViewController where Self : ViewControllerAssertionProhibitedPresentInFluidStack {
+    assertionFailure()
+    return (self as UIViewController).fluidWrapped(configuration: configuration)
+  }
+  
 }
 
