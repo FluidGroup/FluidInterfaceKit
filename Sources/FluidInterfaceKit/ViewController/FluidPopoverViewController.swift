@@ -15,6 +15,7 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
   public let backgroundViewController: UIViewController?
   public let contentViewController: UIViewController
   public let contentInset: UIEdgeInsets
+  public let sourceCodeLocation: FluidSourceCodeLocation
       
   /// - Parameters:
   ///   - content: A content that displays on foreground with floating-centered layout.
@@ -22,9 +23,12 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
   public init(
     content: Source,
     background: Source? = nil,
-    contentInset: UIEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
+    contentInset: UIEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8),
+    file: StaticString = #filePath,
+    line: UInt = #line
   ) {
-    
+      
+    self.sourceCodeLocation = .init(file: file, line: line)
     self.contentInset = contentInset
     
     switch content {
