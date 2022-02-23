@@ -146,7 +146,8 @@ private final class ContentViewController: UIViewController {
                                                                                                              
               fluidPush(
                 FluidPopoverViewController(
-                  content: .viewController(ContentViewController(color: .neonRandom()))
+                  content: .viewController(ContentViewController(color: .neonRandom())),
+                  background: .view(UIVisualEffectView(effect: UIBlurEffect(style: .dark)))
                 ),
                 target: .current
               )

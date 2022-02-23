@@ -74,13 +74,13 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
       
       NSLayoutConstraint.activate(buildArray {
         
-        contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
         
-        contentView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0)
+        contentView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0)
         
-        contentView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0)
+        contentView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0)
         
-        contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         
       })
       
