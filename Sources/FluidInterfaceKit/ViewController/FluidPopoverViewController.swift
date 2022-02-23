@@ -12,8 +12,8 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
     case viewController(UIViewController)
   }
   
+  public let foregroundViewController: UIViewController
   public let backgroundViewController: UIViewController?
-  public let contentViewController: UIViewController
   public let contentInset: UIEdgeInsets
   public let sourceCodeLocation: FluidSourceCodeLocation
       
@@ -33,10 +33,10 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
     
     switch foreground {
     case .view(let view):
-      self.contentViewController = FluidWrapperViewController(content: .init(view: view))
+      self.foregroundViewController = FluidWrapperViewController(content: .init(view: view))
     case .viewController(let viewController):
       assert((viewController is FluidViewController) == false, "contentViewController\(viewController) must not be FluidViewController.")
-      self.contentViewController = viewController
+      self.foregroundViewController = viewController
     }
     
     if let background = background {
@@ -72,7 +72,7 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
       let contentView = backgroundViewController.view!
       addChild(backgroundViewController)
       view.addSubview(contentView)
-      contentViewController.didMove(toParent: self)
+      foregroundViewController.didMove(toParent: self)
       
       contentView.translatesAutoresizingMaskIntoConstraints = false
       
@@ -92,10 +92,10 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
     
     // foreground
     do {
-      let contentView = contentViewController.view!
-      addChild(contentViewController)
+      let contentView = foregroundViewController.view!
+      addChild(foregroundViewController)
       view.addSubview(contentView)
-      contentViewController.didMove(toParent: self)
+      foregroundViewController.didMove(toParent: self)
       
       contentView.translatesAutoresizingMaskIntoConstraints = false
       
@@ -134,7 +134,7 @@ extension AnyAddingTransition {
           throw TransitionContext.Error.missingRequiredValue
         }
         
-        let content = toViewController.contentViewController
+        let content = toViewController.foregroundViewController
         
         content.view.alpha = 0
         content.view.transform = .init(scaleX: 1.2, y: 1.2)
@@ -168,7 +168,7 @@ extension AnyRemovingTransition {
           throw TransitionContext.Error.missingRequiredValue
         }
         
-        let content = fromViewController.contentViewController
+        let content = fromViewController.foregroundViewController
         
         let animator = UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1) {
           content.view.alpha = 0
