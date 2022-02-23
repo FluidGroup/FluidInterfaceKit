@@ -4,7 +4,7 @@ import UIKit
  A context object to interact with container view controller for transitions.
  */
 public final class AddingTransitionContext: TransitionContext {
-  
+    
   public enum CompletionEvent {
     /// Transition has been finished (no interruption was in there)
     case succeeded

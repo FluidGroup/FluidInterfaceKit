@@ -169,8 +169,7 @@ extension UIViewController {
   }
 }
 
-// MARK: Presentation and dismissal
-
+/// Push
 extension UIViewController {
   
   /**
@@ -219,6 +218,7 @@ extension UIViewController {
     transition: AnyAddingTransition? = nil
   ) {
 
+    /// to trigger `viewDidLoad` before calling `willTransition`.
     viewController.loadViewIfNeeded()
     
     viewController.willTransition(with: relation)
@@ -230,6 +230,25 @@ extension UIViewController {
     )
       
   }
+    
+  public func fluidPush(
+    _ viewController: FluidPopoverViewController,
+    target strategy: UIViewController.FluidStackFindStrategy,
+    transition: AnyAddingTransition? = nil
+  ) {
+    
+    fluidPushUnsafely(
+      viewController,
+      target: strategy,
+      transition: transition
+    )
+    
+  }
+  
+}
+
+/// Pop
+extension UIViewController {
   
   /**
    Removes this view controller from the target ``FluidStackController``.
