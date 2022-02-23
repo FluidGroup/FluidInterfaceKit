@@ -60,6 +60,7 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
     super.viewDidLoad()
     
     fluidStackContentConfiguration.contentType = .overlay
+    fluidStackContentConfiguration.capturesStatusBarAppearance = false
     
     // background
     if let backgroundViewController = backgroundViewController {
