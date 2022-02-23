@@ -1,6 +1,10 @@
 import UIKit
 
 public class TransitionContext: Equatable {
+  
+  public enum Error: Swift.Error {
+    case missingRequiredValue
+  }
 
   public static func == (
     lhs: TransitionContext,
@@ -32,5 +36,5 @@ public class TransitionContext: Equatable {
       ignoresTransform: true
     )
   }
-
+  
 }

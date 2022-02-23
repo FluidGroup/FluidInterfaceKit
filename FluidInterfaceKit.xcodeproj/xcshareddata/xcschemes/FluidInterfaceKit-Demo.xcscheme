@@ -81,6 +81,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "FLUID_LOG_FLUIDCONTROLLER"
+            value = ""
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "FLUID_LOG_PORTAL"
             value = ""
             isEnabled = "NO">

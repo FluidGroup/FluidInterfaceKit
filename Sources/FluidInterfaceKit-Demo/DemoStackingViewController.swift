@@ -128,11 +128,10 @@ private final class ContentViewController: UIViewController {
 
     Mondrian.buildSubviews(on: view) {
       LayoutContainer(attachedSafeAreaEdges: .all) {
-        [unowned self] /* trick to disable writing `self` */ in
         ZStackBlock {
-          VStackBlock {
+          VStackBlock(alignment: .leading) {
 
-            UIButton.make(title: "Add in current", color: .white) {
+            UIButton.make(title: "Add in current", color: .white) { [unowned self] in
               fluidPush(
                 ContentViewController(color: .neonRandom())
                   .fluidWrapped(
@@ -142,8 +141,18 @@ private final class ContentViewController: UIViewController {
                 relation: .hierarchicalNavigation
               )
             }
+            
+            UIButton.make(title: "Add popover in current", color: .white) { [unowned self] in
+                                                                                                             
+              fluidPush(
+                FluidPopoverViewController(
+                  content: .viewController(ContentViewController(color: .neonRandom()))
+                ),
+                target: .current
+              )
+            }
 
-            UIButton.make(title: "Add sheet", color: .white) {
+            UIButton.make(title: "Add sheet (Rideau)", color: .white) { [unowned self] in
 
               let controller = FluidRideauViewController(
                 bodyViewController: ContentViewController(color: .neonRandom()),
@@ -161,11 +170,11 @@ private final class ContentViewController: UIViewController {
               )
             }
 
-            UIButton.make(title: "Add as modal", color: .white) {
+            UIButton.make(title: "Add as modal", color: .white) { [unowned self] in
               present(ContentViewController(color: .neonRandom()), animated: true, completion: nil)
             }
 
-            UIButton.make(title: "Add Navigated", color: .white) {
+            UIButton.make(title: "Add Navigated", color: .white) { [unowned self] in
 
               let content = ContentViewController(color: .neonRandom())
               content.title = "Navigated"
@@ -179,7 +188,7 @@ private final class ContentViewController: UIViewController {
 
             }
 
-            UIButton.make(title: "Add Interactive content", color: .white) {
+            UIButton.make(title: "Add Interactive content", color: .white) { [unowned self] in
 
               fluidPush(
                 FluidViewController(
@@ -204,7 +213,7 @@ private final class ContentViewController: UIViewController {
 
             }
 
-            UIButton.make(title: "Show UIAlertController", color: .white) {
+            UIButton.make(title: "Show UIAlertController", color: .white) { [unowned self] in
               let alert = UIAlertController(title: "Hi", message: nil, preferredStyle: .alert)
               alert.addAction(
                 .init(
@@ -219,7 +228,7 @@ private final class ContentViewController: UIViewController {
 
             }
 
-            UIButton.make(title: "Add new stack", color: .white) {
+            UIButton.make(title: "Add new stack", color: .white) { [unowned self] in
 
               let padding = FluidViewController()
               let content = ContentViewController(color: .neonRandom())
@@ -246,26 +255,31 @@ private final class ContentViewController: UIViewController {
               )
             }
 
-            UIButton.make(title: "Remove all", color: .white) {
+            UIButton.make(title: "Remove all", color: .white) { [unowned self] in
 
               fluidStackContext?.removeAllViewController(transition: .springFlourish())
 
             }
 
-            UIButton.make(title: "Remove self", color: .white) {
+            UIButton.make(title: "Remove self - overriding transition", color: .white) { [unowned self] in
               fluidPop(transition: .vanishing, completion: nil)
             }
+            
+            UIButton.make(title: "Remove self", color: .white) { [unowned self] in
+              fluidPop()
+            }
 
-            UIButton.make(title: "Set title", color: .white) {
+            UIButton.make(title: "Set title", color: .white) { [unowned self] in
               self.title = "Fluid!"
             }
 
-            UIButton.make(title: "Toggle fluidIsEnabled", color: .white) {
+            UIButton.make(title: "Toggle fluidIsEnabled", color: .white) { [unowned self] in
               self.navigationItem.fluidIsEnabled.toggle()
             }
 
           }
         }
+        .padding(.horizontal, 24)
       }
     }
 
