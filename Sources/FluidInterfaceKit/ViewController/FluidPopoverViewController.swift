@@ -1,6 +1,10 @@
 import UIKit
 import ResultBuilderKit
 
+/**
+ A view controller that aims to display on ``FluidStackController``.
+ This view controller displays a content view controller as floating.
+ */
 open class FluidPopoverViewController: FluidGestureHandlingViewController {
   
   public enum Source {
@@ -10,11 +14,18 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
   
   public let backgroundViewController: UIViewController?
   public let contentViewController: UIViewController
-    
+  public let contentInset: UIEdgeInsets
+      
+  /// - Parameters:
+  ///   - content: A content that displays on foreground with floating-centered layout.
+  ///   - background: A content that display on background with full-screen layout.
   public init(
     content: Source,
-    background: Source? = nil
+    background: Source? = nil,
+    contentInset: UIEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
   ) {
+    
+    self.contentInset = contentInset
     
     switch content {
     case .view(let view):
@@ -85,13 +96,13 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
       
       NSLayoutConstraint.activate(buildArray {
         
-        contentView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        contentView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor, constant: contentInset.top)
         
-        contentView.leftAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0)
+        contentView.leftAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leftAnchor, constant: contentInset.left)
         
-        contentView.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0)
+        contentView.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: -contentInset.right)
         
-        contentView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        contentView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -contentInset.bottom)
         
         contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
