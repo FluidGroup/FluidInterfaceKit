@@ -7,7 +7,7 @@ import ResultBuilderKit
  */
 open class FluidPopoverViewController: FluidGestureHandlingViewController {
   
-  public enum Source {
+  public enum DisplayContent {
     case view(UIView)
     case viewController(UIViewController)
   }
@@ -18,11 +18,11 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
   public let sourceCodeLocation: FluidSourceCodeLocation
       
   /// - Parameters:
-  ///   - content: A content that displays on foreground with floating-centered layout.
+  ///   - foreground: A content that displays on foreground with floating-centered layout.
   ///   - background: A content that display on background with full-screen layout.
   public init(
-    content: Source,
-    background: Source? = nil,
+    foreground: DisplayContent,
+    background: DisplayContent? = nil,
     contentInset: UIEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8),
     file: StaticString = #filePath,
     line: UInt = #line
@@ -31,7 +31,7 @@ open class FluidPopoverViewController: FluidGestureHandlingViewController {
     self.sourceCodeLocation = .init(file: file, line: line)
     self.contentInset = contentInset
     
-    switch content {
+    switch foreground {
     case .view(let view):
       self.contentViewController = FluidWrapperViewController(content: .init(view: view))
     case .viewController(let viewController):
