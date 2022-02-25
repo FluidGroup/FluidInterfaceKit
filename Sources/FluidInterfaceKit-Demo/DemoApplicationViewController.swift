@@ -9,7 +9,7 @@ final class DemoApplicationController: FluidStackController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    addContentViewController(AppTabBarController(), transition: .noAnimation)
+    addContentViewController(AppTabBarController(), transition: .disabled)
   }
 
 }

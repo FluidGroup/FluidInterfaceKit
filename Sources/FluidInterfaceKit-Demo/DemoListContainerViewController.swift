@@ -15,7 +15,7 @@ final class DemoListContainerViewController: FluidStackController {
 
     let rootViewController = DemoListViewController()
     
-    addContentViewController(rootViewController, transition: .noAnimation)
+    addContentViewController(rootViewController, transition: .disabled)
 
   }
 }

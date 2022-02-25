@@ -43,19 +43,19 @@ final class FluidStackControllerTests: XCTestCase {
 
     XCTAssertEqual(stack.stackingViewControllers.count, 0)
 
-    stack.addContentViewController(UIViewController(), transition: .noAnimation)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
 
-    stack.addContentViewController(UIViewController(), transition: .noAnimation)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 2)
 
-    stack.removeLastViewController(transition: .noAnimation)
+    stack.removeLastViewController(transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
 
-    stack.removeLastViewController(transition: .noAnimation)
+    stack.removeLastViewController(transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
   }
@@ -66,20 +66,20 @@ final class FluidStackControllerTests: XCTestCase {
 
     XCTAssertEqual(stack.stackingViewControllers.count, 0)
 
-    stack.addContentViewController(UIViewController(), transition: .noAnimation)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
 
-    stack.addContentViewController(UIViewController(), transition: .noAnimation)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 2)
 
-    stack.removeLastViewController(transition: .noAnimation)
+    stack.removeLastViewController(transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
 
     // won't remove root view controller
-    stack.removeLastViewController(transition: .noAnimation)
+    stack.removeLastViewController(transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 0)
   }
@@ -98,7 +98,7 @@ final class FluidStackControllerTests: XCTestCase {
 
     XCTAssertEqual(stack.stackingViewControllers.count, 5)
 
-    stack.removeLastViewController(transition: .noAnimation)
+    stack.removeLastViewController(transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 4)
   }
@@ -199,7 +199,7 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack.stackingViewControllers.count, 2)
 
     // forwards to parent stack
-    dispatcher.fluidPop(transition: .noAnimation)
+    dispatcher.fluidPop(transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
   }
@@ -221,7 +221,7 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
 
     // forwards to parent stack
-    dispatcher.fluidPop(transition: .noAnimation)
+    dispatcher.fluidPop(transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
   }
@@ -245,7 +245,7 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack.stackingViewControllers.count, 2)
 
     // forwards to parent stack
-    dispatcher.fluidPop(transition: .noAnimation)
+    dispatcher.fluidPop(transition: .disabled)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 2)
   }
@@ -278,12 +278,12 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack2.stackingViewControllers.count, 1)
     XCTAssertEqual(stack3.stackingViewControllers.count, 2)
 
-    dispatcher1.fluidPop(transition: .noAnimation)
+    dispatcher1.fluidPop(transition: .disabled)
 
     XCTAssertEqual(stack3.stackingViewControllers.count, 1)
 
     // forwards to parent stack
-    dispatcher2.fluidPop(transition: .noAnimation)
+    dispatcher2.fluidPop(transition: .disabled)
 
     XCTAssertEqual(stack1.stackingViewControllers.count, 2)
 
@@ -309,7 +309,7 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack1.stackingViewControllers.count, 3)
     XCTAssertEqual(stack2.stackingViewControllers.count, 1)
 
-    dispatcher1.fluidPop(transition: .noAnimation)
+    dispatcher1.fluidPop(transition: .disabled)
 
     XCTAssertEqual(stack2.stackingViewControllers.count, 1)
 
@@ -323,14 +323,14 @@ final class FluidStackControllerTests: XCTestCase {
     let content2 = UIViewController()
     let stack1 = FluidStackController()
 
-    stack1.addContentViewController(content1, transition: .noAnimation)
-    stack1.addContentViewController(content1, transition: .noAnimation)
-    stack1.addContentViewController(content1, transition: .noAnimation)
+    stack1.addContentViewController(content1, transition: .disabled)
+    stack1.addContentViewController(content1, transition: .disabled)
+    stack1.addContentViewController(content1, transition: .disabled)
 
     XCTAssertEqual(stack1.stackingViewControllers.count, 1)
 
-    stack1.addContentViewController(content2, transition: .noAnimation)
-    stack1.addContentViewController(content1, transition: .noAnimation)
+    stack1.addContentViewController(content2, transition: .disabled)
+    stack1.addContentViewController(content1, transition: .disabled)
 
     XCTAssertEqual(stack1.stackingViewControllers.count, 2)
   }
@@ -339,11 +339,11 @@ final class FluidStackControllerTests: XCTestCase {
    
     let stack = FluidStackController()
 
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .disabled)
 
     XCTAssertEqual(
       stack.stackingItems.map { $0.isLoaded },
@@ -356,7 +356,7 @@ final class FluidStackControllerTests: XCTestCase {
       ]
     )
     
-    stack.removeLastViewController(transition: .noAnimation)
+    stack.removeLastViewController(transition: .disabled)
     
     XCTAssertEqual(
       stack.stackingItems.map { $0.isLoaded },
@@ -374,11 +374,11 @@ final class FluidStackControllerTests: XCTestCase {
    
     let stack = FluidStackController()
 
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
 
     XCTAssertEqual(
       stack.stackingItems.map { $0.isLoaded },
@@ -397,12 +397,12 @@ final class FluidStackControllerTests: XCTestCase {
    
     let stack = FluidStackController()
 
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .noAnimation)
-    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .noAnimation)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
+    stack.addContentViewController(ContentTypeOption(contentType: .opaque), transition: .disabled)
 
     XCTAssertEqual(
       stack.stackingItems.map { $0.isLoaded },

@@ -49,7 +49,7 @@ public struct AnyRemovingInteraction {
 
 extension AnyRemovingInteraction {
   
-  public static var noInteraction: Self {
+  public static var disabled: Self {
     return .init(handlers: [])
   }
 }
