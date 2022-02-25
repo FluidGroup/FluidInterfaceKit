@@ -20,10 +20,15 @@ public struct AnyBatchRemovingTransition {
 
 extension AnyBatchRemovingTransition {
   
-  public static var noAnimation: Self {
+  public static var disabled: Self {
     return .init { context in
       context.notifyCompleted()
     }
+  }
+  
+  @available(*, deprecated, renamed: "disabled")
+  public static var noAnimation: Self {
+    return disabled
   }
 
   public static func vanishing(duration: TimeInterval = 0.6) -> Self {

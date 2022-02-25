@@ -7,6 +7,6 @@ final class RootViewController: FluidStackController {
     
     view.backgroundColor = .systemBackground
     
-    addContentViewController(FirstViewController(), transition: .noAnimation)
+    addContentViewController(FirstViewController(), transition: .disabled)
   }
 }

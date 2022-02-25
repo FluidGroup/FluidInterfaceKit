@@ -28,7 +28,7 @@ open class FluidTransitionViewController: FluidWrapperViewController {
   func startAddingTransition(context: AddingTransitionContext) {
 
     guard let addingTransition = addingTransition else {
-      AnyAddingTransition.noAnimation.startTransition(context: context)
+      AnyAddingTransition.disabled.startTransition(context: context)
       return
     }
 
@@ -42,7 +42,7 @@ open class FluidTransitionViewController: FluidWrapperViewController {
   func startRemovingTransition(context: RemovingTransitionContext) {
 
     guard let removingTransition = removingTransition else {
-      AnyRemovingTransition.noAnimation.startTransition(context: context)
+      AnyRemovingTransition.disabled.startTransition(context: context)
       return
     }
 

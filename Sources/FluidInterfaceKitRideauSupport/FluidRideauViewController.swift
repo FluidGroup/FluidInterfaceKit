@@ -7,7 +7,7 @@ import UIKit
 
 /// An Object that displays an RideauView with Presentation.
 ///
-/// - FIXME: When specified ``.noAnimation``, it won't display anything.
+/// - FIXME: When specified ``.disabled``, it won't display anything.
 open class FluidRideauViewController: FluidTransitionViewController {
   
   /**
@@ -155,13 +155,13 @@ open class FluidRideauViewController: FluidTransitionViewController {
       if Self.supportsModalPresentation {
         
         if self.isInFluidStackController {
-          self.fluidStackContext?.removeSelf(transition: .noAnimation)
+          self.fluidStackContext?.removeSelf(transition: .disabled)
         } else {
           self.dismiss(animated: true, completion: nil)
         }
               
       } else {
-        self.fluidStackContext?.removeSelf(transition: .noAnimation)
+        self.fluidStackContext?.removeSelf(transition: .disabled)
       }
 
     }

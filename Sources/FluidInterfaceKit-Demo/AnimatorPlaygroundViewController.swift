@@ -129,7 +129,7 @@ final class AnimatorPlaygroundViewController: UIViewController {
           ]) {
             UIButton.make(title: "alpha") { [unowned self] in
 
-              let a = UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1) {
+              let a = UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1) { [unowned self] in
                 box1.alpha = state.alphaFlag ? 1 : 0
               }
               a.startAnimation()

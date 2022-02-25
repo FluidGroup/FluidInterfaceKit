@@ -119,7 +119,7 @@ open class FluidStackController: UIViewController {
     self.view.accessibilityIdentifier = "FluidStack.\(identifier?.rawValue ?? "unnamed")"
     
     if let rootViewController = rootViewController {
-      addContentViewController(rootViewController, transition: .noAnimation)
+      addContentViewController(rootViewController, transition: .disabled)
     }
     
   }
@@ -188,7 +188,7 @@ open class FluidStackController: UIViewController {
    - Parameters:
      - transition:
        a transition for adding. if view controller is type of ``TransitionViewController``, uses this transition instead of TransitionViewController's transition.
-       You may set ``.noAnimation`` to disable animation
+       You may set ``.disabled`` to disable animation
    */
   @available(*, renamed: "addContentViewController(_:transition:)")
   public func addContentViewController(
@@ -324,7 +324,7 @@ open class FluidStackController: UIViewController {
           context: newTransitionContext
         )
       } else {
-        AnyAddingTransition.noAnimation.startTransition(context: newTransitionContext)
+        AnyAddingTransition.disabled.startTransition(context: newTransitionContext)
       }
     }
 
@@ -348,7 +348,7 @@ open class FluidStackController: UIViewController {
    Add a view to display with wrapping internal view controller.
 
    - Parameters:
-     - transition: You may set ``.noAnimation`` to disable transition animation.
+     - transition: You may set ``.disabled`` to disable transition animation.
    */
 
   public func addContentView(
@@ -596,7 +596,7 @@ open class FluidStackController: UIViewController {
 
     assert(itemsToRemove.count > 0)
     
-    let transition: AnyBatchRemovingTransition = transition ?? .noAnimation
+    let transition: AnyBatchRemovingTransition = transition ?? .disabled
     
     let newTransitionContext = BatchRemovingTransitionContext(
       contentView: itemsToRemove.first!,

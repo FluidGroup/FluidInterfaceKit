@@ -24,7 +24,7 @@ final class DemoTransitionViewController: FluidStackController {
 //    rootController.navigationItem.title = "Hello"
     rootController.view.backgroundColor = .systemBackground
 
-    addContentViewController(rootController, transition: .noAnimation)
+    addContentViewController(rootController, transition: .disabled)
 
     let list = VGridView(numberOfColumns: 1)
 
@@ -74,7 +74,7 @@ final class DemoTransitionViewController: FluidStackController {
 
     let body = PlaceholderViewController(
       dismissNoAnimation: { instance in
-        instance.fluidStackContext?.removeSelf(transition: .noAnimation)
+        instance.fluidStackContext?.removeSelf(transition: .disabled)
       },
       dismissFadeOut: { instance in
         instance.fluidStackContext?.removeSelf(transition: .fadeOut())

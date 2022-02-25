@@ -98,7 +98,7 @@ final class RootViewController: FluidViewController {
     view.backgroundColor = .systemBackground
     
     // 📍
-    addContentViewController(FirstViewController(), transition: .noAnimation)
+    addContentViewController(FirstViewController(), transition: .disabled)
   }
 }
 ```
