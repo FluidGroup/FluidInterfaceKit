@@ -47,3 +47,9 @@ public struct AnyRemovingInteraction {
 
 }
 
+extension AnyRemovingInteraction {
+  
+  public static var noInteraction: Self {
+    return .init(handlers: [])
+  }
+}
