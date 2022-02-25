@@ -284,6 +284,16 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
   }
      
+  open override var debugDescription: String {
+    
+    Fluid.renderOnelineDescription(subject: self) { s in
+      [
+        ("content.bodyViewController", content.bodyViewController?.debugDescription ?? "null"),
+        ("content.view", content.view?.debugDescription ?? "null"),
+      ]
+    }
+     
+  }
 }
 
 extension FluidViewController {

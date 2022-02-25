@@ -751,17 +751,13 @@ open class FluidStackController: UIViewController {
 extension FluidStackController {
   
   open override var debugDescription: String {
-    let pointer = Unmanaged.passUnretained(self).toOpaque()
     
-    let properties: [(String, String)] = buildArray {
-                 
-      ("identifier", identifier?.rawValue ?? "null")
-      
+    Fluid.renderOnelineDescription(subject: self) { s in
+      [
+        ("identifier", identifier?.rawValue ?? "null"),
+      ]
     }
-    
-    let body = properties.map { "\($0.0) = \($0.1);" }.joined(separator: " ")
-    
-    return "<\(String(reflecting: type(of: self))): \(pointer.debugDescription); \(body)>"
+     
   }
   
 }
