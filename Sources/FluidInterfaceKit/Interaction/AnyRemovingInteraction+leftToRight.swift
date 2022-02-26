@@ -130,6 +130,7 @@ extension AnyRemovingInteraction {
             case .ended:
 
               guard let _trackingContext = trackingContext else {
+                assertionFailure()
                 return
               }
 
@@ -139,6 +140,8 @@ extension AnyRemovingInteraction {
               let velocity = gesture.velocity(in: gesture.view)
 
               if progress > 0.5 || velocity.x > 300 {
+                
+                // go to remove
 
                 let velocityX = _trackingContext.normalizedVelocity(gesture: gesture)
                 _trackingContext.animator.continueAnimation(
@@ -150,6 +153,8 @@ extension AnyRemovingInteraction {
                 )
 
               } else {
+                
+                // back to cancel
 
                 _trackingContext.animator.stopAnimation(true)
                 let animator = UIViewPropertyAnimator(duration: 0.62, dampingRatio: 1) {

@@ -271,6 +271,15 @@ open class FluidStackController: UIViewController {
         assert(Thread.isMainThread)
         
         guard let self = self else { return }
+        
+        defer {
+          if self.state.latestTransitionContext == context {
+            // handling offload
+            if self.configuration.isOffloadViewsEnabled {
+              self.updateOffloadingItems()
+            }
+          }
+        }
 
         guard context.isInvalidated == false else {
           Log.debug(.stack, "\(context) was invalidated, skips adding")
@@ -278,14 +287,7 @@ open class FluidStackController: UIViewController {
         }
 
         self.setTransitionContext(viewController: viewControllerToAdd, context: nil)
-           
-        if self.state.latestAddingTransitionContext == context {
-          // handling offload
-          if self.configuration.isOffloadViewsEnabled {
-            self.updateOffloadingItems()
-          }
-        }
-        
+                          
         context.transitionSucceeded()
         
         Log.debug(.stack, self.stackingDescription())
@@ -295,7 +297,7 @@ open class FluidStackController: UIViewController {
     
     // To run offloading after latest adding transition.
     // it won't run if got invalidation by started removing-transition.
-    state.latestAddingTransitionContext = newTransitionContext
+    state.latestTransitionContext = newTransitionContext
 
     newTransitionContext.addCompletionEventHandler { event in
       completion(event)
@@ -436,6 +438,15 @@ open class FluidStackController: UIViewController {
       onAnimationCompleted: { [weak self] context in
 
         guard let self = self else { return }
+        
+        defer {
+          if self.state.latestTransitionContext == context {
+            // handling offload
+            if self.configuration.isOffloadViewsEnabled {
+              self.updateOffloadingItems()
+            }
+          }
+        }
 
         guard context.isInvalidated == false else {
           Log.debug(.stack, "\(context) was invalidated, skips removing")
@@ -470,6 +481,11 @@ open class FluidStackController: UIViewController {
         return self.addPortalView(for: source, on: viewToRemove)
       }
     )
+    
+    // To run offloading after latest adding transition.
+    // it won't run if got invalidation by started removing-transition.
+    state.latestTransitionContext = newTransitionContext
+
 
     // To enable through to make back view controller can be interactive.
     // Consequently, the user can start another transition.
@@ -682,8 +698,9 @@ open class FluidStackController: UIViewController {
     }
   }
      
+  /// Convinience method
   private func updateOffloadingItems() {
-    
+           
     let items = stackingItems
     
     guard let last = items.last else {
@@ -696,9 +713,12 @@ open class FluidStackController: UIViewController {
   }
   
   /**
+   [primitive]
    Offloads view controllers which do not need to display from their wrapper view.
    */
   private func updateOffloadingItems(displayItem: StackingPlatterView) {
+    
+    Log.debug(.stack, "Update offload \(displayItem)")
     
     let items = stackingItems
     
@@ -886,7 +906,7 @@ extension FluidStackController {
   }
 
   private struct State: Equatable {
-    weak var latestAddingTransitionContext: AddingTransitionContext?
+    weak var latestTransitionContext: TransitionContext?
   }
 
 }

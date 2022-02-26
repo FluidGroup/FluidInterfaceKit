@@ -91,31 +91,30 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
       switch handler {
       case .gestureOnLeftEdge:
         
-        if let _ = edgePanGesture {
-          return
-        }
+        let created = edgePanGesture ?? {
+          _EdgePanGestureRecognizer(
+            target: self,
+            action: #selector(handleEdgeLeftPanGesture)
+          )
+        }()
         
-        let edgeGesture = _EdgePanGestureRecognizer(
-          target: self,
-          action: #selector(handleEdgeLeftPanGesture)
-        )
-        edgeGesture.edges = .left
-        view.addGestureRecognizer(edgeGesture)
-        edgeGesture.delegate = self
-        self.edgePanGesture = edgeGesture
-        registeredGestures.append(edgeGesture)
+        self.edgePanGesture = created
+               
+        created.edges = .left
+        
+        view.addGestureRecognizer(created)
+        created.delegate = self
+        registeredGestures.append(created)
       case .gestureOnScreen:
         
-        if let _ = panGesture {
-          return
-        }
+        let created = panGesture ?? {
+          _PanGestureRecognizer(target: self, action: #selector(handlePanGesture))
+        }()
         
-        let panGesture = _PanGestureRecognizer(target: self, action: #selector(handlePanGesture))
-        view.addGestureRecognizer(panGesture)
-        panGesture.delegate = self
-        self.panGesture = panGesture
-
-        registeredGestures.append(panGesture)
+        self.panGesture = created
+        view.addGestureRecognizer(created)
+        created.delegate = self
+        registeredGestures.append(created)
       }
     }
     

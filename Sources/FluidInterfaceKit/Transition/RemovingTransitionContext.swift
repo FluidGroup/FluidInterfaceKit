@@ -55,6 +55,7 @@ public final class RemovingTransitionContext: TransitionContext {
     assert(Thread.isMainThread)
     isInvalidated = true
     callbacks.forEach { $0(.cancelled) }
+    onAnimationCompleted(self)
   }
   
   public func requestDisplayOnTop(_ source: DisplaySource) -> FluidStackController.DisplayingOnTopSubscription {
