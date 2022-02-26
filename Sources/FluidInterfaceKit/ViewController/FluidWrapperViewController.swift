@@ -1,8 +1,16 @@
 
 import UIKit
 
+public enum ViewControllerLifecycleEvent {
+  case viewDidLoad
+  case viewWillAppear
+  case viewDidAppear
+  case viewWillDisappear
+  case viewDidDisappear
+}
+
 open class FluidWrapperViewController: UIViewController {
-  
+    
   public struct Content: Equatable {
     
     /**
@@ -31,6 +39,8 @@ open class FluidWrapperViewController: UIViewController {
   public override var childForStatusBarHidden: UIViewController? {
     return content.bodyViewController
   }
+  
+  public var lifecycleEventHandler: (FluidWrapperViewController, ViewControllerLifecycleEvent) -> Void = { _, _  in }
 
   public init(content: Content?) {
 
@@ -54,6 +64,8 @@ open class FluidWrapperViewController: UIViewController {
 
   open override func viewDidLoad() {
     super.viewDidLoad()
+    
+    lifecycleEventHandler(self, .viewDidLoad)
 
     if let bodyViewController = content.bodyViewController {
       addChild(bodyViewController)
@@ -68,6 +80,30 @@ open class FluidWrapperViewController: UIViewController {
       bodyViewController.didMove(toParent: self)
     }
 
+  }
+  
+  open override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    lifecycleEventHandler(self, .viewWillAppear)
+  }
+  
+  open override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    lifecycleEventHandler(self, .viewDidAppear)
+  }
+  
+  open override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    lifecycleEventHandler(self, .viewWillDisappear)
+  }
+  
+  open override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    
+    lifecycleEventHandler(self, .viewDidDisappear)
   }
 
 }
