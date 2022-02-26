@@ -51,7 +51,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
           title: "Present as modal",
           onTap: { [unowned self] in
 
-            _display2()
+            _display_present()
           }
         )
       }
@@ -61,7 +61,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
 
   private func _display() {
 
-    let body = PlaceholderViewController { instance in
+    let body = ContentViewController { instance in
       instance.fluidPop(transition: nil, completion: nil)
     }
 
@@ -79,9 +79,9 @@ final class DemoRideauIntegrationViewController: FluidStackController {
 
   }
   
-  private func _display2() {
+  private func _display_present() {
 
-    let body = PlaceholderViewController { instance in
+    let body = ContentViewController { instance in
       instance.dismiss(animated: true, completion: nil)
     }
 
@@ -117,15 +117,15 @@ final class DemoRideauIntegrationViewController: FluidStackController {
 
 }
 
-private final class PlaceholderViewController: UIViewController {
+private final class ContentViewController: FluidStackController {
 
-  private let _dismiss: (PlaceholderViewController) -> Void
+  private let _dismiss: (ContentViewController) -> Void
 
   init(
-    dismiss: @escaping (PlaceholderViewController) -> Void
+    dismiss: @escaping (ContentViewController) -> Void
   ) {
     self._dismiss = dismiss
-    super.init(nibName: nil, bundle: nil)
+    super.init()
   }
 
   required init?(
@@ -139,17 +139,24 @@ private final class PlaceholderViewController: UIViewController {
 
     view.backgroundColor = .neonRandom()
 
-    let dismissButton = UIButton(type: .system)&>.do {
-      $0.setTitle("Dismiss", for: .normal)
-      $0.onTap { [unowned self] in
-        _dismiss(self)
-      }
-    }
-
     Mondrian.buildSubviews(on: view) {
       ZStackBlock {
         VStackBlock {
-          dismissButton
+          UIButton(type: .system)&>.do {
+            $0.setTitle("Dismiss", for: .normal)
+            $0.onTap { [unowned self] in
+              _dismiss(self)
+            }
+          }
+          
+          UIButton(type: .system)&>.do {
+            $0.setTitle("FluidPush", for: .normal)
+            $0.onTap { [unowned self] in
+              let controller = FluidViewController()
+              controller.view.backgroundColor = .neon(.yellow)
+              fluidPush(controller, target: .current, relation: .hierarchicalNavigation)
+            }
+          }
         }
       }
     }

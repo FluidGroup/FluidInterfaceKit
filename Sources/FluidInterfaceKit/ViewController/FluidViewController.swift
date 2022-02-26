@@ -60,7 +60,10 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   ///   - removingInteraction: it can be replaced later
   public init(
     content: FluidWrapperViewController.Content? = nil,
-    configuration: Configuration = .init(transition: .modalStyle, topBar: .navigation)
+    configuration: Configuration = .init(
+      transition: .init(addingTransition: nil, removingTransition: nil, removingInteraction: nil),
+      topBar: .navigation
+    )
   ) {
     
     assert({

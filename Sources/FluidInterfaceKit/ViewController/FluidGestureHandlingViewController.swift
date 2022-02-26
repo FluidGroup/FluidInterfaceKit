@@ -155,21 +155,37 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     }
 
   }
-
+  
   public func gestureRecognizer(
     _ gestureRecognizer: UIGestureRecognizer,
     shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
   ) -> Bool {
+    
+    switch gestureRecognizer {
+    case panGesture:
 
-    if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
-      return false
+      if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
+        return false
+      }
+
+      if otherGestureRecognizer is UIPanGestureRecognizer {
+        // to make ScrollView prior.
+        return false
+      }
+      
+    case edgePanGesture:
+      
+      if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
+        return false
+      }
+
+      if otherGestureRecognizer is UIPanGestureRecognizer {
+        // to make ScrollView prior.
+        return false
+      }
+    default:
+      break
     }
-
-    if otherGestureRecognizer is UIPanGestureRecognizer {
-      // to make ScrollView prior.
-      return false
-    }
-
     return true
   }
 
