@@ -374,7 +374,28 @@ extension FluidViewController {
           removingInteraction: nil
         )
       }
+      
+      /**
+       All properties are set as nil.
+       */
+      public static var empty: Self {
+        return .init(
+          addingTransition: nil,
+          removingTransition: nil,
+          removingInteraction: nil
+        )
+      }
 
+      /**
+       All properties are set as ``.disabled``
+       */
+      public static var disabled: Self {
+        return .init(
+          addingTransition: .disabled,
+          removingTransition: .disabled,
+          removingInteraction: .disabled
+        )
+      }
     }
 
     public enum TopBar {
