@@ -108,6 +108,7 @@
 		4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidViewControllerTests.swift; sourceTree = "<group>"; };
 		4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemTests.swift; sourceTree = "<group>"; };
 		4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCompositionOrderViewController.swift; sourceTree = "<group>"; };
+		4B77D3E427CA37D300007B14 /* Rideau */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Rideau; path = submodules/Rideau; sourceTree = "<group>"; };
 		4B79CAAA2792A3A0002DA1DF /* Ne */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Ne; path = submodules/Ne; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BB404E227C17146000BA6B9 /* ExampleFluidApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleFluidApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -253,6 +254,7 @@
 				4B1561B92773659200C4DE07 /* ViewRepresentationKit */,
 				4BDDF267277F509C00636B00 /* MondrianLayout */,
 				4BDDF26A277F548900636B00 /* GeometryKit */,
+				4B77D3E427CA37D300007B14 /* Rideau */,
 				4BE0AAC4277FD5620086FD7E /*  */,
 			);
 			name = Packages;

@@ -19,3 +19,6 @@
 [submodule "submodules/Ne"]
 	path = submodules/Ne
 	url = https://github.com/muukii/Ne.git
+[submodule "submodules/Rideau"]
+	path = submodules/Rideau
+	url = https://github.com/muukii/Rideau.git
