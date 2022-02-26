@@ -40,7 +40,7 @@ final class DemoListViewController: UIViewController {
 
     var viewControllerCache: [Int: FluidViewController] = [:]
 
-    let listCells: [UIView] = (0..<40).map { i in
+    let listCells: [UIView] = (0..<20).map { i in
 
       let viewModel = ViewModel()
 
@@ -96,18 +96,27 @@ final class DemoListViewController: UIViewController {
     }
 
     let content = AnyView { view in
-
-      VGridBlock(
-        columns: [
-          .init(.flexible(), spacing: 8),
-          .init(.flexible(), spacing: 8),
-        ],
-        spacing: 8
-      ) {
-        listCells
+      
+      VStackBlock(alignment: .fill) {
+        
+        UIButton.make(title: "Open") { [unowned self] in
+          let nextController = DemoListViewController()
+          fluidPush(nextController.fluidWrapped(configuration: .defaultNavigation), target: .current, relation: nil)
+        }
+        
+        VGridBlock(
+          columns: [
+            .init(.flexible(), spacing: 8),
+            .init(.flexible(), spacing: 8),
+          ],
+          spacing: 8
+        ) {
+          listCells
+        }
+        .padding(.horizontal, 32)
+        
       }
-      .padding(.horizontal, 32)
-
+      
     }
 
     scrollableContainerView.setContent(content)
