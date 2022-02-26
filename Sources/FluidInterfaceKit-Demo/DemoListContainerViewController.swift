@@ -7,7 +7,7 @@ import UIKit
 final class DemoListContainerViewController: FluidStackController {
 
   init() {
-    super.init(view: nil)
+    super.init(configuration: .init(isOffloadViewsEnabled: true))
   }
 
   override func viewDidLoad() {

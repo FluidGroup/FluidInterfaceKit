@@ -123,14 +123,27 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       switch relation {
       case .modality:
         
-        addingTransition = addingTransition ?? .modalStyle
-        removingTransition = removingTransition ?? .modalStyle
+        if addingTransition == nil {
+          addingTransition = .modalStyle
+        }
+        
+        if removingTransition == nil {
+          removingTransition = .modalStyle
+        }
         
       case .hierarchicalNavigation:
         
-        addingTransition = addingTransition ?? .navigationStyle
-        removingTransition = removingTransition ?? .navigationStyle
-        removingInteraction = removingInteraction ?? .leftToRight
+        if addingTransition == nil {
+          addingTransition = .navigationStyle
+        }
+        
+        if removingTransition == nil {
+          removingTransition = .navigationStyle
+        }
+
+        if removingInteraction == nil {
+          removingInteraction = .leftToRight
+        }
         
       default:
         break
