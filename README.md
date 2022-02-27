@@ -21,6 +21,8 @@ For instance: the history menu of the back bar button, page-sheet modal, and acc
 
 [🔗 **Detailed Documentation**](https://bit.ly/3FJxNFJ)
 
+[Docc - beta](https://muukii.github.io/FluidInterfaceKit/documentation/fluidinterfacekit)
+
 # Development Status
 
 [![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
