@@ -63,6 +63,7 @@ open class FluidStackController: UIViewController {
         self.setNeedsStatusBarAppearanceUpdate()
       }
       .startAnimation()
+      stackingViewControllersDidChange(stackingViewControllers)
     }
   }
   
@@ -72,6 +73,14 @@ open class FluidStackController: UIViewController {
 
   private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
     .weakToWeakObjects()
+  
+  open override var childForScreenEdgesDeferringSystemGestures: UIViewController? {
+    return stackingItems.last?.viewController
+  }
+  
+  open override var childForHomeIndicatorAutoHidden: UIViewController? {
+    return stackingItems.last?.viewController
+  }
 
   open override var childForStatusBarStyle: UIViewController? {
     return stackingItems.last {
@@ -132,6 +141,10 @@ open class FluidStackController: UIViewController {
   }
 
   // MARK: - Functions
+  
+  open func stackingViewControllersDidChange(_ viewControllers: [UIViewController]) {
+    
+  }
   
   public func stackingDescription() -> String {
     
@@ -251,8 +264,10 @@ open class FluidStackController: UIViewController {
     
     // Adds the view controller at the latest position.
     do {
-      stackingItems.removeAll { $0.viewController == viewControllerToAdd }
-      stackingItems.append(wrapperView)
+      var modified = stackingItems
+      modified.removeAll { $0.viewController == viewControllerToAdd }
+      modified.append(wrapperView)
+      stackingItems = modified
     }
 
     viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
@@ -765,6 +780,59 @@ open class FluidStackController: UIViewController {
     
   }
   
+  
+}
+
+/**
+ Extended type of ``FluidStackController`` for working on modal-presentation.
+ To create stacking context on modal-presentation.
+ 
+ It dismisses itself automatically when the stacking items is empty.
+ 
+ ```swift
+ let stack = PresentationFluidStackController()
+ stack.display(on: self)
+ 
+ let content = ContentViewController(color: .neonRandom())
+ stack.fluidPush(content.fluidWrapped(configuration: .defaultNavigation), target: .current, relation: .modality)
+ ```
+ */
+open class PresentationFluidStackController: FluidStackController {
+  
+  public override init(
+    identifier: Identifier? = nil,
+    view: UIView? = nil,
+    contentView: UIView? = nil,
+    configuration: Configuration = .init(retainsRootViewController: false),
+    rootViewController: UIViewController? = nil
+  ) {
+    
+    super.init(
+      identifier: identifier,
+      view: view,
+      contentView: contentView,
+      configuration: configuration,
+      rootViewController: rootViewController
+    )
+    
+    modalPresentationStyle = .overFullScreen
+    modalTransitionStyle = .crossDissolve
+  }
+    
+  /// Displays this view controller as modal-presentation on the given view controller.
+  /// - Parameter viewController: A target view controller to dispach presentation operation.
+  public func display(on viewController: UIViewController) {
+    viewController.present(self, animated: false)
+    CATransaction.flush()
+  }
+  
+  open override func stackingViewControllersDidChange(_ viewControllers: [UIViewController]) {
+    
+    if viewControllers.isEmpty {
+      dismiss(animated: false)
+    }
+    
+  }
   
 }
 

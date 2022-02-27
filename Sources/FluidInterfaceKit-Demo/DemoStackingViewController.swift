@@ -255,6 +255,17 @@ private final class ContentViewController: UIViewController {
                 transition: .modalStyle
               )
             }
+            
+            UIButton.make(title: "Display new stack on modal-presentation") { [unowned self] in
+              
+              let stack = PresentationFluidStackController()
+              stack.display(on: self)
+              
+              let content = ContentViewController(color: .neonRandom())
+              
+              stack.fluidPush(content.fluidWrapped(configuration: .defaultNavigation), target: .current, relation: .modality)
+              
+            }
 
             UIButton.make(title: "Remove all", color: .white) { [unowned self] in
 
