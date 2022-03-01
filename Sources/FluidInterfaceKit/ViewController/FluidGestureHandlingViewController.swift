@@ -26,9 +26,15 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     super.navigationController
   }
 
-  public var panGesture: UIPanGestureRecognizer?
+  public private(set) lazy var fluidPanGesture: UIPanGestureRecognizer = _PanGestureRecognizer(
+    target: self,
+    action: #selector(handlePanGesture)
+  )
 
-  public var edgePanGesture: UIScreenEdgePanGestureRecognizer?
+  public private(set) lazy var fluidScreenEdgePanGesture: UIScreenEdgePanGestureRecognizer = _EdgePanGestureRecognizer(
+    target: self,
+    action: #selector(handleEdgeLeftPanGesture)
+  )
 
   private var registeredGestures: [UIGestureRecognizer] = []
 
@@ -91,15 +97,8 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
       switch handler {
       case .gestureOnLeftEdge:
         
-        let created = edgePanGesture ?? {
-          _EdgePanGestureRecognizer(
-            target: self,
-            action: #selector(handleEdgeLeftPanGesture)
-          )
-        }()
-        
-        self.edgePanGesture = created
-               
+        let created = fluidScreenEdgePanGesture
+                       
         created.edges = .left
         
         view.addGestureRecognizer(created)
@@ -107,21 +106,16 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
         registeredGestures.append(created)
       case .gestureOnScreen:
         
-        let created = panGesture ?? {
-          _PanGestureRecognizer(target: self, action: #selector(handlePanGesture))
-        }()
+        let created = fluidPanGesture
         
-        self.panGesture = created
         view.addGestureRecognizer(created)
         created.delegate = self
         registeredGestures.append(created)
       }
     }
     
-    if let edgePanGesture = edgePanGesture, let panGesture = panGesture {
-      panGesture.require(toFail: edgePanGesture)
-    }
-    
+    fluidPanGesture.require(toFail: fluidScreenEdgePanGesture)
+      
   }
 
   @objc
@@ -162,7 +156,7 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
   ) -> Bool {
     
     switch gestureRecognizer {
-    case panGesture:
+    case fluidPanGesture:
 
       if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
         return false
@@ -173,7 +167,7 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
         return false
       }
       
-    case edgePanGesture:
+    case fluidScreenEdgePanGesture:
       
       if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
         return false
