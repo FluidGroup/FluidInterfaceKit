@@ -278,8 +278,6 @@ open class FluidStackController: UIViewController {
       stackingItems = modified
     }
 
-    viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
-
     assert(viewControllerToAdd.view.superview != nil)
     assert(viewControllerToAdd.view.superview is StackingPlatterView)
 
@@ -1021,11 +1019,23 @@ public struct FluidStackDispatchContext {
 
 /// A context object that communicates with ``FluidStackController``.
 /// Associated with the view controller displayed on the stack.
-public struct FluidStackContext {
-
+public final class FluidStackContext: Equatable {
+  
+  public static func == (lhs: FluidStackContext, rhs: FluidStackContext) -> Bool {
+    lhs === rhs
+  }
+      
   public private(set) weak var fluidStackController: FluidStackController?
   public private(set) weak var targetViewController: UIViewController?
-
+  
+  init(
+    fluidStackController: FluidStackController,
+    targetViewController: UIViewController
+  ) {
+    self.fluidStackController = fluidStackController
+    self.targetViewController = targetViewController
+  }
+  
   /**
    Adds view controller to parent container if it presents.
    */
