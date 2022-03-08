@@ -321,19 +321,19 @@ open class FluidStackController: UIViewController {
 
   }
 
-  @available(iOS 13.0, *)
-  @discardableResult
-  @MainActor
-  public func addContentViewController(
-    _ viewControllerToAdd: UIViewController,
-    transition: AnyAddingTransition?
-  ) async -> AddingTransitionContext.CompletionEvent {
-    return await withCheckedContinuation { continuation in
-      addContentViewController(viewControllerToAdd, transition: transition) { result in
-        continuation.resume(returning: result)
-      }
-    }
-  }
+//  @available(iOS 13.0, *)
+//  @discardableResult
+//  @MainActor
+//  public func addContentViewController(
+//    _ viewControllerToAdd: UIViewController,
+//    transition: AnyAddingTransition?
+//  ) async -> AddingTransitionContext.CompletionEvent {
+//    return await withCheckedContinuation { continuation in
+//      addContentViewController(viewControllerToAdd, transition: transition) { result in
+//        continuation.resume(returning: result)
+//      }
+//    }
+//  }
 
   /**
    Add a view to display with wrapping internal view controller.
@@ -355,19 +355,19 @@ open class FluidStackController: UIViewController {
 
   }
 
-  @available(iOS 13.0, *)
-  @discardableResult
-  @MainActor
-  public func addContentView(
-    _ view: UIView,
-    transition: AnyAddingTransition?
-  ) async -> AddingTransitionContext.CompletionEvent {
-    return await withCheckedContinuation { continuation in
-      addContentView(view, transition: transition) { result in
-        continuation.resume(returning: result)
-      }
-    }
-  }
+//  @available(iOS 13.0, *)
+//  @discardableResult
+//  @MainActor
+//  public func addContentView(
+//    _ view: UIView,
+//    transition: AnyAddingTransition?
+//  ) async -> AddingTransitionContext.CompletionEvent {
+//    return await withCheckedContinuation { continuation in
+//      addContentView(view, transition: transition) { result in
+//        continuation.resume(returning: result)
+//      }
+//    }
+//  }
 
   /**
    Starts removing transaction for interaction.
