@@ -219,7 +219,7 @@ open class FluidStackController: UIViewController {
     
     // Trigger `viewDidLoad` explicitly.
     viewControllerToAdd.loadViewIfNeeded()
-      
+          
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
       let context = FluidStackContext(
@@ -230,19 +230,19 @@ open class FluidStackController: UIViewController {
       viewControllerToAdd.fluidStackContext = context
     }
     
-    let wrapperView: StackingPlatterView
-    
-    if let currentWrapperView = viewControllerToAdd.view.superview as? StackingPlatterView {
-      // reuse
-      wrapperView = currentWrapperView
-    } else {
-      // create new one
-      let containerView = StackingPlatterView(
-        viewController: viewControllerToAdd,
-        frame: self.view.bounds
-      )
-      wrapperView = containerView
-    }
+    let wrapperView: StackingPlatterView = {
+      if let currentWrapperView = viewControllerToAdd.view.superview as? StackingPlatterView {
+        // reuse
+        return currentWrapperView
+      } else {
+        // create new one
+        let containerView = StackingPlatterView(
+          viewController: viewControllerToAdd,
+          frame: self.view.bounds
+        )
+        return containerView
+      }
+    }()
 
     if viewControllerToAdd.parent != self {
       

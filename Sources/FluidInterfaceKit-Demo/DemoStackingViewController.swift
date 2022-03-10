@@ -288,6 +288,10 @@ private final class ContentViewController: UIViewController {
             UIButton.make(title: "Toggle fluidIsEnabled", color: .white) { [unowned self] in
               self.navigationItem.fluidIsEnabled.toggle()
             }
+            
+            UITextField()&>.do {
+              $0.placeholder = "TextField"
+            }
 
           }
         }
