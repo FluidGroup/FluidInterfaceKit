@@ -47,13 +47,17 @@ open class FluidStackController: UIViewController {
 
   /// The view controller at the top of the stack.
   public var topViewController: UIViewController? {
-    return stackingItems.last?.viewController
+    return topItem?.viewController
   }
 
   /// An array of view controllers currently managed.
   /// Might be different with ``UIViewController.children``.
   public var stackingViewControllers: [UIViewController] {
     stackingItems.map { $0.viewController }
+  }
+  
+  private var topItem: StackingPlatterView? {
+    stackingItems.last
   }
 
   private(set) var stackingItems: [StackingPlatterView] = [] {
@@ -217,9 +221,13 @@ open class FluidStackController: UIViewController {
 
     assert(Thread.isMainThread)
     
+    /// Save current first-responder from the current displaying view controller.
+    /// To restore it when back to this view controller as the top - ``FluidStackController/StackingPlatterView/restoreResponderState()``
+    topItem?.saveResponderState()
+    
     // Trigger `viewDidLoad` explicitly.
     viewControllerToAdd.loadViewIfNeeded()
-      
+          
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
       let context = FluidStackContext(
@@ -230,19 +238,19 @@ open class FluidStackController: UIViewController {
       viewControllerToAdd.fluidStackContext = context
     }
     
-    let wrapperView: StackingPlatterView
-    
-    if let currentWrapperView = viewControllerToAdd.view.superview as? StackingPlatterView {
-      // reuse
-      wrapperView = currentWrapperView
-    } else {
-      // create new one
-      let containerView = StackingPlatterView(
-        viewController: viewControllerToAdd,
-        frame: self.view.bounds
-      )
-      wrapperView = containerView
-    }
+    let wrapperView: StackingPlatterView = {
+      if let currentWrapperView = viewControllerToAdd.view.superview as? StackingPlatterView {
+        // reuse
+        return currentWrapperView
+      } else {
+        // create new one
+        let containerView = StackingPlatterView(
+          viewController: viewControllerToAdd,
+          frame: self.view.bounds
+        )
+        return containerView
+      }
+    }()
 
     if viewControllerToAdd.parent != self {
       
@@ -482,6 +490,8 @@ open class FluidStackController: UIViewController {
         viewToRemove.removeFromSuperview()
 
         context.transitionSucceeded()
+        
+        self.topItem?.restoreResponderState()
 
         Log.debug(.stack, self.stackingDescription())
         
@@ -658,6 +668,8 @@ open class FluidStackController: UIViewController {
         }
                       
         context.transitionSucceeded()
+        
+        self.topItem?.restoreResponderState()
         
         Log.debug(.stack, self.stackingDescription())
       }
@@ -908,6 +920,8 @@ extension FluidStackController {
   final class StackingPlatterView: UIView {
     
     private(set) var isLoaded: Bool = true
+    
+    private(set) weak var restoreFirstResponderTarget: UIResponder?
 
     var isTouchThroughEnabled = true
     
@@ -955,6 +969,15 @@ extension FluidStackController {
       isLoaded = false
       
       viewController.view.removeFromSuperview()
+    }
+    
+    func saveResponderState() {
+      restoreFirstResponderTarget = viewController.currentFirstResponder()
+      restoreFirstResponderTarget?.resignFirstResponder()
+    }
+    
+    func restoreResponderState() {
+      restoreFirstResponderTarget?.becomeFirstResponder()
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
