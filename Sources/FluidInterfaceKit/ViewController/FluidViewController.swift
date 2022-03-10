@@ -153,6 +153,8 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       }
     }
   }
+  
+  // MARK: - UIViewController
 
   open override func viewDidLoad() {
     super.viewDidLoad()
@@ -244,10 +246,14 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     state.viewBounds = view.bounds
 
   }
+  
+  // MARK: - UINavigationBarDelegate
 
   public func position(for bar: UIBarPositioning) -> UIBarPosition {
     return .topAttached
   }
+  
+  // MARK: - Others
 
   private func stateDidUpdate(state: State, previous: State) {
 
