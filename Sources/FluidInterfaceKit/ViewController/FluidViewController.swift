@@ -158,26 +158,36 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
   open override func viewDidLoad() {
     super.viewDidLoad()
-    
-    // neccessary for using standalone UINavigationBar top-attached.
-    // it's weird, specifying topAttached, and setting additionalSafeArea, _UIBarBackground will be extended too long.
-    view.clipsToBounds = true
-
+        
     switch configuration.topBar {
     case .navigation(let navigation):
+      
+      // neccessary for using standalone UINavigationBar top-attached.
+      // it's weird, specifying topAttached, and setting additionalSafeArea, _UIBarBackground will be extended too long.
+      // https://developer.apple.com/forums/thread/701463
+      let navigationBarContainerView = UIView()
+      navigationBarContainerView.accessibilityIdentifier = "FluidInterfaceKit.NavigationBarContainer"
+      navigationBarContainerView.clipsToBounds = true
 
       let navigationBar = navigation.navigationBarClass.init()
 
       navigationBar.delegate = self
 
-      view.addSubview(navigationBar)
-
-      navigationBar.translatesAutoresizingMaskIntoConstraints = false
-
+      view.addSubview(navigationBarContainerView)
+      navigationBarContainerView.translatesAutoresizingMaskIntoConstraints = false
       NSLayoutConstraint.activate([
-        navigationBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-        navigationBar.rightAnchor.constraint(equalTo: view.rightAnchor),
-        navigationBar.leftAnchor.constraint(equalTo: view.leftAnchor),
+        navigationBarContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        navigationBarContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+        navigationBarContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+        navigationBarContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+      ])
+      
+      navigationBarContainerView.addSubview(navigationBar)
+      navigationBar.translatesAutoresizingMaskIntoConstraints = false
+      NSLayoutConstraint.activate([
+        navigationBar.bottomAnchor.constraint(equalTo: navigationBarContainerView.bottomAnchor),
+        navigationBar.rightAnchor.constraint(equalTo: navigationBarContainerView.rightAnchor),
+        navigationBar.leftAnchor.constraint(equalTo: navigationBarContainerView.leftAnchor),
       ])
 
       let targetNavigationItem =
@@ -261,6 +271,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
       if !state.isTopBarHidden && state.isTopBarAvailable {
         topBar.isHidden = false
+        topBar.layoutIfNeeded()
         additionalSafeAreaInsets.top = topBar.frame.height
       } else {
         topBar.isHidden = true
