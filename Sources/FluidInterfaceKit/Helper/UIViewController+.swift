@@ -2,6 +2,14 @@ import ObjectiveC
 import UIKit
 
 extension UIViewController {
+  
+  func currentFirstResponder() -> UIResponder? {
+    if isFirstResponder {
+      return self
+    }
+    
+    return view.currentFirstResponder()
+  }
 
   /**
    Returns all ``FluidStackController``s in hierachy of the ``UIWindow``.

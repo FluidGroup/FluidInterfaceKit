@@ -1,4 +1,3 @@
-
 import UIKit
 
 extension UIView {
@@ -9,4 +8,20 @@ extension UIView {
     isHidden = false
   }
 
+}
+
+extension UIView {
+  func currentFirstResponder() -> UIResponder? {
+    if isFirstResponder{
+      return self
+    }
+
+    for view in subviews {
+      if let responder = view.currentFirstResponder() {
+        return responder
+      }
+    }
+
+    return nil
+  }
 }
