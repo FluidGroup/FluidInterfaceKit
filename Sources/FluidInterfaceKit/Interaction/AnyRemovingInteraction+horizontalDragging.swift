@@ -58,7 +58,6 @@ extension AnyRemovingInteraction {
                 transitionContext: transitionContext,
                 disclosedView: sourceView,
                 destinationComponent: destinationComponent,
-                destinationMirroViewProvider: .portal(view: destinationComponent.contentView, hidesSourceOnUsing: true),
                 gestureVelocity: .zero
               )
             case .none:
@@ -231,7 +230,6 @@ extension AnyRemovingInteraction {
                     transitionContext: transitionContext,
                     disclosedView: draggingView,
                     destinationComponent: destinationComponent,
-                    destinationMirroViewProvider: .portal(view: destinationComponent.contentView, hidesSourceOnUsing: true),
                     gestureVelocity: gesture.velocity(in: gesture.view)
                   )
 

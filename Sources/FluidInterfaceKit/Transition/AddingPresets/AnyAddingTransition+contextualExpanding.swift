@@ -71,6 +71,7 @@ extension AnyAddingTransition {
         velocityForScaling: 0
       )
 
+      // move to top-left
       let translationForSnapshot = Geometry.centerAndScale(
         from: entrypointSnapshotView.frame,
         to: .init(origin: .zero, size: entrypointSnapshotView.frame.size)

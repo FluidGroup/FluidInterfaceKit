@@ -16,7 +16,6 @@ extension AnyRemovingTransition {
         transitionContext: context,
         disclosedView: sourceView,
         destinationComponent: destinationComponent,
-        destinationMirroViewProvider: .portal(view: destinationComponent.contentView, hidesSourceOnUsing: true),
         gestureVelocity: .zero
       )
       
@@ -34,7 +33,6 @@ extension AnyRemovingInteraction {
       transitionContext: RemovingTransitionContext,
       disclosedView: UIView,
       destinationComponent: ContextualTransitionSourceComponentType,
-      destinationMirroViewProvider: AnyMirrorViewProvider,
       gestureVelocity: CGPoint?
     ) {
       
@@ -52,7 +50,8 @@ extension AnyRemovingInteraction {
       fromViewMirror.alpha = 1
       fromViewMirror.frame = transitionContext.fromViewController.view.frame
                         
-      let entrypointSnapshotView = destinationMirroViewProvider.view()
+      let entrypointSnapshotView = PortalView(sourceView: destinationComponent.contentView)
+      entrypointSnapshotView.hidesSourceLayer = true
       
       let displayingSubscription = transitionContext.requestDisplayOnTop(.view(reparentingView))
 

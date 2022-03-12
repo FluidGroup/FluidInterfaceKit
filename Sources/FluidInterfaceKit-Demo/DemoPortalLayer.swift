@@ -58,6 +58,8 @@ final class DemoPortalLayerViewController: UIViewController {
     
     let portalView2 = PortalView()
     
+    portalView2.transform = .init(scaleX: 2, y: 2)
+    
     Mondrian.buildSubviews(on: view) {
 
       ZStackBlock {
