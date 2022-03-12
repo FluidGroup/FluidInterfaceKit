@@ -122,7 +122,7 @@ extension UIViewController {
   
   private var _associated: _Associated {
     assert(Thread.isMainThread)
-    if let created = objc_getAssociatedObject(self, &_fluid_associated_key) as? _Associated else {
+    if let created = objc_getAssociatedObject(self, &_fluid_associated_key) as? _Associated {
       return created
     }
     let new = _Associated()
