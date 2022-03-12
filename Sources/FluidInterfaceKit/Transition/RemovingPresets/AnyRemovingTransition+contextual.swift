@@ -5,8 +5,7 @@ import UIKit
 extension AnyRemovingTransition {
 
   public static func contextual(
-    destinationComponent: ContextualTransitionSourceComponentType,
-    destinationMirroViewProvider: AnyMirrorViewProvider
+    destinationComponent: ContextualTransitionSourceComponentType
   ) -> Self {
 
     return .init { context in
@@ -17,7 +16,7 @@ extension AnyRemovingTransition {
         transitionContext: context,
         disclosedView: sourceView,
         destinationComponent: destinationComponent,
-        destinationMirroViewProvider: destinationMirroViewProvider,
+        destinationMirroViewProvider: .portal(view: destinationComponent.contentView, hidesSourceOnUsing: true),
         gestureVelocity: .zero
       )
       
