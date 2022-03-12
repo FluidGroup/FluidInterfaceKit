@@ -73,6 +73,9 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
   
   /**
    Adds closure that handles completion events (``CompletionEvent``)
+   
+   Use-cases:
+   - Trigger to clean up transient resources for this transition.
    */
   public func addCompletionEventHandler(_ closure: @escaping (CompletionEvent) -> Void) {
     assert(Thread.isMainThread)
