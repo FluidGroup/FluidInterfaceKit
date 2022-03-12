@@ -106,10 +106,6 @@ extension UIViewController {
 
 }
 
-private var fluidStackContextRef: Void?
-private var fluidActionHandlerRef: Void?
-private var fluidStackContentConfigurationRef: Void?
-
 private var _fluid_associated_key: Void?
 
 private final class _Associated {
@@ -132,28 +128,45 @@ extension UIViewController {
 
   /// A struct that configures how to display in ``FluidStackController``
   public var fluidStackContentConfiguration: FluidStackContentConfiguration {
-    get {
-      _associated.fluidStackContentConfiguration
-    }
-    set {
-      _associated.fluidStackContentConfiguration = newValue
-    }
+    get { _associated.fluidStackContentConfiguration }
+    set { _associated.fluidStackContentConfiguration = newValue }
   }
   
+  /// A collection of registered action handlers.
   public var fluidStackActionHandlers: [(FluidStackAction) -> Void] {
-    get {
-      _associated.fluidStackActionHandlers
-    }
-    set {
-      _associated.fluidStackActionHandlers = newValue
-    }
+    get { _associated.fluidStackActionHandlers }
+    set { _associated.fluidStackActionHandlers = newValue }
   }
   
+  /// Registers closure to handle actions from ``FluidStackController``.
   public func addFluidStackActionHandler(_ handler: @escaping (FluidStackAction) -> Void) {
     fluidStackActionHandlers.append(handler)
   }
   
+  /**
+   Propagates action to this view controller and its children.
+   Won't be over other FluidStackController.
+   */
   func propagateStackAction(_ action: FluidStackAction) {
+    
+    func _propagateRecursively(viewController: UIViewController) {
+      
+      guard (viewController is FluidStackController) == false else {
+        return
+      }
+      
+      viewController.fluidStackActionHandlers.forEach {
+        $0(action)
+      }
+      
+      // propagates to children
+      for viewController in viewController.children {
+        // recursive
+        _propagateRecursively(viewController: viewController)
+      }
+    }
+    
+    _propagateRecursively(viewController: self)
     
   }
 
