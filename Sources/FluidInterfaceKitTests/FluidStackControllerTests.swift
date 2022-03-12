@@ -418,6 +418,24 @@ final class FluidStackControllerTests: XCTestCase {
 
   }
   
+  func testPopInStack() {
+    
+    let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 0)
+    
+    let controller = UIViewController()
+
+    stack.addContentViewController(controller, transition: .disabled)
+    
+    XCTAssertEqual(stack.stackingViewControllers.count, 1)
+    
+    stack.topViewController!.fluidPop(transition: .disabled)
+    
+    XCTAssertEqual(stack.stackingViewControllers.count, 0)
+    
+  }
+  
   final class ContentTypeOption: UIViewController {
     init(contentType: FluidStackContentConfiguration.ContentType) {
       super.init(nibName: nil, bundle: nil)
