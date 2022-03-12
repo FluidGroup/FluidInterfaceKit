@@ -53,13 +53,11 @@ final class DemoListViewController: UIViewController {
             fluidPush(cached, target: .current, relation: .hierarchicalNavigation, transition: nil)
 
           } else {
-            
-            let snapshot = AnyMirrorViewProvider.portal(view: view.contentView)
-            
+                        
             let controller = DemoListDetailViewController(
               viewModel: viewModel,
               removingTransitionProvider: {
-                .contextual(destinationComponent: view, destinationMirroViewProvider: snapshot)
+                .contextual(destinationComponent: view)
               }
             )
             
