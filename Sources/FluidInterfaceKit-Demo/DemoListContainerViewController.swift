@@ -73,8 +73,7 @@ final class DemoListViewController: UIViewController {
                   removingTransition: nil,
                   removingInteraction: .horizontalDragging(
                     backwardingMode: .shape(
-                      destinationComponent: view,
-                      destinationMirroViewProvider: snapshot
+                      destinationComponent: view
                     ),
                     hidingViews: [view.contentView]
                   )
