@@ -3,7 +3,7 @@ import UIKit
 /**
  A context object to interact with container view controller for transitions.
  */
-public final class RemovingTransitionContext: TransitionContext {
+public final class RemovingTransitionContext: TransitionContext, CustomReflectable {
   
   public enum CompletionEvent {
     /// Transition has been finished (no interruption was in there)
@@ -91,5 +91,16 @@ public final class RemovingTransitionContext: TransitionContext {
       isInvalidated == true || isCompleted == true,
       "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
     )
+  }
+  
+  public var customMirror: Mirror {
+    
+    .init(
+      self,
+      children: [
+        "toViewController": toViewController as Any,
+        "fromViewController": fromViewController
+      ])
+    
   }
 }
