@@ -106,41 +106,68 @@ extension UIViewController {
 
 }
 
-private var fluidStackContextRef: Void?
-private var fluidActionHandlerRef: Void?
-private var fluidStackContentConfigurationRef: Void?
+private var _fluid_associated_key: Void?
+
+private final class _Associated {
+  var fluidStackContentConfiguration: FluidStackContentConfiguration = .init()
+  var fluidStackContext: FluidStackContext?
+  var fluidStackActionHandlers: [(FluidStackAction) -> Void] = []
+}
 
 extension UIViewController {
+  
+  private var _associated: _Associated {
+    assert(Thread.isMainThread)
+    if let created = objc_getAssociatedObject(self, &_fluid_associated_key) as? _Associated {
+      return created
+    }
+    let new = _Associated()
+    objc_setAssociatedObject(self, &_fluid_associated_key, new, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    return new
+  }
 
   /// A struct that configures how to display in ``FluidStackController``
   public var fluidStackContentConfiguration: FluidStackContentConfiguration {
-    get {
-      (objc_getAssociatedObject(self, &fluidStackContentConfigurationRef)
-        as? FluidStackContentConfiguration) ?? .init()
-    }
-    set {
-      objc_setAssociatedObject(
-        self,
-        &fluidStackContentConfigurationRef,
-        newValue,
-        .OBJC_ASSOCIATION_COPY_NONATOMIC
-      )
-    }
+    get { _associated.fluidStackContentConfiguration }
+    set { _associated.fluidStackContentConfiguration = newValue }
   }
-
-  /// A closure that ``FluidStackController`` invokes when raised activities.
-  public var fluidStackActionHandler: ((FluidStackAction) -> Void)? {
-    get {
-      objc_getAssociatedObject(self, &fluidActionHandlerRef) as? (FluidStackAction) -> Void
+  
+  /// A collection of registered action handlers.
+  public var fluidStackActionHandlers: [(FluidStackAction) -> Void] {
+    get { _associated.fluidStackActionHandlers }
+    set { _associated.fluidStackActionHandlers = newValue }
+  }
+  
+  /// Registers closure to handle actions from ``FluidStackController``.
+  public func addFluidStackActionHandler(_ handler: @escaping (FluidStackAction) -> Void) {
+    fluidStackActionHandlers.append(handler)
+  }
+  
+  /**
+   Propagates action to this view controller and its children.
+   Won't be over other FluidStackController.
+   */
+  func propagateStackAction(_ action: FluidStackAction) {
+    
+    func _propagateRecursively(viewController: UIViewController) {
+      
+      guard (viewController is FluidStackController) == false else {
+        return
+      }
+      
+      viewController.fluidStackActionHandlers.forEach {
+        $0(action)
+      }
+      
+      // propagates to children
+      for viewController in viewController.children {
+        // recursive
+        _propagateRecursively(viewController: viewController)
+      }
     }
-    set {
-      objc_setAssociatedObject(
-        self,
-        &fluidActionHandlerRef,
-        newValue,
-        .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-      )
-    }
+    
+    _propagateRecursively(viewController: self)
+    
   }
 
   /// [Get]: Returns a stored instance or nearest parent's one.
@@ -148,7 +175,8 @@ extension UIViewController {
   public internal(set) var fluidStackContext: FluidStackContext? {
     get {
 
-      guard let object = objc_getAssociatedObject(self, &fluidStackContextRef) as? FluidStackContext
+      guard
+        let object = _associated.fluidStackContext
       else {
         if parent is FluidStackController {
           // stop find
@@ -161,17 +189,7 @@ extension UIViewController {
 
     }
     set {
-
-      objc_setAssociatedObject(
-        self,
-        &fluidStackContextRef,
-        newValue,
-        .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-      )
-
-      if let newValue = newValue {
-        fluidStackActionHandler?(.didSetContext(newValue))
-      }
+      _associated.fluidStackContext = newValue
     }
 
   }

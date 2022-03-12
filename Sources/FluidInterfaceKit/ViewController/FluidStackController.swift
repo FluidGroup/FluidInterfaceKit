@@ -4,8 +4,7 @@ import ResultBuilderKit
 
 /// Actions that comes from ``FluidStackController``
 public enum FluidStackAction {
-  case didSetContext(FluidStackContext)
-  case didDisplay
+  case willPop
 }
 
 /// A struct that configures how to display in ``FluidStackController``
@@ -200,14 +199,15 @@ open class FluidStackController: UIViewController {
   }
 
   /**
-   Add a view controller to display
+   Add a view controller to display.
+   This is a primitive operation to add view controller to display.
+   ``UIViewController/fluidPush`` runs this method internally.
 
    - Parameters:
      - transition:
        a transition for adding. if view controller is type of ``TransitionViewController``, uses this transition instead of TransitionViewController's transition.
        You may set ``.disabled`` to disable animation
    */
-  @available(*, renamed: "addContentViewController(_:transition:)")
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?,
@@ -277,8 +277,6 @@ open class FluidStackController: UIViewController {
       modified.append(wrapperView)
       stackingItems = modified
     }
-
-    viewControllerToAdd.fluidStackActionHandler?(.didDisplay)
 
     assert(viewControllerToAdd.view.superview != nil)
     assert(viewControllerToAdd.view.superview is StackingPlatterView)
@@ -355,20 +353,6 @@ open class FluidStackController: UIViewController {
 
   }
 
-//  @available(iOS 13.0, *)
-//  @discardableResult
-//  @MainActor
-//  public func addContentViewController(
-//    _ viewControllerToAdd: UIViewController,
-//    transition: AnyAddingTransition?
-//  ) async -> AddingTransitionContext.CompletionEvent {
-//    return await withCheckedContinuation { continuation in
-//      addContentViewController(viewControllerToAdd, transition: transition) { result in
-//        continuation.resume(returning: result)
-//      }
-//    }
-//  }
-
   /**
    Add a view to display with wrapping internal view controller.
 
@@ -388,20 +372,6 @@ open class FluidStackController: UIViewController {
     addContentViewController(viewController, transition: transition, completion: completion)
 
   }
-
-//  @available(iOS 13.0, *)
-//  @discardableResult
-//  @MainActor
-//  public func addContentView(
-//    _ view: UIView,
-//    transition: AnyAddingTransition?
-//  ) async -> AddingTransitionContext.CompletionEvent {
-//    return await withCheckedContinuation { continuation in
-//      addContentView(view, transition: transition) { result in
-//        continuation.resume(returning: result)
-//      }
-//    }
-//  }
 
   /**
    Starts removing transaction for interaction.
@@ -453,6 +423,8 @@ open class FluidStackController: UIViewController {
         return nil
       }
     }()
+    
+    viewToRemove.viewController.propagateStackAction(.willPop)
     
     let newTransitionContext = RemovingTransitionContext(
       contentView: viewToRemove,
@@ -1021,11 +993,23 @@ public struct FluidStackDispatchContext {
 
 /// A context object that communicates with ``FluidStackController``.
 /// Associated with the view controller displayed on the stack.
-public struct FluidStackContext {
-
+public final class FluidStackContext: Equatable {
+  
+  public static func == (lhs: FluidStackContext, rhs: FluidStackContext) -> Bool {
+    lhs === rhs
+  }
+      
   public private(set) weak var fluidStackController: FluidStackController?
   public private(set) weak var targetViewController: UIViewController?
-
+  
+  init(
+    fluidStackController: FluidStackController,
+    targetViewController: UIViewController
+  ) {
+    self.fluidStackController = fluidStackController
+    self.targetViewController = targetViewController
+  }
+  
   /**
    Adds view controller to parent container if it presents.
    */

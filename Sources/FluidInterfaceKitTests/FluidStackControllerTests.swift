@@ -436,6 +436,33 @@ final class FluidStackControllerTests: XCTestCase {
     
   }
   
+  func testPropagationActions() {
+    
+    let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
+    
+    let otherStack = FluidStackController(configuration: .init(retainsRootViewController: false))
+    
+    otherStack.addFluidStackActionHandler { action in
+      XCTFail()
+    }
+    
+    let exp = expectation(description: "called")
+    exp.expectedFulfillmentCount = 1
+    
+    let controller = FluidWrapperViewController(content: .init(bodyViewController: otherStack))
+    controller.addFluidStackActionHandler { action in
+      exp.fulfill()
+    }
+    
+    let wrapper = FluidWrapperViewController(content: .init(bodyViewController: controller))
+    
+    stack.fluidPush(wrapper.fluidWrapped(configuration: .defaultModal), target: .current, relation: .modality)
+    
+    stack.topViewController?.fluidPop()
+    
+    wait(for: [exp], timeout: 1)
+  }
+  
   final class ContentTypeOption: UIViewController {
     init(contentType: FluidStackContentConfiguration.ContentType) {
       super.init(nibName: nil, bundle: nil)
