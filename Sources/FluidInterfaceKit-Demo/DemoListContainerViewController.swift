@@ -68,9 +68,7 @@ final class DemoListViewController: UIViewController {
               configuration: .init(
                 transition: .init(
                   addingTransition: .contextualExpanding(
-                    from: view,
-                    entrypointMirrorViewProvider: snapshot,
-                    hidingViews: [view]
+                    from: view
                   ),
                   removingTransition: nil,
                   removingInteraction: .horizontalDragging(

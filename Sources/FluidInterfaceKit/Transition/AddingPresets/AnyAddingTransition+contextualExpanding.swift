@@ -5,22 +5,13 @@ import ResultBuilderKit
 extension AnyAddingTransition {
 
   public static func contextualExpanding(
-    from entrypointView: UIView,
-    entrypointMirrorViewProvider: AnyMirrorViewProvider,
-    hidingViews: [UIView]
+    from entrypointView: UIView
   ) -> Self {
 
     return .init { (context: AddingTransitionContext) in
       
-      let entrypointSnapshotView = entrypointMirrorViewProvider.view()
-
-      // FIXME: tmp impl
-      BatchApplier(hidingViews).setInvisible(true)
-
-      context.addCompletionEventHandler { event in
-        BatchApplier(hidingViews).setInvisible(false)
-      }
-
+      let entrypointSnapshotView = AnyMirrorViewProvider.portal(view: entrypointView, hidesSourceOnUsing: true).view()
+    
       let maskView = UIView()
       maskView.backgroundColor = .black
 
