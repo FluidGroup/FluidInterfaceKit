@@ -4,6 +4,8 @@ import ResultBuilderKit
 
 /// Actions that comes from ``FluidStackController``
 public enum FluidStackAction {
+  /// dispatches after viewDidLoad
+  case willPush
   case willPop
 }
 
@@ -227,6 +229,9 @@ open class FluidStackController: UIViewController {
     
     // Trigger `viewDidLoad` explicitly.
     viewControllerToAdd.loadViewIfNeeded()
+    
+    // propagate after `viewDidLoad`
+    viewControllerToAdd.propagateStackAction(.willPush)
           
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
