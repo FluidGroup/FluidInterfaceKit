@@ -264,6 +264,12 @@ extension UIViewController {
    - Parameters:
      - transition: You may set ``AnyRemovingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
      - fowardingToParent: Forwards to parent to pop if current stack do not have view controller to pop. No effects if the current stack prevents it by ``FluidStackController/Configuration-swift.struct/preventsFowardingPop``
+   
+   - Warning: To run this method to ``FluidStackController`` does not mean to pop the current top view controller.
+   A way to pop the top view controller:
+   ```
+   stackController.topViewController?.fluidPop()
+   ```
    */
   public func fluidPop(
     transition: AnyRemovingTransition? = nil,
