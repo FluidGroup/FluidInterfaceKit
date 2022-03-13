@@ -129,8 +129,14 @@ public enum Fluid {
   public static func setFrameAsIdentity(_ frame: CGRect, for view: UIView) {
 
     let center = Geometry.center(of: frame)
-    view.bounds.size = frame.size
-    view.center = center
+    
+    if view.bounds.size != frame.size {
+      view.bounds.size = frame.size
+    }
+    
+    if view.center != center {
+      view.center = center
+    }
 
   }
 
