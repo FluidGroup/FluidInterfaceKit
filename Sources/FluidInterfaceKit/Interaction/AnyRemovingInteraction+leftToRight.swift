@@ -130,7 +130,7 @@ extension AnyRemovingInteraction {
             case .ended:
 
               guard let _trackingContext = trackingContext else {
-                assertionFailure()
+                Log.error(.default, "Got unexpedted case")
                 return
               }
 
