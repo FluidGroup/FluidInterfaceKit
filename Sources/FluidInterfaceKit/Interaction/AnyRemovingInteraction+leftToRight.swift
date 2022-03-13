@@ -58,7 +58,7 @@ extension AnyRemovingInteraction {
               break
             case .began:
 
-              break
+              fallthrough
 
             case .changed:
 
