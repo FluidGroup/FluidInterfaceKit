@@ -112,7 +112,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     
     switch configuration.topBar {
     case .navigation(let navigation):
-      navigation._activityHandler(.willTransition(self, relation, (topBar as! NavigationPlatterView).navigationBar))
+      navigation._activityHandler(.willTransition(self, relation, topBar as! UINavigationBar))
     case .custom:
       break
     case .hidden:
@@ -158,25 +158,28 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
   open override func viewDidLoad() {
     super.viewDidLoad()
-        
+    
+    // neccessary for using standalone UINavigationBar top-attached.
+    // it's weird, specifying topAttached, and setting additionalSafeArea, _UIBarBackground will be extended too long.
+    view.clipsToBounds = true
+
     switch configuration.topBar {
     case .navigation(let navigation):
-           
+
       let navigationBar = navigation.navigationBarClass.init()
-    
-      let navigationBarContainerView = NavigationPlatterView(navigationBar: navigationBar)
-         
+
       navigationBar.delegate = self
 
-      view.addSubview(navigationBarContainerView)
-      navigationBarContainerView.translatesAutoresizingMaskIntoConstraints = false
+      view.addSubview(navigationBar)
+
+      navigationBar.translatesAutoresizingMaskIntoConstraints = false
+
       NSLayoutConstraint.activate([
-        navigationBarContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-        navigationBarContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-        navigationBarContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-        navigationBarContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+        navigationBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        navigationBar.rightAnchor.constraint(equalTo: view.rightAnchor),
+        navigationBar.leftAnchor.constraint(equalTo: view.leftAnchor),
       ])
-           
+
       let targetNavigationItem =
         navigation.usesBodyViewController
         ? (content.bodyViewController?.navigationItem ?? navigationItem) : navigationItem
@@ -186,7 +189,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       navigation._activityHandler(.didLoad(self, navigationBar))
 
       // Triggers update
-      state.createdTopBar = navigationBarContainerView
+      state.createdTopBar = navigationBar
 
       subscriptions = Self.observeNavigationItem(
         navigationItem: targetNavigationItem
@@ -258,7 +261,6 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
       if !state.isTopBarHidden && state.isTopBarAvailable {
         topBar.isHidden = false
-        topBar.layoutIfNeeded()
         additionalSafeAreaInsets.top = topBar.frame.height
       } else {
         topBar.isHidden = true
@@ -484,33 +486,4 @@ extension FluidViewController {
 
   }
 
-}
-
-// neccessary for using standalone UINavigationBar top-attached.
-// it's weird, specifying topAttached, and setting additionalSafeArea, _UIBarBackground will be extended too long.
-// https://developer.apple.com/forums/thread/701463
-private final class NavigationPlatterView: UIView {
-  
-  let navigationBar: UINavigationBar
-  
-  init(navigationBar: UINavigationBar) {
-    self.navigationBar = navigationBar
-    super.init(frame: .null)
-    accessibilityIdentifier = "FluidInterfaceKit.NavigationBarContainer"
-    clipsToBounds = true
-    addSubview(navigationBar)
-    
-    navigationBar.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      navigationBar.bottomAnchor.constraint(equalTo: bottomAnchor),
-      navigationBar.rightAnchor.constraint(equalTo: rightAnchor),
-      navigationBar.leftAnchor.constraint(equalTo: leftAnchor),
-    ])
-
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
 }
