@@ -52,12 +52,12 @@ open class FluidTransitionViewController: FluidWrapperViewController {
   open override func didMove(toParent parent: UIViewController?) {    
     super.didMove(toParent: parent)
     
-    assert({
-      guard let parent = parent else {
-        return true
-      }
-      return parent is FluidStackController
-    }(), "Unsupported operation, \(self) was added into unsupported view controller. \(String(describing: parent))")
+//    assert({
+//      guard let parent = parent else {
+//        return true
+//      }
+//      return parent is FluidStackController
+//    }(), "Unsupported operation, \(self) was added into unsupported view controller. \(String(describing: parent))")
   }
 
   open override func viewDidAppear(_ animated: Bool) {
