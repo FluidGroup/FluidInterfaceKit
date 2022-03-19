@@ -105,24 +105,31 @@ extension AnyRemovingInteraction {
 
       }()
       
+      let movingDuration: TimeInterval = 0.75
+      
       Fluid.startPropertyAnimators(
         buildArray {
+          
+          // displaying view moving
           Fluid.makePropertyAnimatorsForTranformUsingCenter(
             view: fromViewMirror,
-            duration: 1,
+            duration: movingDuration,
             position: .custom(translation.center),
             scale: translation.scale,
             velocityForTranslation: velocityForAnimation,
             velocityForScaling: 8
           )
+          
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
             transitionContext.contentView.backgroundColor = .clear
           }
-          UIViewPropertyAnimator(duration: 1, dampingRatio: 0.8) {
+          
+          // entrypoint moving
+          UIViewPropertyAnimator(duration: 0.7, dampingRatio: 0.8) {
             entrypointSnapshotView.frame = transitionContext.frameInContentView(for: destinationComponent.contentView)
             entrypointSnapshotView.alpha = 1
           }
-          UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+          UIViewPropertyAnimator(duration: movingDuration, dampingRatio: 1) {
             fromViewMirror.alpha = 0
           }
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
