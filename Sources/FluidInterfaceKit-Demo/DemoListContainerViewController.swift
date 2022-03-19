@@ -174,7 +174,7 @@ final class DemoListDetailViewController: UIViewController {
         UIButton.make(title: "Dismiss") { [unowned self] in
           fluidPop(
             transition: removingTransitionProvider(),
-            completion: {}
+            completion: nil
           )
         }
 
