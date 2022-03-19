@@ -188,7 +188,10 @@ open class FluidStackController: UIViewController {
   /**
    Removes the view controller displayed on most top.
    */
-  public func removeLastViewController(transition: AnyRemovingTransition?) {
+  public func removeLastViewController(
+    transition: AnyRemovingTransition?,
+    completion: @escaping (RemovingTransitionContext.CompletionEvent) -> Void = { _ in }
+  ) {
 
     assert(Thread.isMainThread)
 
@@ -197,7 +200,11 @@ open class FluidStackController: UIViewController {
       return
     }
 
-    removeViewController(wrapperView.viewController, transition: transition)
+    removeViewController(
+      wrapperView.viewController,
+      transition: transition,
+      completion: completion
+    )
   }
 
   /**
@@ -213,7 +220,7 @@ open class FluidStackController: UIViewController {
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?,
-    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     /**
@@ -326,7 +333,7 @@ open class FluidStackController: UIViewController {
     state.latestTransitionContext = newTransitionContext
 
     newTransitionContext.addCompletionEventHandler { event in
-      completion(event)
+      completion?(event)
     }
 
     // Invalidate current transition before start new transition
@@ -368,7 +375,7 @@ open class FluidStackController: UIViewController {
   public func addContentView(
     _ view: UIView,
     transition: AnyAddingTransition?,
-    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     assert(Thread.isMainThread)
@@ -383,7 +390,8 @@ open class FluidStackController: UIViewController {
    Make sure to complete the transition with the context.
    */
   public func startRemovingForInteraction(
-    _ viewControllerToRemove: UIViewController
+    _ viewControllerToRemove: UIViewController,
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) -> RemovingTransitionContext {
 
     // Handles configuration
@@ -400,7 +408,7 @@ open class FluidStackController: UIViewController {
       preconditionFailure("Not found wrapper view to manage \(viewControllerToRemove)")
     }
 
-    return _startRemoving(viewToRemove)
+    return _startRemoving(viewToRemove, completion: completion)
   }
 
   /**
@@ -408,7 +416,8 @@ open class FluidStackController: UIViewController {
    Make sure to complete the transition with the context.
    */
   private func _startRemoving(
-    _ viewToRemove: StackingPlatterView
+    _ viewToRemove: StackingPlatterView,
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) -> RemovingTransitionContext {
 
     // Ensure it's managed
@@ -488,6 +497,9 @@ open class FluidStackController: UIViewController {
     // it won't run if got invalidation by started removing-transition.
     state.latestTransitionContext = newTransitionContext
 
+    newTransitionContext.addCompletionEventHandler { event in
+      completion?(event)
+    }
 
     // To enable through to make back view controller can be interactive.
     // Consequently, the user can start another transition.
@@ -523,7 +535,8 @@ open class FluidStackController: UIViewController {
    */
   public func removeViewController(
     _ viewControllerToRemove: UIViewController,
-    transition: AnyRemovingTransition?
+    transition: AnyRemovingTransition?,
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     // Handles configuration
@@ -548,7 +561,7 @@ open class FluidStackController: UIViewController {
       return
     }
 
-    let transitionContext = _startRemoving(viewToRemove)
+    let transitionContext = _startRemoving(viewToRemove, completion: completion)
 
     if let transition = transition {
       transition.startTransition(context: transitionContext)
@@ -1046,11 +1059,18 @@ public final class FluidStackContext: Equatable {
   /// - Parameter transition: if not nil, it would be used override parameter.
   ///
   /// See detail in ``FluidStackController/removeViewController(_:transition:)``
-  public func removeSelf(transition: AnyRemovingTransition?) {
+  public func removeSelf(
+    transition: AnyRemovingTransition?,
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
+  ) {
     guard let targetViewController = targetViewController else {
       return
     }
-    fluidStackController?.removeViewController(targetViewController, transition: transition)
+    fluidStackController?.removeViewController(
+      targetViewController,
+      transition: transition,
+      completion: completion
+    )
   }
 
   /**

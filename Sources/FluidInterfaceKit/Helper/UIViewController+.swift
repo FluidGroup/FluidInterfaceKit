@@ -208,7 +208,8 @@ extension UIViewController {
   public func fluidPushUnsafely(
     _ viewController: UIViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
-    transition: AnyAddingTransition? = nil
+    transition: AnyAddingTransition? = nil,
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
         
     let controller = viewController
@@ -226,7 +227,11 @@ extension UIViewController {
     }
         
     stackController
-      .addContentViewController(controller, transition: transition)
+      .addContentViewController(
+        controller,
+        transition: transition,
+        completion: completion
+      )
   
   }
 
@@ -241,7 +246,8 @@ extension UIViewController {
     _ viewController: FluidViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     relation: StackingRelation?,
-    transition: AnyAddingTransition? = nil
+    transition: AnyAddingTransition? = nil,
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     /// to trigger `viewDidLoad` before calling `willTransition`.
@@ -260,7 +266,8 @@ extension UIViewController {
   public func fluidPush(
     _ viewController: FluidPopoverViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
-    transition: AnyAddingTransition? = nil
+    transition: AnyAddingTransition? = nil,
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     fluidPushUnsafely(
@@ -292,7 +299,7 @@ extension UIViewController {
   public func fluidPop(
     transition: AnyRemovingTransition? = nil,
     forwardingToParent: Bool = true,
-    completion: (() -> Void)? = nil
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     guard next != nil else {
@@ -316,7 +323,7 @@ extension UIViewController {
   private func _fluidPop(
     transition: AnyRemovingTransition?,
     forwardingToParent: Bool,
-    completion: (() -> Void)?
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     guard next != nil else {
@@ -349,8 +356,11 @@ extension UIViewController {
      
     } else {
 
-      fluidStackContext.removeSelf(transition: transition)
-      completion?()
+      fluidStackContext.removeSelf(
+        transition: transition,
+        completion: completion
+      )
+      
     }
 
   }
