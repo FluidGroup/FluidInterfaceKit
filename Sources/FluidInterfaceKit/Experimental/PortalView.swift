@@ -79,6 +79,9 @@ public final class PortalView: UIView {
     isUserInteractionEnabled = false
   }
   
+  /**
+   From ``DisplaySource``, its frame comes from the source.
+   */
   public convenience init(source: DisplaySource) {
     switch source {
     case .view(let view):
@@ -88,12 +91,18 @@ public final class PortalView: UIView {
     }
   }
   
+  /**
+   From UIView, its frame comes from the given view's bounds.
+   */
   public convenience init(sourceView: UIView) {
     self.init(frame: sourceView.bounds)
     self.sourceLayer = sourceView.layer
     update(with: state)
   }
   
+  /**
+   From CALayer, its frame comes from the given layer's bounds.
+   */
   public convenience init(sourceLayer: CALayer) {
     self.init(frame: sourceLayer.bounds)
     self.sourceLayer = sourceLayer

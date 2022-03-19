@@ -58,8 +58,8 @@ final class DemoPortalLayerViewController: UIViewController {
     
     let portalView2 = PortalView()
     
-    portalView2.transform = .init(scaleX: 2, y: 2)
-    
+    let stretchView = StretchView(contentView: portalView2)
+        
     Mondrian.buildSubviews(on: view) {
 
       ZStackBlock {
@@ -75,7 +75,10 @@ final class DemoPortalLayerViewController: UIViewController {
             $0.text = "🔽 CAPortalLayer"
           }
           portalView
-          portalView2
+          stretchView
+            .viewBlock
+            .height(100)
+            .alignSelf(.fill)
           
           StackingSpacer(minLength: 8, expands: false)
           
