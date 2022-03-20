@@ -15,6 +15,8 @@ public protocol ViewControllerAssertionProhibitedPresentInFluidStack: UIViewCont
  For instance, UINavigatioBar will display from configurations including specifying which navigationItem should be used.
  
  If you annotate a view controller should not be displayed as ``FluidViewController`` and ``FluidStackController``, apply ``ViewControllerAssertionProhibitedPresentInFluidStack`` to the view controller.
+ 
+ See also: ``UIViewController/fluidStackContentConfiguration``
  */
 open class FluidViewController: FluidGestureHandlingViewController, UINavigationBarDelegate {
 
