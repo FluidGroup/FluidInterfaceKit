@@ -14,9 +14,13 @@ public protocol ViewControllerAssertionProhibitedPresentInFluidStack: UIViewCont
  This view controller has a function to display the bar on top (including UINavigationBar).
  For instance, UINavigatioBar will display from configurations including specifying which navigationItem should be used.
  
- If you annotate a view controller should not be displayed in ``FluidViewController`` and ``FluidStackController``, apply ``ViewControllerAssertionProhibitedPresentInFluidStack`` to the view controller.
+<<<<<<< Updated upstream
+ If you annotate a view controller should not be displayed as ``FluidViewController`` and ``FluidStackController``, apply ``ViewControllerAssertionProhibitedPresentInFluidStack`` to the view controller.
  
  See also: ``UIViewController/fluidStackContentConfiguration``
+=======
+ If you annotate a view controller should not be displayed in ``FluidViewController`` and ``FluidStackController``, apply ``ViewControllerAssertionProhibitedPresentInFluidStack`` to the view controller.
+>>>>>>> Stashed changes
  */
 open class FluidViewController: FluidGestureHandlingViewController, UINavigationBarDelegate {
 
