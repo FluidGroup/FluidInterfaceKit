@@ -451,7 +451,12 @@ final class FluidStackControllerTests: XCTestCase {
     
     let controller = FluidWrapperViewController(content: .init(bodyViewController: otherStack))
     controller.addFluidStackActionHandler { action in
-      exp.fulfill()
+      switch action {
+      case .willPush:
+        break
+      case .willPop:        
+        exp.fulfill()
+      }
     }
     
     let wrapper = FluidWrapperViewController(content: .init(bodyViewController: controller))
