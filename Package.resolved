@@ -1,43 +1,59 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "GeometryKit",
-        "repositoryURL": "https://github.com/muukii/GeometryKit",
-        "state": {
-          "branch": null,
-          "revision": "6cf96dcb220e1b612ba57a717234cbdbf877c009",
-          "version": "1.1.0"
-        }
-      },
-      {
-        "package": "MatchedTransition",
-        "repositoryURL": "https://github.com/muukii/MatchedTransition",
-        "state": {
-          "branch": null,
-          "revision": "acd4861e2d9687a9e44527cc3ee32b3b8c603310",
-          "version": "1.2.0"
-        }
-      },
-      {
-        "package": "ResultBuilderKit",
-        "repositoryURL": "https://github.com/muukii/ResultBuilderKit.git",
-        "state": {
-          "branch": null,
-          "revision": "e3c9485920557deee738db3bb8eb6b8e1f403c37",
-          "version": "1.1.0"
-        }
-      },
-      {
-        "package": "Rideau",
-        "repositoryURL": "https://github.com/muukii/Rideau.git",
-        "state": {
-          "branch": null,
-          "revision": "3d63a3f8ef459eb929f25903d51559b170a0b2a6",
-          "version": "2.1.1"
-        }
+  "pins" : [
+    {
+      "identity" : "geometrykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muukii/GeometryKit",
+      "state" : {
+        "revision" : "6cf96dcb220e1b612ba57a717234cbdbf877c009",
+        "version" : "1.1.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "matchedtransition",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muukii/MatchedTransition",
+      "state" : {
+        "revision" : "acd4861e2d9687a9e44527cc3ee32b3b8c603310",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "resultbuilderkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muukii/ResultBuilderKit.git",
+      "state" : {
+        "revision" : "e3c9485920557deee738db3bb8eb6b8e1f403c37",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "rideau",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muukii/Rideau.git",
+      "state" : {
+        "revision" : "3d63a3f8ef459eb929f25903d51559b170a0b2a6",
+        "version" : "2.1.1"
+      }
+    },
+    {
+      "identity" : "swift-docc-plugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-docc-plugin",
+      "state" : {
+        "branch" : "main",
+        "revision" : "859caac534e94ace18b894ccd9ed301ae4aeda84"
+      }
+    },
+    {
+      "identity" : "swift-docc-symbolkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-docc-symbolkit",
+      "state" : {
+        "branch" : "main",
+        "revision" : "224736ddcdfcba87ae92bb5c8d74e8332f218f36"
+      }
+    }
+  ],
+  "version" : 2
 }

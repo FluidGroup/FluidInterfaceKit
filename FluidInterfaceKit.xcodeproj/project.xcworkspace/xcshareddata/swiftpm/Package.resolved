@@ -38,6 +38,24 @@
         }
       },
       {
+        "package": "SwiftDocCPlugin",
+        "repositoryURL": "https://github.com/apple/swift-docc-plugin",
+        "state": {
+          "branch": "main",
+          "revision": "859caac534e94ace18b894ccd9ed301ae4aeda84",
+          "version": null
+        }
+      },
+      {
+        "package": "SymbolKit",
+        "repositoryURL": "https://github.com/apple/swift-docc-symbolkit",
+        "state": {
+          "branch": "main",
+          "revision": "224736ddcdfcba87ae92bb5c8d74e8332f218f36",
+          "version": null
+        }
+      },
+      {
         "package": "Verge",
         "repositoryURL": "https://github.com/VergeGroup/Verge",
         "state": {
