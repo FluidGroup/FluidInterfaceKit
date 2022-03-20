@@ -7,7 +7,7 @@ extension AnyRemovingTransition {
   public static func contextual(
     destinationComponent: ContextualTransitionSourceComponentType
   ) -> Self {
-
+    
     return .init { context in
       
       let sourceView = context.fromViewController.view!

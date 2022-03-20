@@ -20,6 +20,29 @@ public protocol ContextualTransitionSourceComponentType {
      - reparentingView
    */
   func requestReparentView() -> ReparentingView
+    
+}
+
+extension ContextualTransitionSourceComponentType {
+  
+  public static func unsafeComponent(from view: UIView) -> UnsafeContextualTransitionSourceComponent {
+    return .init(view: view)
+  }
+}
+
+public struct UnsafeContextualTransitionSourceComponent: ContextualTransitionSourceComponentType {
+  
+  public let contentView: UIView
+  
+  public init(view: UIView) {
+    contentView = view
+  }
+  
+  public func requestReparentView() -> ReparentingView {
+    let reparentingView = ReparentingView()
+    contentView.superview?.addSubview(reparentingView)
+    return reparentingView
+  }
 }
 
 open class ContextualTransitionSourceView: UIView, ContextualTransitionSourceComponentType {

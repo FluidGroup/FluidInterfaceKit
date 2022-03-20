@@ -72,8 +72,7 @@ final class DemoListViewController: UIViewController {
                   removingInteraction: .horizontalDragging(
                     backwardingMode: .shape(
                       destinationComponent: view
-                    ),
-                    hidingViews: [view.contentView]
+                    )
                   )
                 ),
                 topBar: .navigation

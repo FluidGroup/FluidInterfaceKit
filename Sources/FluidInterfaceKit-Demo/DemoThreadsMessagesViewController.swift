@@ -111,8 +111,7 @@ final class DemoThreadsMessagesViewController: FluidStackController {
                           backwardingMode: .instagramThreads(
                             destinationView: cell,
                             destinationMirroViewProvider: mirrorViewProvider
-                          ),
-                          hidingViews: [cell]
+                          )
                         )
                       ),
                       topBar: .navigation

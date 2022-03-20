@@ -19,8 +19,7 @@ extension AnyRemovingInteraction {
    Instagram Threads like transition
    */
   public static func horizontalDragging(
-    backwardingMode: HorizontalDraggingBackwardingMode?,
-    hidingViews: [UIView]
+    backwardingMode: HorizontalDraggingBackwardingMode?
   ) -> Self {
 
     struct TrackingContext {
@@ -100,10 +99,7 @@ extension AnyRemovingInteraction {
                   transitionContext: transitionContext
                 )
 
-                BatchApplier(hidingViews).setInvisible(true)
-
                 transitionContext.addCompletionEventHandler { event in
-                  BatchApplier(hidingViews).setInvisible(false)
                   gesture.view!.layer.cornerRadius = 0
                 }
 
