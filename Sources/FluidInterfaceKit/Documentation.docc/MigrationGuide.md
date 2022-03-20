@@ -9,6 +9,12 @@
 
 // TODO:
 
+- ``FluidViewController``
+- ``FluidPopoverViewController``
+
+Those types indicate that can display as standalone.
+On the other hand, UIViewController may need to be wrapped as those containers.
+
 ## Avoid using modal-presentation
 
 `fluidPush` fails in a modally presented view controller unless that has FluidStackController.

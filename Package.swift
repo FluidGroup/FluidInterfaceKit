@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
@@ -32,7 +32,7 @@ let package = Package(
       .upToNextMajor(from: "2.1.0")
     ),
 
-    .package(url: "https://github.com/apple/swift-docc-plugin", branch: "main"),
+//    .package(url: "https://github.com/apple/swift-docc-plugin", branch: "main"),
     
   ],
   targets: [
