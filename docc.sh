@@ -6,6 +6,6 @@ ARCHIVE_PATH=".build/Build/Products/Debug-iphoneos/FluidInterfaceKit.doccarchive
 
 $(xcrun --find docc) process-archive \
 transform-for-static-hosting $ARCHIVE_PATH \
---output-path Docs \
---hosting-base-path "muukii.github.com/FluidInterfaceKit"
+--output-path docs \
+--hosting-base-path "FluidInterfaceKit"
 
