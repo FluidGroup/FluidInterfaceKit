@@ -32,6 +32,7 @@
 		4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */; };
 		4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */; };
 		4B7410B927ACE975003D8AB5 /* DemoCompositionOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */; };
+		4B79ABBD27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */; };
 		4B97A9E527B9828E0068B330 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
 		4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */; };
 		4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */; };
@@ -109,6 +110,7 @@
 		4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemTests.swift; sourceTree = "<group>"; };
 		4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCompositionOrderViewController.swift; sourceTree = "<group>"; };
 		4B77D3E427CA37D300007B14 /* Rideau */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Rideau; path = submodules/Rideau; sourceTree = "<group>"; };
+		4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtentionTests.swift; sourceTree = "<group>"; };
 		4B79CAAA2792A3A0002DA1DF /* Ne */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Ne; path = submodules/Ne; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BB404E227C17146000BA6B9 /* ExampleFluidApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleFluidApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,6 +283,7 @@
 				4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */,
 				4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */,
 				4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */,
+				4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */,
 			);
 			path = FluidInterfaceKitTests;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */,
 				4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */,
 				4B97A9E527B9828E0068B330 /* TreeBuilder.swift in Sources */,
+				4B79ABBD27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift in Sources */,
 				4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */,
 				4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */,
 			);

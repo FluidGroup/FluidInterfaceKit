@@ -13,6 +13,7 @@ extension UIViewController {
 
   /**
    Returns all ``FluidStackController``s in hierachy of the ``UIWindow``.
+   Including the receiver if it's ``FluidStackController``.
    */
   public func fluidStackControllers() -> [FluidStackController] {
 
