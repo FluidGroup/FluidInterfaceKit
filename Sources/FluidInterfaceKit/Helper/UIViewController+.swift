@@ -285,7 +285,7 @@ extension UIViewController {
 extension UIViewController {
   
   /**
-   Removes this view controller from the target ``FluidStackController``.
+   Removes this view controller (receiver) from the target ``FluidStackController``.
 
    - Parameters:
      - transition: You may set ``AnyRemovingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
