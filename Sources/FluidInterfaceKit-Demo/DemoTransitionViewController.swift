@@ -20,8 +20,6 @@ final class DemoTransitionViewController: FluidStackController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-//    rootController.title = "Hey"
-//    rootController.navigationItem.title = "Hello"
     rootController.view.backgroundColor = .systemBackground
 
     addContentViewController(rootController, transition: .disabled)
@@ -62,6 +60,17 @@ final class DemoTransitionViewController: FluidStackController {
             _display(
               transition: .navigationStyle,
               removingInteraction: .leftToRight
+            )
+          }
+        )
+        
+        Self.makeCell(
+          title: "jump",
+          onTap: { [unowned self] in
+            
+            _display(
+              transition: .jump,
+              removingInteraction: .disabled
             )
           }
         )
