@@ -905,17 +905,18 @@ extension FluidStackController {
   }
 
   /**
-   A view that manages view controller in stack
+   A view that manages view controller in stack.
+   Has a responsibility to guard touches into behind views.
    */
-  final class StackingPlatterView: UIView {
+  public final class StackingPlatterView: UIView {
     
-    private(set) var isLoaded: Bool = true
+    public private(set) var isLoaded: Bool = true
     
     private(set) weak var restoreFirstResponderTarget: UIResponder?
 
-    var isTouchThroughEnabled = true
+    public var isTouchThroughEnabled = true
     
-    let viewController: UIViewController
+    public let viewController: UIViewController
 
     init(
       viewController: UIViewController,
@@ -933,7 +934,8 @@ extension FluidStackController {
       loadViewController()
     }
     
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }
     
@@ -970,7 +972,7 @@ extension FluidStackController {
       restoreFirstResponderTarget?.becomeFirstResponder()
     }
 
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 
       if isTouchThroughEnabled {
         let view = super.hitTest(point, with: event)

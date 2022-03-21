@@ -15,7 +15,7 @@ public final class BatchRemovingTransitionContext: TransitionContext {
     
     init(
       targetViewController: UIViewController,
-      contentView: UIView
+      contentView: FluidStackController.StackingPlatterView
     ) {
       self.targetViewController = targetViewController
       super.init(contentView: contentView)
@@ -38,7 +38,7 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   private var callbacks: [(CompletionEvent) -> Void] = []
 
   init(
-    contentView: UIView,
+    contentView: FluidStackController.StackingPlatterView,
     fromViewControllers: [UIViewController],
     toViewController: UIViewController?,
     onCompleted: @escaping (BatchRemovingTransitionContext) -> Void

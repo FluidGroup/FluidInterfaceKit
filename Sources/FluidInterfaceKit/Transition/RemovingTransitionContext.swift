@@ -28,7 +28,7 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
   private var callbacks: [(CompletionEvent) -> Void] = []
   
   init(
-    contentView: UIView,
+    contentView: FluidStackController.StackingPlatterView,
     fromViewController: UIViewController,
     toViewController: UIViewController?,
     onAnimationCompleted: @escaping (RemovingTransitionContext) -> Void,

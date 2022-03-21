@@ -17,11 +17,11 @@ public class TransitionContext: Equatable {
   /// You may work with:
   /// - setting background color for dimming.
   /// - adding snapshot(mirror) view.
-  public let contentView: UIView
+  public let contentView: FluidStackController.StackingPlatterView
 
   public internal(set) var isInvalidated: Bool = false
   
-  init(contentView: UIView) {
+  init(contentView: FluidStackController.StackingPlatterView) {
     self.contentView = contentView
   }
 
