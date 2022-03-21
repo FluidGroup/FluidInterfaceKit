@@ -38,10 +38,10 @@ open class FluidStackController: UIViewController {
   // MARK: - Properties
 
   /// A configuration
-  public let configuration: Configuration
+  public let stackConfiguration: Configuration
 
   /// an string value that identifies the instance of ``FluidStackController``.
-  public var identifier: Identifier?
+  public var stackIdentifier: Identifier?
 
   /// A content view that stays in back
   public let contentView: UIView
@@ -114,7 +114,7 @@ open class FluidStackController: UIViewController {
   ///   - identifier: ``Identifier-swift.struct`` to find the instance in hierarchy.
   ///   - view: a view that used in ``loadView()``
   ///   - contentView: a view that displays as first view in hierarchy of ``UIViewController/view``
-  ///   - configuration: ``Configuration-swift.struct``
+  ///   - stackConfiguration: ``Configuration-swift.struct``
   ///   - rootViewController: Adds as a first content
   public init(
     identifier: Identifier? = nil,
@@ -123,10 +123,10 @@ open class FluidStackController: UIViewController {
     configuration: Configuration = .init(),
     rootViewController: UIViewController? = nil
   ) {
-    self.identifier = identifier
+    self.stackIdentifier = identifier
     self.__rootView = view
     self.contentView = contentView ?? .init()
-    self.configuration = configuration
+    self.stackConfiguration = configuration
     
     super.init(nibName: nil, bundle: nil)
 
@@ -308,7 +308,7 @@ open class FluidStackController: UIViewController {
         defer {
           if self.state.latestTransitionContext == context {
             // handling offload
-            if self.configuration.isOffloadViewsEnabled {
+            if self.stackConfiguration.isOffloadViewsEnabled {
               self.updateOffloadingItems()
             }
           }
@@ -394,13 +394,13 @@ open class FluidStackController: UIViewController {
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) -> RemovingTransitionContext {
 
-    // Handles configuration
-    if configuration.retainsRootViewController,
+    // Handles stackConfiguration
+    if stackConfiguration.retainsRootViewController,
        viewControllerToRemove == stackingItems.first?.viewController
     {
       Log.error(
         .stack,
-        "the stacking will broke. Attempted to remove the view controller which displaying as root view controller. but the configuration requires to retains the root view controller."
+        "the stacking will broke. Attempted to remove the view controller which displaying as root view controller. but the stackConfiguration requires to retains the root view controller."
       )
     }
     
@@ -451,7 +451,7 @@ open class FluidStackController: UIViewController {
         defer {
           if self.state.latestTransitionContext == context {
             // handling offload
-            if self.configuration.isOffloadViewsEnabled {
+            if self.stackConfiguration.isOffloadViewsEnabled {
               self.updateOffloadingItems()
             }
           }
@@ -506,7 +506,7 @@ open class FluidStackController: UIViewController {
     viewToRemove.isTouchThroughEnabled = true
     
     // handling offload
-    if self.configuration.isOffloadViewsEnabled {
+    if self.stackConfiguration.isOffloadViewsEnabled {
       updateOffloadingItems(displayItem: backView ?? viewToRemove)
     }
     
@@ -521,7 +521,7 @@ open class FluidStackController: UIViewController {
   
   public func canRemove(viewController: UIViewController) -> Bool {
     
-    if configuration.retainsRootViewController,
+    if stackConfiguration.retainsRootViewController,
        viewController == stackingItems.first?.viewController
     {
       return false
@@ -582,7 +582,7 @@ open class FluidStackController: UIViewController {
     transition: AnyBatchRemovingTransition?
   ) {
 
-    if configuration.retainsRootViewController {
+    if stackConfiguration.retainsRootViewController {
       guard let target = stackingItems.dropFirst().first else { return }
       removeAllViewController(from: target.viewController, transition: transition)
     } else {
@@ -844,7 +844,7 @@ extension FluidStackController {
     
     Fluid.renderOnelineDescription(subject: self) { s in
       [
-        ("identifier", identifier?.rawValue ?? "null"),
+        ("stackIdentifier", stackIdentifier?.rawValue ?? "null"),
       ]
     }
      

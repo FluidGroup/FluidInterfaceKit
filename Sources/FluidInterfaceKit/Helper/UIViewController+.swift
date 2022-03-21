@@ -44,7 +44,7 @@ extension UIViewController {
     /// Finds by identifier
     public static func identifier(_ identifier: FluidStackController.Identifier) -> Self {
       .init(name: "identifier.\(identifier)") { stackControllers in
-        stackControllers.first { $0.identifier == identifier }
+        stackControllers.first { $0.stackIdentifier == identifier }
       }
     }
 
@@ -340,9 +340,9 @@ extension UIViewController {
     }
 
     if
-      stack.configuration.preventsFowardingPop == false,
+      stack.stackConfiguration.preventsFowardingPop == false,
       forwardingToParent == true,
-      stack.configuration.retainsRootViewController,
+      stack.stackConfiguration.retainsRootViewController,
       stack.stackingViewControllers.first.map({ self.isDescendant(of: $0) }) == true
     {
       
