@@ -36,12 +36,12 @@ extension AnyAddingTransition {
       
       context.contentView.backgroundColor = .clear
       
-      context.toViewController.view.transform = .init(scaleX: 0.8, y: 0.8).translatedBy(x: 0, y: 50)
+      context.toViewController.view.transform = .init(scaleX: 1.08, y: 1.08)
       context.toViewController.view.alpha = 0
       
       let animator = UIViewPropertyAnimator(
-        duration: 0.6,
-        timingParameters: UISpringTimingParameters(dampingRatio: 0.8, initialVelocity: .init(dx: 10, dy: 0))
+        duration: 0.4,
+        timingParameters: UISpringTimingParameters(dampingRatio: 1, initialVelocity: .zero)
       )
       
       animator.addAnimations {
