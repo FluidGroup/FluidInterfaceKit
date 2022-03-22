@@ -61,10 +61,12 @@ extension AnyAddingTransition {
       }
       
       context.toViewController.view.isHidden = false
+      
+      let keyDuration: TimeInterval = 0.65
 
       let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: context.toViewController.view,
-        duration: 0.7,
+        duration: keyDuration,
         position: .center(of: context.toViewController.view.bounds),
         scale: .init(x: 1, y: 1),
         velocityForTranslation: .zero,
@@ -79,7 +81,7 @@ extension AnyAddingTransition {
 
       let snapshotTranslationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
         view: entrypointSnapshotView,
-        duration: 0.7,
+        duration: keyDuration,
         position: .custom(translationForSnapshot.center),
         scale: translationForSnapshot.scale,
         velocityForTranslation: .zero,
