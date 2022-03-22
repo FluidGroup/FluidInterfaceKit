@@ -270,7 +270,10 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       }
 
     } else {
-      additionalSafeAreaInsets.top = 0
+      // nothing to do in here.
+      // here comes in case of specified `.hidden`
+      // respects subclass operations.
+      // They might manipulate additionalSafeAreaInsets for their own topbar.
     }
 
   }
