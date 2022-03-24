@@ -191,12 +191,24 @@ open class FluidRideauViewController: FluidTransitionViewController {
   }
 }
 
+private final class DeallocationTrigger {
+  
+  private let _onDeinit: () -> Void
+  
+  init(onDeinit: @escaping () -> Void) {
+    self._onDeinit = onDeinit
+  }
+
+  deinit {
+    _onDeinit()
+  }
+}
 
 extension AnyAddingTransition {
   
   public static var rideau: Self {
-    .init { context in
-      
+    .init(name: "Rideau") { context in
+           
       guard let controller = context.toViewController as? FluidRideauViewController else {
         context.notifyAnimationCompleted()
         return
@@ -238,9 +250,14 @@ extension FluidRideauViewController: UIViewControllerTransitioningDelegate {
 extension AnyRemovingTransition {
   
   public static var rideau: Self {
-    .init { context in
+    .init(name: "Rideau") { context in
+      
+      let box = DeallocationTrigger {
+        context.notifyCancelled()
+      }
       
       guard let controller = context.fromViewController as? FluidRideauViewController else {
+        assertionFailure("This animation is compatible only with FluidRideauViewController")
         context.notifyAnimationCompleted()
         return
       }
@@ -256,6 +273,7 @@ extension AnyRemovingTransition {
         animated: true,
         completion: {
           context.notifyAnimationCompleted()
+          withExtendedLifetime(box, {})
       })
              
       

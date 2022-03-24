@@ -46,13 +46,14 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
    */
   public func notifyAnimationCompleted() {
     assert(Thread.isMainThread)
-    guard isCompleted == false else { return }
+    guard isInvalidated == false, isCompleted == false else { return }
     isCompleted = true
     onAnimationCompleted(self)
   }
   
   public func notifyCancelled() {
     assert(Thread.isMainThread)
+    guard isInvalidated == false, isCompleted == false else { return }
     isInvalidated = true
     callbacks.forEach { $0(.cancelled) }
     onAnimationCompleted(self)
