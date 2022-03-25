@@ -131,15 +131,14 @@ private final class ContentViewController: UIViewController {
         ZStackBlock {
           VStackBlock(alignment: .leading) {
 
-            UIButton.make(title: "Add in current", color: .white) { [unowned self] in
-              fluidPush(
-                ContentViewController(color: .neonRandom())
-                  .fluidWrapped(
-                    configuration: .defaultNavigation
-                  ),
-                target: .current,
-                relation: .hierarchicalNavigation
-              )
+            UIButton.make(title: "Add in current - push style", color: .white) { [unowned self] in
+              _push()
+            }
+            
+            UIButton.make(title: "Add in current - modal style", color: .white) { [unowned self] in
+              Fluid.withLocalEnviroment(setup: { $0.relation = .modality }) {
+                _push()
+              }
             }
             
             UIButton.make(title: "Add popover in current", color: .white) { [unowned self] in
@@ -302,6 +301,17 @@ private final class ContentViewController: UIViewController {
       }
     }
 
+  }
+  
+  func _push() {
+    fluidPush(
+      ContentViewController(color: .neonRandom())
+        .fluidWrapped(
+          configuration: .init(transition: .empty, topBar: .navigation(.default))
+        ),
+      target: .current,
+      relation: .hierarchicalNavigation
+    )
   }
 
 }

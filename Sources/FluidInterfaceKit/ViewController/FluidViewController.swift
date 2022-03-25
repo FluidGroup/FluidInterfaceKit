@@ -460,6 +460,15 @@ extension FluidViewController {
             }
           }
         }
+        
+        public static let `default`: Self = .init(
+          displayMode: .automatic,
+          usesBodyViewController: true,
+          navigationBarClass: UINavigationBar.self,
+          activityHandler: { _ in
+            
+          }
+        )
 
       }
 

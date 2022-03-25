@@ -196,18 +196,6 @@ extension UIViewController {
   }
 }
 
-/// Push
-extension UIViewController {
-  
-  
-}
-
-/// Pop
-extension UIViewController {
-  
-  
-}
-
 extension UIViewController {
   
   func isDescendant(of viewController: UIViewController) -> Bool {
