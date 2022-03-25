@@ -5,6 +5,8 @@ extension AnyAddingTransition {
   public static var modalStyle: Self {
 
     return .init { context in
+      
+      context.disableFlexibility()
 
       context.contentView.backgroundColor = .clear
 

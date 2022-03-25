@@ -5,7 +5,7 @@ extension AnyRemovingTransition {
   public static var modalStyle: Self {
 
     return .init { context in
-
+      
       context.contentView.backgroundColor = .clear
 
       let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
