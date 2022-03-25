@@ -62,9 +62,15 @@ extension UIView {
   }
     
   public func findView<Trait>(by identifier: FluidViewIdentifier<Trait>) -> UIView? {
+      
+    return _firstViewWithIdentifier(identifier.rawIdentifier)
     
-    let window = sequence(first: superview, next: { $0?.superview }).lazy.compactMap { $0 }.first { $0 is UIWindow }
+  }
+  
+  public func findViewFromWindow<Trait>(by identifier: FluidViewIdentifier<Trait>) -> UIView? {
         
+    let window = sequence(first: superview, next: { $0?.superview }).lazy.compactMap { $0 }.first { $0 is UIWindow }
+    
     guard let window = window else {
       Log.error(.default, "\(self) is not in hierarchy")
       return nil
