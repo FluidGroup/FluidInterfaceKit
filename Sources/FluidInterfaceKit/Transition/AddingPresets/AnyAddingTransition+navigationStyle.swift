@@ -5,6 +5,8 @@ extension AnyAddingTransition {
   public static var navigationStyle: Self {
 
     return .init { context in
+      
+      context.disableFlexibility()
      
       context.toViewController.view.transform = .init(translationX: context.toViewController.view.bounds.width, y: 0)
 
