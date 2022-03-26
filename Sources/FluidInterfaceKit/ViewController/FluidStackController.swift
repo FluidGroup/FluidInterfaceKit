@@ -151,12 +151,13 @@ open class FluidStackController: UIViewController {
   public func stackingDescription() -> String {
     
     let body = stackingItems.map { item in
-      "- isLoaded: \(item.isLoaded), \(item.viewController.debugDescription)"
+      "- isLoaded: \(item.isLoaded ? "✅" : "⬜️"), \(item.viewController.debugDescription)"
     }
     .joined(separator: "\n")
     
     return """
-      Stacking: \(stackingItems.count), \(self.debugDescription)
+
+      🪜 Stacking: \(stackingItems.count), \(self.debugDescription)
       \(body)
       """
   }
@@ -320,8 +321,6 @@ open class FluidStackController: UIViewController {
                           
         context.transitionSucceeded()
         
-        Log.debug(.stack, self.stackingDescription())
-
       }
     )
     
@@ -472,9 +471,7 @@ open class FluidStackController: UIViewController {
         context.transitionSucceeded()
         
         self.topItem?.restoreResponderState()
-
-        Log.debug(.stack, self.stackingDescription())
-        
+                
       },
       onRequestedDisplayOnTop: { [weak self] source in
 
@@ -499,12 +496,13 @@ open class FluidStackController: UIViewController {
     // Consequently, the user can start another transition.
     viewToRemove.isTouchThroughEnabled = true
     
+    // set before update offloading
+    viewToRemove.swapTransitionContext(newTransitionContext)
+    
     // handling offload
     if self.stackConfiguration.isOffloadViewsEnabled {
       updateOffloadingItems(displayItem: backView ?? viewToRemove)
     }
-
-    viewToRemove.swapTransitionContext(newTransitionContext)
 
     return newTransitionContext
   }
@@ -651,7 +649,6 @@ open class FluidStackController: UIViewController {
         
         self.topItem?.restoreResponderState()
         
-        Log.debug(.stack, self.stackingDescription())
       }
     )
     
@@ -705,18 +702,23 @@ open class FluidStackController: UIViewController {
   /**
    [primitive]
    Offloads view controllers which do not need to display from their wrapper view.
+   - Parameters:
+     - displayItem: a item that supposed to be visible on top.
+   
+   - TODO: Write Test
    */
   private func updateOffloadingItems(displayItem: StackingPlatterView) {
-    
-    Log.debug(.stack, "Update offload \(displayItem)")
-    
+        
     let items = stackingItems
     
     var order: [(StackingPlatterView, Bool)] = []
           
     var offloads: Bool = false
+    // if current performing in behined given display item
     var isInBehindDisplayItem: Bool = false
         
+    // performs from most top view
+    // complex 🤷🏻‍♂️ my bad
     for item in items.reversed() {
       
       if isInBehindDisplayItem {
@@ -725,19 +727,27 @@ open class FluidStackController: UIViewController {
         } else {
           order.append((item, false))
           
-          switch item.viewController.fluidStackContentConfiguration.contentType {
-          case .opaque:
-            offloads = true
-          case .overlay:
-            break
+          if item.isTransitioning == false {
+            switch item.viewController.fluidStackContentConfiguration.contentType {
+            case .opaque:
+              offloads = true
+            case .overlay:
+              break
+            }
+          } else {
+            offloads = false
           }
         }
       } else {
         order.append((item, false))
-        switch item.viewController.fluidStackContentConfiguration.contentType {
-        case .opaque:
-          offloads = true
-        case .overlay:
+        if item.isTransitioning == false {
+          switch item.viewController.fluidStackContentConfiguration.contentType {
+          case .opaque:
+            offloads = true
+          case .overlay:
+            offloads = false
+          }
+        } else {
           offloads = false
         }
         isInBehindDisplayItem = item == displayItem
@@ -745,6 +755,7 @@ open class FluidStackController: UIViewController {
             
     }
         
+    Log.debug(.stack, "Update offload \(displayItem)")
     for (item, offloads) in order {
       if offloads {
         item.offloadViewController()
@@ -753,9 +764,10 @@ open class FluidStackController: UIViewController {
       }
     }
     
+    Log.debug(.stack, self.stackingDescription())
+    
   }
-  
-  
+    
 }
 
 /**
@@ -892,6 +904,10 @@ extension FluidStackController {
     public let viewController: UIViewController
     
     private weak var currentTransitionContext: TransitionContext?
+    
+    var isTransitioning: Bool {
+      currentTransitionContext != nil
+    }
 
     init(
       viewController: UIViewController,
