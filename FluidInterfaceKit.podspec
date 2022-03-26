@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
     ss.source_files = "Sources/FluidInterfaceKit/**/*.swift"
     ss.dependency "MatchedTransition", ">= 1.1.0"
     ss.dependency "GeometryKit", ">= 1.1.0"
-    ss.dependency "ResultBuilderKit", ">= 1.1.0"
+    ss.dependency "ResultBuilderKit", ">= 1.2.0"
   end
 
   spec.subspec "RideauSupport" do |ss|
