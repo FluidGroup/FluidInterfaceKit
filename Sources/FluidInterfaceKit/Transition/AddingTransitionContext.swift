@@ -64,13 +64,13 @@ public final class AddingTransitionContext: TransitionContext, CustomReflectable
   /**
    Makes toViewController disabled in user-interaction until finish transition.
    */
-  public func disableFlexibility() {
+  public func disableUserInteractionUntileFinish() {
     
-    var value = toViewController.view.isUserInteractionEnabled
+    let currentValue = toViewController.view.isUserInteractionEnabled
     toViewController.view.isUserInteractionEnabled = false
     
     addCompletionEventHandler { [weak self] _ in
-      self?.toViewController.view.isUserInteractionEnabled = value
+      self?.toViewController.view.isUserInteractionEnabled = currentValue
     }
     
   }

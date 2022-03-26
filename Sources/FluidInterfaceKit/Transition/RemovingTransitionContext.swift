@@ -59,6 +59,24 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
     onAnimationCompleted(self)
   }
   
+  /**
+   Makes toViewController disabled in user-interaction until finish transition.
+   */
+  public func disableUserInteractionUntileFinish() {
+    
+    guard let toViewController = toViewController else {
+      return
+    }
+    
+    let currentValue = toViewController.view.isUserInteractionEnabled
+    toViewController.view.isUserInteractionEnabled = false
+    
+    addCompletionEventHandler { [weak toViewController] _ in
+      toViewController?.view.isUserInteractionEnabled = currentValue
+    }
+    
+  }
+  
   public func requestDisplayOnTop(_ source: DisplaySource) -> FluidStackController.DisplayingOnTopSubscription {
     onRequestedDisplayOnTop(source)
   }

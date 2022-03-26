@@ -6,7 +6,7 @@ extension AnyAddingTransition {
 
     return .init { context in
       
-      context.disableFlexibility()
+      context.disableUserInteractionUntileFinish()
      
       context.toViewController.view.transform = .init(translationX: context.toViewController.view.bounds.width, y: 0)
 

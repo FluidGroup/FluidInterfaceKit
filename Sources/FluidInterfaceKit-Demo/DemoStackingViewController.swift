@@ -15,7 +15,7 @@ import UIKit
 final class DemoStackingViewController: FluidStackController {
 
   init() {
-    super.init()
+    super.init(configuration: .init(isOffloadViewsEnabled: true))
   }
 
   override func viewDidLoad() {

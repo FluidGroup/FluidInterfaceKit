@@ -32,7 +32,7 @@ extension AnyAddingTransition {
     
     return .init { context in
       
-      context.disableFlexibility()
+      context.disableUserInteractionUntileFinish()
       
       context.contentView.backgroundColor = .clear
       
