@@ -75,9 +75,6 @@ open class FluidStackController: UIViewController {
   private var state: State = .init()
 
   private let __rootView: UIView?
-
-  private var viewControllerStateMap: NSMapTable<UIViewController, TransitionContext> =
-    .weakToWeakObjects()
   
   open override var childForScreenEdgesDeferringSystemGestures: UIViewController? {
     return stackingItems.last?.viewController
@@ -154,12 +151,13 @@ open class FluidStackController: UIViewController {
   public func stackingDescription() -> String {
     
     let body = stackingItems.map { item in
-      "- isLoaded: \(item.isLoaded), \(item.viewController.debugDescription)"
+      "- isLoaded: \(item.isLoaded ? "✅" : "⬜️"), \(item.viewController.debugDescription)"
     }
     .joined(separator: "\n")
     
     return """
-      Stacking: \(stackingItems.count), \(self.debugDescription)
+
+      🪜 Stacking: \(stackingItems.count), \(self.debugDescription)
       \(body)
       """
   }
@@ -319,12 +317,10 @@ open class FluidStackController: UIViewController {
           return
         }
 
-        self.setTransitionContext(viewController: viewControllerToAdd, context: nil)
+        wrapperView.removeTransitionContext()
                           
         context.transitionSucceeded()
         
-        Log.debug(.stack, self.stackingDescription())
-
       }
     )
     
@@ -336,11 +332,7 @@ open class FluidStackController: UIViewController {
       completion?(event)
     }
 
-    // Invalidate current transition before start new transition
-    // to prevent overlapping cleanup operations by completion handlers in transition context.
-    // For instance, when animating for adding, then interrupted by cleanup operation.
-    transitionContext(viewController: viewControllerToAdd)?.invalidate()
-    setTransitionContext(viewController: viewControllerToAdd, context: newTransitionContext)
+    wrapperView.swapTransitionContext(newTransitionContext)
 
     // Start transition after invalidated current transition.
     do {
@@ -466,8 +458,9 @@ open class FluidStackController: UIViewController {
          Completion of transition, cleaning up
          */
 
+        viewToRemove.removeTransitionContext()
+        
         let viewControllerToRemove = viewToRemove.viewController
-        self.setTransitionContext(viewController: viewControllerToRemove, context: nil)
         self.stackingItems.removeAll { $0.viewController == viewControllerToRemove }
         viewControllerToRemove.fluidStackContext = nil
 
@@ -478,9 +471,7 @@ open class FluidStackController: UIViewController {
         context.transitionSucceeded()
         
         self.topItem?.restoreResponderState()
-
-        Log.debug(.stack, self.stackingDescription())
-        
+                
       },
       onRequestedDisplayOnTop: { [weak self] source in
 
@@ -505,16 +496,13 @@ open class FluidStackController: UIViewController {
     // Consequently, the user can start another transition.
     viewToRemove.isTouchThroughEnabled = true
     
+    // set before update offloading
+    viewToRemove.swapTransitionContext(newTransitionContext)
+    
     // handling offload
     if self.stackConfiguration.isOffloadViewsEnabled {
       updateOffloadingItems(displayItem: backView ?? viewToRemove)
     }
-    
-    // invalidates a current transition (mostly adding transition)
-    // it's important to do this before starting a new transition.
-    transitionContext(viewController: viewToRemove.viewController)?.invalidate()
-    // set a new context to receive invalidation from transition for adding started while removing.
-    setTransitionContext(viewController: viewToRemove.viewController, context: newTransitionContext)
 
     return newTransitionContext
   }
@@ -644,8 +632,8 @@ open class FluidStackController: UIViewController {
          */
         
         for itemToRemove in itemsToRemove {
-          
-          self.setTransitionContext(viewController: itemToRemove.viewController, context: nil)
+                    
+          itemToRemove.removeTransitionContext()
           
           itemToRemove.viewController.willMove(toParent: nil)
           itemToRemove.removeFromSuperview()
@@ -661,16 +649,11 @@ open class FluidStackController: UIViewController {
         
         self.topItem?.restoreResponderState()
         
-        Log.debug(.stack, self.stackingDescription())
       }
     )
     
     for itemToRemove in itemsToRemove {
-      transitionContext(viewController: itemToRemove.viewController)?.invalidate()
-      setTransitionContext(
-        viewController: itemToRemove.viewController,
-        context: newTransitionContext
-      )
+      itemToRemove.swapTransitionContext(newTransitionContext)
     }
     
     if let targetTopItem = targetTopItem {
@@ -679,19 +662,6 @@ open class FluidStackController: UIViewController {
     
     transition.startTransition(context: newTransitionContext)
     
-  }
-
-  private func setTransitionContext(
-    viewController: UIViewController,
-    context: TransitionContext?
-  ) {
-    viewControllerStateMap.setObject(context, forKey: viewController)
-  }
-
-  private func transitionContext(
-    viewController: UIViewController
-  ) -> TransitionContext? {
-    viewControllerStateMap.object(forKey: viewController)
   }
 
   private func addPortalView(
@@ -732,18 +702,23 @@ open class FluidStackController: UIViewController {
   /**
    [primitive]
    Offloads view controllers which do not need to display from their wrapper view.
+   - Parameters:
+     - displayItem: a item that supposed to be visible on top.
+   
+   - TODO: Write Test
    */
   private func updateOffloadingItems(displayItem: StackingPlatterView) {
-    
-    Log.debug(.stack, "Update offload \(displayItem)")
-    
+        
     let items = stackingItems
     
     var order: [(StackingPlatterView, Bool)] = []
           
     var offloads: Bool = false
+    // if current performing in behined given display item
     var isInBehindDisplayItem: Bool = false
         
+    // performs from most top view
+    // complex 🤷🏻‍♂️ my bad
     for item in items.reversed() {
       
       if isInBehindDisplayItem {
@@ -752,19 +727,27 @@ open class FluidStackController: UIViewController {
         } else {
           order.append((item, false))
           
-          switch item.viewController.fluidStackContentConfiguration.contentType {
-          case .opaque:
-            offloads = true
-          case .overlay:
-            break
+          if item.isTransitioning == false {
+            switch item.viewController.fluidStackContentConfiguration.contentType {
+            case .opaque:
+              offloads = true
+            case .overlay:
+              break
+            }
+          } else {
+            offloads = false
           }
         }
       } else {
         order.append((item, false))
-        switch item.viewController.fluidStackContentConfiguration.contentType {
-        case .opaque:
-          offloads = true
-        case .overlay:
+        if item.isTransitioning == false {
+          switch item.viewController.fluidStackContentConfiguration.contentType {
+          case .opaque:
+            offloads = true
+          case .overlay:
+            offloads = false
+          }
+        } else {
           offloads = false
         }
         isInBehindDisplayItem = item == displayItem
@@ -772,6 +755,7 @@ open class FluidStackController: UIViewController {
             
     }
         
+    Log.debug(.stack, "Update offload \(displayItem)")
     for (item, offloads) in order {
       if offloads {
         item.offloadViewController()
@@ -780,9 +764,10 @@ open class FluidStackController: UIViewController {
       }
     }
     
+    Log.debug(.stack, self.stackingDescription())
+    
   }
-  
-  
+    
 }
 
 /**
@@ -917,6 +902,12 @@ extension FluidStackController {
     public var isTouchThroughEnabled = true
     
     public let viewController: UIViewController
+    
+    private weak var currentTransitionContext: TransitionContext?
+    
+    var isTransitioning: Bool {
+      currentTransitionContext != nil
+    }
 
     init(
       viewController: UIViewController,
@@ -952,6 +943,26 @@ extension FluidStackController {
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
       }
+    }
+    
+    /**
+     Unorganized notes:
+     
+     Invalidates a current transition (mostly caused by adding transition) and set new transitionContext
+     it's important to do this before starting a new transition.
+     set a new context to receive invalidation from transition for adding started while removing.
+     
+     Invalidate current transition before start new transition
+     to prevent overlapping cleanup operations by completion handlers in transition context.
+     For instance, when animating for adding, then interrupted by cleanup operation.
+     */
+    func swapTransitionContext(_ transitionContext: TransitionContext?) {
+      currentTransitionContext?.invalidate()
+      currentTransitionContext = transitionContext
+    }
+    
+    func removeTransitionContext() {
+      currentTransitionContext = nil
     }
     
     func offloadViewController() {
