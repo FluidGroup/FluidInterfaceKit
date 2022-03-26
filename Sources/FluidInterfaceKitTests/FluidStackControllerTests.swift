@@ -477,6 +477,25 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertNotNil(controller.parent)
   }
   
+  @MainActor
+  func test_fluidPop_dereference_viewcontroller() async {
+    
+    let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
+    
+    var controller: UIViewController! = UIViewController()
+    weak var ref = controller
+    
+    stack.fluidPush(controller.fluidWrapped(configuration: .defaultModal), target: .current, relation: .modality, transition: .disabled)
+    
+    controller.fluidPop()
+    controller = nil
+    
+    try! await Task.sleep(nanoseconds: 1_000_000_000)
+    
+    XCTAssertNil(ref)
+    
+  }
+  
   final class ContentTypeOption: UIViewController {
     init(contentType: FluidStackContentConfiguration.ContentType) {
       super.init(nibName: nil, bundle: nil)
