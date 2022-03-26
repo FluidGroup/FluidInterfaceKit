@@ -14,13 +14,30 @@ private var identifierRef: Void?
 
 extension UIView {
   
-  public func setFluidViewIdentifier<Trait>(_ identifier: FluidViewIdentifier<Trait>?) {
-    _identifier = identifier?.rawIdentifier
+  /**
+   Adds an identifier to find view with ``UIView.findView``
+   */
+  public func addFluidViewIdentifier(_ identifier: FluidViewIdentifier) {
+    
+    assert(Thread.isMainThread)
+    
+    _identifiers.insert(identifier)
   }
   
-  private var _identifier: String? {
+  /**
+   Removes identifiers
+   */
+  public func removeAllFluidViewIdentifier(where condition: (FluidViewIdentifier) -> Bool = { _ in true }) {
+    
+    assert(Thread.isMainThread)
+        
+    let deleteItems = _identifiers.filter(condition)
+    _identifiers.subtract(deleteItems)
+  }
+  
+  private var _identifiers: Set<FluidViewIdentifier> {
     get {
-      objc_getAssociatedObject(self, &identifierRef) as? String
+      objc_getAssociatedObject(self, &identifierRef) as? Set<FluidViewIdentifier> ?? .init()
     }
     set {
       objc_setAssociatedObject(self, &identifierRef, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
@@ -41,7 +58,7 @@ extension UIView {
     return nil
   }
   
-  func _firstViewWithIdentifier(_ identifier: String) -> UIView? {
+  func _firstViewWithIdentifier(_ identifier: FluidViewIdentifier) -> UIView? {
     
     func __firstViewWithIdentifier(view: UIView) -> UIView? {
       
@@ -51,7 +68,7 @@ extension UIView {
         }
       }
       
-      if view._identifier == identifier {
+      if view._identifiers.contains(identifier) {
         return view
       }
       
@@ -61,13 +78,19 @@ extension UIView {
     return __firstViewWithIdentifier(view: self)
   }
     
-  public func findView<Trait>(by identifier: FluidViewIdentifier<Trait>) -> UIView? {
+  /**
+   Finds a view from this view and descandants.
+   */
+  public func findView(by identifier: FluidViewIdentifier) -> UIView? {
       
-    return _firstViewWithIdentifier(identifier.rawIdentifier)
+    return _firstViewWithIdentifier(identifier)
     
   }
   
-  public func findViewFromWindow<Trait>(by identifier: FluidViewIdentifier<Trait>) -> UIView? {
+  /**
+   Finds a view from the window this view associated.
+   */
+  public func findViewFromWindow(by identifier: FluidViewIdentifier) -> UIView? {
         
     let window = sequence(first: superview, next: { $0?.superview }).lazy.compactMap { $0 }.first { $0 is UIWindow }
     
@@ -76,18 +99,18 @@ extension UIView {
       return nil
     }
     
-    return window._firstViewWithIdentifier(identifier.rawIdentifier)
+    return window._firstViewWithIdentifier(identifier)
     
   }
   
 }
 
-public struct FluidViewIdentifier<Trait>: Hashable {
+public struct FluidViewIdentifier: Hashable {
   
   public var rawIdentifier: String
   
   public init(_ raw: String) {
-    self.rawIdentifier = "\(String(reflecting: Trait.self))|\(raw)"
+    self.rawIdentifier = raw
   }
 
   public func combined(_ raw: String) -> Self {
