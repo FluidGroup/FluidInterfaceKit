@@ -106,7 +106,7 @@ extension AnyRemovingInteraction {
 
       }()
       
-      let movingDuration: TimeInterval = 0.75
+      let movingDuration: TimeInterval = 0.65
                   
       Fluid.startPropertyAnimators(
         buildArray(elementType: UIViewPropertyAnimator.self) {
