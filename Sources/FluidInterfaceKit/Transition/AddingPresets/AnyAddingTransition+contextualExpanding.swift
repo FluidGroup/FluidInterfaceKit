@@ -28,7 +28,7 @@ extension AnyAddingTransition {
         } else {
           // Fallback on earlier versions
         }
-        maskView.layer.cornerRadius = 24
+        maskView.layer.cornerRadius = 36
 
         context.toViewController.view.mask = maskView
 
@@ -37,7 +37,8 @@ extension AnyAddingTransition {
           entrypointSnapshotView.removeFromSuperview()
         }
 
-        context.contentView.addSubview(entrypointSnapshotView)
+        context.contentView
+          .insertSubview(entrypointSnapshotView, belowSubview: context.toViewController.view)
         entrypointSnapshotView.frame = context.frameInContentView(for: entrypointView)
 
         let fromFrame = CGRect(
@@ -64,28 +65,10 @@ extension AnyAddingTransition {
       
       let keyDuration: TimeInterval = 0.65
 
-      let translationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
-        view: context.toViewController.view,
-        duration: keyDuration,
-        position: .center(of: context.toViewController.view.bounds),
-        scale: .init(x: 1, y: 1),
-        velocityForTranslation: .zero,
-        velocityForScaling: 0
-      )
-
       // move to top-left
       let translationForSnapshot = Geometry.centerAndScale(
         from: entrypointSnapshotView.frame,
-        to: .init(origin: .zero, size: entrypointSnapshotView.frame.size)
-      )
-
-      let snapshotTranslationAnimators = Fluid.makePropertyAnimatorsForTranformUsingCenter(
-        view: entrypointSnapshotView,
-        duration: keyDuration,
-        position: .custom(translationForSnapshot.center),
-        scale: translationForSnapshot.scale,
-        velocityForTranslation: .zero,
-        velocityForScaling: 0
+        to: context.toViewController.view.bounds
       )
 
       let maskAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
@@ -100,19 +83,33 @@ extension AnyAddingTransition {
       maskAnimator.addCompletion { _ in
         context.toViewController.view.mask = nil
       }
-
-      let crossfadeAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1) {
-        context.toViewController.view.alpha = 1
-        entrypointSnapshotView.alpha = 0
-        context.contentView.backgroundColor = .init(white: 0, alpha: 0.6)
-      }
-
+    
       Fluid.startPropertyAnimators(
         buildArray {
-          translationAnimators
+          /// toViewControllerTranslationAnimators
+          Fluid.makePropertyAnimatorsForTranformUsingCenter(
+            view: context.toViewController.view,
+            duration: keyDuration,
+            position: .center(of: context.toViewController.view.bounds),
+            scale: .init(x: 1, y: 1),
+            velocityForTranslation: .zero,
+            velocityForScaling: 0
+          )
           maskAnimator
-          snapshotTranslationAnimators
-          crossfadeAnimator
+          /// entrypoint mirror view animation
+          Fluid.makePropertyAnimatorsForTranformUsingCenter(
+            view: entrypointSnapshotView,
+            duration: keyDuration,
+            position: .custom(translationForSnapshot.center),
+            scale: translationForSnapshot.scale,
+            velocityForTranslation: .zero,
+            velocityForScaling: 0
+          )
+          UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1) {
+            context.toViewController.view.alpha = 1
+            entrypointSnapshotView.alpha = 0
+            context.contentView.backgroundColor = .init(white: 0, alpha: 0.6)
+          }
         },
         completion: {
           context.notifyAnimationCompleted()

@@ -48,7 +48,7 @@ public enum Fluid {
     _ animators: [UIViewPropertyAnimator],
     completion: @escaping () -> Void
   ) {
-
+    
     let group = DispatchGroup()
 
     group.enter()

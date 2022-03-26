@@ -37,28 +37,28 @@ extension AnyRemovingInteraction {
     ) {
       
       let draggingView = disclosedView
-      
-      let reparentingView = destinationComponent.requestReparentView()
-      
-      let fromViewMirror = AnyMirrorViewProvider.snapshot(caches: true, viewProvider: { transitionContext.fromViewController.view! }).view()
-      
+                 
       let maskView = UIView()
       maskView.backgroundColor = .black
-
       maskView.frame = transitionContext.fromViewController.view.bounds
+      
+      let fromViewMirror = AnyMirrorViewProvider.snapshot(caches: true, viewProvider: { transitionContext.fromViewController.view! }).view()
       fromViewMirror.mask = maskView
       fromViewMirror.alpha = 1
       fromViewMirror.frame = transitionContext.fromViewController.view.frame
                         
-      let entrypointSnapshotView = PortalView(sourceView: destinationComponent.contentView)
-      entrypointSnapshotView.hidesSourceLayer = true
+      let entrypointMirrorView = AnyMirrorViewProvider.portal(view: destinationComponent.contentView, hidesSourceOnUsing: true).view()
+      
+      let reparentingView = destinationComponent.requestReparentView()
       
       let displayingSubscription = transitionContext.requestDisplayOnTop(.view(reparentingView))
 
+      reparentingView.addSubview(entrypointMirrorView)
       reparentingView.addSubview(fromViewMirror)
-      reparentingView.addSubview(entrypointSnapshotView)
-      entrypointSnapshotView.frame = .init(origin: draggingView.frame.origin, size: destinationComponent.contentView.bounds.size)
-      entrypointSnapshotView.alpha = 1
+      
+      // places entrypoint mirror view
+      entrypointMirrorView.frame = transitionContext.fromViewController.view.frame
+      entrypointMirrorView.alpha = 0
       
       transitionContext.fromViewController.view.isHidden = true
       
@@ -66,9 +66,10 @@ extension AnyRemovingInteraction {
         transitionContext.fromViewController.view.isHidden = false
       }
 
+      // setup housekeeping
       transitionContext.addCompletionEventHandler { _ in
         reparentingView.removeFromSuperview()
-        entrypointSnapshotView.removeFromSuperview()
+        entrypointMirrorView.removeFromSuperview()
         fromViewMirror.removeFromSuperview()
         displayingSubscription.dispose()
       }
@@ -106,9 +107,9 @@ extension AnyRemovingInteraction {
       }()
       
       let movingDuration: TimeInterval = 0.75
-      
+                  
       Fluid.startPropertyAnimators(
-        buildArray {
+        buildArray(elementType: UIViewPropertyAnimator.self) {
           
           // displaying view moving
           Fluid.makePropertyAnimatorsForTranformUsingCenter(
@@ -122,20 +123,31 @@ extension AnyRemovingInteraction {
           
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
             transitionContext.contentView.backgroundColor = .clear
-          }
+          };
           
           // entrypoint moving
-          UIViewPropertyAnimator(duration: 0.7, dampingRatio: 0.8) {
-            entrypointSnapshotView.frame = transitionContext.frameInContentView(for: destinationComponent.contentView)
-            entrypointSnapshotView.alpha = 1
-          }
+          { () -> UIViewPropertyAnimator in
+            let animator = UIViewPropertyAnimator(
+              duration: movingDuration,
+              timingParameters: UISpringTimingParameters(
+                dampingRatio: 0.9,
+                initialVelocity: .zero
+              )
+            )
+            animator.addAnimations {
+              entrypointMirrorView.frame = transitionContext.frameInContentView(for: destinationComponent.contentView)
+              entrypointMirrorView.alpha = 1
+            }
+            return animator
+          }()
+          
           UIViewPropertyAnimator(duration: movingDuration, dampingRatio: 1) {
             fromViewMirror.alpha = 0
           }
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
             maskView.frame = transitionContext.fromViewController.view.bounds
             maskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
-            maskView.layer.cornerRadius = 24
+            maskView.layer.cornerRadius = 36
             if #available(iOS 13.0, *) {
               maskView.layer.cornerCurve = .continuous
             } else {

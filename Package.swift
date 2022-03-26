@@ -24,7 +24,7 @@ let package = Package(
     .package(
       name: "ResultBuilderKit",
       url: "https://github.com/muukii/ResultBuilderKit.git",
-      .upToNextMajor(from: "1.1.0")
+      .upToNextMajor(from: "1.2.0")
     ),
     .package(
       name: "Rideau",
