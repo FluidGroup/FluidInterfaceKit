@@ -467,6 +467,16 @@ final class FluidStackControllerTests: XCTestCase {
     wait(for: [exp], timeout: 1)
   }
   
+  func test_fluidPush_make_parent_tree_immediately() {
+    
+    let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
+    let controller = UIViewController()
+    
+    stack.fluidPush(controller.fluidWrapped(configuration: .defaultModal), target: .current, relation: .modality)
+
+    XCTAssertNotNil(controller.parent)
+  }
+  
   final class ContentTypeOption: UIViewController {
     init(contentType: FluidStackContentConfiguration.ContentType) {
       super.init(nibName: nil, bundle: nil)
