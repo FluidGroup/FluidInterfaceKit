@@ -19,12 +19,13 @@ extension AnyRemovingInteraction {
    Instagram Threads like transition
    */
   public static func horizontalDragging(
-    backwardingMode: HorizontalDraggingBackwardingMode?
+    backwardingMode makeBackwardingMode: @escaping () -> HorizontalDraggingBackwardingMode?
   ) -> Self {
 
     struct TrackingContext {
 
       var scrollController: ScrollController?
+      let backwardingMode: HorizontalDraggingBackwardingMode?
       let transitionContext: RemovingTransitionContext
 
     }
@@ -38,6 +39,8 @@ extension AnyRemovingInteraction {
         
           switch gesture.state {
           case .began:
+            
+            let backwardingMode = makeBackwardingMode()
 
             switch backwardingMode {
             case .instagramThreads(
@@ -80,7 +83,7 @@ extension AnyRemovingInteraction {
               break
 
             case .began, .changed:
-
+                            
               if trackingContext == nil {
 
                 guard abs(gesture.translation(in: draggingView).y) <= 10 else {
@@ -92,10 +95,13 @@ extension AnyRemovingInteraction {
                  Prepare to interact
                  */
 
+                let backwardingMode = makeBackwardingMode()
+                
                 let transitionContext = context.startRemovingTransition()
 
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
+                  backwardingMode: backwardingMode,
                   transitionContext: transitionContext
                 )
 
@@ -178,8 +184,8 @@ extension AnyRemovingInteraction {
               }
 
               if startsBackwarding {
-
-                guard let backwardingMode = backwardingMode else {
+                               
+                guard let backwardingMode = _trackingContext.backwardingMode else {
                   /// fallback
 
                   let animator = UIViewPropertyAnimator(
