@@ -37,8 +37,7 @@ extension AnyAddingTransition {
           entrypointSnapshotView.removeFromSuperview()
         }
 
-        context.contentView
-          .insertSubview(entrypointSnapshotView, belowSubview: context.toViewController.view)
+        context.contentView.addSubview(entrypointSnapshotView)
         entrypointSnapshotView.frame = context.frameInContentView(for: entrypointView)
 
         let fromFrame = CGRect(
