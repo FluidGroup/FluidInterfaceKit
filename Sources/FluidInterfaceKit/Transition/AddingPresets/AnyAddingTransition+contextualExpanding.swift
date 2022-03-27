@@ -68,7 +68,7 @@ extension AnyAddingTransition {
       // move to top-left
       let translationForSnapshot = Geometry.centerAndScale(
         from: entrypointSnapshotView.frame,
-        to: context.toViewController.view.bounds
+        to: Geometry.rectThatAspectFit(aspectRatio: entrypointSnapshotView.frame.size, boundingRect: context.toViewController.view.bounds)
       )
 
       let maskAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {

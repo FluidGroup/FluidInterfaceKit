@@ -57,7 +57,7 @@ extension AnyRemovingInteraction {
       reparentingView.addSubview(fromViewMirror)
       
       // places entrypoint mirror view
-      entrypointMirrorView.frame = transitionContext.fromViewController.view.frame
+      entrypointMirrorView.frame = Geometry.rectThatAspectFit(aspectRatio: entrypointMirrorView.frame.size, boundingRect: transitionContext.fromViewController.view.frame)
       entrypointMirrorView.alpha = 0
       
       transitionContext.fromViewController.view.isHidden = true
@@ -130,7 +130,7 @@ extension AnyRemovingInteraction {
             let animator = UIViewPropertyAnimator(
               duration: movingDuration,
               timingParameters: UISpringTimingParameters(
-                dampingRatio: 0.9,
+                dampingRatio: 0.8,
                 initialVelocity: .zero
               )
             )
