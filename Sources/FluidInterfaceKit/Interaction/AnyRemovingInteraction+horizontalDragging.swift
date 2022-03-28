@@ -19,6 +19,7 @@ extension AnyRemovingInteraction {
    Instagram Threads like transition
    */
   public static func horizontalDragging(
+    isEdgeEnabled: Bool = false,
     backwardingMode makeBackwardingMode: @escaping () -> HorizontalDraggingBackwardingMode?
   ) -> Self {
 
@@ -34,8 +35,9 @@ extension AnyRemovingInteraction {
     var trackingContext: TrackingContext?
 
     return .init(
-      handlers: [
-        .gestureOnLeftEdge { gesture, context in
+      handlers: buildArray {
+        if isEdgeEnabled {
+          .gestureOnLeftEdge { gesture, context in
         
           switch gesture.state {
           case .began:
@@ -70,7 +72,8 @@ extension AnyRemovingInteraction {
           default:
             break
           }
-        },
+        }
+        }
 
         .gestureOnScreen(
           handler: { gesture, context in
@@ -287,8 +290,8 @@ extension AnyRemovingInteraction {
               break
             }
           }
-        ),
-      ]
+        )
+      }
     )
   }
 }

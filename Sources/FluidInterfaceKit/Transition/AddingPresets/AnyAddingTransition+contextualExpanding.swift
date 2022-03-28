@@ -62,7 +62,7 @@ extension AnyAddingTransition {
       
       context.toViewController.view.isHidden = false
       
-      let keyDuration: TimeInterval = 0.65
+      let keyDuration: TimeInterval = 0.58
 
       // move to top-left
       let translationForSnapshot = Geometry.centerAndScale(
@@ -70,7 +70,7 @@ extension AnyAddingTransition {
         to: Geometry.rectThatAspectFit(aspectRatio: entrypointSnapshotView.frame.size, boundingRect: context.toViewController.view.bounds)
       )
 
-      let maskAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+      let maskAnimator = UIViewPropertyAnimator(duration: keyDuration, dampingRatio: 1) {
         maskView.transform = .identity
         maskView.frame = context.toViewController.view.bounds
       }
