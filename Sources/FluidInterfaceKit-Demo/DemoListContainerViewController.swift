@@ -70,9 +70,11 @@ final class DemoListViewController: UIViewController {
                   ),
                   removingTransition: nil,
                   removingInteraction: .horizontalDragging(
-                    backwardingMode: .shape(
-                      destinationComponent: view
-                    )
+                    backwardingMode: {
+                      .shape(
+                        destinationComponent: view
+                      )                      
+                    }
                   )
                 ),
                 topBar: .navigation
