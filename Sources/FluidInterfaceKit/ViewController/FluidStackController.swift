@@ -546,14 +546,16 @@ open class FluidStackController: UIViewController {
       
       // Removes view controllers with batch
       
+      let transition = transitionForBatch()
+      
       Log.debug(
         .stack,
-        "The removing view controller is not displaying on top. the screen won't change at the look, but the stack will change."
+        "The removing view controller is not displaying on top. it's behind of the other view controllers. Switches to batch-removing using transition: \(transition as Any)"
       )
       
       removeAllViewController(
         from: viewToRemove.viewController,
-        transition: transitionForBatch(),
+        transition: transition,
         completion: { event in
           
           switch event {
