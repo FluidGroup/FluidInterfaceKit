@@ -648,7 +648,9 @@ open class FluidStackController: UIViewController {
         
         assert(Thread.isMainThread)
         
-        guard let self = self else { return }
+        guard let self = self else {
+          return          
+        }
         
         /**
          Completion of transition, cleaning up

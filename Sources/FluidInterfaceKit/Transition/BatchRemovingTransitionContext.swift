@@ -49,6 +49,13 @@ public final class BatchRemovingTransitionContext: TransitionContext {
     super.init(contentView: contentView)
   }
 
+  deinit {
+    assert(
+      isInvalidated == true || isCompleted == true,
+      "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
+    )
+  }
+  
   public func notifyCompleted() {
     assert(Thread.isMainThread)
     isCompleted = true

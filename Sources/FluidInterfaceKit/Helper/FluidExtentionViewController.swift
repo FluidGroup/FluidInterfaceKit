@@ -134,8 +134,8 @@ extension FluidExtentionViewController {
     forwardingToParent: Bool,
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
-    
-    guard
+        
+    guard      
       let fluidStackContext = fluidStackContext,
       let stack = fluidStackContext.fluidStackController
     else {

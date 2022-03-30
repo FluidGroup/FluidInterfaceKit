@@ -254,8 +254,8 @@ final class FluidStackControllerTests: XCTestCase {
     let dispatcher1 = UIViewController()
     let dispatcher2 = UIViewController()
 
-    let stack1 = FluidStackController()
-    let stack2 = FluidStackController()
+    let stack1 = FluidStackController(identifier: .init("1"))
+    let stack2 = FluidStackController(identifier: .init("2"))
     let stack3 = FluidStackController(identifier: .init("3"))
 
     _ = VC(stack1) {
@@ -270,7 +270,7 @@ final class FluidStackControllerTests: XCTestCase {
           }
         }
       }
-      VC {}
+      VC {} // would be removed by match-removing
     }
 
     XCTAssertEqual(stack1.stackingViewControllers.count, 3)
@@ -279,12 +279,13 @@ final class FluidStackControllerTests: XCTestCase {
 
     dispatcher1.fluidPop(transition: .disabled)
 
+    // 2 -> 1
     XCTAssertEqual(stack3.stackingViewControllers.count, 1)
 
     // forwards to parent stack
-    dispatcher2.fluidPop(transition: .disabled)
+    dispatcher2.fluidPop(transition: .disabled, transitionForBatch: .disabled)
 
-    XCTAssertEqual(stack1.stackingViewControllers.count, 2)
+    XCTAssertEqual(stack1.stackingViewControllers.count, 1)
 
   }
   
