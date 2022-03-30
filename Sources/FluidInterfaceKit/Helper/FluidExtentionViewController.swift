@@ -105,15 +105,11 @@ extension FluidExtentionViewController {
    */
   public func fluidPop(
     transition: AnyRemovingTransition? = nil,
+    transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
     forwardingToParent: Bool = true,
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
-    
-    guard next != nil else {
-      // got the end of tree.
-      return
-    }
-    
+     
     guard
       let fluidStackContext = fluidStackContext,
       let _ = fluidStackContext.fluidStackController
@@ -123,20 +119,21 @@ extension FluidExtentionViewController {
       return
     }
     
-    _fluidPop(transition: transition, forwardingToParent: forwardingToParent, completion: completion)
+    _fluidPop(
+      transition: transition,
+      transitionForBatch: transitionForBatch,
+      forwardingToParent: forwardingToParent,
+      completion: completion
+    )
     
   }
   
   private func _fluidPop(
     transition: AnyRemovingTransition?,
+    transitionForBatch: AnyBatchRemovingTransition?,
     forwardingToParent: Bool,
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
-    
-    guard next != nil else {
-      // got the end of tree.
-      return
-    }
     
     guard
       let fluidStackContext = fluidStackContext,
@@ -157,16 +154,19 @@ extension FluidExtentionViewController {
       
       stack._fluidPop(
         transition: transition,
+        transitionForBatch: transitionForBatch,
         forwardingToParent: forwardingToParent,
         completion: completion
       )
       
     } else {
       
-      fluidStackContext.removeSelf(
-        transition: transition,
-        completion: completion
-      )
+      fluidStackContext
+        .removeSelf(
+          transition: transition,
+          transitionForBatch: transitionForBatch,
+          completion: completion
+        )
       
     }
     
