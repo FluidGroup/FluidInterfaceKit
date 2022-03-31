@@ -268,7 +268,7 @@ private final class ContentViewController: UIViewController {
 
             UIButton.make(title: "Remove all", color: .white) { [unowned self] in
 
-              fluidStackContext?.removeAllViewController(transition: .springFlourish())
+              fluidStackContext?.removeAllViewController(transition: .springFlourish)
 
             }
 
@@ -278,6 +278,10 @@ private final class ContentViewController: UIViewController {
             
             UIButton.make(title: "Remove self", color: .white) { [unowned self] in
               fluidPop()
+            }
+            
+            UIButton.make(title: "Remove self from parent", color: .white) { [unowned self] in
+              fluidStackContext?.fluidStackController?.viewController(before: self.parent!)?.fluidPop()
             }
 
             UIButton.make(title: "Set title", color: .white) { [unowned self] in

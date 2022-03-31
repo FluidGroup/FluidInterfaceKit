@@ -161,6 +161,8 @@ open class FluidStackController: UIViewController {
       \(body)
       """
   }
+  
+  // MARK: - ViewController
 
   /**
    Make sure call super method when you create override.
@@ -176,13 +178,8 @@ open class FluidStackController: UIViewController {
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
   }
 
-  // TODO: Under considerations.
-  public func makeFluidStackDispatchContext() -> FluidStackDispatchContext {
-    .init(
-      fluidStackController: self
-    )
-  }
-
+  // MARK: - Add or Remove view controllers
+  
   /**
    Removes the view controller displayed on most top.
    */
@@ -519,11 +516,14 @@ open class FluidStackController: UIViewController {
   }
 
   /**
-   Removes given view controller with transition
+   Removes given view controller with transition.
+   
+   Switches to batch removing if there are multiple view controllers on top of the given view controller.
    */
   public func removeViewController(
     _ viewControllerToRemove: UIViewController,
     transition: AnyRemovingTransition?,
+    transitionForBatch: @autoclosure @escaping () -> AnyBatchRemovingTransition? = .crossDissolve,
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
@@ -537,18 +537,41 @@ open class FluidStackController: UIViewController {
       return
     }
         
-    if stackingItems.last?.viewController != viewControllerToRemove {
-      Log.error(
-        .stack,
-        "The removing view controller is not displaying on top. the screen won't change at the look, but the stack will change."
-      )
-    }
-    
     guard let viewToRemove = stackingItems.first(where: { $0.viewController == viewControllerToRemove }) else {
       assertionFailure("Not found wrapper view to manage \(viewControllerToRemove)")
       return
     }
-
+    
+    if stackingItems.last?.viewController != viewControllerToRemove {
+      
+      // Removes view controllers with batch
+      
+      let transition = transitionForBatch()
+      
+      Log.debug(
+        .stack,
+        "The removing view controller is not displaying on top. it's behind of the other view controllers. Switches to batch-removing using transition: \(transition as Any)"
+      )
+      
+      removeAllViewController(
+        from: viewToRemove.viewController,
+        transition: transition,
+        completion: { event in
+          
+          switch event {
+          case .succeeded:
+            completion?(.succeeded)
+          case .interrupted:
+            completion?(.interrupted)
+          }
+          
+        }
+      )
+      return
+    }
+    
+    // Removes view controller
+      
     let transitionContext = _startRemoving(viewToRemove, completion: completion)
 
     if let transition = transition {
@@ -567,15 +590,16 @@ open class FluidStackController: UIViewController {
    Removes all view controllers which are displaying
    */
   public func removeAllViewController(
-    transition: AnyBatchRemovingTransition?
+    transition: AnyBatchRemovingTransition?,
+    completion: ((BatchRemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     if stackConfiguration.retainsRootViewController {
       guard let target = stackingItems.dropFirst().first else { return }
-      removeAllViewController(from: target.viewController, transition: transition)
+      removeAllViewController(from: target.viewController, transition: transition, completion: completion)
     } else {
       guard let target = stackingItems.first else { return }
-      removeAllViewController(from: target.viewController, transition: transition)
+      removeAllViewController(from: target.viewController, transition: transition, completion: completion)
     }
   }
 
@@ -591,7 +615,8 @@ open class FluidStackController: UIViewController {
    */
   private func removeAllViewController(
     from viewController: UIViewController,
-    transition: AnyBatchRemovingTransition?
+    transition: AnyBatchRemovingTransition?,
+    completion: ((BatchRemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     Log.debug(.stack, "Remove \(viewController) from \(stackingItems)")
@@ -625,7 +650,9 @@ open class FluidStackController: UIViewController {
         
         assert(Thread.isMainThread)
         
-        guard let self = self else { return }
+        guard let self = self else {
+          return          
+        }
         
         /**
          Completion of transition, cleaning up
@@ -652,6 +679,10 @@ open class FluidStackController: UIViewController {
       }
     )
     
+    newTransitionContext.addCompletionEventHandler { event in
+      completion?(event)
+    }
+    
     for itemToRemove in itemsToRemove {
       itemToRemove.swapTransitionContext(newTransitionContext)
     }
@@ -663,6 +694,44 @@ open class FluidStackController: UIViewController {
     transition.startTransition(context: newTransitionContext)
     
   }
+  
+  // MARK: - Accessing displaying view controllers
+  
+  public func viewController(before viewController: UIViewController) -> UIViewController? {
+    
+    let stackingViewControllers = stackingViewControllers
+    
+    guard let index = stackingViewControllers.firstIndex(of: viewController) else {
+      return nil
+    }
+        
+    let targetIndex = stackingViewControllers.index(before: index)
+    
+    guard stackingViewControllers.indices.contains(targetIndex) else {
+      return nil
+    }
+
+    return stackingViewControllers[targetIndex]
+  }
+  
+  public func viewController(after viewController: UIViewController) -> UIViewController? {
+    
+    let stackingViewControllers = stackingViewControllers
+    
+    guard let index = stackingViewControllers.firstIndex(of: viewController) else {
+      return nil
+    }
+    
+    let targetIndex = stackingViewControllers.index(after: index)
+    
+    guard stackingViewControllers.indices.contains(targetIndex) else {
+      return nil
+    }
+    
+    return stackingViewControllers[targetIndex]
+  }
+  
+  // MARK: - Others
 
   private func addPortalView(
     for source: DisplaySource,
@@ -1001,110 +1070,6 @@ extension FluidStackController {
 
   private struct State: Equatable {
     weak var latestTransitionContext: TransitionContext?
-  }
-
-}
-
-public struct FluidStackDispatchContext {
-
-  public private(set) weak var fluidStackController: FluidStackController?
-
-  public func addContentViewController(
-    _ viewController: UIViewController,
-    transition: AnyAddingTransition?
-  ) {
-    fluidStackController?.addContentViewController(viewController, transition: transition)
-  }
-
-  public func addContentView(_ view: UIView, transition: AnyAddingTransition?) {
-    fluidStackController?.addContentView(view, transition: transition)
-  }
-
-}
-
-/// A context object that communicates with ``FluidStackController``.
-/// Associated with the view controller displayed on the stack.
-public final class FluidStackContext: Equatable {
-  
-  public static func == (lhs: FluidStackContext, rhs: FluidStackContext) -> Bool {
-    lhs === rhs
-  }
-      
-  public private(set) weak var fluidStackController: FluidStackController?
-  public private(set) weak var targetViewController: UIViewController?
-  
-  init(
-    fluidStackController: FluidStackController,
-    targetViewController: UIViewController
-  ) {
-    self.fluidStackController = fluidStackController
-    self.targetViewController = targetViewController
-  }
-  
-  /**
-   Adds view controller to parent container if it presents.
-   */
-  public func addContentViewController(
-    _ viewController: UIViewController,
-    transition: AnyAddingTransition?,
-    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
-  ) {
-    fluidStackController?.addContentViewController(
-      viewController,
-      transition: transition,
-      completion: completion
-    )
-  }
-
-  public func addContentView(
-    _ view: UIView,
-    transition: AnyAddingTransition?,
-    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
-  ) {
-    fluidStackController?.addContentView(
-      view,
-      transition: transition,
-      completion: completion
-    )
-  }
-
-  /// Removes the target view controller in ``FluidStackController``.
-  /// - Parameter transition: if not nil, it would be used override parameter.
-  ///
-  /// See detail in ``FluidStackController/removeViewController(_:transition:)``
-  public func removeSelf(
-    transition: AnyRemovingTransition?,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
-  ) {
-    guard let targetViewController = targetViewController else {
-      return
-    }
-    fluidStackController?.removeViewController(
-      targetViewController,
-      transition: transition,
-      completion: completion
-    )
-  }
-
-  /**
-   Starts transition for removing if parent container presents.
-
-   See detail in ``FluidStackController/startRemovingForInteraction(_:)``
-   */
-  public func startRemovingForInteraction() -> RemovingTransitionContext? {
-    guard let targetViewController = targetViewController else {
-      return nil
-    }
-    return fluidStackController?.startRemovingForInteraction(targetViewController)
-  }
-
-  /**
-   See detail in ``FluidStackController/removeAllViewController(transition:)``
-   */
-  public func removeAllViewController(
-    transition: AnyBatchRemovingTransition?
-  ) {
-    fluidStackController?.removeAllViewController(transition: transition)
   }
 
 }
