@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = "FluidInterfaceKit"
-  spec.version = "0.1.0"
+  spec.version = "0.3.0"
   spec.summary = "Components on UIKit for Fluid Interface"
   spec.description = <<-DESC
   This library provides components built on top of UIKit for Fluid Interface.
@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
   spec.source_files = "Sources/FluidInterfaceKit/**/*.swift"  
   spec.framework = "UIKit"
   spec.requires_arc = true
-  spec.swift_versions = ["5.3", "5.4", "5.5"]
+  spec.swift_versions = ["5.3", "5.4", "5.5", "5.6"]
 
   spec.default_subspecs = ["Core"]
 
