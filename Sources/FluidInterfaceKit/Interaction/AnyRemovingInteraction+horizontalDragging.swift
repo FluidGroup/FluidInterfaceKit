@@ -4,15 +4,130 @@ import UIKit
 
 extension AnyRemovingInteraction {
 
-  public enum HorizontalDraggingBackwardingMode {
-    // TODO: get a generic name
-    case instagramThreads(
-      destinationView: UIView,
-      destinationMirroViewProvider: AnyMirrorViewProvider
-    )
-    case shape(
-      destinationComponent: ContextualTransitionSourceComponentType
-    )
+  public enum Dragging {
+
+    public struct AnyBackwarding {
+
+      public enum Event {
+        case dragging
+        case cancelled
+        case run(
+          transitionContext: RemovingTransitionContext,
+          draggingView: UIView,
+          gestureVelocity: CGPoint
+        )
+      }
+
+      private let _eventHandler: (Event) -> Void
+
+      public init(eventHandler: @escaping (Event) -> Void) {
+        self._eventHandler = eventHandler
+      }
+
+      func receive(event: Event) {
+        _eventHandler(event)
+      }
+
+      /// For fallback transition
+      public static var vanishing: Self {
+        return .init { event in
+          switch event {
+          case .dragging:
+            break
+          case .cancelled:
+            break
+          case let .run(transitionContext, draggingView, _):
+
+            let animator = UIViewPropertyAnimator(
+              duration: 0.62,
+              timingParameters: UISpringTimingParameters(
+                dampingRatio: 1,
+                initialVelocity: .zero
+              )
+            )
+
+            animator.addAnimations {
+              draggingView.layer.transform = CATransform3DMakeAffineTransform(
+                .init(scaleX: 0.8, y: 0.8)
+              )
+              draggingView.alpha = 0
+              transitionContext.contentView.backgroundColor = .clear
+            }
+
+            animator.addCompletion { _ in
+              transitionContext.notifyAnimationCompleted()
+            }
+
+            animator.startAnimation()
+
+          }
+        }
+      }
+
+      public static func enclosing(to component: ContextualTransitionSourceComponentType) -> Self {
+        return .init { event in
+          switch event {
+          case .dragging:
+
+            component.contentView.isHidden = true
+
+          case .cancelled:
+
+            component.contentView.isHidden = false
+
+          case .run(
+            let transitionContext,
+            let draggingView,
+            let gestureVelocity
+          ):
+
+            component.contentView.isHidden = false
+
+            AnyRemovingInteraction.Contextual.runEnclosing(
+              transitionContext: transitionContext,
+              disclosedView: draggingView,
+              destinationComponent: component,
+              gestureVelocity: gestureVelocity
+            )
+
+          }
+        }
+      }
+
+      public static func gettingTogether(to component: ContextualTransitionSourceComponentType)
+        -> Self
+      {
+        return .init { event in
+          switch event {
+          case .dragging:
+
+            component.contentView.isHidden = true
+
+          case .cancelled:
+
+            component.contentView.isHidden = false
+
+          case .run(
+            let transitionContext,
+            let draggingView,
+            let gestureVelocity
+          ):
+
+            component.contentView.isHidden = false
+
+            AnyRemovingInteraction.Contextual.runGettingTogether(
+              transitionContext: transitionContext,
+              disclosedView: draggingView,
+              destinationComponent: component,
+              gestureVelocity: gestureVelocity
+            )
+
+          }
+        }
+      }
+
+    }
+
   }
 
   /**
@@ -20,13 +135,13 @@ extension AnyRemovingInteraction {
    */
   public static func horizontalDragging(
     isEdgeEnabled: Bool = false,
-    backwardingMode makeBackwardingMode: @escaping () -> HorizontalDraggingBackwardingMode?
+    backwarding makeBackwarding: @escaping () -> Dragging.AnyBackwarding
   ) -> Self {
 
     struct TrackingContext {
 
       var scrollController: ScrollController?
-      let backwardingMode: HorizontalDraggingBackwardingMode?
+      let backwardingMode: Dragging.AnyBackwarding
       let transitionContext: RemovingTransitionContext
 
     }
@@ -38,41 +153,25 @@ extension AnyRemovingInteraction {
       handlers: buildArray {
         if isEdgeEnabled {
           .gestureOnLeftEdge { gesture, context in
-        
-          switch gesture.state {
-          case .began:
-            
-            let backwardingMode = makeBackwardingMode()
 
-            switch backwardingMode {
-            case .instagramThreads(
-              let destinationView,
-              let destinationMirroViewProvider
-            ):
-              // TODO: Impl
-              break
-            case .shape(
-              let destinationComponent
-            ):
+            switch gesture.state {
+            case .began:
+
+              let backwarding = makeBackwarding()
               let transitionContext = context.startRemovingTransition()
 
-              let sourceView = transitionContext.fromViewController.view!
-
-              AnyRemovingInteraction.Contextual.runEnclosing(
-                transitionContext: transitionContext,
-                disclosedView: sourceView,
-                destinationComponent: destinationComponent,
-                gestureVelocity: .zero
+              backwarding.receive(
+                event: .run(
+                  transitionContext: transitionContext,
+                  draggingView: transitionContext.fromViewController.view!,
+                  gestureVelocity: .zero
+                )
               )
-            case .none:
-              // TODO: handle
+
+            default:
               break
             }
-
-          default:
-            break
           }
-        }
         }
 
         .gestureOnScreen(
@@ -86,7 +185,7 @@ extension AnyRemovingInteraction {
               break
 
             case .began, .changed:
-                            
+
               if trackingContext == nil {
 
                 guard abs(gesture.translation(in: draggingView).y) <= 10 else {
@@ -98,13 +197,14 @@ extension AnyRemovingInteraction {
                  Prepare to interact
                  */
 
-                let backwardingMode = makeBackwardingMode()
-                
+                let backwarding = makeBackwarding()
+                backwarding.receive(event: .dragging)
+
                 let transitionContext = context.startRemovingTransition()
 
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
-                  backwardingMode: backwardingMode,
+                  backwardingMode: backwarding,
                   transitionContext: transitionContext
                 )
 
@@ -138,10 +238,7 @@ extension AnyRemovingInteraction {
                 return
               }
 
-              let translation =
-                gesture
-                .translation(in: draggingView)
-                .applying(draggingView.transform)
+              let translation = gesture.translation(in: draggingView)
 
               draggingView.layer.position.x += translation.x
               draggingView.layer.position.y += translation.y
@@ -153,7 +250,7 @@ extension AnyRemovingInteraction {
               }
 
               UIViewPropertyAnimator(duration: 0.5, dampingRatio: 1) {
-                draggingView.layer.cornerRadius = 24
+                draggingView.layer.cornerRadius = 32
               }
               .startAnimation()
 
@@ -187,58 +284,14 @@ extension AnyRemovingInteraction {
               }
 
               if startsBackwarding {
-                               
-                guard let backwardingMode = _trackingContext.backwardingMode else {
-                  /// fallback
 
-                  let animator = UIViewPropertyAnimator(
-                    duration: 0.62,
-                    timingParameters: UISpringTimingParameters(
-                      dampingRatio: 1,
-                      initialVelocity: .zero
-                    )
-                  )
-
-                  animator.addAnimations {
-                    draggingView.layer.transform = CATransform3DMakeAffineTransform(
-                      .init(scaleX: 0.8, y: 0.8)
-                    )
-                    draggingView.alpha = 0
-                    _trackingContext.transitionContext.contentView.backgroundColor = .clear
-                  }
-
-                  animator.addCompletion { _ in
-                    _trackingContext.transitionContext.notifyAnimationCompleted()
-                  }
-
-                  animator.startAnimation()
-
-                  return
-                }
-
-                switch backwardingMode {
-                case .instagramThreads(let destinationView, let destinationMirroViewProvider):
-
-                  AnyRemovingInteraction.Contextual.runZoomOut(
-                    transitionContext: transitionContext,
-                    disclosedView: draggingView,
-                    destinationView: destinationView,
-                    destinationMirroViewProvider: destinationMirroViewProvider,
+                _trackingContext.backwardingMode.receive(
+                  event: .run(
+                    transitionContext: _trackingContext.transitionContext,
+                    draggingView: draggingView,
                     gestureVelocity: gesture.velocity(in: gesture.view)
                   )
-                 
-                case .shape(
-                  let destinationComponent
-                ):
-
-                  AnyRemovingInteraction.Contextual.runEnclosing(
-                    transitionContext: transitionContext,
-                    disclosedView: draggingView,
-                    destinationComponent: destinationComponent,
-                    gestureVelocity: gesture.velocity(in: gesture.view)
-                  )
-
-                }
+                )
 
               } else {
 
@@ -263,14 +316,18 @@ extension AnyRemovingInteraction {
                 }
 
                 animator.startAnimation()
+
+                _trackingContext.backwardingMode.receive(
+                  event: .cancelled
+                )
               }
 
             case .cancelled, .failed:
-                            
+
               guard let _trackingContext = trackingContext else {
                 return
               }
-              
+
               _trackingContext.transitionContext.notifyCancelled()
 
               _trackingContext.scrollController?.unlockScrolling()

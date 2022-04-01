@@ -199,7 +199,7 @@ private final class ContentViewController: UIViewController {
                       addingTransition: nil,
                       removingTransition: nil,
                       removingInteraction: .horizontalDragging(
-                        backwardingMode: { nil }
+                        backwarding: { .vanishing }
                       )
                     ),
                     topBar: .navigation
