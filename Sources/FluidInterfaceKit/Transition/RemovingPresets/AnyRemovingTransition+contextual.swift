@@ -42,12 +42,19 @@ extension AnyRemovingInteraction {
       maskView.backgroundColor = .black
       maskView.frame = transitionContext.fromViewController.view.bounds
       
-      let fromViewMirror = AnyMirrorViewProvider.snapshot(caches: true, viewProvider: { transitionContext.fromViewController.view! }).view()
+      let fromViewMirror = AnyMirrorViewProvider.snapshot(
+        caches: true,
+        viewProvider: { transitionContext.fromViewController.view! }
+      ).view()
+      
       fromViewMirror.mask = maskView
       fromViewMirror.alpha = 1
       fromViewMirror.frame = transitionContext.fromViewController.view.frame
                         
-      let entrypointMirrorView = AnyMirrorViewProvider.portal(view: destinationComponent.contentView, hidesSourceOnUsing: true).view()
+      let entrypointMirrorView = AnyMirrorViewProvider.portal(
+        view: destinationComponent.contentView,
+        hidesSourceOnUsing: true
+      ).view()
       
       let reparentingView = destinationComponent.requestReparentView()
       
@@ -162,21 +169,23 @@ extension AnyRemovingInteraction {
     }
     
     // TODO: naming
-    public static func runZoomOut(
+    public static func runGettingTogether(
       transitionContext: RemovingTransitionContext,
       disclosedView: UIView,
-      destinationView: UIView,
-      destinationMirroViewProvider: AnyMirrorViewProvider,
+      destinationComponent: ContextualTransitionSourceComponentType,
       gestureVelocity: CGPoint?
     ) {
       
       let draggingView = disclosedView
       
-      let interpolationView = destinationMirroViewProvider.view()
+      let interpolationView = AnyMirrorViewProvider.portal(
+        view: destinationComponent.contentView,
+        hidesSourceOnUsing: true
+      ).view()
 
       var targetRect = Geometry.rectThatAspectFit(
         aspectRatio: draggingView.bounds.size,
-        boundingRect: transitionContext.frameInContentView(for: destinationView)
+        boundingRect: transitionContext.frameInContentView(for: destinationComponent.contentView)
       )
 
       targetRect = targetRect.insetBy(

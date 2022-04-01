@@ -108,11 +108,8 @@ final class DemoThreadsMessagesViewController: FluidStackController {
                         ),
                         removingTransition: nil,
                         removingInteraction: .horizontalDragging(
-                          backwardingMode: {
-                            .instagramThreads(
-                              destinationView: cell,
-                              destinationMirroViewProvider: mirrorViewProvider
-                            )
+                          backwarding: {
+                            .gettingTogether(to: UnsafeContextualTransitionSourceComponent(view: cell))
                           }
                         )
                       ),

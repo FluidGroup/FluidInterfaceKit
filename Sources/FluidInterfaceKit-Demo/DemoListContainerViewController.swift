@@ -70,10 +70,8 @@ final class DemoListViewController: UIViewController {
                   ),
                   removingTransition: nil,
                   removingInteraction: .horizontalDragging(
-                    backwardingMode: {
-                      .shape(
-                        destinationComponent: view
-                      )                      
+                    backwarding: {
+                      .enclosing(to: view)
                     }
                   )
                 ),
@@ -178,7 +176,7 @@ final class DemoListDetailViewController: UIViewController {
             completion: nil
           )
         }
-
+           
         StackingSpacer(minLength: 0)
 
       }
