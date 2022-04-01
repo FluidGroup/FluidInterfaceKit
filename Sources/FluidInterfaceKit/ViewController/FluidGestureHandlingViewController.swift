@@ -150,6 +150,24 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
 
   }
   
+  public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    
+    switch gestureRecognizer {
+    case fluidPanGesture:
+      return false
+    case fluidScreenEdgePanGesture:
+   
+      if otherGestureRecognizer is UIPanGestureRecognizer {
+        return true
+      }
+    default:
+      break
+    }
+    
+    return false
+
+  }
+  
   public func gestureRecognizer(
     _ gestureRecognizer: UIGestureRecognizer,
     shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
