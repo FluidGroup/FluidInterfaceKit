@@ -95,7 +95,12 @@ final class DemoListViewController: UIViewController {
         
         UIButton.make(title: "Open") { [unowned self] in
           let nextController = DemoListViewController()
-          fluidPush(nextController.fluidWrapped(configuration: .defaultNavigation), target: .current, relation: nil)
+          
+          let wrapped = nextController.fluidWrapped(configuration: .defaultNavigation)
+          
+          wrapped.removingInteraction = .leftToRightOnScreen
+          
+          fluidPush(wrapped, target: .current, relation: nil)
         }
         
         VGridBlock(
