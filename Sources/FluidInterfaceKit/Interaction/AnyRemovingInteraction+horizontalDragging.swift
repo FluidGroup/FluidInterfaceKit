@@ -225,6 +225,7 @@ extension AnyRemovingInteraction {
 
                   } else {
                     gesture.state = .failed
+                    transitionContext.notifyCancelled()
                     return
                   }
 
