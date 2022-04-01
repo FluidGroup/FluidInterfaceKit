@@ -238,10 +238,7 @@ extension AnyRemovingInteraction {
                 return
               }
 
-              let translation =
-                gesture
-                .translation(in: draggingView)
-                .applying(draggingView.transform)
+              let translation = gesture.translation(in: draggingView)
 
               draggingView.layer.position.x += translation.x
               draggingView.layer.position.y += translation.y
