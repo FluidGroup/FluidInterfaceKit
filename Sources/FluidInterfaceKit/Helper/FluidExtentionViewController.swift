@@ -21,8 +21,24 @@ extension FluidExtentionViewController {
     transition: AnyAddingTransition? = nil,
     completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
-    
-    let controller = viewController
+        
+    guard self.parent != nil else {
+      
+      let message = "Presenting \(viewController) would fail, The presenter \(self) is not in view controller hierarchy (not having parent)."
+      Log.error(.viewController, message)
+      
+      // TODO: There is a risk of getting reference cycles for `self` in completion closure.
+      self._pendingPushOperations.append(
+        (
+          viewController: viewController,
+          strategy: strategy,
+          transition: transition,
+          completion: completion
+        )
+      )
+      
+      return
+    }
     
     guard let stackController = fluidStackController(with: strategy) else {
       
@@ -38,7 +54,7 @@ extension FluidExtentionViewController {
     
     stackController
       .addContentViewController(
-        controller,
+        viewController,
         transition: transition,
         completion: completion
       )

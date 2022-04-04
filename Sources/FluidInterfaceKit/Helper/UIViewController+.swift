@@ -113,10 +113,18 @@ private final class _Associated {
   var fluidStackContentConfiguration: FluidStackContentConfiguration = .init()
   var fluidStackContext: FluidStackContext?
   var fluidStackActionHandlers: [(FluidStackAction) -> Void] = []
+  var pendingPushOperations: [PendingPushOperation] = []
 }
 
+typealias PendingPushOperation = (
+  viewController: UIViewController,
+  strategy: UIViewController.FluidStackFindStrategy,
+  transition: AnyAddingTransition?,
+  completion: ((AddingTransitionContext.CompletionEvent) -> Void)?
+)
+
 extension UIViewController {
-  
+      
   private var _associated: _Associated {
     assert(Thread.isMainThread)
     if let created = objc_getAssociatedObject(self, &_fluid_associated_key) as? _Associated {
@@ -125,6 +133,11 @@ extension UIViewController {
     let new = _Associated()
     objc_setAssociatedObject(self, &_fluid_associated_key, new, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     return new
+  }
+  
+  var _pendingPushOperations: [PendingPushOperation] {
+    get { _associated.pendingPushOperations }
+    set { _associated.pendingPushOperations = newValue }
   }
 
   /// A struct that configures how to display in ``FluidStackController``
