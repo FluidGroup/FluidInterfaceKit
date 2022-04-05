@@ -154,6 +154,40 @@ final class FluidViewControllerTests: XCTestCase {
     }
 
   }
+  
+  func testFluidPush() {
+    
+    let exp = expectation(description: "viewDidLoad")
+    exp.assertForOverFulfill = true
+    exp.expectedFulfillmentCount = 1
+    
+    let stack = FluidStackController()
+    let controller = FluidViewController()
+    
+    controller.lifecycleEventHandler = { controller, event in
+      switch event {
+      case .viewDidLoad:
+        
+        XCTAssertNotNil(controller.parent)
+        XCTAssertEqual(controller.parent, stack)
+        
+        exp.fulfill()
+      case .viewWillAppear:
+        break
+      case .viewDidAppear:
+        break
+      case .viewWillDisappear:
+        break
+      case .viewDidDisappear:
+        break
+      }
+    }
+    
+    stack.fluidPush(controller, target: .current, relation: nil)
+    
+    wait(for: [exp], timeout: 1)
+    
+  }
 
   private func prepare(_ viewController: UIViewController) {
     viewController.loadViewIfNeeded()
