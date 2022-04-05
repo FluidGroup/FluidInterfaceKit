@@ -19,6 +19,7 @@ extension FluidExtentionViewController {
     _ viewController: UIViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
+    afterViewDidLoad: @escaping () -> Void = {},
     completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
@@ -40,6 +41,7 @@ extension FluidExtentionViewController {
       .addContentViewController(
         controller,
         transition: transition,
+        afterViewDidLoad: afterViewDidLoad,
         completion: completion
       )
     
@@ -59,16 +61,14 @@ extension FluidExtentionViewController {
     transition: AnyAddingTransition? = nil,
     completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
-    
-    /// to trigger `viewDidLoad` before calling `willTransition`.
-    viewController.loadViewIfNeeded()
-    
-    viewController.willTransition(with: relation)
-    
+     
     fluidPushUnsafely(
       viewController,
       target: strategy,
-      transition: transition
+      transition: transition,
+      afterViewDidLoad: { [weak viewController] in
+        viewController?.willTransition(with: relation)
+      }
     )
     
   }
@@ -83,7 +83,8 @@ extension FluidExtentionViewController {
     fluidPushUnsafely(
       viewController,
       target: strategy,
-      transition: transition
+      transition: transition,
+      afterViewDidLoad: {}
     )
     
   }

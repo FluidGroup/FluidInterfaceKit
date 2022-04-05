@@ -108,9 +108,14 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     fluidPop(transition: nil)
   }
     
+  /**
+   Triggers by `fluidPush`, not trigger in case of adding directly into FluidStackController.
+   Receives `StackingRelation` that specified in fluidPush parameter.
+   Opportunities to set up according to the relation.
+   */
   open func willTransition(with relation: StackingRelation?) {
     
-    assert(isViewLoaded, "library is broke.")
+    assert(isViewLoaded, "library is broke. To be done operations in here, should be run after view-did-load")
     
     switch configuration.topBar {
     case .navigation(let navigation):
@@ -120,8 +125,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     case .hidden:
       break
     }
-    
-    
+        
     // setting transitions and interactions accroding to the relation
     // TODO: Make here letting the consumer passing as a parameter.
     if let relation = relation {

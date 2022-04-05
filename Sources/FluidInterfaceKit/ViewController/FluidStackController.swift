@@ -215,6 +215,7 @@ open class FluidStackController: UIViewController {
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?,
+    afterViewDidLoad: @escaping () -> Void = {},
     completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
@@ -225,16 +226,20 @@ open class FluidStackController: UIViewController {
 
     assert(Thread.isMainThread)
     
-    /// Save current first-responder from the current displaying view controller.
-    /// To restore it when back to this view controller as the top - ``FluidStackController/StackingPlatterView/restoreResponderState()``
-    topItem?.saveResponderState()
-    
-    // Trigger `viewDidLoad` explicitly.
-    viewControllerToAdd.loadViewIfNeeded()
-    
-    // propagate after `viewDidLoad`
-    viewControllerToAdd.propagateStackAction(.willPush)
-          
+    // Construct view controller chain
+    if viewControllerToAdd.parent != self {
+      
+      addChild(viewControllerToAdd)
+      
+      viewControllerToAdd.view.resetToVisible()
+      
+      viewControllerToAdd.didMove(toParent: self)
+      
+    } else {
+      // case of adding while removing
+      // TODO: might something needed
+    }
+        
     // set a context if not set
     if viewControllerToAdd.fluidStackContext == nil {
       let context = FluidStackContext(
@@ -244,6 +249,18 @@ open class FluidStackController: UIViewController {
       // set context
       viewControllerToAdd.fluidStackContext = context
     }
+    
+    /// Save current first-responder from the current displaying view controller.
+    /// To restore it when back to this view controller as the top - ``FluidStackController/StackingPlatterView/restoreResponderState()``
+    topItem?.saveResponderState()
+    
+    // Trigger `viewDidLoad` explicitly.
+    viewControllerToAdd.loadViewIfNeeded()
+    
+    afterViewDidLoad()
+    
+    // propagate after `viewDidLoad`
+    viewControllerToAdd.propagateStackAction(.willPush)
     
     let wrapperView: StackingPlatterView = {
       if let currentWrapperView = viewControllerToAdd.view.superview as? StackingPlatterView {
@@ -258,19 +275,6 @@ open class FluidStackController: UIViewController {
         return containerView
       }
     }()
-
-    if viewControllerToAdd.parent != self {
-      
-      addChild(viewControllerToAdd)
-      
-      viewControllerToAdd.view.resetToVisible()
-      
-      viewControllerToAdd.didMove(toParent: self)
-      
-    } else {
-      // case of adding while removing
-      // TODO: might something needed
-    }
     
     view.addSubview(wrapperView)
     
