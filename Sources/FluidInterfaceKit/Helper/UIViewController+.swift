@@ -104,6 +104,25 @@ extension UIViewController {
     return strategy.pick(controllersOrderByNearest)
 
   }
+  
+  func subscribeParent() {
+    
+    guard _associated.subscriptionForParent == nil else {
+      return
+    }
+    
+    _associated.subscriptionForParent = observe(\.parent) { instance, _ in
+      
+      print(instance.parent)
+      
+      if let parent = instance.parent {
+        
+      } else {
+        
+      }
+    }
+    
+  }
 
 }
 
@@ -114,6 +133,11 @@ private final class _Associated {
   var fluidStackContext: FluidStackContext?
   var fluidStackActionHandlers: [(FluidStackAction) -> Void] = []
   var pendingPushOperations: [PendingPushOperation] = []
+  var subscriptionForParent: NSKeyValueObservation?
+  
+  deinit {
+    subscriptionForParent?.invalidate()
+  }
 }
 
 typealias PendingPushOperation = (

@@ -21,6 +21,8 @@ extension FluidExtentionViewController {
     transition: AnyAddingTransition? = nil,
     completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
+    
+    subscribeParent()
         
     guard self.parent != nil else {
       
