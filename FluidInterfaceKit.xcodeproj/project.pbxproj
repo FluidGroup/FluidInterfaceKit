@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F619427B818E800363580 /* DemoListContainerViewController.swift */; };
 		4B2F9EA027FC080000F74ADB /* UIKitPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */; };
+		4B3BE33C27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */; };
 		4B468061279C58E800625FCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804A279C58E800625FCB /* ViewController.swift */; };
 		4B468062279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */; };
 		4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */; };
@@ -88,6 +89,7 @@
 		4B2CCB88278DD21400EAB928 /* Descriptors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Descriptors; path = submodules/Descriptors; sourceTree = "<group>"; };
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
 		4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitPresentationTests.swift; sourceTree = "<group>"; };
+		4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidLocalEnvironmentTests.swift; sourceTree = "<group>"; };
 		4B46804A279C58E800625FCB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */,
 				4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */,
 				4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */,
+				4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */,
 			);
 			path = FluidInterfaceKitTests;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */,
 				4B2F9EA027FC080000F74ADB /* UIKitPresentationTests.swift in Sources */,
 				4B97A9E527B9828E0068B330 /* TreeBuilder.swift in Sources */,
+				4B3BE33C27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift in Sources */,
 				4B79ABBD27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift in Sources */,
 				4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */,
 				4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */,
