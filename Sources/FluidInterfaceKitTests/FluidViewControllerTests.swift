@@ -189,6 +189,45 @@ final class FluidViewControllerTests: XCTestCase {
     
   }
 
+  func testComapreNavigationContrller() {
+    
+    let exp = expectation(description: "viewDidLoad")
+    exp.assertForOverFulfill = true
+    exp.expectedFulfillmentCount = 1
+    
+    let window = UIWindow()
+    window.isHidden = false
+    
+    let stack = UINavigationController()
+    window.rootViewController = stack
+    let controller = FluidViewController()
+    
+    controller.lifecycleEventHandler = { controller, event in
+      switch event {
+      case .viewDidLoad:
+        
+        XCTAssertNotNil(controller.parent)
+        XCTAssertEqual(controller.parent, stack)
+        
+        exp.fulfill()
+      case .viewWillAppear:
+        break
+      case .viewDidAppear:
+        break
+      case .viewWillDisappear:
+        break
+      case .viewDidDisappear:
+        break
+      }
+    }
+    
+    stack.pushViewController(controller, animated: true)
+    
+    wait(for: [exp], timeout: 1)
+    
+  }
+  
+  
   private func prepare(_ viewController: UIViewController) {
     viewController.loadViewIfNeeded()
     viewController.beginAppearanceTransition(true, animated: true)
