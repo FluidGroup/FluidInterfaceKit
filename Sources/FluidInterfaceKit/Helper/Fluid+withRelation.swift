@@ -62,6 +62,10 @@ public protocol FluidLocalEnvironmentKey {
 }
 
 extension Fluid {
+  /**
+   For associating property dynamically as a plugin.
+   This idea coming from SwiftUI's EnvironmentValues
+   */
   public enum LocalEnvironmentKeys {
     
     public struct FindStrategy: FluidLocalEnvironmentKey {
