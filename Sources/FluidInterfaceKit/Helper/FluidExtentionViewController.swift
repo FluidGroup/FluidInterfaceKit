@@ -62,12 +62,14 @@ extension FluidExtentionViewController {
     completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
-    let overriddenRelation = Fluid.LocalEnvironmentValues.current.relation
-    let overriddenAddingTransition = Fluid.LocalEnvironmentValues.current.addingTransition
+    let current = Fluid.LocalEnvironmentValues.current
+    let overriddenRelation = current.relation
+    let overriddenAddingTransition = current.addingTransition
+    let overridenStrategy = current.stackFindStrategy
          
     fluidPushUnsafely(
       viewController,
-      target: strategy,
+      target: overridenStrategy ?? strategy,
       transition: overriddenAddingTransition ?? transition,
       afterViewDidLoad: { [weak viewController] in
         viewController?.willTransition(with: overriddenRelation ?? relation)

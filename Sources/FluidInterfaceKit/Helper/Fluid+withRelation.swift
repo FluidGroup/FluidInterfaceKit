@@ -1,16 +1,6 @@
 import Foundation
 import UIKit
 
-private let environmentValuesKey = "Fluid.withEnviroment"
-
-var environmentValues: [AnyKeyPath : Any] {
-  get {
-    Thread.current.threadDictionary[environmentValuesKey] as? [AnyKeyPath : Any] ?? [:]
-  } set {
-    Thread.current.threadDictionary[environmentValuesKey] = newValue
-  }
-}
-
 extension Fluid {
       
   public static func withLocalEnviroment(
@@ -18,30 +8,52 @@ extension Fluid {
     perform: () -> Void
   ) {
     
-    Thread.current.threadDictionary[environmentValuesKey] = nil
+    assert(Thread.isMainThread)
+        
+    var newEnv = LocalEnvironmentValues()
     
-    setup(&LocalEnvironmentValues.current)
+    setup(&newEnv)
     
-    perform()
-    
-    Thread.current.threadDictionary[environmentValuesKey] = nil
-    
+    newEnv.performAsCurrent(perform)
+                
   }
   
   public struct LocalEnvironmentValues {
     
-    static var current = Self.init()
+    private static var stack: [LocalEnvironmentValues] = []
     
-    private init() {}
+    public static let empty = Self.init()
+    
+    public static var current: Self {
+      stack.last ?? .empty
+    }
+        
+    private var environmentValues: [AnyKeyPath : Any] = [:]
+    
+    public init() {}
     
     subscript<K>(key: K.Type) -> K.Value? where K : FluidLocalEnvironmentKey {
       get {
         environmentValues[\K.self] as? K.Value
       }
-      nonmutating set {
+      set {
         environmentValues[\K.self] = newValue
       }
     }
+    
+    public func performAsCurrent(_ perform: () -> Void) {
+      
+      assert(Thread.isMainThread)
+      
+      Self.stack.append(self)
+      defer {
+        _ = Self.stack.popLast()
+      }
+      
+      perform()
+        
+    }
+    
   }
 }
 
@@ -69,7 +81,7 @@ extension Fluid {
 
 extension Fluid.LocalEnvironmentValues {
   
-  public var target: UIViewController.FluidStackFindStrategy? {
+  public var stackFindStrategy: UIViewController.FluidStackFindStrategy? {
     get { self[Fluid.LocalEnvironmentKeys.FindStrategy.self] }
     set { self[Fluid.LocalEnvironmentKeys.FindStrategy.self] = newValue }
   }
