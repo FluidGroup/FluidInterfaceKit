@@ -33,9 +33,6 @@ For instance: the history menu of the back bar button, page-sheet modal, and acc
 |---|---|
 |<img width=200px src=https://user-images.githubusercontent.com/1888355/147848629-031e1c5c-0c52-4674-8d9a-dad034b6e87f.gif />| <img width=200px src=https://user-images.githubusercontent.com/1888355/147852736-9e926a14-d30f-40ad-9733-c92546d4f8b6.gif /> |
 
-
-https://user-images.githubusercontent.com/1888355/154357197-e18bf3c4-323f-4ff3-b159-6d67458ec047.mp4
-
 # Structure of App with FluidInterfaceKit
 
 <img width="882" alt="CleanShot 2022-02-13 at 01 55 46@2x" src="https://user-images.githubusercontent.com/1888355/153720497-91eff2cc-890c-4b7b-b194-ab558c82829a.png">
