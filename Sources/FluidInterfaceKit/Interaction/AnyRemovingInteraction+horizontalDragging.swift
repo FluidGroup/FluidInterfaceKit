@@ -295,8 +295,7 @@ extension AnyRemovingInteraction {
                 )
 
               } else {
-
-                transitionContext.notifyCancelled()
+               
                 /// animation for cancel
 
                 let animator = UIViewPropertyAnimator(
@@ -316,6 +315,12 @@ extension AnyRemovingInteraction {
                   draggingView.layer.cornerRadius = 0
                 }
 
+                animator.addCompletion { position in
+                  if case .end = position {
+                    transitionContext.notifyCancelled()
+                  }
+                }
+                
                 animator.startAnimation()
 
                 _trackingContext.backwardingMode.receive(
