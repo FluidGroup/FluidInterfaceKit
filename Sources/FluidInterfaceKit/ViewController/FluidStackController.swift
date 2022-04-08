@@ -305,6 +305,9 @@ open class FluidStackController: UIViewController {
         guard let self = self else { return }
         
         defer {
+          
+          wrapperView.removeTransitionContext(expect: context)
+          
           if self.state.latestTransitionContext == context {
             // handling offload
             if self.stackConfiguration.isOffloadViewsEnabled {
@@ -318,7 +321,7 @@ open class FluidStackController: UIViewController {
           return
         }
 
-        wrapperView.removeTransitionContext()
+       
                           
         context.transitionSucceeded()
         
@@ -442,6 +445,9 @@ open class FluidStackController: UIViewController {
         guard let self = self else { return }
         
         defer {
+          
+          viewToRemove.removeTransitionContext(expect: context)
+          
           if self.state.latestTransitionContext == context {
             // handling offload
             if self.stackConfiguration.isOffloadViewsEnabled {
@@ -458,8 +464,6 @@ open class FluidStackController: UIViewController {
         /**
          Completion of transition, cleaning up
          */
-
-        viewToRemove.removeTransitionContext()
         
         let viewControllerToRemove = viewToRemove.viewController
         self.stackingItems.removeAll { $0.viewController == viewControllerToRemove }
@@ -664,7 +668,7 @@ open class FluidStackController: UIViewController {
         
         for itemToRemove in itemsToRemove {
                     
-          itemToRemove.removeTransitionContext()
+          itemToRemove.removeTransitionContext(expect: context)
           
           itemToRemove.viewController.willMove(toParent: nil)
           itemToRemove.removeFromSuperview()
@@ -1034,8 +1038,14 @@ extension FluidStackController {
       currentTransitionContext = transitionContext
     }
     
-    func removeTransitionContext() {
-      currentTransitionContext = nil
+    func removeTransitionContext(expect: TransitionContext?) {
+      if let expect = expect {
+        if currentTransitionContext == expect {
+          currentTransitionContext = nil
+        }
+      } else {
+        currentTransitionContext = nil
+      }
     }
     
     func offloadViewController() {

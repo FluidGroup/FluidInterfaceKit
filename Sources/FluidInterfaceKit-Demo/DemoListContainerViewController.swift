@@ -227,12 +227,14 @@ private func makeListCell(viewModel: ViewModel, onTap: @escaping (ContextualTran
 
   let body = AnyView { _ in
 
-    HStackBlock {
+    VStackBlock {
 
       imageView
         .viewBlock
         .size(55)
-
+      
+      StackingSpacer(minLength: 8, expands: false)
+                
       VStackBlock(alignment: .leading) {
 
         nameLabel
