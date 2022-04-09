@@ -126,13 +126,12 @@ open class FluidStackController: UIViewController {
     self.stackConfiguration = configuration
     
     super.init(nibName: nil, bundle: nil)
-
-    self.view.accessibilityIdentifier = "FluidStack.\(identifier?.rawValue ?? "unnamed")"
-    
+       
     if let rootViewController = rootViewController {
       addContentViewController(rootViewController, transition: .disabled)
     }
     
+    assert(isViewLoaded == false)
   }
 
   @available(*, unavailable)
@@ -170,7 +169,7 @@ open class FluidStackController: UIViewController {
   open override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.accessibilityIdentifier = "Fluid.Stack"
+    view.accessibilityIdentifier = "FluidStack.\(stackIdentifier?.rawValue ?? "unnamed")"
 
     view.addSubview(contentView)
 
