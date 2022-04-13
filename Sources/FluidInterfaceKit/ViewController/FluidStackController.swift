@@ -34,8 +34,15 @@ public struct FluidStackContentConfiguration {
 /// Passing an identifier on initializing, make it could be found in hierarchy.
 /// Use ``UIViewController/fluidStackController(with: )`` to find.
 open class FluidStackController: UIViewController {
+  
+  public enum Action {
+    case onChanged(viewControllers: [UIViewController])
+  }
 
   // MARK: - Properties
+  
+  /// A closure that receives ``Action``
+  public var actionHandler: (Action) -> Void = { _ in }
 
   /// A configuration
   public let stackConfiguration: Configuration
@@ -60,15 +67,21 @@ open class FluidStackController: UIViewController {
   private var topItem: StackingPlatterView? {
     stackingItems.last
   }
-
+  
   private(set) var stackingItems: [StackingPlatterView] = [] {
     didSet {
-      // TODO: Update with animation
-      UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1) {
-        self.setNeedsStatusBarAppearanceUpdate()
+      
+      if stackingItems != oldValue {
+        
+        // TODO: Update with animation
+        UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1) {
+          self.setNeedsStatusBarAppearanceUpdate()
+        }
+        .startAnimation()
+        stackingViewControllersDidChange(stackingViewControllers)
+        
+        actionHandler(.onChanged(viewControllers: stackingViewControllers))
       }
-      .startAnimation()
-      stackingViewControllersDidChange(stackingViewControllers)
     }
   }
   
