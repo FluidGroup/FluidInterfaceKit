@@ -42,7 +42,7 @@ open class FluidStackController: UIViewController {
   // MARK: - Properties
   
   /// A closure that receives ``Action``
-  public var actionHandler: (Action) -> Void = { _ in }
+  public final var stackActionHandler: (Action) -> Void = { _ in }
 
   /// A configuration
   public let stackConfiguration: Configuration
@@ -80,7 +80,7 @@ open class FluidStackController: UIViewController {
         .startAnimation()
         stackingViewControllersDidChange(stackingViewControllers)
         
-        actionHandler(.onChanged(viewControllers: stackingViewControllers))
+        stackActionHandler(.onChanged(viewControllers: stackingViewControllers))
       }
     }
   }
