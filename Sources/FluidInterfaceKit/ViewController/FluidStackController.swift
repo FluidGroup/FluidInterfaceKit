@@ -144,7 +144,6 @@ open class FluidStackController: UIViewController {
       addContentViewController(rootViewController, transition: .disabled)
     }
     
-    assert(isViewLoaded == false)
   }
 
   @available(*, unavailable)
