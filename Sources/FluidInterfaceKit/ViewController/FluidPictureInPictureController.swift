@@ -39,8 +39,8 @@ open class FluidPictureInPictureController: UIViewController {
     customView.containerView.setContent(content)
   }
 
-  public final func setMode(_ mode: Mode) {
-    customView.setMode(mode)
+  public final func setMode(_ mode: Mode, animated: Bool = true) {
+    customView.setMode(mode, animated: animated)
   }
 
 }
@@ -147,34 +147,42 @@ extension FluidPictureInPictureController {
       fatalError("init(coder:) has not been implemented")
     }
 
-    func setMode(_ mode: Mode) {
+    func setMode(_ mode: Mode, animated: Bool) {
       state.mode = mode
       setNeedsLayout()
 
       switch mode {
       case .maximizing:
-        setIsHidden(false, animated: true)
+        setIsHidden(false, animated: animated)
       case .folding:
-        setIsHidden(false, animated: true)
+        setIsHidden(false, animated: animated)
       case .floating:
-        setIsHidden(false, animated: true)
+        setIsHidden(false, animated: animated)
       case .hiding:
-        setIsHidden(true, animated: true)
+        setIsHidden(true, animated: animated)
       }
 
-      let animator = UIViewPropertyAnimator(
-        duration: 0.6,
-        timingParameters: UISpringTimingParameters(
-          dampingRatio: 0.9,
-          initialVelocity: .zero
+      if animated {
+
+        let animator = UIViewPropertyAnimator(
+          duration: 0.6,
+          timingParameters: UISpringTimingParameters(
+            dampingRatio: 0.9,
+            initialVelocity: .zero
+          )
         )
-      )
 
-      animator.addAnimations {
-        self.layoutIfNeeded()
+        animator.addAnimations {
+          self.layoutIfNeeded()
+        }
+
+        animator.startAnimation()
+
+      } else {
+
+        layoutIfNeeded()
+
       }
-
-      animator.startAnimation()
 
     }
 
