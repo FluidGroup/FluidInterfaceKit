@@ -2,6 +2,12 @@ import UIKit
 
 extension AnyAddingTransition {
 
+  /**
+   Similar to transition of UINavigationController.
+   It runs animations with blocking user interactions.
+   
+   Opposite transition: ``AnyRemovingTransition/navigationStyle``
+   */
   public static var navigationStyle: Self {
 
     return .init { context in

@@ -64,17 +64,22 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
    */
   public func disableUserInteractionUntileFinish() {
     
-    guard let toViewController = toViewController else {
-      return
+    func run(viewController: UIViewController) {
+      
+      let currentValue = viewController.view.isUserInteractionEnabled
+      viewController.view.isUserInteractionEnabled = false
+      
+      addCompletionEventHandler { [weak viewController] _ in
+        viewController?.view.isUserInteractionEnabled = currentValue
+      }
     }
     
-    let currentValue = toViewController.view.isUserInteractionEnabled
-    toViewController.view.isUserInteractionEnabled = false
-    
-    addCompletionEventHandler { [weak toViewController] _ in
-      toViewController?.view.isUserInteractionEnabled = currentValue
+    toViewController.map {
+      run(viewController: $0)
     }
     
+    run(viewController: fromViewController)
+   
   }
   
   public func requestDisplayOnTop(_ source: DisplaySource) -> FluidStackController.DisplayingOnTopSubscription {
