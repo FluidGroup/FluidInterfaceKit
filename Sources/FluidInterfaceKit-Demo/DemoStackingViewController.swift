@@ -11,6 +11,7 @@ import Foundation
 import MondrianLayout
 import StorybookKit
 import UIKit
+import CompositionKit
 
 final class DemoStackingViewController: FluidStackController {
 

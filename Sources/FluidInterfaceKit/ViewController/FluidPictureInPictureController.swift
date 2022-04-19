@@ -4,7 +4,7 @@ import UIKit
 /**
  A container view controller that manages a view to be floating, maximizing, hiding, etc.
  */
-open class FluidPictureInPictureController: UIViewController {
+open class FluidPictureInPictureController: FluidWrapperViewController {
 
   public final var state: State {
     customView.state
@@ -17,22 +17,9 @@ open class FluidPictureInPictureController: UIViewController {
   public final override func loadView() {
     view = View()
   }
-
-  public init() {
-    super.init(nibName: nil, bundle: nil)
-
-  }
-
-  @available(*, unavailable)
-  public required init?(
-    coder: NSCoder
-  ) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
+ 
   open override func viewDidLoad() {
     super.viewDidLoad()
-
   }
 
   public final func setContent(_ content: UIView) {
@@ -74,7 +61,7 @@ extension FluidPictureInPictureController {
   }
 
   public final class ContainerView: UIView {
-
+    
     weak var content: UIView?
 
     /**
@@ -99,12 +86,15 @@ extension FluidPictureInPictureController {
 
     struct ConditionToLayout: Equatable {
       var bounds: CGRect
+      var inset: UIEdgeInsets
       var safeAreaInsets: UIEdgeInsets
       var layoutMargins: UIEdgeInsets
     }
 
     public internal(set) var mode: Mode = .floating
     var conditionToLayout: ConditionToLayout?
+    
+    var inset: UIEdgeInsets = .zero
     var snappingPosition: Position = [.right, .bottom]
   }
 
@@ -113,7 +103,7 @@ extension FluidPictureInPictureController {
     let containerView: ContainerView = .init()
 
     let sizeForFloating = CGSize(width: 100, height: 140)
-
+        
     private(set) var state: State = .init() {
       didSet {
         receiveUpdate(state: state, oldState: oldValue)
@@ -139,12 +129,29 @@ extension FluidPictureInPictureController {
       containerView.addGestureRecognizer(dragGesture)
 
       addSubview(containerView)
+  
+      NotificationCenter.default.addObserver(self, selector: #selector(handleInsetsUpdate), name: SafeAreaInsetsManager.notificationName, object: nil)
     }
 
     required init?(
       coder: NSCoder
     ) {
       fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+      NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleInsetsUpdate(notification: Notification) {
+      let inset = notification.object as! UIEdgeInsets
+      state.inset = inset
+      
+      setNeedsLayout()
+      UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) { [self] in
+        self.layoutIfNeeded()
+      }
+      .startAnimation()
     }
 
     func setMode(_ mode: Mode, animated: Bool) {
@@ -200,6 +207,7 @@ extension FluidPictureInPictureController {
       case .floating:
         let proposedCondition = State.ConditionToLayout(
           bounds: bounds,
+          inset: state.inset,
           safeAreaInsets: safeAreaInsets,
           layoutMargins: layoutMargins
         )
@@ -210,14 +218,26 @@ extension FluidPictureInPictureController {
         case .none:
           state.conditionToLayout = proposedCondition
         default:
+          
           return
         }
 
-        Fluid.setFrameAsIdentity(calculateFrameForFloating(for: state.snappingPosition), for: containerView)
+        Fluid.setFrameAsIdentity(calculateFrameForFloating(for: state), for: containerView)
       }
 
     }
-
+    
+    override func didMoveToWindow() {
+      super.didMoveToWindow()
+      
+      if window != nil {
+        SafeAreaInsetsManager.shared.start()
+        SafeAreaInsetsManager.shared.request()
+      } else {
+        SafeAreaInsetsManager.shared.pause()
+      }
+    }
+    
     override func layoutMarginsDidChange() {
       super.layoutMarginsDidChange()
       setNeedsLayout()
@@ -233,7 +253,7 @@ extension FluidPictureInPictureController {
     }
 
     private func calculateFrameForFloating(
-      for snappingPositon: Position
+      for state: State
     ) -> CGRect {
 
       let containerSize = sizeForFloating
@@ -241,26 +261,24 @@ extension FluidPictureInPictureController {
 
       let insetFrame =
         baseFrame
-        .inset(by: safeAreaInsets)
+        .inset(by: state.inset)
         .insetBy(dx: 12, dy: 12)
 
       var origin = CGPoint(x: 0, y: 0)
 
-      let snappingPosition = state.snappingPosition
-
-      if snappingPosition.contains(.top) {
+      if state.snappingPosition.contains(.top) {
         origin.y = insetFrame.minY
       }
 
-      if snappingPosition.contains(.bottom) {
+      if state.snappingPosition.contains(.bottom) {
         origin.y = insetFrame.maxY - containerSize.height
       }
 
-      if snappingPosition.contains(.left) {
+      if state.snappingPosition.contains(.left) {
         origin.x = insetFrame.minX
       }
 
-      if snappingPosition.contains(.right) {
+      if state.snappingPosition.contains(.right) {
         origin.x = insetFrame.maxX - containerSize.width
       }
 
@@ -398,7 +416,7 @@ extension FluidPictureInPictureController {
         state.snappingPosition = velocityBasedAnchorPoint ?? locationBasedAnchorPoint
 
         let fromCenter = Geometry.center(of: frame)
-        let toCenter = Geometry.center(of: calculateFrameForFloating(for: state.snappingPosition))
+        let toCenter = Geometry.center(of: calculateFrameForFloating(for: state))
 
         let delta = CGPoint(
           x: toCenter.x - fromCenter.x,
@@ -433,4 +451,132 @@ extension FluidPictureInPictureController {
     }
   }
 
+}
+
+private final class SafeAreaInsetsManager: NSObject {
+  
+  static let notificationName = Notification.Name(rawValue: "app.muukii.fluid.SafeAreaInsetsManager")
+      
+  static let shared = SafeAreaInsetsManager()
+  
+  private var currentInset: UIEdgeInsets = .zero
+  
+  private var referenceCounter: Int = 0 {
+    didSet {
+      if referenceCounter > 0 {
+        currentDisplayLink.isPaused = false
+      } else {
+        currentDisplayLink.isPaused = true
+      }
+    }
+  }
+    
+  private var currentDisplayLink: CADisplayLink!
+    
+  override init() {
+    
+    super.init()
+    
+    currentDisplayLink = .init(target: self, selector: #selector(handle))
+    currentDisplayLink.preferredFramesPerSecond = 1
+    currentDisplayLink.add(to: .main, forMode: .default)
+    currentDisplayLink.isPaused = true
+  }
+  
+  func request() {
+    handle()
+  }
+  
+  func start() {
+    referenceCounter += 1
+  }
+  
+  func pause() {
+    referenceCounter -= 1
+  }
+  
+  deinit {
+    currentDisplayLink.isPaused = true
+    currentDisplayLink.invalidate()
+  }
+  
+  @objc private dynamic func handle() {
+    guard let window = UIApplication.shared.keyWindow else {
+      return
+    }
+    _handle(in: window)
+  }
+    
+  private func _handle(in window: UIWindow) {
+        
+    var maximumInsets: UIEdgeInsets = .zero
+    
+    let windowSize = window.bounds.size
+    
+    func recursive(view: UIView) {
+      
+      let frame = view.convert(view.bounds, to: window)
+      var insets = view.safeAreaInsets
+      
+      guard insets != .zero else {
+        return
+      }
+      
+      if insets.top > 0 {
+        insets.top += frame.origin.y
+      }
+      
+      if insets.left > 0 {
+        insets.left += frame.origin.x
+      }
+      
+      if insets.right > 0 {
+        insets.right += windowSize.width - frame.maxX
+      }
+      
+      if insets.bottom > 0 {
+        insets.bottom += windowSize.height - frame.maxY
+      }
+      
+      var accumulated = false
+      
+      if insets.top >= maximumInsets.top {
+        maximumInsets.top = insets.top
+        accumulated = true
+      }
+      
+      if insets.left >= maximumInsets.left {
+        maximumInsets.left = insets.left
+        accumulated = true
+      }
+      
+      if insets.right >= maximumInsets.right {
+        maximumInsets.right = insets.right
+        accumulated = true
+      }
+      
+      if insets.bottom >= maximumInsets.bottom {
+        maximumInsets.bottom = insets.bottom
+        accumulated = true
+      }
+      
+      guard view is UIScrollView == false else {
+        return
+      }
+      
+      if accumulated {
+        for view in view.subviews {
+          recursive(view: view)
+        }
+      }
+    }
+    
+    recursive(view: window)
+        
+    if currentInset != maximumInsets {
+      currentInset = maximumInsets
+      NotificationCenter.default.post(name: Self.notificationName, object: maximumInsets)
+    }
+  }
+  
 }
