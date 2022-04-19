@@ -2,9 +2,17 @@ import UIKit
 
 extension AnyRemovingTransition {
 
+  /**
+   Similar to transition of UINavigationController.
+   It runs animations with blocking user interactions.
+   
+   Opposite transition: ``AnyAddingTransition/navigationStyle``
+   */
   public static var navigationStyle: Self {
 
     return .init { context in
+      
+      context.disableUserInteractionUntileFinish()
 
       context.fromViewController.view.transform = .identity
 

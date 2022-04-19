@@ -66,12 +66,21 @@ public final class AddingTransitionContext: TransitionContext, CustomReflectable
    */
   public func disableUserInteractionUntileFinish() {
     
-    let currentValue = toViewController.view.isUserInteractionEnabled
-    toViewController.view.isUserInteractionEnabled = false
-    
-    addCompletionEventHandler { [weak self] _ in
-      self?.toViewController.view.isUserInteractionEnabled = currentValue
+    func run(viewController: UIViewController) {
+      
+      let currentValue = viewController.view.isUserInteractionEnabled
+      viewController.view.isUserInteractionEnabled = false
+      
+      addCompletionEventHandler { [weak viewController] _ in
+        viewController?.view.isUserInteractionEnabled = currentValue
+      }
     }
+    
+    fromViewController.map {
+      run(viewController: $0)
+    }
+    
+    run(viewController: toViewController)
     
   }
 
