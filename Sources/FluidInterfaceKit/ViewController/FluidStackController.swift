@@ -331,9 +331,7 @@ open class FluidStackController: UIViewController {
           Log.debug(.stack, "\(context) was invalidated, skips adding")
           return
         }
-
-       
-                          
+                                 
         context.transitionSucceeded()
         
       }

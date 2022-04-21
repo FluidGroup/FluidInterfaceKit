@@ -208,7 +208,12 @@ extension AnyAddingTransition {
   
   public static var rideau: Self {
     .init(name: "Rideau") { context in
-           
+      
+      let box = DeallocationTrigger {
+        // as cancelled adding transition by other transition.
+        context.notifyAnimationCompleted()
+      }
+                 
       guard let controller = context.toViewController as? FluidRideauViewController else {
         context.notifyAnimationCompleted()
         return
@@ -225,6 +230,9 @@ extension AnyAddingTransition {
         animated: true,
         completion: {
           context.notifyAnimationCompleted()
+          
+          /// Supports a case of deallocating context on dismissed while adding transition.
+          withExtendedLifetime(box, {})
       })
                                    
     }
