@@ -223,7 +223,7 @@ extension AnyRemovingInteraction {
     var trackingContext: TrackingContext?
     
     return .init(
-      handlers: [
+      handlers: Self.leftToRight.handlers + [
         .gestureOnScreen { gesture, context in
             
             let view = context.viewController.view!
