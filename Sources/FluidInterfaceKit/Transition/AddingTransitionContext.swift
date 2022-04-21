@@ -36,6 +36,8 @@ public final class AddingTransitionContext: TransitionContext, CustomReflectable
 
   /**
    Tells the container view controller what the animation has completed.
+   
+   Fine to call multiple times, ignored after the first time.
    */
   public func notifyAnimationCompleted() {
     assert(Thread.isMainThread)
