@@ -46,7 +46,7 @@ extension AnyRemovingInteraction {
         caches: true,
         viewProvider: { transitionContext.fromViewController.view! }
       ).view()
-      
+                  
       fromViewMirror.mask = maskView
       fromViewMirror.alpha = 1
       fromViewMirror.frame = transitionContext.fromViewController.view.frame
@@ -104,17 +104,25 @@ extension AnyRemovingInteraction {
           y: targetCenter.y - draggingView.center.y
         )
 
-        let velocity = CGVector.init(
+        var velocity = CGVector.init(
           dx: gestureVelocity.x / delta.x,
           dy: gestureVelocity.y / delta.y
         )
 
+        if velocity.dx.isNaN {
+          velocity.dx = 0
+        }
+        
+        if velocity.dy.isNaN {
+          velocity.dy = 0
+        }
+        
         return velocity
 
       }()
       
       let movingDuration: TimeInterval = 0.65
-                  
+                        
       Fluid.startPropertyAnimators(
         buildArray(elementType: UIViewPropertyAnimator.self) {
           
@@ -151,6 +159,7 @@ extension AnyRemovingInteraction {
           UIViewPropertyAnimator(duration: movingDuration, dampingRatio: 1) {
             fromViewMirror.alpha = 0
           }
+          
           UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
             maskView.frame = transitionContext.fromViewController.view.bounds
             maskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
