@@ -25,7 +25,7 @@ For instance: the history menu of the back bar button, page-sheet modal, and acc
 
 [![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
 
-- Aggressive development with breaking changes
+- Using in production
 
 # Showcase
 
