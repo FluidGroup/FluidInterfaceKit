@@ -44,5 +44,18 @@ extension AnyAddingTransition {
 
     }
   }
+  
+  /**
+   A wrapper that provides a concrete transition on demand.
+   */
+  public static func `dynamic`(
+    name: String = "dynamic \(#file),\(#line)",
+    transition: @escaping () -> Self
+  ) -> Self {
+    return .init(name: name) { context in
+      let _transition = transition()
+      _transition.startTransition(context: context)
+    }
+  }
 
 }
