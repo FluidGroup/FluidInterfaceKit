@@ -56,6 +56,8 @@ open class FluidRideauViewController: FluidTransitionViewController {
       removingTransition: .rideau
     )
     
+    self.fluidStackContentConfiguration.capturesStatusBarAppearance = false
+    
     if Self.supportsModalPresentation {
       self.modalPresentationStyle = .overFullScreen
       self.transitioningDelegate = self
