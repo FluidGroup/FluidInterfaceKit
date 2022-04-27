@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B01AFE1281939CB00A44537 /* DemoSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */; };
 		4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F619427B818E800363580 /* DemoListContainerViewController.swift */; };
 		4B2F9EA027FC080000F74ADB /* UIKitPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */; };
 		4B3BE33C27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */; };
@@ -84,6 +85,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSheetViewController.swift; sourceTree = "<group>"; };
 		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
 		4B259A4327BED2C700F53B4C /* FluidInterfaceKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluidInterfaceKit.podspec; sourceTree = "<group>"; };
 		4B2CCB88278DD21400EAB928 /* Descriptors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Descriptors; path = submodules/Descriptors; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				4B468050279C58E800625FCB /* DemoThreadsMessagesViewController.swift */,
 				4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */,
 				4B468054279C58E800625FCB /* DemoStackingViewController.swift */,
+				4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */,
 				4B46804E279C58E800625FCB /* RootContainerViewController.swift */,
 				4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */,
 				4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */,
@@ -463,6 +466,7 @@
 				4BFC696627A7F46D0011238E /* DemoPortalLayer.swift in Sources */,
 				4B468074279C58E800625FCB /* UIControl+Closure.swift in Sources */,
 				4B46806A279C58E800625FCB /* ViewModel.swift in Sources */,
+				4B01AFE1281939CB00A44537 /* DemoSheetViewController.swift in Sources */,
 				4B468066279C58E800625FCB /* DemoControlCenterViewController.swift in Sources */,
 				4B46806B279C58E800625FCB /* DemoStackingViewController.swift in Sources */,
 				4B46806E279C58E800625FCB /* Book.swift in Sources */,
