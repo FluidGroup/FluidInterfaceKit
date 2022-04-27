@@ -79,6 +79,22 @@ extension FluidExtentionViewController {
   }
   
   public func fluidPush(
+    _ viewController: FluidSheetViewController,
+    target strategy: UIViewController.FluidStackFindStrategy,
+    transition: AnyAddingTransition? = nil,
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
+  ) {
+    
+    fluidPushUnsafely(
+      viewController,
+      target: strategy,
+      transition: transition,
+      afterViewDidLoad: {}
+    )
+    
+  }
+  
+  public func fluidPush(
     _ viewController: FluidPopoverViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,

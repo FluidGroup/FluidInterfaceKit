@@ -30,7 +30,7 @@ private final class ListViewController: CodeBasedViewController {
               
               let controller = DetailViewController()
               
-              fluidPush(controller, target: .current, relation: .modality)
+              fluidPush(controller, target: .current)
               
               print("hey")
             }
@@ -73,12 +73,12 @@ private final class ListViewController: CodeBasedViewController {
   }
 }
 
-private final class DetailViewController: FluidViewController {
+private final class DetailViewController: FluidSheetViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    view.backgroundColor = .neon(.purple)
+    contentView.backgroundColor = .neon(.purple)
   }
 }
 
