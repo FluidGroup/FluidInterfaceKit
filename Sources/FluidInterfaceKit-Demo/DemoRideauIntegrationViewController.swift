@@ -66,7 +66,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
     }
 
     let rideauController = FluidRideauViewController(
-      bodyViewController: body,
+      bodyViewController: body.fluidWrapped(configuration: .defaultModal),
       configuration: .init(
         snapPoints: [.pointsFromTop(200)],
         topMarginOption: .fromSafeArea(0)
@@ -74,8 +74,8 @@ final class DemoRideauIntegrationViewController: FluidStackController {
       initialSnapPoint: .pointsFromTop(200),
       resizingOption: .noResize
     )
-
-    addContentViewController(rideauController, transition: nil)
+    
+    fluidPush(rideauController, target: .current)
 
   }
   
@@ -86,7 +86,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
     }
 
     let rideauController = FluidRideauViewController(
-      bodyViewController: body,
+      bodyViewController: body.fluidWrapped(configuration: .defaultModal),
       configuration: .init(
         snapPoints: [.pointsFromTop(200)],
         topMarginOption: .fromSafeArea(0)
@@ -126,6 +126,8 @@ private final class ContentViewController: FluidStackController {
   ) {
     self._dismiss = dismiss
     super.init()
+    
+    navigationItem.title = "Rideau"
   }
 
   required init?(
