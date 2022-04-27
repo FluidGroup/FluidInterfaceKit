@@ -27,6 +27,11 @@ private final class ListViewController: CodeBasedViewController {
         VStackBlock {
           Components.makeSelection()&>.do {
             $0.handlers.onTap = { [unowned self] in
+              
+              let controller = DetailViewController()
+              
+              fluidPush(controller, target: .current, relation: .modality)
+              
               print("hey")
             }
           }
@@ -68,11 +73,27 @@ private final class ListViewController: CodeBasedViewController {
   }
 }
 
-private final class DetailViewController: CodeBasedViewController {
+private final class DetailViewController: FluidViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
     view.backgroundColor = .neon(.purple)
   }
+}
+
+extension AnyRemovingInteraction {
+  
+  static var sheet: Self {
+    
+    return .init(handlers: [
+      .gestureOnScreen(handler: { gesture, context in
+        
+        
+        
+      })
+    ])
+    
+  }
+  
 }
