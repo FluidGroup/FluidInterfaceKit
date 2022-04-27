@@ -26,7 +26,7 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     super.navigationController
   }
 
-  public private(set) lazy var fluidPanGesture: UIPanGestureRecognizer = _PanGestureRecognizer(
+  public private(set) lazy var fluidPanGesture: UIPanGestureRecognizer = FluidPanGestureRecognizer(
     target: self,
     action: #selector(handlePanGesture)
   )
@@ -136,7 +136,7 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
   }
 
   @objc
-  private func handlePanGesture(_ gesture: _PanGestureRecognizer) {
+  private func handlePanGesture(_ gesture: FluidPanGestureRecognizer) {
 
     guard let interaction = removingInteraction else {
       return
@@ -227,7 +227,7 @@ final class _EdgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer {
 
 }
 
-public final class _PanGestureRecognizer: UIPanGestureRecognizer {
+public final class FluidPanGestureRecognizer: UIPanGestureRecognizer {
 
   public private(set) weak var trackingScrollView: UIScrollView?
 

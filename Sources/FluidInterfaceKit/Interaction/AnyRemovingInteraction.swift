@@ -24,7 +24,7 @@ public struct AnyRemovingInteraction {
 
   public enum Handler {
     case gestureOnLeftEdge(handler: GestureHandler<UIScreenEdgePanGestureRecognizer>)
-    case gestureOnScreen(handler: GestureHandler<_PanGestureRecognizer>)
+    case gestureOnScreen(handler: GestureHandler<FluidPanGestureRecognizer>)
   }
 
   public let handlers: [Handler]
