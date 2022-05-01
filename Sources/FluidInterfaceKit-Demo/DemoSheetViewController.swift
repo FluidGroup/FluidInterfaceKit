@@ -79,6 +79,7 @@ private final class DetailViewController: FluidSheetViewController {
     super.viewDidLoad()
     
     contentView.backgroundColor = .neon(.purple)
+    
   }
 }
 
