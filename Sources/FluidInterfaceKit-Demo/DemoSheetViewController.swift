@@ -78,23 +78,50 @@ private final class DetailViewController: FluidSheetViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    contentView.backgroundColor = .neon(.purple)
+    view.backgroundColor = .systemBackground
+        
+    let horizontalContent = ScrollableContainerView(scrollDirection: .horizontal)
     
+    horizontalContent.setContent(AnyView { _ in
+      HStackBlock(spacing: 8) {
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+      }
+    })
+    
+    let verticalContent = ScrollableContainerView(scrollDirection: .vertical)
+        
+    verticalContent.setContent(AnyView { _ in
+      VStackBlock(spacing: 8) {
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+        UIView.mock(backgroundColor: .neon(.purple), preferredSize: .init(width: 60, height: 60))
+      }
+    })
+    
+    Mondrian.buildSubviews(on: view) {
+      VStackBlock {
+        horizontalContent
+        
+        verticalContent
+      }
+      .container(respectingSafeAreaEdges: .all)
+    }
   }
 }
 
-extension AnyRemovingInteraction {
-  
-  static var sheet: Self {
-    
-    return .init(handlers: [
-      .gestureOnScreen(handler: { gesture, context in
-        
-        
-        
-      })
-    ])
-    
-  }
-  
-}

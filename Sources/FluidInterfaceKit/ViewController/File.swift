@@ -1,29 +1,25 @@
 import UIKit
 
-open class FluidSheetViewController: FluidTransitionViewController {
+open class FluidSheetViewController: FluidGestureHandlingViewController {
   
   public enum Content {
     case viewController(UIViewController)
     case view(UIView)
   }
-  
-  public let contentView: UIView = .init()
-  
-  private let __content: Content?
-
+    
   public init(
-    content: Content? = nil,
     addingTransition: AnyAddingTransition? = nil,
     removingTransition: AnyRemovingTransition? = nil
   ) {
     
-    self.__content = content
-
     super.init(
       content: nil,
-      addingTransition: addingTransition,
-      removingTransition: removingTransition
+      addingTransition: addingTransition ?? .sheet,
+      removingTransition: removingTransition ?? .sheet,
+      removingInteraction: .sheet
     )
+    
+    fluidStackContentConfiguration.contentType = .overlay
     
   }
   
@@ -33,4 +29,53 @@ open class FluidSheetViewController: FluidTransitionViewController {
     
     
   }
+}
+
+extension AnyAddingTransition {
+  
+  public static var sheet: Self {
+    return .modalStyle
+  }
+  
+}
+
+extension AnyRemovingTransition {
+  
+  public static var sheet: Self {
+    return .modalStyle
+  }
+  
+}
+
+extension AnyRemovingInteraction {
+  
+  public static var sheet: Self {
+    
+    return .init(handlers: [
+      .gestureOnScreen(handler: { gesture, context in
+        
+        let targetViewController = context.viewController
+        let targetView = targetViewController.view!
+        
+        switch gesture.state {
+        case .possible:
+          break
+        case .began, .changed:
+          let translation = gesture.translation(in: nil)
+          targetView.layer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(translationX: 0, y: translation.y))
+          
+        case .ended:
+          break
+        case .cancelled, .failed:
+          break
+        @unknown default:
+          assertionFailure()
+          break
+        }
+        
+      })
+    ])
+    
+  }
+  
 }
