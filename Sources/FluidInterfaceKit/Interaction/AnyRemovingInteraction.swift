@@ -19,12 +19,25 @@ public struct AnyRemovingInteraction {
       return viewController.fluidStackContext!.startRemovingForInteraction()!
     }
   }
+  
+  public enum GestureConditionEvent {
+    case shouldBeRequiredToFailBy(otherGestureRecognizer: UIGestureRecognizer, completion: (Bool) -> Void)
+    case shouldRecognizeSimultaneouslyWith(otherGestureRecognizer: UIGestureRecognizer, completion: (Bool) -> Void)
+  }
 
   public typealias GestureHandler<Gesture> = (Gesture, Context) -> Void
+  
+  public typealias GestureCondition<Gesture> = (Gesture, GestureConditionEvent) -> Void
 
   public enum Handler {
-    case gestureOnLeftEdge(handler: GestureHandler<UIScreenEdgePanGestureRecognizer>)
-    case gestureOnScreen(handler: GestureHandler<FluidPanGestureRecognizer>)
+    case gestureOnLeftEdge(
+      condition: GestureCondition<UIScreenEdgePanGestureRecognizer>,
+      handler: GestureHandler<UIScreenEdgePanGestureRecognizer>
+    )
+    case gestureOnScreen(
+      condition: GestureCondition<FluidPanGestureRecognizer>,
+      handler: GestureHandler<FluidPanGestureRecognizer>
+    )
   }
 
   public let handlers: [Handler]

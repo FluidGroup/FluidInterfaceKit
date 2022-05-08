@@ -26,7 +26,7 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     super.navigationController
   }
 
-  public private(set) lazy var fluidPanGesture: UIPanGestureRecognizer = FluidPanGestureRecognizer(
+  public private(set) lazy var fluidPanGesture: FluidPanGestureRecognizer = FluidPanGestureRecognizer(
     target: self,
     action: #selector(handlePanGesture)
   )
@@ -126,7 +126,7 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     }
 
     for handler in interaction.handlers {
-      if case .gestureOnLeftEdge(let handler) = handler {
+      if case .gestureOnLeftEdge(_, let handler) = handler {
 
         handler(gesture, .init(viewController: self))
 
@@ -138,12 +138,12 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
   @objc
   private func handlePanGesture(_ gesture: FluidPanGestureRecognizer) {
 
-    guard let interaction = removingInteraction else {
+    guard let removingInteraction = removingInteraction else {
       return
     }
 
-    for handler in interaction.handlers {
-      if case .gestureOnScreen(let handler) = handler {
+    for handler in removingInteraction.handlers {
+      if case .gestureOnScreen(_, let handler) = handler {
         handler(gesture, .init(viewController: self))
       }
     }
@@ -154,12 +154,54 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     
     switch gestureRecognizer {
     case fluidPanGesture:
-      return false
-    case fluidScreenEdgePanGesture:
-   
-      if otherGestureRecognizer is UIPanGestureRecognizer {
-        return true
+      
+      if let removingInteraction = removingInteraction {
+        for handler in removingInteraction.handlers {
+          if case .gestureOnScreen(let condition, _) = handler {
+            
+            var resultPlaceholder: Bool = false
+            
+            condition(
+              fluidPanGesture, .shouldBeRequiredToFailBy(
+                otherGestureRecognizer: otherGestureRecognizer,
+                completion: { result in
+                  // non-escaping
+                  resultPlaceholder = result
+                }
+              )
+            )
+            
+            return resultPlaceholder
+
+          }
+        }
       }
+    
+    case fluidScreenEdgePanGesture:
+      
+      if let removingInteraction = removingInteraction {
+        for handler in removingInteraction.handlers {
+          if case .gestureOnLeftEdge(let condition, _) = handler {
+            
+            var resultPlaceholder: Bool = false
+            
+            condition(
+              fluidScreenEdgePanGesture,
+              .shouldBeRequiredToFailBy(
+                otherGestureRecognizer: otherGestureRecognizer,
+                completion: { result in
+                  // non-escaping
+                  resultPlaceholder = result
+                }
+              )
+            )
+            
+            return resultPlaceholder
+            
+          }
+        }
+      }
+      
     default:
       break
     }
@@ -175,26 +217,54 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     
     switch gestureRecognizer {
     case fluidPanGesture:
-
-      if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
-        return false
-      }
-
-      if otherGestureRecognizer is UIPanGestureRecognizer {
-        // to make ScrollView prior.
-        return false
+  
+      if let removingInteraction = removingInteraction {
+        for handler in removingInteraction.handlers {
+          if case .gestureOnScreen(let condition, _) = handler {
+            
+            var resultPlaceholder: Bool = false
+            
+            condition(
+              fluidPanGesture, .shouldRecognizeSimultaneouslyWith(
+                otherGestureRecognizer: otherGestureRecognizer,
+                completion: { result in
+                  // non-escaping
+                  resultPlaceholder = result
+                }
+              )
+            )
+            
+            return resultPlaceholder
+            
+          }
+        }
       }
       
     case fluidScreenEdgePanGesture:
+                
+      if let removingInteraction = removingInteraction {
+        for handler in removingInteraction.handlers {
+          if case .gestureOnLeftEdge(let condition, _) = handler {
+            
+            var resultPlaceholder: Bool = false
+            
+            condition(
+              fluidScreenEdgePanGesture,
+              .shouldRecognizeSimultaneouslyWith(
+                otherGestureRecognizer: otherGestureRecognizer,
+                completion: { result in
+                  // non-escaping
+                  resultPlaceholder = result
+                }
+              )
+            )
+            
+            return resultPlaceholder
+            
+          }
+        }
+      }
       
-      if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
-        return false
-      }
-
-      if otherGestureRecognizer is UIPanGestureRecognizer {
-        // to make ScrollView prior.
-        return false
-      }
     default:
       break
     }
