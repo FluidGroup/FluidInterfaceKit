@@ -179,7 +179,7 @@ extension AnyRemovingInteraction {
 
             let draggingView = context.viewController.view!
             assert(draggingView == gesture.view)
-
+                      
             switch gesture.state {
             case .possible:
               break
@@ -239,10 +239,6 @@ extension AnyRemovingInteraction {
                 return
               }
 
-              let translation = gesture.translation(in: draggingView)
-
-              draggingView.layer.position.x += translation.x
-              draggingView.layer.position.y += translation.y
               draggingView.layer.masksToBounds = true
               if #available(iOS 13.0, *) {
                 draggingView.layer.cornerCurve = .continuous
@@ -250,10 +246,18 @@ extension AnyRemovingInteraction {
                 // Fallback on earlier versions
               }
 
-              UIViewPropertyAnimator(duration: 0.5, dampingRatio: 1) {
+              let translation = gesture.translation(in: draggingView)
+              
+              let movingAnimator = UIViewPropertyAnimator(duration: 0.35, dampingRatio: 1)
+              
+              movingAnimator.addAnimations {
+                // The reason why it uses `layer` is prevent layout in safe-area.
+                draggingView.layer.position.x += translation.x
+                draggingView.layer.position.y += translation.y
                 draggingView.layer.cornerRadius = 32
               }
-              .startAnimation()
+              
+              movingAnimator.startAnimation()
 
               gesture.setTranslation(.zero, in: draggingView)
 
