@@ -152,29 +152,69 @@ extension AnyRemovingInteraction {
     return .init(
       handlers: buildArray {
         if isEdgeEnabled {
-          .gestureOnLeftEdge { gesture, context in
-
-            switch gesture.state {
-            case .began:
-
-              let backwarding = makeBackwarding()
-              let transitionContext = context.startRemovingTransition()
-
-              backwarding.receive(
-                event: .run(
-                  transitionContext: transitionContext,
-                  draggingView: transitionContext.fromViewController.view!,
-                  gestureVelocity: .zero
+          .gestureOnLeftEdge(
+            condition: { gesture, event  in
+              switch event {
+              case .shouldBeRequiredToFailBy(let otherGestureRecognizer, let completion):
+                
+                if otherGestureRecognizer is UIPanGestureRecognizer {
+                  completion(true)
+                } else {
+                  completion(false)
+                }
+                
+              case .shouldRecognizeSimultaneouslyWith(let otherGestureRecognizer, let completion):
+                
+                if otherGestureRecognizer is UIPanGestureRecognizer {
+                  // to make ScrollView prior.
+                  completion(false)
+                } else {
+                  completion(true)
+                }
+                
+              }
+            },
+            handler: { gesture, context in
+              
+              switch gesture.state {
+              case .began:
+                
+                let backwarding = makeBackwarding()
+                let transitionContext = context.startRemovingTransition()
+                
+                backwarding.receive(
+                  event: .run(
+                    transitionContext: transitionContext,
+                    draggingView: transitionContext.fromViewController.view!,
+                    gestureVelocity: .zero
+                  )
                 )
-              )
-
-            default:
-              break
+                
+              default:
+                break
+              }
             }
-          }
+          )
         }
 
         .gestureOnScreen(
+          condition: { gesture, event in
+            switch event {
+            case .shouldBeRequiredToFailBy(let otherGestureRecognizer, let completion):
+              
+              completion(false)
+              
+            case .shouldRecognizeSimultaneouslyWith(let otherGestureRecognizer, let completion):
+              
+              if otherGestureRecognizer is UIPanGestureRecognizer {
+                // to make ScrollView prior.
+                completion(false)
+              } else {
+                completion(true)
+              }
+              
+            }
+          },
           handler: { gesture, context in
 
             let draggingView = context.viewController.view!

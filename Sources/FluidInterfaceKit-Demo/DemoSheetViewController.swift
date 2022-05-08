@@ -87,10 +87,12 @@ extension AnyRemovingInteraction {
   static var sheet: Self {
     
     return .init(handlers: [
-      .gestureOnScreen(handler: { gesture, context in
-        
-        
-        
+      .gestureOnScreen(
+        condition: { _, _ in
+          
+        },
+        handler: { gesture, context in
+                      
       })
     ])
     
