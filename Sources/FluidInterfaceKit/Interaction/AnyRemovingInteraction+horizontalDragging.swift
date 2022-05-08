@@ -179,6 +179,8 @@ extension AnyRemovingInteraction {
 
             let draggingView = context.viewController.view!
             assert(draggingView == gesture.view)
+            
+            let movingAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1)
 
             switch gesture.state {
             case .possible:
@@ -239,10 +241,6 @@ extension AnyRemovingInteraction {
                 return
               }
 
-              let translation = gesture.translation(in: draggingView)
-
-              draggingView.layer.position.x += translation.x
-              draggingView.layer.position.y += translation.y
               draggingView.layer.masksToBounds = true
               if #available(iOS 13.0, *) {
                 draggingView.layer.cornerCurve = .continuous
@@ -250,10 +248,15 @@ extension AnyRemovingInteraction {
                 // Fallback on earlier versions
               }
 
-              UIViewPropertyAnimator(duration: 0.5, dampingRatio: 1) {
+              let translation = gesture.translation(in: draggingView)
+              
+              movingAnimator.addAnimations {
+                draggingView.layer.position.x += translation.x
+                draggingView.layer.position.y += translation.y
                 draggingView.layer.cornerRadius = 32
               }
-              .startAnimation()
+              
+              movingAnimator.startAnimation()
 
               gesture.setTranslation(.zero, in: draggingView)
 
