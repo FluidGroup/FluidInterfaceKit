@@ -273,21 +273,21 @@ open class FluidStackController: UIViewController {
     // propagate after `viewDidLoad`
     viewControllerToAdd.propagateStackAction(.willPush)
     
-    let wrapperView: StackingPlatterView = {
-      if let currentWrapperView = viewControllerToAdd.view.superview as? StackingPlatterView {
+    let platterView: StackingPlatterView = {
+      if let currentPlatterView = viewControllerToAdd.view.superview as? StackingPlatterView {
         // reuse
-        return currentWrapperView
+        return currentPlatterView
       } else {
         // create new one
-        let containerView = StackingPlatterView(
+        let newPlatterView = StackingPlatterView(
           viewController: viewControllerToAdd,
           frame: self.view.bounds
         )
-        return containerView
+        return newPlatterView
       }
     }()
     
-    view.addSubview(wrapperView)
+    view.addSubview(platterView)
     
     // take before modifying.
     let currentTop = stackingItems.last
@@ -296,7 +296,7 @@ open class FluidStackController: UIViewController {
     do {
       var modified = stackingItems
       modified.removeAll { $0.viewController == viewControllerToAdd }
-      modified.append(wrapperView)
+      modified.append(platterView)
       stackingItems = modified
     }
 
@@ -304,20 +304,20 @@ open class FluidStackController: UIViewController {
     assert(viewControllerToAdd.view.superview is StackingPlatterView)
 
     let newTransitionContext = AddingTransitionContext(
-      contentView: wrapperView,
+      contentView: platterView,
       fromViewController: currentTop?.viewController,
       toViewController: viewControllerToAdd,
-      onAnimationCompleted: { [weak self] context in
+      onAnimationCompleted: { [weak self, weak platterView] context in
                         
         // MARK: Handling after animation
         
         assert(Thread.isMainThread)
         
-        guard let self = self else { return }
+        guard let self = self, let platterView = platterView else { return }
         
         defer {
           
-          wrapperView.removeTransitionContext(expect: context)
+          platterView.removeTransitionContext(expect: context)
           
           if self.state.latestTransitionContext == context {
             // handling offload
@@ -345,14 +345,14 @@ open class FluidStackController: UIViewController {
       completion?(event)
     }
 
-    wrapperView.swapTransitionContext(newTransitionContext)
+    platterView.swapTransitionContext(newTransitionContext)
 
     // Start transition after invalidated current transition.
     do {
 
       // Turns off touch through to prevent the user attempt to start another adding-transition.
       // `Flexible` means the user can dispatch cancel in the current transition.
-      wrapperView.isTouchThroughEnabled = false
+      platterView.isTouchThroughEnabled = false
 
       if let transition = transition {
 
@@ -449,9 +449,9 @@ open class FluidStackController: UIViewController {
       contentView: viewToRemove,
       fromViewController: viewToRemove.viewController,
       toViewController: backView?.viewController,
-      onAnimationCompleted: { [weak self] context in
+      onAnimationCompleted: { [weak self, weak viewToRemove] context in
 
-        guard let self = self else { return }
+        guard let self = self, let viewToRemove = viewToRemove else { return }
         
         defer {
           
@@ -487,9 +487,9 @@ open class FluidStackController: UIViewController {
         self.topItem?.restoreResponderState()
                 
       },
-      onRequestedDisplayOnTop: { [weak self] source in
+      onRequestedDisplayOnTop: { [weak self, weak viewToRemove] source in
 
-        guard let self = self else {
+        guard let self = self, let viewToRemove = viewToRemove else {
           assertionFailure("FluidStackController has been already deallocated.")
           return .init(run: {})
         }
@@ -1014,6 +1014,10 @@ extension FluidStackController {
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+      Log.debug(.stack, "Deinit \(self)")
     }
     
     func loadViewController() {
