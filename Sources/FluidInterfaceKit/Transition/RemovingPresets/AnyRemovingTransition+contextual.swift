@@ -69,8 +69,8 @@ extension AnyRemovingInteraction {
       
       transitionContext.fromViewController.view.isHidden = true
       
-      transitionContext.addCompletionEventHandler { _ in
-        transitionContext.fromViewController.view.isHidden = false
+      transitionContext.addCompletionEventHandler { [weak transitionContext] _ in
+        transitionContext?.fromViewController.view.isHidden = false
       }
 
       // setup housekeeping
