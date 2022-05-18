@@ -97,4 +97,40 @@ extension AnyBatchRemovingTransition {
     }
     
   }
+  
+  public static var modalStyle: Self {
+    
+    return .init { context in
+      
+      let topViewController = context.fromViewControllers.last!
+      let middleViewControllers = context.fromViewControllers.dropLast()
+
+      middleViewControllers.forEach {
+        $0.view.isHidden = true
+      }
+
+      context.contentView.backgroundColor = .clear
+
+      let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+
+        topViewController.view.layer.transform = CATransform3DMakeAffineTransform(.init(
+          translationX: 0,
+          y: topViewController.view.bounds.height
+        ))
+        topViewController.view.alpha = 1
+        
+        context.toViewController?.view.transform = .identity
+        context.toViewController?.view.alpha = 1
+      }
+
+      animator.addCompletion { _ in
+        context.notifyCompleted()
+      }
+
+      animator.startAnimation()
+      
+    }
+    
+  }
+  
 }
