@@ -52,6 +52,9 @@ let book = Book(title: "FluidInterfaceKit") {
     BookPush(title: "Push") {
       DemoPictureInPictureController()
     }
+    BookPush(title: "Push - Cool") {
+      DemoPictureInPictureCoolController()
+    }
   }
 
   BookPush(title: "SafeArea") {

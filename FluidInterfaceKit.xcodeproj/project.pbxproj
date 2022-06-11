@@ -53,6 +53,7 @@
 		4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */; };
 		4BC667BF27B2E6B300182E6C /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667BE27B2E6B300182E6C /* FluidInterfaceKit */; };
 		4BC667C127B2E6B300182E6C /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */; };
+		4BC7B20D284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */; };
 		4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F327B6B02300095412 /* StorybookKit */; };
 		4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F527B6B02300095412 /* StorybookUI */; };
 		4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */; };
@@ -131,6 +132,7 @@
 		4BC0A15927C178C000CD3A46 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		4BC667B727B2E69C00182E6C /* FluidInterfaceKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluidInterfaceKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidInterfaceKitTests.swift; sourceTree = "<group>"; };
+		4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPictureInPictureCoolController.swift; sourceTree = "<group>"; };
 		4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeBuilder.swift; sourceTree = "<group>"; };
 		4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidStackControllerTests.swift; sourceTree = "<group>"; };
 		4BDDF267277F509C00636B00 /* MondrianLayout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MondrianLayout; path = submodules/MondrianLayout; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				4B46804F279C58E800625FCB /* DemoControlCenterViewController.swift */,
 				4B2F619427B818E800363580 /* DemoListContainerViewController.swift */,
 				4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */,
+				4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */,
 				4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */,
 				4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */,
 				4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */,
@@ -476,6 +479,7 @@
 				4B468064279C58E800625FCB /* AnimatorPlaygroundViewController.swift in Sources */,
 				4B468067279C58E800625FCB /* DemoThreadsMessagesViewController.swift in Sources */,
 				4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */,
+				4BC7B20D284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift in Sources */,
 				4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */,
 				4B468065279C58E800625FCB /* RootContainerViewController.swift in Sources */,
 				4B468061279C58E800625FCB /* ViewController.swift in Sources */,
