@@ -19,7 +19,7 @@ Apps run with this component, only stacking but it can get flexibility instead.
 For instance: the history menu of the back bar button, page-sheet modal, and accessibility.
 > This framework tries to follow the updates of UIKit as long as.
 
-[🔗 **Detailed Documentation**](https://bit.ly/3Ip8Ss8)
+[🔗 **Detailed Documentation**](https://fluidgroup.github.io/FluidInterfaceKit/documentation/fluidinterfacekit/)
 
 # Development Status
 
@@ -117,7 +117,7 @@ To dimisss itself, call `fluidPop()`
 
 ---
 
-[🔗 **Detailed Documentation**](https://bit.ly/3FJxNFJ)
+[🔗 **Detailed Documentation**](https://fluidgroup.github.io/FluidInterfaceKit/documentation/fluidinterfacekit/)
 
 # Support this projects
 <a href="https://www.buymeacoffee.com/muukii">
