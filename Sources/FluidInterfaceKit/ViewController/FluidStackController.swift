@@ -4,7 +4,7 @@ import ResultBuilderKit
 
 /// Actions that comes from ``FluidStackController``
 public enum FluidStackAction {
-  /// dispatches after viewDidLoad
+  /// dispatches after viewDidLoad, added in hierarchy, before transitioning
   case willPush
   case willPop
 }
@@ -270,9 +270,6 @@ open class FluidStackController: UIViewController {
     
     afterViewDidLoad()
     
-    // propagate after `viewDidLoad`
-    viewControllerToAdd.propagateStackAction(.willPush)
-    
     let platterView: StackingPlatterView = {
       if let currentPlatterView = viewControllerToAdd.view.superview as? StackingPlatterView {
         // reuse
@@ -289,6 +286,9 @@ open class FluidStackController: UIViewController {
     
     view.addSubview(platterView)
     
+    // propagate after `viewDidLoad`
+    viewControllerToAdd.propagateStackAction(.willPush)
+        
     // take before modifying.
     let currentTop = stackingItems.last
     
