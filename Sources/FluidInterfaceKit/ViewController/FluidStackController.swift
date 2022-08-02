@@ -196,7 +196,7 @@ open class FluidStackController: UIViewController {
    */
   public func removeLastViewController(
     transition: AnyRemovingTransition?,
-    completion: @escaping (RemovingTransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: @MainActor @escaping (RemovingTransitionContext.CompletionEvent) -> Void = { _ in }
   ) {
 
     assert(Thread.isMainThread)
@@ -227,7 +227,7 @@ open class FluidStackController: UIViewController {
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?,
     afterViewDidLoad: @escaping () -> Void = {},
-    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     /**
@@ -380,7 +380,7 @@ open class FluidStackController: UIViewController {
   public func addContentView(
     _ view: UIView,
     transition: AnyAddingTransition?,
-    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     assert(Thread.isMainThread)
@@ -396,7 +396,7 @@ open class FluidStackController: UIViewController {
    */
   public func startRemovingForInteraction(
     _ viewControllerToRemove: UIViewController,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) -> RemovingTransitionContext {
 
     // Handles stackConfiguration
@@ -422,7 +422,7 @@ open class FluidStackController: UIViewController {
    */
   private func _startRemoving(
     _ viewToRemove: StackingPlatterView,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) -> RemovingTransitionContext {
 
     // Ensure it's managed
@@ -541,7 +541,7 @@ open class FluidStackController: UIViewController {
     _ viewControllerToRemove: UIViewController,
     transition: AnyRemovingTransition?,
     transitionForBatch: @autoclosure @escaping () -> AnyBatchRemovingTransition? = .crossDissolve,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     // Handles configuration
@@ -608,7 +608,7 @@ open class FluidStackController: UIViewController {
    */
   public func removeAllViewController(
     transition: AnyBatchRemovingTransition?,
-    completion: ((BatchRemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (BatchRemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     if stackConfiguration.retainsRootViewController {
@@ -633,7 +633,7 @@ open class FluidStackController: UIViewController {
   private func removeAllViewController(
     from viewController: UIViewController,
     transition: AnyBatchRemovingTransition?,
-    completion: ((BatchRemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (BatchRemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
     Log.debug(.stack, "Remove \(viewController) from \(stackingItems)")
