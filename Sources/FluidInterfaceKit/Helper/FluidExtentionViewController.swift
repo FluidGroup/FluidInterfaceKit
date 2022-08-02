@@ -21,7 +21,7 @@ extension FluidExtentionViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
     afterViewDidLoad: @escaping () -> Void = {},
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)?
   ) {
     
     let controller = viewController
@@ -56,7 +56,6 @@ extension FluidExtentionViewController {
    - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
    */
   @discardableResult
-  @MainActor
   public func fluidPushUnsafely(
     _ viewController: UIViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
@@ -87,7 +86,7 @@ extension FluidExtentionViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     relation: StackingRelation?,
     transition: AnyAddingTransition? = nil,
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)?
   ) {
     
     let current = Fluid.LocalEnvironmentValues.current
@@ -140,18 +139,20 @@ extension FluidExtentionViewController {
     _ viewController: FluidPopoverViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)?
   ) {
     
     fluidPushUnsafely(
       viewController,
       target: strategy,
       transition: transition,
-      afterViewDidLoad: {}
+      afterViewDidLoad: {},
+      completion: completion
     )
     
   }
   
+  @discardableResult
   public func fluidPush(
     _ viewController: FluidPopoverViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
@@ -186,7 +187,7 @@ extension FluidExtentionViewController {
     transition: AnyRemovingTransition? = nil,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
     forwardingToParent: Bool = true,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)?
   ) {
      
     guard
@@ -220,6 +221,7 @@ extension FluidExtentionViewController {
    stackController.topViewController?.fluidPop()
    ```
    */
+  @discardableResult
   public func fluidPop(
     transition: AnyRemovingTransition? = nil,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
