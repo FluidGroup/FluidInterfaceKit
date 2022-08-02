@@ -4,6 +4,7 @@ public protocol FluidExtentionViewController: UIViewController {}
 
 extension UIViewController: FluidExtentionViewController {}
 
+@MainActor
 extension FluidExtentionViewController {
     
   // MARK: - Push
@@ -14,13 +15,13 @@ extension FluidExtentionViewController {
    - Parameters:
    - target: Specify how to find a target to display
    - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
-   */
+   */  
   public func fluidPushUnsafely(
     _ viewController: UIViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
     afterViewDidLoad: @escaping () -> Void = {},
-    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     let controller = viewController
@@ -54,12 +55,39 @@ extension FluidExtentionViewController {
    - target: Specify how to find a target to display
    - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
    */
+  @discardableResult
+  @MainActor
+  public func fluidPushUnsafely(
+    _ viewController: UIViewController,
+    target strategy: UIViewController.FluidStackFindStrategy,
+    transition: AnyAddingTransition? = nil,
+    afterViewDidLoad: @escaping () -> Void = {}
+  ) async -> AddingTransitionContext.CompletionEvent {
+    await withCheckedContinuation { continuation in
+      fluidPushUnsafely(
+        viewController,
+        target: strategy,
+        transition: transition,
+        afterViewDidLoad: afterViewDidLoad,
+        completion: { event in
+          continuation.resume(returning: event)
+      })
+    }
+  }
+  
+  /**
+   Adds a given view controller to the target ``FluidStackController``.
+   
+   - Parameters:
+   - target: Specify how to find a target to display
+   - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
+   */
   public func fluidPush(
     _ viewController: FluidViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     relation: StackingRelation?,
     transition: AnyAddingTransition? = nil,
-    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     let current = Fluid.LocalEnvironmentValues.current
@@ -73,8 +101,38 @@ extension FluidExtentionViewController {
       transition: overriddenAddingTransition ?? transition,
       afterViewDidLoad: { [weak viewController] in
         viewController?.willTransition(with: overriddenRelation ?? relation)
-      }
+      },
+      completion: completion
     )
+    
+  }
+  
+  /**
+   Adds a given view controller to the target ``FluidStackController``.
+   
+   - Parameters:
+   - target: Specify how to find a target to display
+   - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
+   */
+  @discardableResult
+  public func fluidPush(
+    _ viewController: FluidViewController,
+    target strategy: UIViewController.FluidStackFindStrategy,
+    relation: StackingRelation?,
+    transition: AnyAddingTransition? = nil
+  ) async -> AddingTransitionContext.CompletionEvent {
+    
+    await withCheckedContinuation { continuation in
+      fluidPush(
+        viewController,
+        target: strategy,
+        relation: relation,
+        transition: transition,
+        completion: { event in
+          continuation.resume(returning: event)
+        }
+      )
+    }
     
   }
   
@@ -82,10 +140,25 @@ extension FluidExtentionViewController {
     _ viewController: FluidPopoverViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
-    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     fluidPushUnsafely(
+      viewController,
+      target: strategy,
+      transition: transition,
+      afterViewDidLoad: {}
+    )
+    
+  }
+  
+  public func fluidPush(
+    _ viewController: FluidPopoverViewController,
+    target strategy: UIViewController.FluidStackFindStrategy,
+    transition: AnyAddingTransition? = nil
+  ) async -> AddingTransitionContext.CompletionEvent {
+    
+    await fluidPushUnsafely(
       viewController,
       target: strategy,
       transition: transition,
@@ -131,6 +204,38 @@ extension FluidExtentionViewController {
       forwardingToParent: forwardingToParent,
       completion: completion
     )
+    
+  }
+  
+  /**
+   Removes this view controller (receiver) from the target ``FluidStackController``.
+   
+   - Parameters:
+   - transition: You may set ``AnyRemovingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
+   - fowardingToParent: Forwards to parent to pop if current stack do not have view controller to pop. No effects if the current stack prevents it by ``FluidStackController/Configuration-swift.struct/preventsFowardingPop``
+   
+   - Warning: To run this method to ``FluidStackController`` does not mean to pop the current top view controller.
+   A way to pop the top view controller:
+   ```
+   stackController.topViewController?.fluidPop()
+   ```
+   */
+  public func fluidPop(
+    transition: AnyRemovingTransition? = nil,
+    transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
+    forwardingToParent: Bool = true
+  ) async -> RemovingTransitionContext.CompletionEvent {
+    
+    await withCheckedContinuation { continuation in
+      
+      fluidPop(
+        transition: transition,
+        transitionForBatch: transitionForBatch,
+        forwardingToParent: forwardingToParent,
+        completion: { event in
+          continuation.resume(returning: event)
+      })
+    }
     
   }
   
