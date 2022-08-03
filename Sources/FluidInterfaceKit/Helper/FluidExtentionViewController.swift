@@ -21,7 +21,7 @@ extension FluidExtentionViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
     afterViewDidLoad: @escaping () -> Void = {},
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)?
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     let controller = viewController
@@ -86,7 +86,7 @@ extension FluidExtentionViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     relation: StackingRelation?,
     transition: AnyAddingTransition? = nil,
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)?
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     let current = Fluid.LocalEnvironmentValues.current
@@ -139,7 +139,7 @@ extension FluidExtentionViewController {
     _ viewController: FluidPopoverViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)?
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     fluidPushUnsafely(
@@ -187,7 +187,7 @@ extension FluidExtentionViewController {
     transition: AnyRemovingTransition? = nil,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
     forwardingToParent: Bool = true,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)?
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
      
     guard
@@ -245,7 +245,7 @@ extension FluidExtentionViewController {
     transition: AnyRemovingTransition?,
     transitionForBatch: AnyBatchRemovingTransition?,
     forwardingToParent: Bool,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)?
   ) {
         
     guard      
