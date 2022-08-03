@@ -208,6 +208,7 @@ extension UIViewController {
 
 extension ViewControllerAssertionProhibitedPresentInFluidStack {
   
+  @MainActor
   @available(*, deprecated, message: "This view controller can't be wrapped. Prohibited by `ViewControllerAssertionProhibitedPresentInFluidStack`.")
   public func fluidWrapped(
     configuration: FluidViewController.Configuration
