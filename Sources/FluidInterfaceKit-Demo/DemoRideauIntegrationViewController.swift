@@ -43,7 +43,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
           title: "Present as Fluid",
           onTap: { [unowned self] in
 
-            _display()
+            _display_inFluid()
           }
         )
         
@@ -59,7 +59,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
 
   }
 
-  private func _display() {
+  private func _display_inFluid() {
 
     let body = ContentViewController { instance in
       instance.fluidPop(transition: nil, completion: nil)
@@ -152,11 +152,20 @@ private final class ContentViewController: FluidStackController {
           }
           
           UIButton(type: .system)&>.do {
-            $0.setTitle("FluidPush", for: .normal)
+            $0.setTitle("FluidPush in current", for: .normal)
             $0.onTap { [unowned self] in
               let controller = FluidViewController()
               controller.view.backgroundColor = .neon(.yellow)
               fluidPush(controller, target: .current, relation: .hierarchicalNavigation)
+            }
+          }
+          
+          UIButton(type: .system)&>.do {
+            $0.setTitle("FluidPush in root", for: .normal)
+            $0.onTap { [unowned self] in
+              let controller = FluidViewController()
+              controller.view.backgroundColor = .neon(.yellow)
+              fluidPush(controller, target: .root, relation: .hierarchicalNavigation)
             }
           }
         }
