@@ -51,6 +51,8 @@ extension FluidExtentionViewController {
   /**
    Adds a given view controller to the target ``FluidStackController``.
    
+   It guarantees a given view controller will get a reference to the parent view controller after this operation immediately.
+   
    - Parameters:
    - target: Specify how to find a target to display
    - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
@@ -76,6 +78,8 @@ extension FluidExtentionViewController {
   
   /**
    Adds a given view controller to the target ``FluidStackController``.
+   
+   It guarantees a given view controller will get a reference to the parent view controller after this operation immediately.
    
    - Parameters:
    - target: Specify how to find a target to display
@@ -109,6 +113,8 @@ extension FluidExtentionViewController {
   /**
    Adds a given view controller to the target ``FluidStackController``.
    
+   It guarantees a given view controller will get a reference to the parent view controller after this operation immediately.
+   
    - Parameters:
    - target: Specify how to find a target to display
    - transition: You may set ``AnyAddingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
@@ -135,6 +141,10 @@ extension FluidExtentionViewController {
     
   }
   
+  /**
+   
+   It guarantees a given view controller will get a reference to the parent view controller after this operation immediately.
+   */
   public func fluidPush(
     _ viewController: FluidPopoverViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
@@ -152,6 +162,10 @@ extension FluidExtentionViewController {
     
   }
   
+  /**
+   
+   It guarantees a given view controller will get a reference to the parent view controller after this operation immediately.
+   */
   @discardableResult
   public func fluidPush(
     _ viewController: FluidPopoverViewController,
