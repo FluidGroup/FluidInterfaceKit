@@ -3,6 +3,7 @@ import XCTest
 
 @testable import FluidInterfaceKit
 
+@MainActor
 final class FluidStackControllerTests: XCTestCase {
 
   func testStackTree() {
@@ -270,7 +271,7 @@ final class FluidStackControllerTests: XCTestCase {
           }
         }
       }
-      VC {} // would be removed by match-removing
+      VC {}  // would be removed by match-removing
     }
 
     XCTAssertEqual(stack1.stackingViewControllers.count, 3)
@@ -288,7 +289,7 @@ final class FluidStackControllerTests: XCTestCase {
     XCTAssertEqual(stack1.stackingViewControllers.count, 1)
 
   }
-  
+
   func testRemovingRecursively_5() {
 
     let dispatcher1 = UIViewController()
@@ -336,7 +337,7 @@ final class FluidStackControllerTests: XCTestCase {
   }
 
   func testOffload_1() {
-   
+
     let stack = FluidStackController()
 
     stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
@@ -355,9 +356,9 @@ final class FluidStackControllerTests: XCTestCase {
         true,
       ]
     )
-    
+
     stack.removeLastViewController(transition: .disabled)
-    
+
     XCTAssertEqual(
       stack.stackingItems.map { $0.isLoaded },
       [
@@ -367,11 +368,11 @@ final class FluidStackControllerTests: XCTestCase {
         true,
       ]
     )
-    
+
   }
-  
+
   func testOffload_2() {
-   
+
     let stack = FluidStackController()
 
     stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
@@ -392,9 +393,9 @@ final class FluidStackControllerTests: XCTestCase {
     )
 
   }
-  
+
   func testOffload_3() {
-   
+
     let stack = FluidStackController()
 
     stack.addContentViewController(ContentTypeOption(contentType: .overlay), transition: .disabled)
@@ -417,86 +418,100 @@ final class FluidStackControllerTests: XCTestCase {
     )
 
   }
-  
+
   func testPopInStack() {
-    
+
     let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
 
     XCTAssertEqual(stack.stackingViewControllers.count, 0)
-    
+
     let controller = UIViewController()
 
     stack.addContentViewController(controller, transition: .disabled)
-    
+
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
-    
+
     stack.topViewController!.fluidPop(transition: .disabled)
-    
+
     XCTAssertEqual(stack.stackingViewControllers.count, 0)
-    
+
   }
-  
+
   func testPropagationActions() {
-    
+
     let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
-    
+
     let otherStack = FluidStackController(configuration: .init(retainsRootViewController: false))
-    
+
     otherStack.addFluidStackActionHandler { action in
       XCTFail()
     }
-    
+
     let exp = expectation(description: "called")
     exp.expectedFulfillmentCount = 1
-    
+
     let controller = FluidWrapperViewController(content: .init(bodyViewController: otherStack))
     controller.addFluidStackActionHandler { action in
       switch action {
       case .willPush:
         break
-      case .willPop:        
+      case .willPop:
         exp.fulfill()
       }
     }
-    
+
     let wrapper = FluidWrapperViewController(content: .init(bodyViewController: controller))
-    
-    stack.fluidPush(wrapper.fluidWrapped(configuration: .defaultModal), target: .current, relation: .modality)
-    
+
+    stack.fluidPush(
+      wrapper.fluidWrapped(configuration: .defaultModal),
+      target: .current,
+      relation: .modality
+    )
+
     stack.topViewController?.fluidPop()
-    
+
     wait(for: [exp], timeout: 1)
   }
-  
+
   func test_fluidPush_make_parent_tree_immediately() {
-    
+
     let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
     let controller = UIViewController()
-    
-    stack.fluidPush(controller.fluidWrapped(configuration: .defaultModal), target: .current, relation: .modality)
+
+    stack.fluidPush(
+      controller.fluidWrapped(configuration: .defaultModal),
+      target: .current,
+      relation: .modality
+    )
 
     XCTAssertNotNil(controller.parent)
   }
-  
+
   @MainActor
   func test_fluidPop_dereference_viewcontroller() async {
-    
+
     let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
-    
+
     var controller: UIViewController! = UIViewController()
     weak var ref = controller
-    
-    stack.fluidPush(controller.fluidWrapped(configuration: .defaultModal), target: .current, relation: .modality, transition: .disabled)
-    
-    controller.fluidPop()
+
+    stack.fluidPush(
+      controller.fluidWrapped(configuration: .defaultModal),
+      target: .current,
+      relation: .modality,
+      transition: .disabled,
+      completion: nil
+    )
+
+    controller.fluidPop(completion: nil)
     controller = nil
-    
+
     try! await Task.sleep(nanoseconds: 1_000_000_000)
-    
+
     XCTAssertNil(ref)
-    
+
   }
-  
+
   final class ContentTypeOption: UIViewController {
     init(contentType: FluidStackContentConfiguration.ContentType) {
       super.init(nibName: nil, bundle: nil)
