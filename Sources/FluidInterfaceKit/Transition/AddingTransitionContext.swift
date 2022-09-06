@@ -70,11 +70,11 @@ public final class AddingTransitionContext: TransitionContext, CustomReflectable
     
     func run(viewController: UIViewController) {
       
-      let currentValue = viewController.view.isUserInteractionEnabled
+      // TODO: there is re-entrancy issue in running transitions simultaneously.
       viewController.view.isUserInteractionEnabled = false
       
       addCompletionEventHandler { [weak viewController] _ in
-        viewController?.view.isUserInteractionEnabled = currentValue
+        viewController?.view.isUserInteractionEnabled = true
       }
     }
     
