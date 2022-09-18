@@ -38,7 +38,7 @@ jobs:
         with:
           submodules: true
       - name: Test
-        run: xcodebuild -scheme FluidInterfaceKitTests -resultBundlePath results/FluidInterfaceKitTests.xcresult test -destination 'platform=iOS Simulator,name=iPhone 8,OS=15.5' -derivedDataPath ./DerivedData | xcpretty
+        run: xcodebuild -scheme FluidInterfaceKitTests -resultBundlePath results/FluidInterfaceKitTests.xcresult test -destination 'platform=iOS Simulator,name=iPhone 8,OS=16.0' -derivedDataPath ./DerivedData | xcpretty
 
       - uses: kishikawakatsumi/xcresulttool@v1
         with:
