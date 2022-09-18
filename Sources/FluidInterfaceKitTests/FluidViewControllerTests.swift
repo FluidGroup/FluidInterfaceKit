@@ -9,8 +9,10 @@ import FluidInterfaceKit
 import Foundation
 import XCTest
 
+@MainActor
 final class FluidViewControllerTests: XCTestCase {
   
+  @MainActor
   func checkProtocol() {
     
     class ProhibitedVC: UIViewController, ViewControllerAssertionProhibitedPresentInFluidStack {
@@ -155,6 +157,7 @@ final class FluidViewControllerTests: XCTestCase {
 
   }
   
+  @MainActor
   func testFluidPush() {
     
     let exp = expectation(description: "viewDidLoad")

@@ -3,6 +3,7 @@ import XCTest
 
 @testable import FluidInterfaceKit
 
+@MainActor
 final class UIViewControllerExtensionTests: XCTestCase {
   
   func testFluidStackControllers_including_self() {

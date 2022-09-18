@@ -2,11 +2,56 @@
   "object": {
     "pins": [
       {
+        "package": "IGListKit",
+        "repositoryURL": "https://github.com/3a4oT/IGListKit",
+        "state": {
+          "branch": "spmNumber10",
+          "revision": "979eca9b2da15e35af36f4613452dd6e07641969",
+          "version": null
+        }
+      },
+      {
+        "package": "libwebp",
+        "repositoryURL": "https://github.com/SDWebImage/libwebp-Xcode",
+        "state": {
+          "branch": null,
+          "revision": "0f3bdb28a1edc5e8e43876d3835d20c601ef331f",
+          "version": "1.2.3"
+        }
+      },
+      {
         "package": "MockKit",
         "repositoryURL": "https://github.com/muukii/MockKit.git",
         "state": {
           "branch": "main",
           "revision": "facff4540318d08f5f00c2b363abc640be3452f8",
+          "version": null
+        }
+      },
+      {
+        "package": "PINCache",
+        "repositoryURL": "https://github.com/pinterest/PINCache.git",
+        "state": {
+          "branch": null,
+          "revision": "875c654984fb52b47ca65ae70d24852b0003ccd9",
+          "version": "3.0.3"
+        }
+      },
+      {
+        "package": "PINOperation",
+        "repositoryURL": "https://github.com/pinterest/PINOperation.git",
+        "state": {
+          "branch": null,
+          "revision": "44d8ca154a4e75a028a5548c31ff3a53b90cef15",
+          "version": "1.2.1"
+        }
+      },
+      {
+        "package": "PINRemoteImage",
+        "repositoryURL": "https://github.com/pinterest/PINRemoteImage.git",
+        "state": {
+          "branch": "master",
+          "revision": "18637e4414d77fbc95cd7d499179a9880e9a78d8",
           "version": null
         }
       },
@@ -32,9 +77,54 @@
         "package": "Storybook",
         "repositoryURL": "https://github.com/eure/Storybook-ios",
         "state": {
-          "branch": null,
-          "revision": "48cd0bbecd40edabcce32e819c5a23014a49013b",
-          "version": "1.9.0"
+          "branch": "main",
+          "revision": "cf063ab2674bc11eeaaeb3f1c3d0f3e87b2921fd",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftDocCPlugin",
+        "repositoryURL": "https://github.com/apple/swift-docc-plugin.git",
+        "state": {
+          "branch": "main",
+          "revision": "6a6577adb48651a1ca7dee6861c894ee6ca66021",
+          "version": null
+        }
+      },
+      {
+        "package": "SymbolKit",
+        "repositoryURL": "https://github.com/apple/swift-docc-symbolkit",
+        "state": {
+          "branch": "main",
+          "revision": "b45d1f2ed151d057b54504d653e0da5552844e34",
+          "version": null
+        }
+      },
+      {
+        "package": "Texture",
+        "repositoryURL": "https://github.com/FluidGroup/Texture.git",
+        "state": {
+          "branch": "spm",
+          "revision": "5d03875bcfb0d87f8057ebeb5f2f6e4527e18128",
+          "version": null
+        }
+      },
+      {
+        "package": "TextureBridging",
+        "repositoryURL": "https://github.com/FluidGroup/TextureBridging.git",
+        "state": {
+          "branch": "main",
+          "revision": "ed8d3ac84c3fda90832c793fdeb8972154bd15fe",
+          "version": null
+        }
+      },
+      {
+        "package": "TextureSwiftSupport",
+        "repositoryURL": "https://github.com/FluidGroup/TextureSwiftSupport.git",
+        "state": {
+          "branch": "main",
+          "revision": "23c2df6dace4e4be8231f23becc5fc51d26dfa47",
+          "version": null
         }
       },
       {

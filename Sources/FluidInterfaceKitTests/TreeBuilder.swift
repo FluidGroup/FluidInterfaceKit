@@ -2,14 +2,16 @@ import FluidInterfaceKit
 import ResultBuilderKit
 import UIKit
 
+@MainActor
 public struct VC: Hashable {
 
   let instance: UIViewController
 
   let children: [VC]
 
+  @MainActor
   init(
-    _ instance: UIViewController = UIViewController(),
+    _ instance: UIViewController,
     @ArrayBuilder<VC> _ build: () -> [VC]
   ) {
 

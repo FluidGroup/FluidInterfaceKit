@@ -1,6 +1,7 @@
 
 import XCTest
 
+@MainActor
 final class UIKitPresentationTests: XCTestCase {
   
   func testPresentation() {

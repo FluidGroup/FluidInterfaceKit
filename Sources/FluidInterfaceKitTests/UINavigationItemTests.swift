@@ -8,6 +8,7 @@
 import Foundation
 import XCTest
 
+@MainActor
 final class UINavigationItemTests: XCTestCase {
   
   func testBarButtonItems() {
