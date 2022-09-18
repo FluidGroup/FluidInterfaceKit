@@ -41,6 +41,7 @@ private final class ListViewController: CodeBasedViewController {
     }
   }
 
+  @MainActor
   private enum Components {
 
     static func makeSelection() -> InteractiveView<UIView> {

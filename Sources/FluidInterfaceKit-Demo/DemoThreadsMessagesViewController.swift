@@ -137,6 +137,7 @@ final class DemoThreadsMessagesViewController: FluidStackController {
 
 }
 
+@MainActor
 private func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> UIView {
 
   let nameLabel = UILabel()&>.do {

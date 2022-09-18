@@ -194,6 +194,7 @@ final class DemoListDetailViewController: UIViewController {
   }
 }
 
+@MainActor
 private func makeListCell(viewModel: ViewModel, onTap: @escaping (ContextualTransitionSourceView) -> Void) -> ContextualTransitionSourceView {
 
   let nameLabel = UILabel()&>.do {

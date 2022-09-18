@@ -5,6 +5,7 @@ import StorybookKit
 import UIKit
 import FluidInterfaceKit
 
+@MainActor
 let book = Book(title: "FluidInterfaceKit") {
 
   BookCallout(
@@ -141,6 +142,7 @@ let book = Book(title: "FluidInterfaceKit") {
 
 }
 
+@MainActor
 func makeButtonView(title: String, onTap: @escaping () -> Void) -> UIView {
   let button = UIButton(type: .system)
   button.setTitle(title, for: .normal)

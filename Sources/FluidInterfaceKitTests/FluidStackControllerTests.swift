@@ -89,11 +89,11 @@ final class FluidStackControllerTests: XCTestCase {
     let stack = FluidStackController()
 
     _ = VC(stack) {
-      VC {}
-      VC {}
-      VC {}
-      VC {}
-      VC {}
+      VC(.init()) {}
+      VC(.init()) {}
+      VC(.init()) {}
+      VC(.init()) {}
+      VC(.init()) {}
     }
 
     XCTAssertEqual(stack.stackingViewControllers.count, 5)
@@ -108,8 +108,8 @@ final class FluidStackControllerTests: XCTestCase {
     let controller = UIViewController()
 
     _ = VC(FluidStackController()) {
-      VC {
-        VC {
+      VC(.init()) {
+        VC(.init()) {
           VC(controller) {
 
           }
@@ -126,20 +126,20 @@ final class FluidStackControllerTests: XCTestCase {
     let controller = UIViewController()
 
     _ = VC(FluidStackController(identifier: .init("1"))) {
-      VC {
+      VC(.init()) {
         VC(FluidStackController(identifier: .init("2"))) {
-          VC {
-            VC {
-              VC {
+          VC(.init()) {
+            VC(.init()) {
+              VC(.init()) {
 
               }
             }
           }
         }
-        VC {
+        VC(.init()) {
           VC(FluidStackController(identifier: .init("3"))) {
-            VC {
-              VC {
+            VC(.init()) {
+              VC(.init()) {
                 VC(controller) {
 
                 }
@@ -187,9 +187,9 @@ final class FluidStackControllerTests: XCTestCase {
     let stack = FluidStackController()
 
     _ = VC(stack) {
-      VC {
+      VC(.init()) {
       }
-      VC {
+      VC(.init()) {
         VC(FluidStackController()) {
           VC(dispatcher) {}
         }
@@ -211,7 +211,7 @@ final class FluidStackControllerTests: XCTestCase {
     let stack = FluidStackController()
 
     _ = VC(stack) {
-      VC {
+      VC(.init()) {
         VC(FluidStackController()) {
           VC(dispatcher) {}
         }
@@ -233,10 +233,10 @@ final class FluidStackControllerTests: XCTestCase {
     let stack = FluidStackController()
 
     _ = VC(stack) {
-      VC {}
-      VC {
+      VC(.init()) {}
+      VC(.init()) {
         VC(FluidStackController()) {
-          VC {}
+          VC(.init()) {}
           VC(dispatcher) {}
         }
       }
@@ -260,10 +260,10 @@ final class FluidStackControllerTests: XCTestCase {
     let stack3 = FluidStackController(identifier: .init("3"))
 
     _ = VC(stack1) {
-      VC {}
-      VC {
+      VC(.init()) {}
+      VC(.init()) {
         VC(stack2) {
-          VC {
+          VC(.init()) {
             VC(stack3) {
               VC(dispatcher2) {}
               VC(dispatcher1) {}
@@ -271,7 +271,7 @@ final class FluidStackControllerTests: XCTestCase {
           }
         }
       }
-      VC {}  // would be removed by match-removing
+      VC(.init()) {}  // would be removed by match-removing
     }
 
     XCTAssertEqual(stack1.stackingViewControllers.count, 3)
@@ -298,13 +298,13 @@ final class FluidStackControllerTests: XCTestCase {
     let stack2 = FluidStackController(configuration: .init(preventsFowardingPop: true))
 
     _ = VC(stack1) {
-      VC {}
-      VC {
+      VC(.init()) {}
+      VC(.init()) {
         VC(stack2) {
           VC(dispatcher1) {}
         }
       }
-      VC {}
+      VC(.init()) {}
     }
 
     XCTAssertEqual(stack1.stackingViewControllers.count, 3)

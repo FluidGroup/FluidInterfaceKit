@@ -1,6 +1,7 @@
 import UIKit
 
 private final class Proxy {
+  @MainActor
   static var key: Void?
   private weak var base: UIControl?
 
@@ -10,22 +11,26 @@ private final class Proxy {
     self.base = base
   }
 
-  var onTouchUpInside: (() -> Void)? {
+  @MainActor
+  var onTouchUpInside: (@MainActor () -> Void)? {
     didSet {
       base?.addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
     }
   }
 
-  @objc private func touchUpInside(sender: AnyObject) {
+  @objc @MainActor private func touchUpInside(sender: AnyObject) {
     onTouchUpInside?()
   }
 }
 
 extension UIControl {
-  func onTap(_ closure: @escaping () -> Swift.Void) {
+  
+  @MainActor
+  func onTap(_ closure: @escaping @MainActor () -> Swift.Void) {
     tapable.onTouchUpInside = closure
   }
 
+  @MainActor
   private var tapable: Proxy {
     get {
       if let handler = objc_getAssociatedObject(self, &Proxy.key) as? Proxy {
