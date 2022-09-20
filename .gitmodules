@@ -1,24 +1,24 @@
 [submodule "submodules/MatchedTransition"]
 	path = submodules/MatchedTransition
-	url = https://github.com/muukii/MatchedTransition.git
+	url = https://github.com/FluidGroup/MatchedTransition.git
 [submodule "submodules/CompositionKit"]
 	path = submodules/CompositionKit
-	url = https://github.com/muukii/CompositionKit.git
+	url = https://github.com/FluidGroup/CompositionKit.git
 [submodule "submodules/ViewRepresentationKit"]
 	path = submodules/ViewRepresentationKit
-	url = https://github.com/muukii/ViewRepresentationKit.git
+	url = https://github.com/FluidGroup/ViewRepresentationKit.git
 [submodule "submodules/MondrianLayout"]
 	path = submodules/MondrianLayout
-	url = https://github.com/muukii/MondrianLayout.git
+	url = https://github.com/FluidGroup/MondrianLayout.git
 [submodule "submodules/GeometryKit"]
 	path = submodules/GeometryKit
-	url = https://github.com/muukii/GeometryKit.git
+	url = https://github.com/FluidGroup/GeometryKit.git
 [submodule "submodules/Descriptors"]
 	path = submodules/Descriptors
-	url = https://github.com/muukii/Descriptors.git
+	url = https://github.com/FluidGroup/Descriptors.git
 [submodule "submodules/Ne"]
 	path = submodules/Ne
 	url = https://github.com/muukii/Ne.git
 [submodule "submodules/Rideau"]
 	path = submodules/Rideau
-	url = https://github.com/muukii/Rideau.git
+	url = https://github.com/FluidGroup/Rideau.git
