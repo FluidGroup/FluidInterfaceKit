@@ -57,20 +57,11 @@
       },
       {
         "package": "ResultBuilderKit",
-        "repositoryURL": "https://github.com/muukii/ResultBuilderKit.git",
+        "repositoryURL": "https://github.com/FluidGroup/ResultBuilderKit.git",
         "state": {
           "branch": null,
-          "revision": "41508013b1cc5c625972e3b23409f3ab1ab4e47a",
-          "version": "1.2.0"
-        }
-      },
-      {
-        "package": "RxSwift",
-        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
-        "state": {
-          "branch": null,
-          "revision": "b4307ba0b6425c0ba4178e138799946c3da594f8",
-          "version": "6.5.0"
+          "revision": "34aa57fcee5ec3ee0f368b05cb53c7919c188ab2",
+          "version": "1.3.0"
         }
       },
       {
@@ -125,15 +116,6 @@
           "branch": "main",
           "revision": "23c2df6dace4e4be8231f23becc5fc51d26dfa47",
           "version": null
-        }
-      },
-      {
-        "package": "Verge",
-        "repositoryURL": "https://github.com/VergeGroup/Verge",
-        "state": {
-          "branch": null,
-          "revision": "e066eb7dbaa9b55d2285af27dad2000cd905938d",
-          "version": "8.19.0"
         }
       },
       {

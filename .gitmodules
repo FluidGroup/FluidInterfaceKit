@@ -1,6 +1,3 @@
-[submodule "submodules/MatchedTransition"]
-	path = submodules/MatchedTransition
-	url = https://github.com/FluidGroup/MatchedTransition.git
 [submodule "submodules/CompositionKit"]
 	path = submodules/CompositionKit
 	url = https://github.com/FluidGroup/CompositionKit.git
