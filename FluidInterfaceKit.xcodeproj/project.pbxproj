@@ -123,7 +123,6 @@
 		4BB404E227C17146000BA6B9 /* ExampleFluidApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleFluidApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRideauIntegrationViewController.swift; sourceTree = "<group>"; };
 		4BBDECDD276646E300982229 /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = submodules/CompositionKit; sourceTree = "<group>"; };
-		4BBDECDE276646EE00982229 /* MatchedTransition */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MatchedTransition; path = submodules/MatchedTransition; sourceTree = "<group>"; };
 		4BC0A14927C1731D00CD3A46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4BC0A14B27C1731D00CD3A46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4BC0A14C27C1731D00CD3A46 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -262,7 +261,6 @@
 				4B79CAAA2792A3A0002DA1DF /* Ne */,
 				4B2CCB88278DD21400EAB928 /* Descriptors */,
 				4BBDECDD276646E300982229 /* CompositionKit */,
-				4BBDECDE276646EE00982229 /* MatchedTransition */,
 				4B1561B92773659200C4DE07 /* ViewRepresentationKit */,
 				4BDDF267277F509C00636B00 /* MondrianLayout */,
 				4BDDF26A277F548900636B00 /* GeometryKit */,
