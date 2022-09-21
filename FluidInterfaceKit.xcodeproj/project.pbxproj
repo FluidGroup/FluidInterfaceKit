@@ -57,6 +57,7 @@
 		4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F327B6B02300095412 /* StorybookKit */; };
 		4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F527B6B02300095412 /* StorybookUI */; };
 		4BD2A2B727B6A9AC00E20F07 /* FluidStackControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */; };
+		4BDDD3CE28DB627500452B7D /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDD3CD28DB627500452B7D /* CompositionKit */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
 		4BFC696327A7F3BB0011238E /* CAPortalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696227A7F3BB0011238E /* CAPortalLayer.m */; };
@@ -87,9 +88,7 @@
 
 /* Begin PBXFileReference section */
 		4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSheetViewController.swift; sourceTree = "<group>"; };
-		4B1561B92773659200C4DE07 /* ViewRepresentationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ViewRepresentationKit; path = submodules/ViewRepresentationKit; sourceTree = "<group>"; };
 		4B259A4327BED2C700F53B4C /* FluidInterfaceKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluidInterfaceKit.podspec; sourceTree = "<group>"; };
-		4B2CCB88278DD21400EAB928 /* Descriptors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Descriptors; path = submodules/Descriptors; sourceTree = "<group>"; };
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
 		4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitPresentationTests.swift; sourceTree = "<group>"; };
 		4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidLocalEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -116,13 +115,10 @@
 		4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidViewControllerTests.swift; sourceTree = "<group>"; };
 		4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemTests.swift; sourceTree = "<group>"; };
 		4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCompositionOrderViewController.swift; sourceTree = "<group>"; };
-		4B77D3E427CA37D300007B14 /* Rideau */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Rideau; path = submodules/Rideau; sourceTree = "<group>"; };
 		4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtentionTests.swift; sourceTree = "<group>"; };
-		4B79CAAA2792A3A0002DA1DF /* Ne */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Ne; path = submodules/Ne; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BB404E227C17146000BA6B9 /* ExampleFluidApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleFluidApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRideauIntegrationViewController.swift; sourceTree = "<group>"; };
-		4BBDECDD276646E300982229 /* CompositionKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CompositionKit; path = submodules/CompositionKit; sourceTree = "<group>"; };
 		4BC0A14927C1731D00CD3A46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4BC0A14B27C1731D00CD3A46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4BC0A14C27C1731D00CD3A46 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -134,8 +130,6 @@
 		4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPictureInPictureCoolController.swift; sourceTree = "<group>"; };
 		4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeBuilder.swift; sourceTree = "<group>"; };
 		4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidStackControllerTests.swift; sourceTree = "<group>"; };
-		4BDDF267277F509C00636B00 /* MondrianLayout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MondrianLayout; path = submodules/MondrianLayout; sourceTree = "<group>"; };
-		4BDDF26A277F548900636B00 /* GeometryKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GeometryKit; path = submodules/GeometryKit; sourceTree = "<group>"; };
 		4BE0AAC4277FD5620086FD7E /*  */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ""; sourceTree = "<group>"; };
 		4BFC696127A7F3BA0011238E /* FluidInterfaceKit-Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FluidInterfaceKit-Demo-Bridging-Header.h"; sourceTree = "<group>"; };
 		4BFC696227A7F3BB0011238E /* CAPortalLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAPortalLayer.m; sourceTree = "<group>"; };
@@ -154,6 +148,7 @@
 				4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */,
 				4BB5B319277077CC00EE1028 /* Ne in Frameworks */,
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
+				4BDDD3CE28DB627500452B7D /* CompositionKit in Frameworks */,
 				4B658D0F276A59F700A17878 /* Wrap in Frameworks */,
 				4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */,
 				4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */,
@@ -258,13 +253,6 @@
 		4BBDECDC276646E300982229 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				4B79CAAA2792A3A0002DA1DF /* Ne */,
-				4B2CCB88278DD21400EAB928 /* Descriptors */,
-				4BBDECDD276646E300982229 /* CompositionKit */,
-				4B1561B92773659200C4DE07 /* ViewRepresentationKit */,
-				4BDDF267277F509C00636B00 /* MondrianLayout */,
-				4BDDF26A277F548900636B00 /* GeometryKit */,
-				4B77D3E427CA37D300007B14 /* Rideau */,
 				4BE0AAC4277FD5620086FD7E /*  */,
 			);
 			name = Packages;
@@ -333,6 +321,7 @@
 				4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */,
 				4BC8F5F327B6B02300095412 /* StorybookKit */,
 				4BC8F5F527B6B02300095412 /* StorybookUI */,
+				4BDDD3CD28DB627500452B7D /* CompositionKit */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -417,6 +406,7 @@
 				4BB5B317277077CC00EE1028 /* XCRemoteSwiftPackageReference "Ne" */,
 				4BB5B31A277077EA00EE1028 /* XCRemoteSwiftPackageReference "MockKit" */,
 				4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */,
+				4BDDD3CC28DB627500452B7D /* XCRemoteSwiftPackageReference "CompositionKit" */,
 			);
 			productRefGroup = 4B959AF92764F7180003FFB6 /* Products */;
 			projectDirPath = "";
@@ -911,6 +901,14 @@
 				kind = branch;
 			};
 		};
+		4BDDD3CC28DB627500452B7D /* XCRemoteSwiftPackageReference "CompositionKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FluidGroup/CompositionKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -962,6 +960,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
 			productName = StorybookUI;
+		};
+		4BDDD3CD28DB627500452B7D /* CompositionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BDDD3CC28DB627500452B7D /* XCRemoteSwiftPackageReference "CompositionKit" */;
+			productName = CompositionKit;
 		};
 		4BDDF268277F50C100636B00 /* MondrianLayout */ = {
 			isa = XCSwiftPackageProductDependency;
