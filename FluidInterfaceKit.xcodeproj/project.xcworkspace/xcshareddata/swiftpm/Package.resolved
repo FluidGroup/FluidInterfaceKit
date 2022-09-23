@@ -5,9 +5,9 @@
         "package": "CompositionKit",
         "repositoryURL": "https://github.com/FluidGroup/CompositionKit.git",
         "state": {
-          "branch": null,
-          "revision": "309011bd4f0e006179ba23ba7e0ddd4974655b09",
-          "version": "0.4.3"
+          "branch": "main",
+          "revision": "3e2487a25d2212c9fcd0f078675552b9ca411a72",
+          "version": null
         }
       },
       {
@@ -77,9 +77,9 @@
         "package": "Ne",
         "repositoryURL": "https://github.com/muukii/Ne.git",
         "state": {
-          "branch": null,
+          "branch": "main",
           "revision": "864edeb19072716f2fdc7061bf346aa3fe4d06c6",
-          "version": "1.1.0"
+          "version": null
         }
       },
       {
@@ -185,9 +185,9 @@
         "package": "Wrap",
         "repositoryURL": "https://github.com/VergeGroup/Wrap.git",
         "state": {
-          "branch": null,
-          "revision": "2d2cc9091881b2758e33f97c073039a6237b3275",
-          "version": "3.0.0"
+          "branch": "main",
+          "revision": "68191d84e48723cb5cd9f6432862b9f22438b0a2",
+          "version": null
         }
       }
     ]

@@ -873,8 +873,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/muukii/Ne.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		4BB5B31A277077EA00EE1028 /* XCRemoteSwiftPackageReference "MockKit" */ = {
@@ -889,8 +889,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/VergeGroup/Wrap.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */ = {
@@ -905,8 +905,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FluidGroup/CompositionKit.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.3;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
