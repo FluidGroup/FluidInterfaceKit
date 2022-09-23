@@ -906,7 +906,7 @@
 			repositoryURL = "https://github.com/FluidGroup/CompositionKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.0;
+				minimumVersion = 0.4.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
