@@ -6,7 +6,7 @@ extension UIBarButtonItem {
   /**
    􀯶
    */
-  public static func fluidChevronBackward(onTap: @escaping () -> Void) -> Self {
+  public static func fluidChevronBackward(onTap: @escaping @MainActor () -> Void) -> Self {
     if #available(iOS 13.0, *) {
       let image = UIImage(systemName: "chevron.backward")
       return .init(image: image, style: .plain, target: nil, action: nil).onTap(onTap)
@@ -18,7 +18,7 @@ extension UIBarButtonItem {
   /**
    􀅾
    */
-  public static func fluidMultiply(onTap: @escaping () -> Void) -> Self {
+  public static func fluidMultiply(onTap: @escaping @MainActor () -> Void) -> Self {
     if #available(iOS 13.0, *) {
       let image = UIImage(systemName: "multiply")
       return .init(image: image, style: .plain, target: nil, action: nil).onTap(onTap)
@@ -33,7 +33,7 @@ private var ref: Void?
 
 extension UIBarButtonItem {
      
-  func onTap(_ closure: @escaping () -> Void) -> Self {
+  func onTap(_ closure: @escaping @MainActor () -> Void) -> Self {
     
     target = self
     action = #selector(_fluid_onTap)
@@ -42,7 +42,7 @@ extension UIBarButtonItem {
     return self
   }
   
-  private var _onTapClosure: (() -> Void)? {
+  private var _onTapClosure: (@MainActor () -> Void)? {
     get {
       objc_getAssociatedObject(self, &ref) as? () -> Void
     }
