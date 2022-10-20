@@ -45,7 +45,7 @@ extension FluidExtentionViewController {
         afterViewDidLoad: afterViewDidLoad,
         completion: completion
       )
-    
+        
   }
   
   /**
@@ -65,14 +65,16 @@ extension FluidExtentionViewController {
     afterViewDidLoad: @escaping () -> Void = {}
   ) async -> AddingTransitionContext.CompletionEvent {
     await withCheckedContinuation { continuation in
-      fluidPushUnsafely(
-        viewController,
-        target: strategy,
-        transition: transition,
-        afterViewDidLoad: afterViewDidLoad,
-        completion: { event in
-          continuation.resume(returning: event)
-      })
+      Task { @MainActor in
+        fluidPushUnsafely(
+          viewController,
+          target: strategy,
+          transition: transition,
+          afterViewDidLoad: afterViewDidLoad,
+          completion: { event in
+            continuation.resume(returning: event)
+          })
+      }
     }
   }
   
