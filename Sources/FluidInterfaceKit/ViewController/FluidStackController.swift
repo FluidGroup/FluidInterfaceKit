@@ -226,7 +226,7 @@ open class FluidStackController: UIViewController {
   public func addContentViewController(
     _ viewControllerToAdd: UIViewController,
     transition: AnyAddingTransition?,
-    afterViewDidLoad: @escaping () -> Void = {},
+    afterViewDidLoad: @escaping @MainActor () -> Void = {},
     completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 

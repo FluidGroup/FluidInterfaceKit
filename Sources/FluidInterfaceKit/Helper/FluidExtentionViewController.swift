@@ -20,7 +20,7 @@ extension FluidExtentionViewController {
     _ viewController: UIViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
-    afterViewDidLoad: @escaping () -> Void = {},
+    afterViewDidLoad: @escaping @MainActor () -> Void = {},
     completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
@@ -62,7 +62,7 @@ extension FluidExtentionViewController {
     _ viewController: UIViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
-    afterViewDidLoad: @escaping () -> Void = {}
+    afterViewDidLoad: @escaping @MainActor () -> Void = {}
   ) async -> AddingTransitionContext.CompletionEvent {
     await withCheckedContinuation { continuation in
       Task { @MainActor in
