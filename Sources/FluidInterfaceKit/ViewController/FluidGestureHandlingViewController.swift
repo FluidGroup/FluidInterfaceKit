@@ -150,6 +150,19 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
 
   }
   
+  public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    
+    switch gestureRecognizer {
+    case fluidPanGesture, fluidScreenEdgePanGesture:
+      let isDirectDescendant = parent is FluidStackController
+      return isDirectDescendant
+    default:
+      assertionFailure()
+      return true
+    }
+    
+  }
+  
   public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     
     switch gestureRecognizer {
