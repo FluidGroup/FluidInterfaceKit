@@ -44,7 +44,7 @@ extension UIBarButtonItem {
   
   private var _onTapClosure: (@MainActor () -> Void)? {
     get {
-      objc_getAssociatedObject(self, &ref) as? () -> Void
+      objc_getAssociatedObject(self, &ref) as? (@MainActor () -> Void)
     }
     set {
       objc_setAssociatedObject(self, &ref, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
