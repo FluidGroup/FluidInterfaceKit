@@ -6,16 +6,17 @@ import UIKit
 public struct AnyAddingTransition {
 
   public let name: String
-  private let _startTransition: (AddingTransitionContext) -> Void
+  private let _startTransition: @MainActor (AddingTransitionContext) -> Void
 
   public init(
     name: String = "\(#file),\(#line)",
-    startTransition: @escaping (AddingTransitionContext) -> Void
+    startTransition: @escaping @MainActor (AddingTransitionContext) -> Void
   ) {
     self.name = name
     self._startTransition = startTransition
   }
 
+  @MainActor
   public func startTransition(context: AddingTransitionContext) {
     _startTransition(context)
   }
@@ -31,7 +32,7 @@ extension AnyAddingTransition {
   public static func throwing(
     name: String = "\(#file),\(#line)",
     backup: Self,
-    startTransition: @escaping (AddingTransitionContext) throws -> Void
+    startTransition: @escaping @MainActor (AddingTransitionContext) throws -> Void
   ) -> Self {
     
     return .init(name: name) { context in
@@ -50,7 +51,7 @@ extension AnyAddingTransition {
    */
   public static func `dynamic`(
     name: String = "dynamic \(#file),\(#line)",
-    transition: @escaping () -> Self
+    transition: @escaping @MainActor () -> Self
   ) -> Self {
     return .init(name: name) { context in
       let _transition = transition()
