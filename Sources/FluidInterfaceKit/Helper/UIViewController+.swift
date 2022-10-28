@@ -112,7 +112,7 @@ private var _fluid_associated_key: Void?
 private final class _Associated {
   var fluidStackContentConfiguration: FluidStackContentConfiguration = .init()
   var fluidStackContext: FluidStackContext?
-  var fluidStackActionHandlers: [(FluidStackAction) -> Void] = []
+  var fluidStackActionHandlers: [@MainActor (FluidStackAction) -> Void] = []
 }
 
 extension UIViewController {
@@ -134,13 +134,13 @@ extension UIViewController {
   }
   
   /// A collection of registered action handlers.
-  public var fluidStackActionHandlers: [(FluidStackAction) -> Void] {
+  public var fluidStackActionHandlers: [@MainActor (FluidStackAction) -> Void] {
     get { _associated.fluidStackActionHandlers }
     set { _associated.fluidStackActionHandlers = newValue }
   }
   
   /// Registers closure to handle actions from ``FluidStackController``.
-  public func addFluidStackActionHandler(_ handler: @escaping (FluidStackAction) -> Void) {
+  public func addFluidStackActionHandler(_ handler: @escaping @MainActor (FluidStackAction) -> Void) {
     fluidStackActionHandlers.append(handler)
   }
   
