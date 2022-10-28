@@ -6,7 +6,11 @@ import ResultBuilderKit
 public enum FluidStackAction {
   /// dispatches after viewDidLoad, added in hierarchy, before transitioning
   case willPush
+  /// Potentially it won't be emmited after ``FluidStackAction/willPush``
+  case didPush
   case willPop
+  /// Potentially it won't be emmited after ``FluidStackAction/willPop``
+  case didPop
 }
 
 /// A struct that configures how to display in ``FluidStackController``
@@ -333,6 +337,7 @@ open class FluidStackController: UIViewController {
         }
                                  
         context.transitionSucceeded()
+        platterView.viewController.propagateStackAction(.didPush)
         
       }
     )
@@ -421,15 +426,15 @@ open class FluidStackController: UIViewController {
    Make sure to complete the transition with the context.
    */
   private func _startRemoving(
-    _ viewToRemove: StackingPlatterView,
+    _ platterView: StackingPlatterView,
     completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) -> RemovingTransitionContext {
 
     // Ensure it's managed
     guard
-      let index = stackingItems.firstIndex(of: viewToRemove)
+      let index = stackingItems.firstIndex(of: platterView)
     else {
-      Log.error(.stack, "\(viewToRemove.viewController) was not found to remove")
+      Log.error(.stack, "\(platterView.viewController) was not found to remove")
       fatalError()
     }
 
@@ -443,19 +448,19 @@ open class FluidStackController: UIViewController {
       }
     }()
     
-    viewToRemove.viewController.propagateStackAction(.willPop)
+    platterView.viewController.propagateStackAction(.willPop)
     
     let newTransitionContext = RemovingTransitionContext(
-      contentView: viewToRemove,
-      fromViewController: viewToRemove.viewController,
+      contentView: platterView,
+      fromViewController: platterView.viewController,
       toViewController: backView?.viewController,
-      onAnimationCompleted: { [weak self, weak viewToRemove] context in
+      onAnimationCompleted: { [weak self, weak platterView] context in
 
-        guard let self = self, let viewToRemove = viewToRemove else { return }
+        guard let self, let platterView else { return }
         
         defer {
           
-          viewToRemove.removeTransitionContext(expect: context)
+          platterView.removeTransitionContext(expect: context)
           
           if self.state.latestTransitionContext == context {
             // handling offload
@@ -474,22 +479,23 @@ open class FluidStackController: UIViewController {
          Completion of transition, cleaning up
          */
         
-        let viewControllerToRemove = viewToRemove.viewController
+        let viewControllerToRemove = platterView.viewController
         self.stackingItems.removeAll { $0.viewController == viewControllerToRemove }
         viewControllerToRemove.fluidStackContext = nil
 
         viewControllerToRemove.willMove(toParent: nil)
         viewControllerToRemove.removeFromParent()
-        viewToRemove.removeFromSuperview()
+        platterView.removeFromSuperview()
 
         context.transitionSucceeded()
+        platterView.viewController.propagateStackAction(.didPop)
         
         self.topItem?.restoreResponderState()
                 
       },
-      onRequestedDisplayOnTop: { [weak self, weak viewToRemove] source in
+      onRequestedDisplayOnTop: { [weak self, weak platterView] source in
 
-        guard let self = self, let viewToRemove = viewToRemove else {
+        guard let self = self, let viewToRemove = platterView else {
           assertionFailure("FluidStackController has been already deallocated.")
           return .init(run: {})
         }
@@ -508,14 +514,14 @@ open class FluidStackController: UIViewController {
 
     // To enable through to make back view controller can be interactive.
     // Consequently, the user can start another transition.
-    viewToRemove.isTouchThroughEnabled = true
+    platterView.isTouchThroughEnabled = true
     
     // set before update offloading
-    viewToRemove.swapTransitionContext(newTransitionContext)
+    platterView.swapTransitionContext(newTransitionContext)
     
     // handling offload
     if self.stackConfiguration.isOffloadViewsEnabled {
-      updateOffloadingItems(displayItem: backView ?? viewToRemove)
+      updateOffloadingItems(displayItem: backView ?? platterView)
     }
 
     return newTransitionContext

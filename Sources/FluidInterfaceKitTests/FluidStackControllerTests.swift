@@ -447,8 +447,11 @@ final class FluidStackControllerTests: XCTestCase {
       XCTFail()
     }
 
-    let exp = expectation(description: "called")
-    exp.expectedFulfillmentCount = 1
+    let expWillPop = expectation(description: "called")
+    expWillPop.expectedFulfillmentCount = 1
+    
+    let expDidPop = expectation(description: "called")
+    expDidPop.expectedFulfillmentCount = 1
 
     let controller = FluidWrapperViewController(content: .init(bodyViewController: otherStack))
     controller.addFluidStackActionHandler { action in
@@ -456,7 +459,11 @@ final class FluidStackControllerTests: XCTestCase {
       case .willPush:
         break
       case .willPop:
-        exp.fulfill()
+        expWillPop.fulfill()
+      case .didPush:
+        break
+      case .didPop:
+        expDidPop.fulfill()
       }
     }
 
@@ -470,7 +477,7 @@ final class FluidStackControllerTests: XCTestCase {
 
     stack.topViewController?.fluidPop()
 
-    wait(for: [exp], timeout: 1)
+    wait(for: [expWillPop, expDidPop], timeout: 1)
   }
 
   func test_fluidPush_make_parent_tree_immediately() {
