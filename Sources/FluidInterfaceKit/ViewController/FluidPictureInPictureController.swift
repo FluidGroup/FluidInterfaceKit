@@ -501,8 +501,7 @@ private final class SafeAreaInsetsManager: NSObject {
   }
   
   @objc private dynamic func handle() {
-    guard let window = UIApplication.shared.keyWindow else {
-      return
+    guard let window = UIApplication.shared.delegate?.window ?? nil else {      return
     }
     _handle(in: window)
   }
