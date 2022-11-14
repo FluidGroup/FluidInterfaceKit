@@ -21,12 +21,6 @@ For instance: the history menu of the back bar button, page-sheet modal, and acc
 
 [🔗 **Detailed Documentation**](https://fluidgroup.github.io/FluidInterfaceKit/documentation/fluidinterfacekit/)
 
-# Development Status
-
-[![Build](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml/badge.svg)](https://github.com/muukii/FluidInterfaceKit/actions/workflows/Build.yml)
-
-- Using in production
-
 # Showcase
 
 |Instagram Threads like | Apple like |
