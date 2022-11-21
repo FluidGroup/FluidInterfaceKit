@@ -146,7 +146,6 @@ extension FluidPictureInPictureController {
     @objc private func handleInsetsUpdate(notification: Notification) {
       let inset = notification.object as! UIEdgeInsets
       state.inset = inset
-      
       setNeedsLayout()
       UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) { [self] in
         self.layoutIfNeeded()
@@ -459,7 +458,7 @@ private final class SafeAreaInsetsManager: NSObject {
       
   static let shared = SafeAreaInsetsManager()
   
-  private var currentInset: UIEdgeInsets = .zero
+  private var currentInsets: UIEdgeInsets? = nil
   
   private var referenceCounter: Int = 0 {
     didSet {
@@ -488,6 +487,7 @@ private final class SafeAreaInsetsManager: NSObject {
   }
   
   func start() {
+    currentInsets = nil
     referenceCounter += 1
   }
   
@@ -501,7 +501,8 @@ private final class SafeAreaInsetsManager: NSObject {
   }
   
   @objc private dynamic func handle() {
-    guard let window = UIApplication.shared.delegate?.window ?? nil else {      return
+    guard let window = UIApplication.shared.delegate?.window ?? nil else {
+      return
     }
     _handle(in: window)
   }
@@ -572,8 +573,8 @@ private final class SafeAreaInsetsManager: NSObject {
     
     recursive(view: window)
         
-    if currentInset != maximumInsets {
-      currentInset = maximumInsets
+    if currentInsets != maximumInsets {
+      currentInsets = maximumInsets
       NotificationCenter.default.post(name: Self.notificationName, object: maximumInsets)
     }
   }
