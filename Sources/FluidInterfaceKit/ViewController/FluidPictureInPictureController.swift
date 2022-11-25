@@ -489,6 +489,7 @@ private final class SafeAreaInsetsManager: NSObject {
   func start() {
     currentInsets = nil
     referenceCounter += 1
+    request()
   }
   
   func pause() {
