@@ -108,6 +108,11 @@ let book = Book(title: "FluidInterfaceKit") {
     DemoCompositionOrderViewController()
   }
 
+  BookPush(title: "FloatingDisplayKit") {
+    DemoFloatingDisplayKit(rootView: .init())
+  }
+
+
   BookNavigationLink(title: "iOS 14 Pickers") {
     
     BookPreview(expandsWidth: true, maxHeight: 400, minHeight: 400) {
