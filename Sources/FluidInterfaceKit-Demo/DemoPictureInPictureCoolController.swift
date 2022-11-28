@@ -22,10 +22,6 @@ final class DemoPictureInPictureCoolController: FluidPictureInPictureController 
     
     view.backgroundColor = .black
     
-    let label = UILabel()&>.do {
-      $0.text = "PiP"
-    }
-    
     let backgroundView = UIView()
     backgroundView.backgroundColor = .neon(.violet)
     

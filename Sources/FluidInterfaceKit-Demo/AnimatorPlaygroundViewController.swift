@@ -146,14 +146,14 @@ final class AnimatorPlaygroundViewController: UIViewController {
 
                 let a = UIViewPropertyAnimator(duration: 3, timingParameters: UISpringTimingParameters(dampingRatio: 1, initialVelocity: .init(dx: 10, dy: 0)))
                 a.addAnimations {
-                  box2.transform = CGAffineTransform.init(translationX: 20, y: 0)
+                  self.box2.transform = CGAffineTransform.init(translationX: 20, y: 0)
                 }
                 a.startAnimation()
               } else {
 
                 let a = UIViewPropertyAnimator(duration: 3, timingParameters: UISpringTimingParameters(dampingRatio: 1, initialVelocity: .init(dx: 20, dy: 0)))
                 a.addAnimations {
-                  box2.transform = .identity
+                  self.box2.transform = .identity
                 }
                 a.startAnimation()
               }
