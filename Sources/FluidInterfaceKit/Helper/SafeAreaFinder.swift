@@ -39,11 +39,11 @@ public final class SafeAreaFinder: NSObject {
   }
 
   public func request() {
+    currentInsets = nil
     handle()
   }
 
   public func start() {
-    currentInsets = nil
     referenceCounter += 1
     request()
   }

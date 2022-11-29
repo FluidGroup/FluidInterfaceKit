@@ -39,7 +39,7 @@ open class FloatingDisplayController {
 
   }
 
-  // MARK: - Functions
+// MARK: - Functions
 
   private func drain() {
 
@@ -68,7 +68,7 @@ open class FloatingDisplayController {
   private func changedState(_ state: State) {
 
     if state.hasDisplaying {
-      displayTarget.visibleWindow()
+      displayTarget.makeWindowVisible()
     } else {
       displayTarget.hideWindow()
     }
@@ -155,8 +155,8 @@ open class FloatingDisplayController {
       view.translatesAutoresizingMaskIntoConstraints = false
       NSLayoutConstraint.activate([
         view.topAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.topAnchor),
-        view.rightAnchor.constraint(equalTo: targetView.rightAnchor),
-        view.leftAnchor.constraint(equalTo: targetView.leftAnchor),
+        view.rightAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.rightAnchor),
+        view.leftAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.leftAnchor),
       ])
     }
 
@@ -164,16 +164,16 @@ open class FloatingDisplayController {
       view.translatesAutoresizingMaskIntoConstraints = false
       NSLayoutConstraint.activate([
         view.bottomAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.bottomAnchor, constant: -paddingBottom),
-        view.rightAnchor.constraint(equalTo: targetView.rightAnchor),
-        view.leftAnchor.constraint(equalTo: targetView.leftAnchor),
+        view.rightAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.rightAnchor),
+        view.leftAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.leftAnchor),
       ])
     }
 
     func layoutCenter(view: UIView, targetView: UIView) {
       view.translatesAutoresizingMaskIntoConstraints = false
       NSLayoutConstraint.activate([
-        view.centerYAnchor.constraint(equalTo: targetView.centerYAnchor),
-        view.centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
+        view.centerYAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.centerYAnchor),
+        view.centerXAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.centerXAnchor),
         view.rightAnchor.constraint(lessThanOrEqualTo: targetView.safeAreaLayoutGuide.rightAnchor),
         view.leftAnchor.constraint(greaterThanOrEqualTo: targetView.safeAreaLayoutGuide.leftAnchor),
         view.topAnchor.constraint(greaterThanOrEqualTo: targetView.safeAreaLayoutGuide.topAnchor),

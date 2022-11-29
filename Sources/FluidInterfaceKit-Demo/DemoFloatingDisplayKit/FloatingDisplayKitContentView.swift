@@ -35,6 +35,19 @@ struct FloatingDisplayKitContentView: View {
         )
       }
 
+      Button("Display Bottom to safe area") {
+        snackbarController.display(
+          context: .init(
+            viewBuilder: {
+              DemoSnackbarView(text: "Hello")
+            },
+            position: .bottom(paddingBottom: 8),
+            transition: FloatingDisplayPopupTransition()
+          ),
+          waitsInQueue: false
+        )
+      }
+
     }
   }
 }
