@@ -1,8 +1,5 @@
 import UIKit
 
-@available(*, deprecated, renamed: "FloatingDisplayController")
-public typealias SnackbarController = FloatingDisplayController
-
 open class FloatingDisplayController {
 
   private struct State: Equatable {

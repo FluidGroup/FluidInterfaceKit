@@ -1,9 +1,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "FloatingDisplayContext")
-public typealias SnackbarContext = FloatingDisplayContext
-
 /**
  A context object that provides a concrete view to display
  */

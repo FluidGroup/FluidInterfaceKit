@@ -1,8 +1,5 @@
 import UIKit
 
-@available(*, deprecated, renamed: "FloatingDisplaySlideInTrantision")
-public typealias SnackbarAnimator = FloatingDisplaySlideInTrantision
-
 public struct FloatingDisplaySlideInTrantision: FloatingDisplayTransitionType {
 
   public init() {
