@@ -8,7 +8,7 @@
 import FluidInterfaceKit
 import SwiftUI
 
-let snackbarController = FloatingDisplayController()
+let snackbarController = FloatingDisplayController(useActiveWindowSafeArea: true)
 
 struct FloatingDisplayKitContentView: View {
   var body: some View {

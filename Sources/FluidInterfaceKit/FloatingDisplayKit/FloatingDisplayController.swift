@@ -22,7 +22,7 @@ open class FloatingDisplayController {
 
   fileprivate var queue: [FloatingDisplayContext] = []
 
-  public let displayTarget: FloatingDisplayTarget = .init()
+  public let displayTarget: FloatingDisplayTarget
 
   private var state: State = .init() {
     didSet {
@@ -32,8 +32,8 @@ open class FloatingDisplayController {
 
   // MARK: - Initializers
 
-  public init() {
-
+  public init(useActiveWindowSafeArea: Bool) {
+    self.displayTarget = .init(useActiveWindowSafeArea: useActiveWindowSafeArea)
   }
 
 // MARK: - Functions

@@ -136,18 +136,18 @@ extension FloatingDisplayTarget {
           SafeAreaFinder.shared.start()
           self.activeWindowSafeAreaLayoutGuide = .init()
           self.addLayoutGuide(activeWindowSafeAreaLayoutGuide)
-          activeWindowSafeAreaLayoutGuideConstraintLeft = activeWindowSafeAreaLayoutGuide.leftAnchor.constraint(equalTo: leftAnchor)
-          activeWindowSafeAreaLayoutGuideConstraintRight = activeWindowSafeAreaLayoutGuide.rightAnchor.constraint(equalTo: rightAnchor)
-          activeWindowSafeAreaLayoutGuideConstraintTop = activeWindowSafeAreaLayoutGuide.topAnchor.constraint(equalTo: topAnchor)
-          activeWindowSafeAreaLayoutGuideConstraintBottom = activeWindowSafeAreaLayoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor)
-          NotificationCenter.default.addObserver(self, selector: #selector(handleInsetsUpdate), name: SafeAreaFinder.notificationName, object: nil)
-          SafeAreaFinder.shared.request()
+          activeWindowSafeAreaLayoutGuideConstraintLeft = leftAnchor.constraint(equalTo: activeWindowSafeAreaLayoutGuide.leftAnchor)
+          activeWindowSafeAreaLayoutGuideConstraintRight = rightAnchor.constraint(equalTo: activeWindowSafeAreaLayoutGuide.rightAnchor)
+          activeWindowSafeAreaLayoutGuideConstraintTop = topAnchor.constraint(equalTo: activeWindowSafeAreaLayoutGuide.topAnchor)
+          activeWindowSafeAreaLayoutGuideConstraintBottom = bottomAnchor.constraint(equalTo: activeWindowSafeAreaLayoutGuide.bottomAnchor)
           NSLayoutConstraint.activate([
             activeWindowSafeAreaLayoutGuideConstraintLeft,
             activeWindowSafeAreaLayoutGuideConstraintRight,
             activeWindowSafeAreaLayoutGuideConstraintTop,
             activeWindowSafeAreaLayoutGuideConstraintBottom
           ])
+          NotificationCenter.default.addObserver(self, selector: #selector(handleInsetsUpdate), name: SafeAreaFinder.notificationName, object: nil)
+          SafeAreaFinder.shared.start()
         }
       }
 
