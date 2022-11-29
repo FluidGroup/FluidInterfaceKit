@@ -11,7 +11,6 @@
 		4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F619427B818E800363580 /* DemoListContainerViewController.swift */; };
 		4B2F9EA027FC080000F74ADB /* UIKitPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */; };
 		4B3BE33C27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */; };
-		4B468061279C58E800625FCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804A279C58E800625FCB /* ViewController.swift */; };
 		4B468062279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */; };
 		4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */; };
 		4B468064279C58E800625FCB /* AnimatorPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46804D279C58E800625FCB /* AnimatorPlaygroundViewController.swift */; };
@@ -62,6 +61,9 @@
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
 		4BFC696327A7F3BB0011238E /* CAPortalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696227A7F3BB0011238E /* CAPortalLayer.m */; };
 		4BFC696627A7F46D0011238E /* DemoPortalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */; };
+		FCEA76E429349BD700E8B0E6 /* DemoFloatingDisplayKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E329349BD700E8B0E6 /* DemoFloatingDisplayKit.swift */; };
+		FCEA76E829349C9C00E8B0E6 /* DemoSnackbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E529349C9B00E8B0E6 /* DemoSnackbarView.swift */; };
+		FCEA76E929349C9C00E8B0E6 /* FloatingDisplayKitContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E629349C9B00E8B0E6 /* FloatingDisplayKitContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,7 +94,6 @@
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
 		4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitPresentationTests.swift; sourceTree = "<group>"; };
 		4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidLocalEnvironmentTests.swift; sourceTree = "<group>"; };
-		4B46804A279C58E800625FCB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
 		4B46804D279C58E800625FCB /* AnimatorPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatorPlaygroundViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +136,9 @@
 		4BFC696227A7F3BB0011238E /* CAPortalLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAPortalLayer.m; sourceTree = "<group>"; };
 		4BFC696427A7F3DB0011238E /* CAPortalLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAPortalLayer.h; sourceTree = "<group>"; };
 		4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPortalLayer.swift; sourceTree = "<group>"; };
+		FCEA76E329349BD700E8B0E6 /* DemoFloatingDisplayKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoFloatingDisplayKit.swift; sourceTree = "<group>"; };
+		FCEA76E529349C9B00E8B0E6 /* DemoSnackbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoSnackbarView.swift; sourceTree = "<group>"; };
+		FCEA76E629349C9B00E8B0E6 /* FloatingDisplayKitContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingDisplayKitContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +210,7 @@
 				4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */,
 				4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */,
 				4B468050279C58E800625FCB /* DemoThreadsMessagesViewController.swift */,
+				FCEA76EB29349CA600E8B0E6 /* DemoFloatingDisplayKit */,
 				4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */,
 				4B468054279C58E800625FCB /* DemoStackingViewController.swift */,
 				4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */,
@@ -214,7 +219,6 @@
 				4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */,
 				4B468059279C58E800625FCB /* UIColor+Presets.swift */,
 				4B46805E279C58E800625FCB /* UIControl+Closure.swift */,
-				4B46804A279C58E800625FCB /* ViewController.swift */,
 				4B468053279C58E800625FCB /* ViewModel.swift */,
 				4B468051279C58E800625FCB /* Assets.xcassets */,
 				4B468055279C58E800625FCB /* LaunchScreen.storyboard */,
@@ -284,6 +288,16 @@
 				4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */,
 			);
 			path = FluidInterfaceKitTests;
+			sourceTree = "<group>";
+		};
+		FCEA76EB29349CA600E8B0E6 /* DemoFloatingDisplayKit */ = {
+			isa = PBXGroup;
+			children = (
+				FCEA76E329349BD700E8B0E6 /* DemoFloatingDisplayKit.swift */,
+				FCEA76E629349C9B00E8B0E6 /* FloatingDisplayKitContentView.swift */,
+				FCEA76E529349C9B00E8B0E6 /* DemoSnackbarView.swift */,
+			);
+			path = DemoFloatingDisplayKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -460,17 +474,19 @@
 				4B01AFE1281939CB00A44537 /* DemoSheetViewController.swift in Sources */,
 				4B468066279C58E800625FCB /* DemoControlCenterViewController.swift in Sources */,
 				4B46806B279C58E800625FCB /* DemoStackingViewController.swift in Sources */,
+				FCEA76E829349C9C00E8B0E6 /* DemoSnackbarView.swift in Sources */,
 				4B46806E279C58E800625FCB /* Book.swift in Sources */,
+				FCEA76E429349BD700E8B0E6 /* DemoFloatingDisplayKit.swift in Sources */,
 				4B468069279C58E800625FCB /* DemoPictureInPictureController.swift in Sources */,
 				4B468071279C58E800625FCB /* DemoSafeAreaViewController.swift in Sources */,
 				4B7410B927ACE975003D8AB5 /* DemoCompositionOrderViewController.swift in Sources */,
+				FCEA76E929349C9C00E8B0E6 /* FloatingDisplayKitContentView.swift in Sources */,
 				4B468064279C58E800625FCB /* AnimatorPlaygroundViewController.swift in Sources */,
 				4B468067279C58E800625FCB /* DemoThreadsMessagesViewController.swift in Sources */,
 				4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */,
 				4BC7B20D284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift in Sources */,
 				4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */,
 				4B468065279C58E800625FCB /* RootContainerViewController.swift in Sources */,
-				4B468061279C58E800625FCB /* ViewController.swift in Sources */,
 				4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */,
 				4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */,
 				4B468070279C58E800625FCB /* AppDelegate.swift in Sources */,

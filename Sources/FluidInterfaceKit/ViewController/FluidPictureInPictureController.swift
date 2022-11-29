@@ -130,7 +130,7 @@ extension FluidPictureInPictureController {
 
       addSubview(containerView)
   
-      NotificationCenter.default.addObserver(self, selector: #selector(handleInsetsUpdate), name: SafeAreaInsetsManager.notificationName, object: nil)
+      NotificationCenter.default.addObserver(self, selector: #selector(handleInsetsUpdate), name: SafeAreaFinder.notificationName, object: nil)
     }
 
     required init?(
@@ -230,10 +230,9 @@ extension FluidPictureInPictureController {
       super.didMoveToWindow()
       
       if window != nil {
-        SafeAreaInsetsManager.shared.start()
-        SafeAreaInsetsManager.shared.request()
+        SafeAreaFinder.shared.start()
       } else {
-        SafeAreaInsetsManager.shared.pause()
+        SafeAreaFinder.shared.pause()
       }
     }
     
@@ -450,134 +449,4 @@ extension FluidPictureInPictureController {
     }
   }
 
-}
-
-private final class SafeAreaInsetsManager: NSObject {
-  
-  static let notificationName = Notification.Name(rawValue: "app.muukii.fluid.SafeAreaInsetsManager")
-      
-  static let shared = SafeAreaInsetsManager()
-  
-  private var currentInsets: UIEdgeInsets? = nil
-  
-  private var referenceCounter: Int = 0 {
-    didSet {
-      if referenceCounter > 0 {
-        currentDisplayLink.isPaused = false
-      } else {
-        currentDisplayLink.isPaused = true
-      }
-    }
-  }
-    
-  private var currentDisplayLink: CADisplayLink!
-    
-  override init() {
-    
-    super.init()
-    
-    currentDisplayLink = .init(target: self, selector: #selector(handle))
-    currentDisplayLink.preferredFramesPerSecond = 1
-    currentDisplayLink.add(to: .main, forMode: .default)
-    currentDisplayLink.isPaused = true
-  }
-  
-  func request() {
-    handle()
-  }
-  
-  func start() {
-    currentInsets = nil
-    referenceCounter += 1
-    request()
-  }
-  
-  func pause() {
-    referenceCounter -= 1
-  }
-  
-  deinit {
-    currentDisplayLink.isPaused = true
-    currentDisplayLink.invalidate()
-  }
-  
-  @objc private dynamic func handle() {
-    guard let window = UIApplication.shared.delegate?.window ?? nil else {
-      return
-    }
-    _handle(in: window)
-  }
-    
-  private func _handle(in window: UIWindow) {
-        
-    var maximumInsets: UIEdgeInsets = .zero
-    
-    let windowSize = window.bounds.size
-    
-    func recursive(view: UIView) {
-      
-      let frame = view.convert(view.bounds, to: window)
-      var insets = view.safeAreaInsets
-      
-      guard insets != .zero else {
-        return
-      }
-      
-      if insets.top > 0 {
-        insets.top += frame.origin.y
-      }
-      
-      if insets.left > 0 {
-        insets.left += frame.origin.x
-      }
-      
-      if insets.right > 0 {
-        insets.right += windowSize.width - frame.maxX
-      }
-      
-      if insets.bottom > 0 {
-        insets.bottom += windowSize.height - frame.maxY
-      }
-      
-      var accumulated = false
-      
-      if insets.top >= maximumInsets.top {
-        maximumInsets.top = insets.top
-        accumulated = true
-      }
-      
-      if insets.left >= maximumInsets.left {
-        maximumInsets.left = insets.left
-        accumulated = true
-      }
-      
-      if insets.right >= maximumInsets.right {
-        maximumInsets.right = insets.right
-        accumulated = true
-      }
-      
-      if insets.bottom >= maximumInsets.bottom {
-        maximumInsets.bottom = insets.bottom
-        accumulated = true
-      }
-      
-      guard view is UIScrollView == false else {
-        return
-      }
-      
-      if accumulated {
-        for view in view.subviews {
-          recursive(view: view)
-        }
-      }
-    }
-    
-    recursive(view: window)
-        
-    if currentInsets != maximumInsets {
-      currentInsets = maximumInsets
-      NotificationCenter.default.post(name: Self.notificationName, object: maximumInsets)
-    }
-  }
-  
 }

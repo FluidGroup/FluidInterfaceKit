@@ -200,7 +200,7 @@ extension AnyRemovingInteraction {
         .gestureOnScreen(
           condition: { gesture, event in
             switch event {
-            case .shouldBeRequiredToFailBy(let otherGestureRecognizer, let completion):
+            case .shouldBeRequiredToFailBy(_, let completion):
               
               completion(false)
               
