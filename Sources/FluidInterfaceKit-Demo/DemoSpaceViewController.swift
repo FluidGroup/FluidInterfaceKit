@@ -17,10 +17,31 @@ final class DemoSpaceViewController: UIViewController {
 
     addChild(spaceViewController)
     
+    let controlView = HostingView(ignoringSafeAreaEdges: []) { [spaceViewController] state in
+      
+      HStack {
+        Button("Left") {
+          spaceViewController.select(stage: .left, animated: true)
+        }
+        Button("Main") {
+          spaceViewController.select(stage: .main, animated: true)
+        }
+        Button("Right") {
+          spaceViewController.select(stage: .right, animated: true)
+        }
+      }
+      
+    }
+    
     Mondrian.buildSubviews(on: view) {
 
-      ZStackBlock(alignment: .attach(.all)) {
-        spaceViewController.view
+      VStackBlock {
+        
+        spaceViewController.view.viewBlock.alignSelf(.fill)
+                
+        controlView.viewBlock
+          .height(200)
+          .alignSelf(.fill)
       }
     }
 
