@@ -45,6 +45,8 @@ open class FluidStageViewController: UIViewController {
     private let scrollView: HostingScrollView
     
     private var currentStage: Stage = .main
+    
+    private var offsetObservation: NSKeyValueObservation?
 
     init(
       scrollView: HostingScrollView,
@@ -97,10 +99,27 @@ open class FluidStageViewController: UIViewController {
         scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
       ])
       
+      offsetObservation = scrollView.observe(\.contentOffset, options: [.new]) { [weak self] scrollView, _ in
+        self?.onChangeContentOffset(scrollView: scrollView)
+      }
+      
+      layoutIfNeeded()
     }
     
     override func layoutSubviews() {
       super.layoutSubviews()
+      
+      let width = bounds.width
+      
+      stageToOffset = [
+        .left : 0,
+        .main: width,
+        .right: width * 2
+      ]
+      
+      offsetToStage = stageToOffset.reduce(into: .init(), { partialResult, e in
+        partialResult[e.value] = e.key
+      })
       
       select(stage: currentStage, animated: false)
       
@@ -110,27 +129,36 @@ open class FluidStageViewController: UIViewController {
     required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }
-      
+          
     func select(stage: Stage, animated: Bool) {
       currentStage = stage
       scrollView.setContentOffset(.init(x: contentOffsetX(for: stage), y: 0), animated: animated)
     }
     
-    private func contentOffsetX(for stage: Stage) -> CGFloat {
+    private func onChangeContentOffset(scrollView: UIScrollView) {
       
-      let width = bounds.width
-      
-      switch stage {
-      case .left:
-        return 0
-      case .main:
-        return width
-      case .right:
-        return width * 2
+      guard scrollView.isTracking else {
+        return
       }
       
+      guard let stage = offsetToStage[scrollView.contentOffset.x] else {
+        return
+      }
+      
+      guard currentStage != stage else {
+        return
+      }
+      
+      currentStage = stage
     }
     
+    private func contentOffsetX(for stage: Stage) -> CGFloat {
+      return stageToOffset[stage]!
+    }
+    
+    private var stageToOffset: [Stage : CGFloat] = [:]
+    private var offsetToStage: [CGFloat : Stage] = [:]
+        
   }
 
   private let scrollView: HostingScrollView = .init()
