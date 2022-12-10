@@ -46,6 +46,8 @@ open class FluidStageViewController: UIViewController {
     
     private var currentStage: Stage = .main
     
+    private var oldBounds: CGRect?
+    
     private var offsetObservation: NSKeyValueObservation?
 
     init(
@@ -109,6 +111,12 @@ open class FluidStageViewController: UIViewController {
     override func layoutSubviews() {
       super.layoutSubviews()
       
+      guard oldBounds != bounds else {
+        return
+      }
+      
+      oldBounds = bounds
+      
       let width = bounds.width
       
       stageToOffset = [
@@ -137,7 +145,7 @@ open class FluidStageViewController: UIViewController {
     
     private func onChangeContentOffset(scrollView: UIScrollView) {
       
-      guard scrollView.isTracking else {
+      guard scrollView.isTracking || scrollView.isDecelerating else {
         return
       }
       
