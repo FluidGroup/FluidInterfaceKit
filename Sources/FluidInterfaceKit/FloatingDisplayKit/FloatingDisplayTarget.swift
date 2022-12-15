@@ -155,7 +155,7 @@ extension FloatingDisplayTarget {
         let insets = notification.object as! UIEdgeInsets
         self.activeWindowSafeAreaLayoutGuideConstraintLeft.constant = insets.left
         self.activeWindowSafeAreaLayoutGuideConstraintRight.constant = insets.right
-        self.activeWindowSafeAreaLayoutGuideConstraintTop.constant = insets.top
+        self.activeWindowSafeAreaLayoutGuideConstraintTop.constant = -insets.top
         self.activeWindowSafeAreaLayoutGuideConstraintBottom.constant = insets.bottom
         setNeedsLayout()
         UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) { [self] in
