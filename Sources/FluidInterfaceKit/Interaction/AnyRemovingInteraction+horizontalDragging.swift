@@ -37,7 +37,7 @@ extension AnyRemovingInteraction {
           case .cancelled:
             break
           case let .run(transitionContext, draggingView, _):
-
+          
             let animator = UIViewPropertyAnimator(
               duration: 0.62,
               timingParameters: UISpringTimingParameters(
@@ -295,6 +295,7 @@ extension AnyRemovingInteraction {
                 draggingView.layer.position.x += translation.x
                 draggingView.layer.position.y += translation.y
                 draggingView.layer.cornerRadius = 32
+                trackingContext?.transitionContext.contentView.backgroundColor = .init(white: 0, alpha: 0.2)
               }
               
               movingAnimator.startAnimation()

@@ -107,7 +107,7 @@ extension AnyAddingTransition {
           UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1) {
             context.toViewController.view.alpha = 1
             entrypointSnapshotView.alpha = 0
-            context.contentView.backgroundColor = .init(white: 0, alpha: 0.6)
+            context.contentView.backgroundColor = .init(white: 0, alpha: 0.2)
           }
         },
         completion: {
