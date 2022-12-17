@@ -3,14 +3,15 @@ import UIKit
 
 extension Fluid {
       
-  public static func withLocalEnviroment(
-    setup: (inout LocalEnvironmentValues) -> Void,
+  @MainActor
+  public static func withTransaction(
+    setup: (inout Transaction) -> Void,
     perform: () -> Void
   ) {
     
     assert(Thread.isMainThread)
         
-    var newEnv = LocalEnvironmentValues()
+    var newEnv = Transaction()
     
     setup(&newEnv)
     
@@ -18,9 +19,10 @@ extension Fluid {
                 
   }
   
-  public struct LocalEnvironmentValues {
+  @MainActor
+  public struct Transaction {
     
-    private static var stack: [LocalEnvironmentValues] = []
+    private static var stack: [Transaction] = []
     
     public static let empty = Self.init()
     
@@ -80,24 +82,45 @@ extension Fluid {
       public typealias Value = AnyAddingTransition
     }
     
+    public struct RemovingTransition: FluidLocalEnvironmentKey {
+      public typealias Value = AnyRemovingTransition
+    }
+    
+    public struct RemovingInteraction: FluidLocalEnvironmentKey {
+      public typealias Value = AnyRemovingInteraction
+    }
   }
 }
 
-extension Fluid.LocalEnvironmentValues {
+extension Fluid.Transaction {
   
+  @MainActor
   public var stackFindStrategy: UIViewController.FluidStackFindStrategy? {
     get { self[Fluid.LocalEnvironmentKeys.FindStrategy.self] }
     set { self[Fluid.LocalEnvironmentKeys.FindStrategy.self] = newValue }
   }
   
+  @MainActor
   public var relation: StackingRelation? {
     get { self[Fluid.LocalEnvironmentKeys.Relation.self] }
     set { self[Fluid.LocalEnvironmentKeys.Relation.self] = newValue }
   }
   
+  @MainActor
   public var addingTransition: AnyAddingTransition? {
     get { self[Fluid.LocalEnvironmentKeys.AddingTransition.self] }
     set { self[Fluid.LocalEnvironmentKeys.AddingTransition.self] = newValue }
   }
 
+  @MainActor
+  public var removingTransition: AnyRemovingTransition? {
+    get { self[Fluid.LocalEnvironmentKeys.RemovingTransition.self] }
+    set { self[Fluid.LocalEnvironmentKeys.RemovingTransition.self] = newValue }
+  }
+  
+  @MainActor
+  public var removingInteraction: AnyRemovingInteraction? {
+    get { self[Fluid.LocalEnvironmentKeys.RemovingInteraction.self] }
+    set { self[Fluid.LocalEnvironmentKeys.RemovingInteraction.self] = newValue }
+  }
 }
