@@ -93,17 +93,22 @@ extension FluidExtentionViewController {
     completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
-    let current = Fluid.LocalEnvironmentValues.current
-    let overriddenRelation = current.relation
-    let overriddenAddingTransition = current.addingTransition
-    let overridenStrategy = current.stackFindStrategy
-         
+    let transaction = Fluid.Transaction.current
+    
+    transaction.removingInteraction.map {
+      viewController.removingInteraction = $0
+    }
+    
+    transaction.removingTransition.map {
+      viewController.removingTransition = $0
+    }
+           
     fluidPushUnsafely(
       viewController,
-      target: overridenStrategy ?? strategy,
-      transition: overriddenAddingTransition ?? transition,
+      target: transaction.stackFindStrategy ?? strategy,
+      transition: transaction.addingTransition ?? transition,
       afterViewDidLoad: { [weak viewController] in
-        viewController?.willTransition(with: overriddenRelation ?? relation)
+        viewController?.willTransition(with: transaction.relation ?? relation)
       },
       completion: completion
     )
@@ -152,10 +157,20 @@ extension FluidExtentionViewController {
     completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
+    let transaction = Fluid.Transaction.current
+    
+    transaction.removingInteraction.map {
+      viewController.removingInteraction = $0
+    }
+    
+    transaction.removingTransition.map {
+      viewController.removingTransition = $0
+    }
+    
     fluidPushUnsafely(
       viewController,
-      target: strategy,
-      transition: transition,
+      target: transaction.stackFindStrategy ?? strategy,
+      transition: transaction.addingTransition ?? transition,
       afterViewDidLoad: {},
       completion: completion
     )
@@ -173,13 +188,17 @@ extension FluidExtentionViewController {
     transition: AnyAddingTransition? = nil
   ) async -> AddingTransitionContext.CompletionEvent {
     
-    await fluidPushUnsafely(
-      viewController,
-      target: strategy,
-      transition: transition,
-      afterViewDidLoad: {}
-    )
-    
+    await withCheckedContinuation { continuation in
+      fluidPush(
+        viewController,
+        target: strategy,
+        transition: transition,
+        completion: { event in
+          continuation.resume(returning: event)
+        }
+      )
+    }
+         
   }
   
   // MARK: - Pop
