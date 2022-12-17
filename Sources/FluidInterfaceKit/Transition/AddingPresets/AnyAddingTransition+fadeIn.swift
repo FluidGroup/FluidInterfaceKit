@@ -26,7 +26,8 @@ extension AnyAddingTransition {
   }
   
   /**
-   Scaling up from shrinking state and fade-in.
+   - Scaling down
+   - Fade in
    */
   public static var jump: Self {
     
@@ -50,6 +51,49 @@ extension AnyAddingTransition {
       }
       
       animator.addCompletion { _ in
+        context.notifyAnimationCompleted()
+      }
+      
+      animator.startAnimation()
+      
+    }
+    
+  }
+  
+  /**
+   - Scaling up
+   - Fade in
+   */
+  public static var float: Self {
+    
+    return .init { context in
+            
+      context.contentView.backgroundColor = .clear
+            
+      let toView = context.toViewController.view!
+      toView.transform = .init(scaleX: 0.8, y: 0.8)
+      toView.alpha = 0
+      
+      let toLayer = toView.layer
+      
+      toLayer.masksToBounds = true
+      toLayer.cornerCurve = .continuous
+      toLayer.cornerRadius = 32
+      
+      let animator = UIViewPropertyAnimator(
+        duration: 0.5,
+        timingParameters: UISpringTimingParameters(dampingRatio: 0.9, initialVelocity: .zero)
+      )
+      
+      animator.addAnimations {
+        toLayer.cornerRadius = 0
+        toView.alpha = 1
+        toView.transform = .identity
+        context.contentView.backgroundColor = .init(white: 0, alpha: 0.2)
+      }
+      
+      animator.addCompletion { _ in
+        context.contentView.backgroundColor = .clear
         context.notifyAnimationCompleted()
       }
       
