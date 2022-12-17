@@ -4,10 +4,11 @@ import UIKit
 extension Fluid {
       
   @MainActor
-  public static func withTransaction(
+  @discardableResult
+  public static func withTransaction<R>(
     setup: (inout Transaction) -> Void,
-    perform: () -> Void
-  ) {
+    perform: () -> R
+  ) -> R {
     
     assert(Thread.isMainThread)
         
@@ -15,7 +16,7 @@ extension Fluid {
     
     setup(&newEnv)
     
-    newEnv.performAsCurrent(perform)
+    return newEnv.performAsCurrent(perform)
                 
   }
   
@@ -43,7 +44,8 @@ extension Fluid {
       }
     }
     
-    public func performAsCurrent(_ perform: () -> Void) {
+    @discardableResult
+    public func performAsCurrent<R>(_ perform: () -> R) -> R {
       
       assert(Thread.isMainThread)
       
@@ -52,7 +54,7 @@ extension Fluid {
         _ = Self.stack.popLast()
       }
       
-      perform()
+      return perform()
         
     }
     
