@@ -30,6 +30,7 @@ open class FluidSwitchController: UIViewController {
 
     addChild(viewController)
     view.addSubview(viewController.view)
+    viewController.view.frame = view.bounds
     viewController.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     viewController.didMove(toParent: self)
     currentDisplayViewController = viewController
