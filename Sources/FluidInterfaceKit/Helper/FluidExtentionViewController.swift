@@ -353,5 +353,27 @@ extension FluidExtentionViewController {
       configuration: configuration
     )
   }
+  
+  /**
+   Removes all view controllers that stacked from current.
+   */
+  public func fluidDiscardAllHirerachy() {
+    
+    self.presentedViewController?.dismiss(animated: false)
+    
+    if let stack = self as? FluidStackController {
+      stack.removeAllViewController(transition: .crossDissolve)
+    }
+    
+    for child in children {
+      
+      if let stack = child as? FluidStackController {
+        stack.removeAllViewController(transition: .crossDissolve)
+      } else {
+        assertionFailure()
+      }
+      
+    }
+  }
 }
 
