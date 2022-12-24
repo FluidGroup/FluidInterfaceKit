@@ -168,7 +168,19 @@ open class FluidStageViewController: UIViewController {
     private var offsetToStage: [CGFloat : Stage] = [:]
         
   }
-
+  
+  /**
+   A Boolean value that indicates whether the user can scroll to change the stage.
+   */
+  public var isScrollEnabled: Bool {
+    get {
+      scrollView.isScrollEnabled
+    }
+    set {
+      scrollView.isScrollEnabled = newValue
+    }
+  }
+  
   private let scrollView: HostingScrollView = .init()
 
   open override func loadView() {
