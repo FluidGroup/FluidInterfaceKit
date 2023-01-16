@@ -112,8 +112,8 @@ let book = Book(title: "FluidInterfaceKit") {
     DemoFloatingDisplayKit(rootView: .init())
   }
 
-  BookPush(title: "SpaceViewController") {
-    DemoSpaceViewController()
+  BookPush(title: "StageViewController") {
+    DemoStageViewController()
   }
 
   BookNavigationLink(title: "iOS 14 Pickers") {

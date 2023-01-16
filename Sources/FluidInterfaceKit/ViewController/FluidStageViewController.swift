@@ -8,6 +8,11 @@ import UIKit
  - TODO:
   - ViewController life-cycle
  */
+
+@MainActor public protocol FluidStageChildViewController where Self: UIViewController {
+  func didSelectPage() -> Void
+}
+
 open class FluidStageViewController: UIViewController {
   
   public enum Stage {
@@ -38,9 +43,9 @@ open class FluidStageViewController: UIViewController {
 
   private final class InternalView: UIView {
 
-    private let leftSideViewController: UIViewController
-    private let mainViewController: UIViewController
-    private let rightSideViewController: UIViewController
+    private let leftSideViewController: FluidStageChildViewController
+    private let mainViewController: FluidStageChildViewController
+    private let rightSideViewController: FluidStageChildViewController
 
     private let scrollView: HostingScrollView
     
@@ -52,9 +57,9 @@ open class FluidStageViewController: UIViewController {
 
     init(
       scrollView: HostingScrollView,
-      leftSideViewController: UIViewController,
-      mainViewController: UIViewController,
-      rightSideViewController: UIViewController
+      leftSideViewController: FluidStageChildViewController,
+      mainViewController: FluidStageChildViewController,
+      rightSideViewController: FluidStageChildViewController
     ) {
       self.scrollView = scrollView
       self.leftSideViewController = leftSideViewController
@@ -139,6 +144,11 @@ open class FluidStageViewController: UIViewController {
     }
           
     func select(stage: Stage, animated: Bool) {
+      
+      if currentStage != stage {
+        didChangeStage()
+      }
+      
       currentStage = stage
       scrollView.setContentOffset(.init(x: contentOffsetX(for: stage), y: 0), animated: animated)
     }
@@ -158,6 +168,19 @@ open class FluidStageViewController: UIViewController {
       }
       
       currentStage = stage
+      
+      didChangeStage()
+    }
+    
+    private func didChangeStage() {
+      switch currentStage {
+      case .main:
+        mainViewController.didSelectPage()
+      case .left:
+        leftSideViewController.didSelectPage()
+      case .right:
+        rightSideViewController.didSelectPage()
+      }
     }
     
     private func contentOffsetX(for stage: Stage) -> CGFloat {
@@ -193,18 +216,18 @@ open class FluidStageViewController: UIViewController {
     self.view = instance
   }
 
-  private let leftSideViewController: UIViewController
-  private let mainViewController: UIViewController
-  private let rightSideViewController: UIViewController
+  private let leftSideViewController: FluidStageChildViewController
+  private let mainViewController: FluidStageChildViewController
+  private let rightSideViewController: FluidStageChildViewController
   
   private var internalView: InternalView {
     view as! InternalView
   }
 
   public init(
-    leftSideViewController: UIViewController,
-    mainViewController: UIViewController,
-    rightSideViewController: UIViewController
+    leftSideViewController: FluidStageChildViewController,
+    mainViewController: FluidStageChildViewController,
+    rightSideViewController: FluidStageChildViewController
   ) {
 
     self.leftSideViewController = leftSideViewController
