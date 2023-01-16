@@ -4,7 +4,7 @@ import MondrianLayout
 import SwiftUI
 import UIKit
 
-final class DemoSpaceViewController: UIViewController {
+final class DemoStageViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
