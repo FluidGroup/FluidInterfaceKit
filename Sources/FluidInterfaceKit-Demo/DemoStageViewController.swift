@@ -50,15 +50,22 @@ final class DemoStageViewController: UIViewController {
   }
 }
 
-private final class ContentViewController: UIViewController {
+private final class ContentViewController: UIViewController, FluidStageChildViewController {
   
   override func viewSafeAreaInsetsDidChange() {
     super.viewSafeAreaInsetsDidChange()
     
     print(view.safeAreaInsets)
   }
+  
+  private let color: UIColor
+  private let _title: String
 
   init(color: UIColor, title: String) {
+    
+    self.color = color
+    self._title = title
+    
     super.init(nibName: nil, bundle: nil)
     
     let hostingView = HostingView(ignoringSafeAreaEdges: []) { state in
@@ -101,5 +108,9 @@ private final class ContentViewController: UIViewController {
   //    }
   //
   //  }
+  
+  func didSelectPage() {
+    print("title: \(_title)")
+  }
 
 }
