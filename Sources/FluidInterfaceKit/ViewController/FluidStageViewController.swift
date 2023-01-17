@@ -145,12 +145,14 @@ open class FluidStageViewController: UIViewController {
           
     func select(stage: Stage, animated: Bool) {
       
-      if currentStage != stage {
-        didChangeStage()
-      }
+      let prevStage = currentStage
       
       currentStage = stage
       scrollView.setContentOffset(.init(x: contentOffsetX(for: stage), y: 0), animated: animated)
+      
+      if currentStage != prevStage {
+        didChangeStage()
+      }
     }
     
     private func onChangeContentOffset(scrollView: UIScrollView) {
