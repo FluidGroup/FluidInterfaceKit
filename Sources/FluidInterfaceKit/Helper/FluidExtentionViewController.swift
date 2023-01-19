@@ -369,8 +369,6 @@ extension FluidExtentionViewController {
       
       if let stack = child as? FluidStackController {
         stack.removeAllViewController(transition: .crossDissolve)
-      } else {
-        assertionFailure()
       }
       
     }
