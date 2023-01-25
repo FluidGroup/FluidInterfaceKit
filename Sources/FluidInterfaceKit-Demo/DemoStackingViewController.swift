@@ -137,7 +137,7 @@ private final class ContentViewController: UIViewController {
             }
             
             UIButton.make(title: "Add in current - modal style", color: .white) { [unowned self] in
-              Fluid.withLocalEnviroment(setup: { $0.relation = .modality }) {
+              Fluid.withTransaction(setup: { $0.relation = .modality }) {
                 _push()
               }
             }

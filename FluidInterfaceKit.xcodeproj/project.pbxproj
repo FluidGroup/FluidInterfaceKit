@@ -30,6 +30,7 @@
 		4B468074279C58E800625FCB /* UIControl+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805E279C58E800625FCB /* UIControl+Closure.swift */; };
 		4B468075279C58E800625FCB /* DemoApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */; };
 		4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */; };
+		4B4E93DF29810AAC0060C775 /* DemoStageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4E93DE29810AAC0060C775 /* DemoStageViewController.swift */; };
 		4B658D0F276A59F700A17878 /* Wrap in Frameworks */ = {isa = PBXBuildFile; productRef = 4B658D0E276A59F700A17878 /* Wrap */; };
 		4B69049627B6685F0088FDDD /* FluidViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */; };
 		4B6F87CA27B599B100216F4E /* UINavigationItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */; };
@@ -37,7 +38,6 @@
 		4B79ABBD27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */; };
 		4B97A9E527B9828E0068B330 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
 		4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */; };
-		4BA37CE9293E2A4A000D186D /* DemoSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA37CE8293E2A4A000D186D /* DemoSpaceViewController.swift */; };
 		4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */; };
 		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
 		4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B31B277077EA00EE1028 /* MockKit */; };
@@ -114,12 +114,12 @@
 		4B46805E279C58E800625FCB /* UIControl+Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Closure.swift"; sourceTree = "<group>"; };
 		4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoApplicationViewController.swift; sourceTree = "<group>"; };
 		4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
+		4B4E93DE29810AAC0060C775 /* DemoStageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoStageViewController.swift; sourceTree = "<group>"; };
 		4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidViewControllerTests.swift; sourceTree = "<group>"; };
 		4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemTests.swift; sourceTree = "<group>"; };
 		4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCompositionOrderViewController.swift; sourceTree = "<group>"; };
 		4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtentionTests.swift; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4BA37CE8293E2A4A000D186D /* DemoSpaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSpaceViewController.swift; sourceTree = "<group>"; };
 		4BB404E227C17146000BA6B9 /* ExampleFluidApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleFluidApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRideauIntegrationViewController.swift; sourceTree = "<group>"; };
 		4BC0A14927C1731D00CD3A46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 				4B468053279C58E800625FCB /* ViewModel.swift */,
 				4B468051279C58E800625FCB /* Assets.xcassets */,
 				4B468055279C58E800625FCB /* LaunchScreen.storyboard */,
-				4BA37CE8293E2A4A000D186D /* DemoSpaceViewController.swift */,
+				4B4E93DE29810AAC0060C775 /* DemoStageViewController.swift */,
 			);
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
@@ -473,10 +473,10 @@
 				4BFC696327A7F3BB0011238E /* CAPortalLayer.m in Sources */,
 				4BFC696627A7F46D0011238E /* DemoPortalLayer.swift in Sources */,
 				4B468074279C58E800625FCB /* UIControl+Closure.swift in Sources */,
-				4BA37CE9293E2A4A000D186D /* DemoSpaceViewController.swift in Sources */,
 				4B46806A279C58E800625FCB /* ViewModel.swift in Sources */,
 				4B01AFE1281939CB00A44537 /* DemoSheetViewController.swift in Sources */,
 				4B468066279C58E800625FCB /* DemoControlCenterViewController.swift in Sources */,
+				4B4E93DF29810AAC0060C775 /* DemoStageViewController.swift in Sources */,
 				4B46806B279C58E800625FCB /* DemoStackingViewController.swift in Sources */,
 				FCEA76E829349C9C00E8B0E6 /* DemoSnackbarView.swift in Sources */,
 				4B46806E279C58E800625FCB /* Book.swift in Sources */,

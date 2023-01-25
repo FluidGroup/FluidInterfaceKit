@@ -6,11 +6,12 @@ import XCTest
 
 final class FluidLocalEnvironmentTests: XCTestCase {
   
+  @MainActor
   func testBasic() {
     
     XCTAssertEqual(Fluid.Transaction.current.relation, nil)
     
-    Fluid.withLocalEnviroment {
+    Fluid.withTransaction {
       $0.relation = .modality
     } perform: {
       
