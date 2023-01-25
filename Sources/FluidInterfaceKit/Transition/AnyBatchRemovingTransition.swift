@@ -5,14 +5,15 @@ import UIKit
  */
 public struct AnyBatchRemovingTransition {
 
-  private let _startTransition: (BatchRemovingTransitionContext) -> Void
+  private let _startTransition: @MainActor (BatchRemovingTransitionContext) -> Void
 
   public init(
-    startTransition: @escaping (BatchRemovingTransitionContext) -> Void
+    startTransition: @escaping @MainActor (BatchRemovingTransitionContext) -> Void
   ) {
     self._startTransition = startTransition
   }
 
+  @MainActor
   public func startTransition(context: BatchRemovingTransitionContext) {
     _startTransition(context)
   }

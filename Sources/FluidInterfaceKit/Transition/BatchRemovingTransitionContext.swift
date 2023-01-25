@@ -1,6 +1,7 @@
 import UIKit
 
 /// A context object to interact with container view controller for transitions.
+@MainActor
 public final class BatchRemovingTransitionContext: TransitionContext {
   
   public enum CompletionEvent {
@@ -50,10 +51,12 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   }
 
   deinit {
-    assert(
-      isInvalidated == true || isCompleted == true,
-      "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
-    )
+    Task { [isInvalidated, isCompleted] in
+      assert(
+        isInvalidated == true || isCompleted == true,
+        "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
+      )
+    }
   }
   
   public func notifyCompleted() {

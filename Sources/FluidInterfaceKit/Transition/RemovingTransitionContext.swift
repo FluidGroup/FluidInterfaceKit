@@ -1,10 +1,9 @@
 import UIKit
 
-/**
- A context object to interact with container view controller for transitions.
- */
-public final class RemovingTransitionContext: TransitionContext, CustomReflectable {
-  
+/// A context object to interact with container view controller for transitions.
+@MainActor
+public final class RemovingTransitionContext: TransitionContext {
+
   public enum CompletionEvent {
     /// Transition has been finished (no interruption was in there)
     case succeeded
@@ -18,21 +17,23 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
 
   /// A view controller for removing
   public let fromViewController: UIViewController
-  
+
   /// A view controller that displays after removed
   public let toViewController: UIViewController?
 
   private let onAnimationCompleted: (RemovingTransitionContext) -> Void
-  private let onRequestedDisplayOnTop: (DisplaySource) -> FluidStackController.DisplayingOnTopSubscription
+  private let onRequestedDisplayOnTop:
+    (DisplaySource) -> FluidStackController.DisplayingOnTopSubscription
 
   private var callbacks: [(CompletionEvent) -> Void] = []
-  
+
   init(
     contentView: FluidStackController.StackingPlatterView,
     fromViewController: UIViewController,
     toViewController: UIViewController?,
     onAnimationCompleted: @escaping (RemovingTransitionContext) -> Void,
-    onRequestedDisplayOnTop: @escaping (DisplaySource) -> FluidStackController.DisplayingOnTopSubscription
+    onRequestedDisplayOnTop: @escaping (DisplaySource) -> FluidStackController
+      .DisplayingOnTopSubscription
   ) {
     self.fromViewController = fromViewController
     self.toViewController = toViewController
@@ -40,7 +41,7 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
     self.onRequestedDisplayOnTop = onRequestedDisplayOnTop
     super.init(contentView: contentView)
   }
-    
+
   /**
    Notifies controller transition has been completed.
    */
@@ -50,7 +51,7 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
     isCompleted = true
     onAnimationCompleted(self)
   }
-  
+
   public func notifyCancelled() {
     assert(Thread.isMainThread)
     guard isInvalidated == false, isCompleted == false else { return }
@@ -58,35 +59,37 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
     callbacks.forEach { $0(.cancelled) }
     onAnimationCompleted(self)
   }
-  
+
   /**
    Makes toViewController disabled in user-interaction until finish transition.
    */
   public func disableUserInteractionUntileFinish() {
-    
+
     func run(viewController: UIViewController) {
-      
+
       // TODO: there is re-entrancy issue in running transitions simultaneously.
-      
+
       viewController.view.isUserInteractionEnabled = false
-      
+
       addCompletionEventHandler { [weak viewController] _ in
         viewController?.view.isUserInteractionEnabled = true
       }
     }
-    
+
     toViewController.map {
       run(viewController: $0)
     }
-    
+
     run(viewController: fromViewController)
-   
+
   }
-  
-  public func requestDisplayOnTop(_ source: DisplaySource) -> FluidStackController.DisplayingOnTopSubscription {
+
+  public func requestDisplayOnTop(_ source: DisplaySource)
+    -> FluidStackController.DisplayingOnTopSubscription
+  {
     onRequestedDisplayOnTop(source)
   }
-  
+
   /// Marks as this current transition has been outdated.
   /// Another transition's started by owner.
   /// Triggers ``addCompletionEventHandler(_:)`` with ``TransitionContext/CompletionEvent/interrupted``
@@ -95,10 +98,10 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
     isInvalidated = true
     callbacks.forEach { $0(.interrupted) }
   }
-  
+
   /**
    Adds closure that handles completion events (``CompletionEvent``)
-   
+
    Use-cases:
    - Trigger to clean up transient resources for this transition.
    */
@@ -111,24 +114,16 @@ public final class RemovingTransitionContext: TransitionContext, CustomReflectab
    Triggers ``addCompletionEventHandler(_:)`` with ``TransitionContext/CompletionEvent/succeeded``
    */
   func transitionSucceeded() {
-    callbacks.forEach{ $0(.succeeded) }
+    callbacks.forEach { $0(.succeeded) }
   }
-    
+
   deinit {
-    assert(
-      isInvalidated == true || isCompleted == true,
-      "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
-    )
+    Task { [isInvalidated, isCompleted] in
+      assert(
+        isInvalidated == true || isCompleted == true,
+        "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
+      )
+    }
   }
-  
-  public var customMirror: Mirror {
-    
-    .init(
-      self,
-      children: [
-        "toViewController": toViewController as Any,
-        "fromViewController": fromViewController
-      ])
-    
-  }
+
 }

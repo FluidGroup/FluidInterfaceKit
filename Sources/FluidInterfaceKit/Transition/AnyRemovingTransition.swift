@@ -8,16 +8,17 @@ import ResultBuilderKit
 public struct AnyRemovingTransition {
 
   public let name: String
-  private let _startTransition: (RemovingTransitionContext) -> Void
+  private let _startTransition: @MainActor (RemovingTransitionContext) -> Void
 
   public init(
     name: String = "\(#file),\(#line)",
-    startTransition: @escaping (RemovingTransitionContext) -> Void
+    startTransition: @escaping @MainActor (RemovingTransitionContext) -> Void
   ) {
     self.name = name
     self._startTransition = startTransition
   }
 
+  @MainActor
   public func startTransition(context: RemovingTransitionContext) {
     _startTransition(context)
   }

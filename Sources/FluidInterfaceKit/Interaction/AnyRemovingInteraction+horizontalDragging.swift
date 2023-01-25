@@ -18,12 +18,13 @@ extension AnyRemovingInteraction {
         )
       }
 
-      private let _eventHandler: (Event) -> Void
+      private let _eventHandler: @MainActor (Event) -> Void
 
-      public init(eventHandler: @escaping (Event) -> Void) {
+      public init(eventHandler: @escaping @MainActor (Event) -> Void) {
         self._eventHandler = eventHandler
       }
 
+      @MainActor
       func receive(event: Event) {
         _eventHandler(event)
       }

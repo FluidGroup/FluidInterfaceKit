@@ -7,6 +7,7 @@ import GeometryKit
  */
 public enum Fluid {
 
+  @MainActor
   public static func takeSnapshotVisible(view: UIView) -> UIView {
 
     let snapshot: UIView
@@ -35,18 +36,21 @@ public enum Fluid {
     return snapshot
   }
   
+  @MainActor
   public static func doIfNotAnimating<View: UIView>(view: View, perform: (View) -> Void) {
     guard hasAnimations(view: view) == false else { return }
     perform(view)
   }
 
+  @MainActor
   public static func hasAnimations(view: UIView) -> Bool {
     return (view.layer.animationKeys() ?? []).count > 0
   }
 
+  @MainActor
   public static func startPropertyAnimators(
     _ animators: [UIViewPropertyAnimator],
-    completion: @escaping () -> Void
+    completion: @escaping @MainActor () -> Void
   ) {
     
     let group = DispatchGroup()
@@ -77,6 +81,7 @@ public enum Fluid {
     case custom(CGPoint)
   }
 
+  @MainActor
   public static func makePropertyAnimatorsForTranformUsingCenter(
     view: UIView,
     duration: TimeInterval,
@@ -126,6 +131,7 @@ public enum Fluid {
     ]
   }
 
+  @MainActor
   public static func setFrameAsIdentity(_ frame: CGRect, for view: UIView) {
 
     let center = Geometry.center(of: frame)
@@ -139,7 +145,7 @@ public enum Fluid {
     }
 
   }
-
+  
   public static func renderOnelineDescription<S>(subject: S, properties: (S) -> [(String, String)]) -> String {
     
     func escapeNewlines(_ value: String) -> String {
