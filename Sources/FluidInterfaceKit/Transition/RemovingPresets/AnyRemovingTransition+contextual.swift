@@ -29,6 +29,7 @@ extension AnyRemovingInteraction {
   public enum Contextual {
         
     // TODO: naming
+    @MainActor
     public static func runEnclosing(
       transitionContext: RemovingTransitionContext,
       disclosedView: UIView,
@@ -178,6 +179,7 @@ extension AnyRemovingInteraction {
     }
     
     // TODO: naming
+    @MainActor
     public static func runGettingTogether(
       transitionContext: RemovingTransitionContext,
       disclosedView: UIView,

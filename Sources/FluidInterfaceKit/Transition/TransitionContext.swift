@@ -1,12 +1,13 @@
 import UIKit
 
+@MainActor
 public class TransitionContext: Equatable {
   
   public enum Error: Swift.Error {
     case missingRequiredValue
   }
 
-  public static func == (
+  public static nonisolated func == (
     lhs: TransitionContext,
     rhs: TransitionContext
   ) -> Bool {

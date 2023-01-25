@@ -25,9 +25,9 @@ public struct AnyRemovingInteraction {
     case shouldRecognizeSimultaneouslyWith(otherGestureRecognizer: UIGestureRecognizer, completion: (Bool) -> Void)
   }
 
-  public typealias GestureHandler<Gesture> = (Gesture, Context) -> Void
+  public typealias GestureHandler<Gesture> = @MainActor (Gesture, Context) -> Void
   
-  public typealias GestureCondition<Gesture> = (Gesture, GestureConditionEvent) -> Void
+  public typealias GestureCondition<Gesture> = @MainActor (Gesture, GestureConditionEvent) -> Void
 
   public enum Handler {
     case gestureOnLeftEdge(
