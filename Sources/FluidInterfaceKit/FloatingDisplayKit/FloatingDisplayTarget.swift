@@ -150,12 +150,22 @@ extension FloatingDisplayTarget {
           SafeAreaFinder.shared.start()
         }
       }
+      
+      override func safeAreaInsetsDidChange() {
+        
+        super.safeAreaInsetsDidChange()
+        
+        /// - NOTE: Following top-safe area causes glitches,
+        /// since top safe-area frequently changes by ViewController transition.
+        if let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height {
+          activeWindowSafeAreaLayoutGuideConstraintTop.constant = -statusBarHeight
+        }
+      }
 
       @objc private func handleInsetsUpdate(notification: Notification) {
         let insets = notification.object as! UIEdgeInsets
         self.activeWindowSafeAreaLayoutGuideConstraintLeft.constant = insets.left
         self.activeWindowSafeAreaLayoutGuideConstraintRight.constant = insets.right
-        self.activeWindowSafeAreaLayoutGuideConstraintTop.constant = -insets.top
         self.activeWindowSafeAreaLayoutGuideConstraintBottom.constant = insets.bottom
         setNeedsLayout()
         UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) { [self] in
