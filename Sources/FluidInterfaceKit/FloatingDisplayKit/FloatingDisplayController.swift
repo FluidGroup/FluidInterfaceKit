@@ -32,8 +32,8 @@ open class FloatingDisplayController {
 
   // MARK: - Initializers
 
-  public init(useActiveWindowSafeArea: Bool) {
-    self.displayTarget = .init(useActiveWindowSafeArea: useActiveWindowSafeArea)
+  public init(edgeTargetSafeArea: FloatingDisplayTarget.EdgeTargetSafeArea) {
+    self.displayTarget = .init(edgeTargetSafeArea: edgeTargetSafeArea)
   }
 
 // MARK: - Functions
