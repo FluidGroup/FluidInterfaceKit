@@ -121,7 +121,7 @@ public final class RemovingTransitionContext: TransitionContext {
     Task { [isInvalidated, isCompleted] in
       assert(
         isInvalidated == true || isCompleted == true,
-        "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
+        "RemovingTransitionContext is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
       )
     }
   }
