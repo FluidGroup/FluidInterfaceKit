@@ -2,6 +2,38 @@
 import UIKit
 
 public final class FloatingDisplayTarget {
+  
+  public struct EdgeTargetSafeArea {
+    
+    public let top: TargetSafeArea
+    public let right: TargetSafeArea
+    public let bottom: TargetSafeArea
+    public let left: TargetSafeArea
+    
+    public init(top: TargetSafeArea, right: TargetSafeArea, bottom: TargetSafeArea, left: TargetSafeArea) {
+      self.top = top
+      self.right = right
+      self.bottom = bottom
+      self.left = left
+    }
+    
+    public static let notificationWindow = Self.init(
+      top: .notificationWindow,
+      right: .notificationWindow,
+      bottom: .notificationWindow,
+      left: .notificationWindow)
+    
+    public static let activeWindow = Self.init(
+      top: .activeWindow,
+      right: .activeWindow,
+      bottom: .activeWindow,
+      left: .activeWindow)
+  }
+  
+  public enum TargetSafeArea {
+    case notificationWindow
+    case activeWindow
+  }
 
   private let notificationWindow: NotificationWindow
   private let notificationViewController: NotificationViewController
@@ -33,8 +65,9 @@ public final class FloatingDisplayTarget {
   }
 
 
-  public init(useActiveWindowSafeArea: Bool = false) {
-    self.notificationViewController = .init(useActiveWindowSafeArea: useActiveWindowSafeArea)
+  public init(edgeTargetSafeArea: EdgeTargetSafeArea) {
+    
+    self.notificationViewController = .init(edgeTargetSafeArea: edgeTargetSafeArea)
 
     if #available(iOS 13, *) {
 
@@ -100,10 +133,11 @@ extension FloatingDisplayTarget {
   }
 
   fileprivate final class NotificationViewController: UIViewController {
-    private let useActiveWindowSafeArea: Bool
+    
+    private let edgeTargetSafeArea: EdgeTargetSafeArea
 
-    init(useActiveWindowSafeArea: Bool) {
-      self.useActiveWindowSafeArea = useActiveWindowSafeArea
+    init(edgeTargetSafeArea: EdgeTargetSafeArea) {
+      self.edgeTargetSafeArea = edgeTargetSafeArea
       super.init(nibName: nil, bundle: nil)
     }
 
@@ -112,7 +146,7 @@ extension FloatingDisplayTarget {
     }
 
     override fileprivate func loadView() {
-      view = View(useActiveWindowSafeArea: useActiveWindowSafeArea)
+      view = View(edgeTargetSafeArea: edgeTargetSafeArea)
     }
 
     override fileprivate func viewDidLoad() {
@@ -122,41 +156,85 @@ extension FloatingDisplayTarget {
     }
 
     fileprivate class View: UIView {
-      private let useActiveWindowSafeArea: Bool
-      private var activeWindowSafeAreaLayoutGuide: UILayoutGuide!
-      private var activeWindowSafeAreaLayoutGuideConstraintLeft: NSLayoutConstraint!
-      private var activeWindowSafeAreaLayoutGuideConstraintRight: NSLayoutConstraint!
-      private var activeWindowSafeAreaLayoutGuideConstraintTop: NSLayoutConstraint!
-      private var activeWindowSafeAreaLayoutGuideConstraintBottom: NSLayoutConstraint!
+      
+      private let edgeTargetSafeArea: EdgeTargetSafeArea
+      
+      private var _safeAreaLayoutGuide: UILayoutGuide = .init()
+      private var activeWindowSafeAreaLayoutGuideConstraintLeft: NSLayoutConstraint?
+      private var activeWindowSafeAreaLayoutGuideConstraintRight: NSLayoutConstraint?
+      private var activeWindowSafeAreaLayoutGuideConstraintTop: NSLayoutConstraint?
+      private var activeWindowSafeAreaLayoutGuideConstraintBottom: NSLayoutConstraint?
+      
+      private var hasSafeAreaFinderActivated: Bool = false
 
-      init(useActiveWindowSafeArea: Bool) {
-        self.useActiveWindowSafeArea = useActiveWindowSafeArea
+      init(edgeTargetSafeArea: EdgeTargetSafeArea) {
+        
+        self.edgeTargetSafeArea = edgeTargetSafeArea
+        
         super.init(frame: .zero)
-        if useActiveWindowSafeArea {
-          SafeAreaFinder.shared.start()
-          self.activeWindowSafeAreaLayoutGuide = .init()
-          self.addLayoutGuide(activeWindowSafeAreaLayoutGuide)
-          activeWindowSafeAreaLayoutGuideConstraintLeft = leftAnchor.constraint(equalTo: activeWindowSafeAreaLayoutGuide.leftAnchor)
-          activeWindowSafeAreaLayoutGuideConstraintRight = rightAnchor.constraint(equalTo: activeWindowSafeAreaLayoutGuide.rightAnchor)
-          activeWindowSafeAreaLayoutGuideConstraintTop = topAnchor.constraint(equalTo: activeWindowSafeAreaLayoutGuide.topAnchor)
-          activeWindowSafeAreaLayoutGuideConstraintBottom = bottomAnchor.constraint(equalTo: activeWindowSafeAreaLayoutGuide.bottomAnchor)
+        
+        addLayoutGuide(_safeAreaLayoutGuide)
+        
+        var containsActievWindowSafeAreaEdge: Bool = false
+        
+        switch edgeTargetSafeArea.top {
+        case .notificationWindow:
+          _safeAreaLayoutGuide.topAnchor.constraint(equalTo: super.safeAreaLayoutGuide.topAnchor).isActive = true
+        case .activeWindow:
+          activeWindowSafeAreaLayoutGuideConstraintTop = topAnchor.constraint(equalTo: _safeAreaLayoutGuide.topAnchor)
+          containsActievWindowSafeAreaEdge = true
+        }
+        
+        switch edgeTargetSafeArea.right {
+        case .notificationWindow:
+          _safeAreaLayoutGuide.rightAnchor.constraint(equalTo: super.safeAreaLayoutGuide.rightAnchor).isActive = true
+        case .activeWindow:
+          activeWindowSafeAreaLayoutGuideConstraintRight = rightAnchor.constraint(equalTo: _safeAreaLayoutGuide.rightAnchor)
+          containsActievWindowSafeAreaEdge = true
+        }
+        
+        switch edgeTargetSafeArea.bottom {
+        case .notificationWindow:
+          _safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: super.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        case .activeWindow:
+          activeWindowSafeAreaLayoutGuideConstraintBottom = bottomAnchor.constraint(equalTo: _safeAreaLayoutGuide.bottomAnchor)
+          containsActievWindowSafeAreaEdge = true
+        }
+        
+        switch edgeTargetSafeArea.left {
+        case .notificationWindow:
+          _safeAreaLayoutGuide.leftAnchor.constraint(equalTo: super.safeAreaLayoutGuide.leftAnchor).isActive = true
+        case .activeWindow:
+          activeWindowSafeAreaLayoutGuideConstraintLeft = leftAnchor.constraint(equalTo: _safeAreaLayoutGuide.leftAnchor)
+          containsActievWindowSafeAreaEdge = true
+        }
+        
+        if containsActievWindowSafeAreaEdge {
+          
           NSLayoutConstraint.activate([
-            activeWindowSafeAreaLayoutGuideConstraintLeft,
-            activeWindowSafeAreaLayoutGuideConstraintRight,
             activeWindowSafeAreaLayoutGuideConstraintTop,
-            activeWindowSafeAreaLayoutGuideConstraintBottom
-          ])
+            activeWindowSafeAreaLayoutGuideConstraintRight,
+            activeWindowSafeAreaLayoutGuideConstraintBottom,
+            activeWindowSafeAreaLayoutGuideConstraintLeft,
+          ].compactMap { $0 })
+          
+          hasSafeAreaFinderActivated = true
+          
           NotificationCenter.default.addObserver(self, selector: #selector(handleInsetsUpdate), name: SafeAreaFinder.notificationName, object: nil)
           SafeAreaFinder.shared.start()
         }
       }
 
       @objc private func handleInsetsUpdate(notification: Notification) {
+        
+        guard hasSafeAreaFinderActivated else { return }
+        
         let insets = notification.object as! UIEdgeInsets
-        self.activeWindowSafeAreaLayoutGuideConstraintLeft.constant = insets.left
-        self.activeWindowSafeAreaLayoutGuideConstraintRight.constant = insets.right
-        self.activeWindowSafeAreaLayoutGuideConstraintTop.constant = -insets.top
-        self.activeWindowSafeAreaLayoutGuideConstraintBottom.constant = insets.bottom
+        self.activeWindowSafeAreaLayoutGuideConstraintLeft?.constant = insets.left
+        self.activeWindowSafeAreaLayoutGuideConstraintRight?.constant = insets.right
+        self.activeWindowSafeAreaLayoutGuideConstraintTop?.constant = -insets.top
+        self.activeWindowSafeAreaLayoutGuideConstraintBottom?.constant = insets.bottom
+        
         setNeedsLayout()
         UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) { [self] in
           self.layoutIfNeeded()
@@ -178,15 +256,11 @@ extension FloatingDisplayTarget {
       }
 
       override var safeAreaLayoutGuide: UILayoutGuide {
-        if useActiveWindowSafeArea {
-          return activeWindowSafeAreaLayoutGuide
-        } else {
-          return super.safeAreaLayoutGuide
-        }
+        self._safeAreaLayoutGuide
       }
 
       deinit {
-        if useActiveWindowSafeArea {
+        if hasSafeAreaFinderActivated {
           SafeAreaFinder.shared.pause()
         }
       }
