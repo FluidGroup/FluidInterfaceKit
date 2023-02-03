@@ -147,7 +147,7 @@ extension AnyRemovingInteraction {
               duration: movingDuration,
               timingParameters: UISpringTimingParameters(
                 dampingRatio: 0.8,
-                initialVelocity: velocityForAnimation
+                initialVelocity: .zero
               )
             )
             animator.addAnimations {
