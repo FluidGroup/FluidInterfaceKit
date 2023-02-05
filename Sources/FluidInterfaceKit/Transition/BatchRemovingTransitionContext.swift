@@ -54,7 +54,7 @@ public final class BatchRemovingTransitionContext: TransitionContext {
     Task { [isInvalidated, isCompleted] in
       assert(
         isInvalidated == true || isCompleted == true,
-        "\(self) is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
+        "BatchRemovingTransitionContext is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
       )
     }
   }
