@@ -82,6 +82,7 @@ extension AnyRemovingInteraction {
               
         entrypointMirrorView.transform = .init(scaleX: translation.scale.x, y: translation.scale.y)
         entrypointMirrorView.center = translation.center
+        entrypointMirrorView.alpha = 0
       }
                 
       transitionContext.fromViewController.view.isHidden = true
@@ -98,7 +99,7 @@ extension AnyRemovingInteraction {
         displayingSubscription.dispose()
       }
       
-      let movingDuration: TimeInterval = 0.7
+      let movingDuration: TimeInterval = 0.75
                         
       Fluid.startPropertyAnimators(
         buildArray(elementType: UIViewPropertyAnimator.self) {
@@ -218,26 +219,13 @@ extension AnyRemovingInteraction {
               velocityForScaling: min(10, max(8, velocityForAnimation.magnitude))
             );
                        
-            { () -> [UIViewPropertyAnimator] in
-              
-              let animator = UIViewPropertyAnimator(
-                duration: movingDuration,
-                timingParameters: UISpringTimingParameters(
-                  dampingRatio: 0.8,
-                  initialVelocity: .zero
-                )
-              )
-              animator.addAnimations {
-                entrypointMirrorView.alpha = 1
-              }
-              return [animator]
-            }();
           }
            
-          // fade-out
+          // cross-fade content
           do {
             UIViewPropertyAnimator(duration: movingDuration, dampingRatio: 1) {
               fromViewMirror.alpha = 0
+              entrypointMirrorView.alpha = 1
             }
           }
                 
