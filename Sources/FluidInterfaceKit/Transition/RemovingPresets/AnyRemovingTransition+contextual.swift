@@ -57,17 +57,34 @@ extension AnyRemovingInteraction {
         hidesSourceOnUsing: true
       ).view()
       
+      /**
+       Repareting view is a temporary view that displays animated views.
+       For solving z-index problem that clips the animated views.
+       hosted by the entry point view
+       with this, animations runs correctly including on scroll view.
+       */
       let reparentingView = destinationComponent.requestReparentView()
       
       let displayingSubscription = transitionContext.requestDisplayOnTop(.view(reparentingView))
 
-      reparentingView.addSubview(entrypointMirrorView)
-      reparentingView.addSubview(fromViewMirror)
-      
-      // places entrypoint mirror view
-      entrypointMirrorView.frame = Geometry.rectThatAspectFit(aspectRatio: entrypointMirrorView.frame.size, boundingRect: transitionContext.fromViewController.view.frame)
-      entrypointMirrorView.alpha = 0
-      
+      // layering
+      do {
+        reparentingView.addSubview(entrypointMirrorView)
+        reparentingView.addSubview(fromViewMirror)
+      }
+        
+      // places entrypoint mirror view in the current moving view to make cross-fade
+      do {
+        let translation = Geometry.centerAndScale(
+          from: entrypointMirrorView.frame,
+          to: Geometry.rectThatAspectFit(aspectRatio: entrypointMirrorView.frame.size, boundingRect: transitionContext.fromViewController.view.frame)
+        )
+              
+        entrypointMirrorView.transform = .init(scaleX: translation.scale.x, y: translation.scale.y)
+        entrypointMirrorView.center = translation.center
+        entrypointMirrorView.alpha = 0
+      }
+                
       transitionContext.fromViewController.view.isHidden = true
       
       transitionContext.addCompletionEventHandler { [weak transitionContext] _ in
@@ -81,46 +98,6 @@ extension AnyRemovingInteraction {
         fromViewMirror.removeFromSuperview()
         displayingSubscription.dispose()
       }
-
-      let translation = Geometry.centerAndScale(
-        from: fromViewMirror.frame,
-        to: CGRect(
-          origin: transitionContext.frameInContentView(for: destinationComponent.contentView).origin,
-          size: Geometry.sizeThatAspectFill(
-            aspectRatio: fromViewMirror.bounds.size,
-            minimumSize: destinationComponent.contentView.bounds.size
-          )
-        )
-      )
-
-      let velocityForAnimation: CGVector = {
-        
-        guard let gestureVelocity = gestureVelocity else {
-          return .zero
-        }
-
-        let targetCenter = translation.center
-        let delta = CGPoint(
-          x: targetCenter.x - draggingView.center.x,
-          y: targetCenter.y - draggingView.center.y
-        )
-
-        var velocity = CGVector.init(
-          dx: gestureVelocity.x / delta.x,
-          dy: gestureVelocity.y / delta.y
-        )
-                
-        if velocity.dx.isNaN {
-          velocity.dx = 0
-        }
-        
-        if velocity.dy.isNaN {
-          velocity.dy = 0
-        }
-        
-        return velocity
-
-      }()
       
       let movingDuration: TimeInterval = 0.75
                         
@@ -128,51 +105,130 @@ extension AnyRemovingInteraction {
         buildArray(elementType: UIViewPropertyAnimator.self) {
           
           // displaying view moving
-          Fluid.makePropertyAnimatorsForTranformUsingCenter(
-            view: fromViewMirror,
-            duration: movingDuration,
-            position: .custom(translation.center),
-            scale: translation.scale,
-            velocityForTranslation: velocityForAnimation,
-            velocityForScaling: min(20, max(8, velocityForAnimation.magnitude))
-          )
-          
-          UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-            transitionContext.contentView.backgroundColor = .clear
-          };
-          
-          // entrypoint moving
-          { () -> UIViewPropertyAnimator in
-            let animator = UIViewPropertyAnimator(
-              duration: movingDuration,
-              timingParameters: UISpringTimingParameters(
-                dampingRatio: 0.8,
-                initialVelocity: .zero
+          do {
+                        
+            let translation = Geometry.centerAndScale(
+              from: fromViewMirror.frame,
+              to: CGRect(
+                origin: transitionContext.frameInContentView(for: destinationComponent.contentView).origin,
+                size: Geometry.sizeThatAspectFill(
+                  aspectRatio: fromViewMirror.bounds.size,
+                  minimumSize: destinationComponent.contentView.bounds.size
+                )
               )
             )
-            animator.addAnimations {
-              entrypointMirrorView.frame = transitionContext.frameInContentView(for: destinationComponent.contentView)
+            
+            let velocityForAnimation: CGVector = {
+              
+              guard let gestureVelocity = gestureVelocity else {
+                return .zero
+              }
+              
+              let targetCenter = translation.center
+              let delta = CGPoint(
+                x: targetCenter.x - draggingView.center.x,
+                y: targetCenter.y - draggingView.center.y
+              )
+              
+              var velocity = CGVector.init(
+                dx: gestureVelocity.x / delta.x,
+                dy: gestureVelocity.y / delta.y
+              )
+              
+              if velocity.dx.isNaN {
+                velocity.dx = 0
+              }
+              
+              if velocity.dy.isNaN {
+                velocity.dy = 0
+              }
+              
+              return velocity
+              
+            }()
+            
+            Fluid.makePropertyAnimatorsForTranformUsingCenter(
+              view: fromViewMirror,
+              duration: movingDuration,
+              position: .custom(translation.center),
+              scale: translation.scale,
+              velocityForTranslation: velocityForAnimation,
+              velocityForScaling: min(10, max(8, velocityForAnimation.magnitude))
+            )
+            
+            UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+              transitionContext.contentView.backgroundColor = .clear
+            };
+            
+            // mask
+            UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+              maskView.frame = transitionContext.fromViewController.view.bounds
+              maskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
+              maskView.layer.cornerRadius = 36
+              if #available(iOS 13.0, *) {
+                maskView.layer.cornerCurve = .continuous
+              } else {
+                // Fallback on earlier versions
+              }
+            }
+          }
+          
+          // entrypoint moving
+          do {
+            
+            let translation = Geometry.centerAndScale(
+              from: entrypointMirrorView.frameAsIdentity,
+              to: transitionContext.frameInContentView(for: destinationComponent.contentView)
+            )
+            
+            let velocityForAnimation: CGVector = {
+              
+              guard let gestureVelocity = gestureVelocity else {
+                return .zero
+              }
+              
+              let targetCenter = translation.center
+              let delta = CGPoint(
+                x: targetCenter.x - entrypointMirrorView.center.x,
+                y: targetCenter.y - entrypointMirrorView.center.y
+              )
+              
+              var velocity = CGVector.init(
+                dx: gestureVelocity.x / delta.x,
+                dy: gestureVelocity.y / delta.y
+              )
+              
+              if velocity.dx.isNaN {
+                velocity.dx = 0
+              }
+              
+              if velocity.dy.isNaN {
+                velocity.dy = 0
+              }
+              
+              return velocity
+              
+            }()
+                             
+            Fluid.makePropertyAnimatorsForTranformUsingCenter(
+              view: entrypointMirrorView,
+              duration: movingDuration,
+              position: .custom(translation.center),
+              scale: translation.scale,
+              velocityForTranslation: velocityForAnimation,
+              velocityForScaling: min(10, max(8, velocityForAnimation.magnitude))
+            );
+                       
+          }
+           
+          // cross-fade content
+          do {
+            UIViewPropertyAnimator(duration: movingDuration, dampingRatio: 1) {
+              fromViewMirror.alpha = 0
               entrypointMirrorView.alpha = 1
             }
-            return animator
-          }()
-          
-          // fade-out
-          UIViewPropertyAnimator(duration: movingDuration, dampingRatio: 1) {
-            fromViewMirror.alpha = 0
           }
-          
-          // mask
-          UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-            maskView.frame = transitionContext.fromViewController.view.bounds
-            maskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
-            maskView.layer.cornerRadius = 36
-            if #available(iOS 13.0, *) {
-              maskView.layer.cornerCurve = .continuous
-            } else {
-              // Fallback on earlier versions
-            }
-          }
+                
         },
         completion: {
           transitionContext.notifyAnimationCompleted()
