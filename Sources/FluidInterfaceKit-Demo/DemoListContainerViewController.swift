@@ -266,5 +266,7 @@ private func makeListCell(viewModel: ViewModel, onTap: @escaping (ContextualTran
     onTap(cell.superview as! ContextualTransitionSourceView)
   }
   
+  cell.backgroundColor = .init(white: 0.5, alpha: 0.1)
+  
   return .init(contentView: cell)
 }
