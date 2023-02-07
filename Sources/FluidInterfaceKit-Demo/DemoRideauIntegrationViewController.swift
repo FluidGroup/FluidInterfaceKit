@@ -40,6 +40,14 @@ final class DemoRideauIntegrationViewController: FluidStackController {
       buildArray {
 
         Self.makeCell(
+          title: "SwiftUI",
+          onTap: { [unowned self] in
+            
+            _display_swiftui()
+          }
+        )
+        
+        Self.makeCell(
           title: "Present as Fluid",
           onTap: { [unowned self] in
 
@@ -98,6 +106,20 @@ final class DemoRideauIntegrationViewController: FluidStackController {
     present(rideauController, animated: true)
 
   }
+  
+  private func _display_swiftui() {
+    
+    let body = SwiftUIContentViewController()
+    
+    let rideauController = FluidRideauViewController(
+      bodyViewController: body.fluidWrapped(configuration: .defaultModal),
+      configuration: .init(snapPoints: [.autoPointsFromBottom]),
+      initialSnapPoint: .autoPointsFromBottom,
+      resizingOption: .noResize
+    )
+    
+    fluidPush(rideauController, target: .current)
+  }
 
   private static func makeCell(title: String, onTap: @escaping () -> Void) -> UIView {
     let button = UIButton(type: .system)
@@ -115,6 +137,35 @@ final class DemoRideauIntegrationViewController: FluidStackController {
     }
   }
 
+}
+
+import SwiftUI
+import SwiftUISupport
+
+private final class SwiftUIContentViewController: UIViewController {
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    let hostingView = HostingView { _ in
+      ZStack {
+        Color.red
+        VStack(spacing: 0) {
+          ForEach.inefficient(items: [Color.orange, .yellow, .purple]) { view in
+            view.frame(width: 100, height: 100)
+          }
+          Spacer(minLength: 0)
+        }
+      }
+    }
+    
+    Mondrian.buildSubviews(on: view) {
+      ZStackBlock(alignment: .attach(.all)) {
+        hostingView
+      }
+    }
+    
+  }
 }
 
 private final class ContentViewController: FluidStackController {

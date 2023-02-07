@@ -53,6 +53,7 @@
 		4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */; };
 		4BC667BF27B2E6B300182E6C /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667BE27B2E6B300182E6C /* FluidInterfaceKit */; };
 		4BC667C127B2E6B300182E6C /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */; };
+		4BC726342992679F0074A828 /* SwiftUISupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC726332992679F0074A828 /* SwiftUISupport */; };
 		4BC7B20D284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */; };
 		4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F327B6B02300095412 /* StorybookKit */; };
 		4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F527B6B02300095412 /* StorybookUI */; };
@@ -150,6 +151,7 @@
 			files = (
 				4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */,
 				4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */,
+				4BC726342992679F0074A828 /* SwiftUISupport in Frameworks */,
 				4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */,
 				4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */,
 				4BB5B319277077CC00EE1028 /* Ne in Frameworks */,
@@ -339,6 +341,7 @@
 				4BC8F5F327B6B02300095412 /* StorybookKit */,
 				4BC8F5F527B6B02300095412 /* StorybookUI */,
 				4BDDD3CD28DB627500452B7D /* CompositionKit */,
+				4BC726332992679F0074A828 /* SwiftUISupport */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -424,6 +427,7 @@
 				4BB5B31A277077EA00EE1028 /* XCRemoteSwiftPackageReference "MockKit" */,
 				4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */,
 				4BDDD3CC28DB627500452B7D /* XCRemoteSwiftPackageReference "CompositionKit" */,
+				4BC726322992679F0074A828 /* XCRemoteSwiftPackageReference "swiftui-support" */,
 			);
 			productRefGroup = 4B959AF92764F7180003FFB6 /* Products */;
 			projectDirPath = "";
@@ -915,6 +919,14 @@
 				kind = branch;
 			};
 		};
+		4BC726322992679F0074A828 /* XCRemoteSwiftPackageReference "swiftui-support" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FluidGroup/swiftui-support.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/eure/Storybook-ios";
@@ -972,6 +984,11 @@
 		4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FluidInterfaceKitRideauSupport;
+		};
+		4BC726332992679F0074A828 /* SwiftUISupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BC726322992679F0074A828 /* XCRemoteSwiftPackageReference "swiftui-support" */;
+			productName = SwiftUISupport;
 		};
 		4BC8F5F327B6B02300095412 /* StorybookKit */ = {
 			isa = XCSwiftPackageProductDependency;

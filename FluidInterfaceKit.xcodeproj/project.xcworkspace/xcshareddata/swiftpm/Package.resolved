@@ -155,6 +155,15 @@
         }
       },
       {
+        "package": "SwiftUISupport",
+        "repositoryURL": "https://github.com/FluidGroup/swiftui-support.git",
+        "state": {
+          "branch": "main",
+          "revision": "f36903ca01e713cb6de7bbae155f771a035e31d0",
+          "version": null
+        }
+      },
+      {
         "package": "Texture",
         "repositoryURL": "https://github.com/FluidGroup/Texture.git",
         "state": {
