@@ -193,14 +193,9 @@ open class FluidStageViewController: UIViewController {
         
         actionHandler(.didSelect(stage: stage))
         
-        switch stage {
-        case .main:
-          mainViewController.didSelect(stage: stage)
-        case .left:
-          leftSideViewController.didSelect(stage: stage)
-        case .right:
-          rightSideViewController.didSelect(stage: stage)
-        }
+        mainViewController.didSelect(stage: stage)
+        leftSideViewController.didSelect(stage: stage)
+        rightSideViewController.didSelect(stage: stage)
       }
     }
     

@@ -113,7 +113,7 @@ private final class ContentViewController: UIViewController, FluidStageChildView
   //  }
   
   func didSelect(stage: FluidStageViewController.Stage) {
-    print("title: \(_title)")
+    print("title: \(_title) \(stage)")
   }
 
 }
