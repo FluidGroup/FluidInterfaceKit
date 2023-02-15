@@ -12,7 +12,10 @@ final class DemoStageViewController: UIViewController {
     let spaceViewController = FluidStageViewController(
       leftSideViewController: ContentViewController(color: .neonRandom(), title: "left"),
       mainViewController: ContentViewController(color: .neonRandom(), title: "main"),
-      rightSideViewController: ContentViewController(color: .neonRandom(), title: "right")
+      rightSideViewController: ContentViewController(color: .neonRandom(), title: "right"),
+      actionHandler: { action in
+        print(action)
+      }
     )
 
     addChild(spaceViewController)
@@ -109,7 +112,7 @@ private final class ContentViewController: UIViewController, FluidStageChildView
   //
   //  }
   
-  func didSelectPage() {
+  func didSelect(stage: FluidStageViewController.Stage) {
     print("title: \(_title)")
   }
 

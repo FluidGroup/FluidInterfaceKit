@@ -10,7 +10,7 @@ import UIKit
  */
 
 @MainActor public protocol FluidStageChildViewController where Self: UIViewController {
-  func didSelectPage() -> Void
+  func didSelect(stage: FluidStageViewController.Stage) -> Void
 }
 
 open class FluidStageViewController: UIViewController {
@@ -19,6 +19,10 @@ open class FluidStageViewController: UIViewController {
     case left
     case main
     case right
+  }
+  
+  public enum Action {
+    case didSelect(stage: Stage)
   }
 
   private final class HostingScrollView: UIScrollView {
@@ -42,14 +46,26 @@ open class FluidStageViewController: UIViewController {
   }
 
   private final class InternalView: UIView {
-
+    
+    private struct State: Equatable {
+      var stage: Stage
+    }
+    
     private let leftSideViewController: FluidStageChildViewController
     private let mainViewController: FluidStageChildViewController
     private let rightSideViewController: FluidStageChildViewController
+    
+    private let actionHandler: @MainActor (Action) -> Void
 
     private let scrollView: HostingScrollView
     
-    private var currentStage: Stage = .main
+    private var state: State {
+      didSet {
+        let newValue = self.state
+        guard newValue != oldValue else { return }
+        self.update(newValue: newValue, oldValue: oldValue)
+      }
+    }
     
     private var oldBounds: CGRect?
     
@@ -59,12 +75,16 @@ open class FluidStageViewController: UIViewController {
       scrollView: HostingScrollView,
       leftSideViewController: FluidStageChildViewController,
       mainViewController: FluidStageChildViewController,
-      rightSideViewController: FluidStageChildViewController
+      rightSideViewController: FluidStageChildViewController,
+      actionHandler: @escaping @MainActor (Action) -> Void
     ) {
       self.scrollView = scrollView
       self.leftSideViewController = leftSideViewController
       self.mainViewController = mainViewController
       self.rightSideViewController = rightSideViewController
+      self.actionHandler = actionHandler
+      
+      self.state = .init(stage: .main)
 
       super.init(frame: .null)
             
@@ -134,7 +154,7 @@ open class FluidStageViewController: UIViewController {
         partialResult[e.value] = e.key
       })
       
-      select(stage: currentStage, animated: false)
+      select(stage: state.stage, animated: false)
       
     }
 
@@ -144,15 +164,8 @@ open class FluidStageViewController: UIViewController {
     }
           
     func select(stage: Stage, animated: Bool) {
-      
-      let prevStage = currentStage
-      
-      currentStage = stage
+      state.stage = stage
       scrollView.setContentOffset(.init(x: contentOffsetX(for: stage), y: 0), animated: animated)
-      
-      if currentStage != prevStage {
-        didChangeStage()
-      }
     }
     
     private func onChangeContentOffset(scrollView: UIScrollView) {
@@ -161,27 +174,33 @@ open class FluidStageViewController: UIViewController {
         return
       }
       
-      guard let stage = offsetToStage[scrollView.contentOffset.x] else {
+      guard let newStage = offsetToStage[scrollView.contentOffset.x] else {
         return
       }
       
-      guard currentStage != stage else {
+      guard state.stage != newStage else {
         return
       }
       
-      currentStage = stage
-      
-      didChangeStage()
+      state.stage = newStage
     }
     
-    private func didChangeStage() {
-      switch currentStage {
-      case .main:
-        mainViewController.didSelectPage()
-      case .left:
-        leftSideViewController.didSelectPage()
-      case .right:
-        rightSideViewController.didSelectPage()
+    private func update(newValue: State, oldValue: State) {
+      
+      if newValue.stage != oldValue.stage {
+        
+        let stage = newValue.stage
+        
+        actionHandler(.didSelect(stage: stage))
+        
+        switch stage {
+        case .main:
+          mainViewController.didSelect(stage: stage)
+        case .left:
+          leftSideViewController.didSelect(stage: stage)
+        case .right:
+          rightSideViewController.didSelect(stage: stage)
+        }
       }
     }
     
@@ -213,7 +232,8 @@ open class FluidStageViewController: UIViewController {
       scrollView: scrollView,
       leftSideViewController: leftSideViewController,
       mainViewController: mainViewController,
-      rightSideViewController: rightSideViewController
+      rightSideViewController: rightSideViewController,
+      actionHandler: actionHandler
     )
     self.view = instance
   }
@@ -221,6 +241,7 @@ open class FluidStageViewController: UIViewController {
   private let leftSideViewController: FluidStageChildViewController
   private let mainViewController: FluidStageChildViewController
   private let rightSideViewController: FluidStageChildViewController
+  private let actionHandler: @MainActor (Action) -> Void
   
   private var internalView: InternalView {
     view as! InternalView
@@ -229,12 +250,14 @@ open class FluidStageViewController: UIViewController {
   public init(
     leftSideViewController: FluidStageChildViewController,
     mainViewController: FluidStageChildViewController,
-    rightSideViewController: FluidStageChildViewController
+    rightSideViewController: FluidStageChildViewController,
+    actionHandler: @escaping @MainActor (Action) -> Void
   ) {
 
     self.leftSideViewController = leftSideViewController
     self.mainViewController = mainViewController
     self.rightSideViewController = rightSideViewController
+    self.actionHandler = actionHandler
 
     super.init(nibName: nil, bundle: nil)
 
