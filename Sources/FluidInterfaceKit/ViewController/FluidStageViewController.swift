@@ -16,7 +16,7 @@ import UIKit
 open class FluidStageViewController: UIViewController {
   
   public struct State: Equatable {
-    var stage: Stage
+    public var stage: Stage
   }
   
   public enum Stage {
