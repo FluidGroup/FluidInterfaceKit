@@ -59,7 +59,7 @@ open class FluidStageViewController: UIViewController {
       didSet {
         let newValue = self.state
         guard newValue != oldValue else { return }
-        self.update(newValue: newValue, oldValue: oldValue)
+        self.update(oldValue: oldValue, newValue: newValue)
       }
     }
     
@@ -128,7 +128,7 @@ open class FluidStageViewController: UIViewController {
       
       layoutIfNeeded()
       
-      update(newValue: self.state, oldValue: nil)
+      update(oldValue: nil, newValue: self.state)
     }
     
     override func layoutSubviews() {
@@ -183,11 +183,8 @@ open class FluidStageViewController: UIViewController {
       state.stage = newStage
     }
     
-    private func update(newValue: State, oldValue: State?) {
-      
-      if newValue.stage != oldValue?.stage {
-        onChangeState(oldValue, newValue)
-      }
+    private func update(oldValue: State?, newValue: State) {
+      onChangeState(oldValue, newValue)
     }
     
     private func contentOffsetX(for stage: Stage) -> CGFloat {
