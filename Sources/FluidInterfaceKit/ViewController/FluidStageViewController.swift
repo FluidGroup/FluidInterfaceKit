@@ -10,7 +10,7 @@ import UIKit
  */
 
 @MainActor public protocol FluidStageChildViewController where Self: UIViewController {
-  func didSelect(stage: FluidStageViewController.Stage) -> Void
+  func didSelect(_ stageViewController: FluidStageViewController) -> Void
 }
 
 open class FluidStageViewController: UIViewController {
@@ -23,6 +23,7 @@ open class FluidStageViewController: UIViewController {
   
   public enum Action {
     case didSelect(stage: Stage)
+    case onSelect(stage: Stage)
   }
 
   private final class HostingScrollView: UIScrollView {
@@ -55,6 +56,8 @@ open class FluidStageViewController: UIViewController {
     private let mainViewController: FluidStageChildViewController
     private let rightSideViewController: FluidStageChildViewController
     
+    private let stageViewController: FluidStageViewController
+    
     private let actionHandler: @MainActor (Action) -> Void
 
     private let scrollView: HostingScrollView
@@ -76,12 +79,14 @@ open class FluidStageViewController: UIViewController {
       leftSideViewController: FluidStageChildViewController,
       mainViewController: FluidStageChildViewController,
       rightSideViewController: FluidStageChildViewController,
+      stageViewController: FluidStageViewController,
       actionHandler: @escaping @MainActor (Action) -> Void
     ) {
       self.scrollView = scrollView
       self.leftSideViewController = leftSideViewController
       self.mainViewController = mainViewController
       self.rightSideViewController = rightSideViewController
+      self.stageViewController = stageViewController
       self.actionHandler = actionHandler
       
       self.state = .init(stage: .main)
@@ -131,6 +136,8 @@ open class FluidStageViewController: UIViewController {
       }
       
       layoutIfNeeded()
+      
+      update(newValue: self.state, oldValue: nil)
     }
     
     override func layoutSubviews() {
@@ -185,17 +192,27 @@ open class FluidStageViewController: UIViewController {
       state.stage = newStage
     }
     
-    private func update(newValue: State, oldValue: State) {
+    private func update(newValue: State, oldValue: State?) {
       
-      if newValue.stage != oldValue.stage {
+      if newValue.stage != oldValue?.stage {
         
         let stage = newValue.stage
         
-        actionHandler(.didSelect(stage: stage))
+        actionHandler(.onSelect(stage: stage))
         
-        mainViewController.didSelect(stage: stage)
-        leftSideViewController.didSelect(stage: stage)
-        rightSideViewController.didSelect(stage: stage)
+        if oldValue != nil {
+          
+          actionHandler(.didSelect(stage: stage))
+          
+          switch stage {
+          case .left:
+            leftSideViewController.didSelect(stageViewController)
+          case .main:
+            mainViewController.didSelect(stageViewController)
+          case .right:
+            mainViewController.didSelect(stageViewController)
+          }
+        }
       }
     }
     
@@ -228,6 +245,7 @@ open class FluidStageViewController: UIViewController {
       leftSideViewController: leftSideViewController,
       mainViewController: mainViewController,
       rightSideViewController: rightSideViewController,
+      stageViewController: self,
       actionHandler: actionHandler
     )
     self.view = instance
