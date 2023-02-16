@@ -13,8 +13,8 @@ final class DemoStageViewController: UIViewController {
       leftSideViewController: ContentViewController(color: .neonRandom(), title: "left"),
       mainViewController: ContentViewController(color: .neonRandom(), title: "main"),
       rightSideViewController: ContentViewController(color: .neonRandom(), title: "right"),
-      actionHandler: { action in
-        print(action)
+      onChangeState: { oldValue, newValue in
+        print("onChangeState", oldValue, newValue)
       }
     )
 
@@ -112,7 +112,7 @@ private final class ContentViewController: UIViewController, FluidStageChildView
   //
   //  }
   
-  func didSelect(_ stageViewController: FluidStageViewController) {
+  func didMoveToFocusingStage(_ stageViewController: FluidStageViewController) {
     print("title: \(_title)")
   }
 
