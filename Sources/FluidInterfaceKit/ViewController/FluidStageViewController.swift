@@ -17,6 +17,7 @@ open class FluidStageViewController: UIViewController {
   
   public struct State: Equatable {
     public var stage: Stage
+    public var willChangeToStage: Stage?
   }
   
   public enum Stage {
@@ -66,6 +67,8 @@ open class FluidStageViewController: UIViewController {
     private var oldBounds: CGRect?
     
     private var offsetObservation: NSKeyValueObservation?
+    
+    private var descriptor: Descriptor?
 
     init(
       scrollView: HostingScrollView,
@@ -142,15 +145,11 @@ open class FluidStageViewController: UIViewController {
       
       let width = bounds.width
       
-      stageToOffset = [
-        .left : 0,
-        .main: width,
-        .right: width * 2
-      ]
-      
-      offsetToStage = stageToOffset.reduce(into: .init(), { partialResult, e in
-        partialResult[e.value] = e.key
-      })
+      self.descriptor = .init(stageDescriptros: [
+        .init(stage: .left, offsetX: 0),
+        .init(stage: .main, offsetX: width),
+        .init(stage: .right, offsetX: width * 2),
+      ])
       
       select(stage: state.stage, animated: false)
       
@@ -162,38 +161,64 @@ open class FluidStageViewController: UIViewController {
     }
           
     func select(stage: Stage, animated: Bool) {
+      guard let newOffsetX = contentOffsetX(for: stage) else { return }
       state.stage = stage
-      scrollView.setContentOffset(.init(x: contentOffsetX(for: stage), y: 0), animated: animated)
+      scrollView.setContentOffset(.init(x: newOffsetX, y: 0), animated: animated)
+    }
+    
+    private func contentOffsetX(for stage: Stage) -> CGFloat? {
+      return descriptor?.getDescriptor(for: stage)?.offsetX
     }
     
     private func onChangeContentOffset(scrollView: UIScrollView) {
       
-      guard scrollView.isTracking || scrollView.isDecelerating else {
-        return
+      if scrollView.isTracking || scrollView.isDecelerating {
+        
+        let contentOffsetX = scrollView.contentOffset.x
+        guard let descriptor = descriptor?.proposedStageDescriptor(for: contentOffsetX + bounds.width / 2) else {
+          return
+        }
+        
+        let newStage = descriptor.stage
+        guard newStage != state.stage else {
+          return
+        }
+        
+        state.stage = descriptor.stage
       }
-      
-      guard let newStage = offsetToStage[scrollView.contentOffset.x] else {
-        return
-      }
-      
-      guard state.stage != newStage else {
-        return
-      }
-      
-      state.stage = newStage
     }
     
     private func update(oldValue: State?, newValue: State) {
       onChangeState(oldValue, newValue)
     }
-    
-    private func contentOffsetX(for stage: Stage) -> CGFloat {
-      return stageToOffset[stage]!
+        
+    private struct Descriptor {
+      
+      struct StageDescriptor: Comparable {
+        
+        let stage: Stage
+        let offsetX: CGFloat
+        
+        static func < (lhs: Self, rhs: Self) -> Bool {
+          lhs.offsetX < rhs.offsetX
+        }
+      }
+      
+      private let stageDescriptros: [StageDescriptor]
+      
+      init(stageDescriptros: [StageDescriptor]) {
+        self.stageDescriptros = stageDescriptros.sorted(by: { $0 > $1 })
+      }
+      
+      func proposedStageDescriptor(for offsetX: CGFloat) -> StageDescriptor? {
+        stageDescriptros.first { $0.offsetX <= offsetX }
+      }
+      
+      func getDescriptor(for stage: Stage) -> StageDescriptor? {
+        stageDescriptros.first { $0.stage == stage }
+      }
     }
     
-    private var stageToOffset: [Stage : CGFloat] = [:]
-    private var offsetToStage: [CGFloat : Stage] = [:]
-        
   }
   
   /**
