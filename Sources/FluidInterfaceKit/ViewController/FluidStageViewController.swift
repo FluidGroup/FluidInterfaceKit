@@ -17,6 +17,7 @@ open class FluidStageViewController: UIViewController {
   
   public struct State: Equatable {
     public var stage: Stage
+    public var willChangeToStage: Stage?
   }
   
   public enum Stage {
@@ -152,6 +153,9 @@ open class FluidStageViewController: UIViewController {
         partialResult[e.value] = e.key
       })
       
+      leftMainBorderOffset = width / 2
+      mainRightBorderOffset = width + width / 2
+      
       select(stage: state.stage, animated: false)
       
     }
@@ -168,19 +172,46 @@ open class FluidStageViewController: UIViewController {
     
     private func onChangeContentOffset(scrollView: UIScrollView) {
       
-      guard scrollView.isTracking || scrollView.isDecelerating else {
-        return
+      if scrollView.isTracking {
+        
+        guard let newStage = offsetToStage[scrollView.contentOffset.x] else {
+          return
+        }
+        
+        guard state.stage != newStage else {
+          return
+        }
+        
+        state.stage = newStage
       }
-      
-      guard let newStage = offsetToStage[scrollView.contentOffset.x] else {
-        return
+    
+      if scrollView.isDecelerating {
+        
+        guard let leftMainBorderOffset, let mainRightBorderOffset else { return }
+        
+        let currentStage = state.stage
+        let contentOffsetX = scrollView.contentOffset.x
+        
+        switch currentStage {
+        case .left:
+          if contentOffsetX > leftMainBorderOffset {
+            state.stage = .main
+          }
+          
+        case .main:
+          if contentOffsetX < leftMainBorderOffset {
+            state.stage = .left
+          }
+          if contentOffsetX > mainRightBorderOffset {
+            state.stage = .right
+          }
+          
+        case .right:
+          if contentOffsetX < mainRightBorderOffset {
+            state.stage = .main
+          }
+        }
       }
-      
-      guard state.stage != newStage else {
-        return
-      }
-      
-      state.stage = newStage
     }
     
     private func update(oldValue: State?, newValue: State) {
@@ -193,6 +224,9 @@ open class FluidStageViewController: UIViewController {
     
     private var stageToOffset: [Stage : CGFloat] = [:]
     private var offsetToStage: [CGFloat : Stage] = [:]
+    
+    private var leftMainBorderOffset: CGFloat?
+    private var mainRightBorderOffset: CGFloat?
         
   }
   
