@@ -46,7 +46,7 @@ open class FluidStageViewController: UIViewController {
     }
   }
 
-  private final class InternalView: UIView {
+  private final class InternalView: UIView, UIScrollViewDelegate {
     
     private let leftSideViewController: FluidStageChildViewController
     private let mainViewController: FluidStageChildViewController
@@ -86,6 +86,8 @@ open class FluidStageViewController: UIViewController {
       self.state = .init(stage: .main)
 
       super.init(frame: .null)
+      
+      scrollView.delegate = self
             
       addSubview(scrollView)
       
@@ -124,10 +126,6 @@ open class FluidStageViewController: UIViewController {
         scrollView.leftAnchor.constraint(equalTo: leftAnchor),
         scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
       ])
-      
-      offsetObservation = scrollView.observe(\.contentOffset, options: [.new]) { [weak self] scrollView, _ in
-        self?.onChangeContentOffset(scrollView: scrollView)
-      }
       
       layoutIfNeeded()
       
@@ -170,26 +168,24 @@ open class FluidStageViewController: UIViewController {
       return descriptor?.getDescriptor(for: stage)?.offsetX
     }
     
-    private func onChangeContentOffset(scrollView: UIScrollView) {
-      
-      if scrollView.isTracking || scrollView.isDecelerating {
-        
-        let contentOffsetX = scrollView.contentOffset.x
-        guard let descriptor = descriptor?.proposedStageDescriptor(for: contentOffsetX + bounds.width / 2) else {
-          return
-        }
-        
-        let newStage = descriptor.stage
-        guard newStage != state.stage else {
-          return
-        }
-        
-        state.stage = descriptor.stage
-      }
-    }
-    
     private func update(oldValue: State?, newValue: State) {
       onChangeState(oldValue, newValue)
+    }
+    
+    // MARK: UIScrollViewDelegate
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+      
+      guard let descriptor = descriptor?.proposedStageDescriptor(for: targetContentOffset.pointee.x) else {
+        return
+      }
+      
+      let newStage = descriptor.stage
+      guard newStage != state.stage else {
+        return
+      }
+      
+      state.stage = descriptor.stage
     }
         
     private struct Descriptor {
