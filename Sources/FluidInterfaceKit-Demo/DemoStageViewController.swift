@@ -13,6 +13,7 @@ final class DemoStageViewController: UIViewController {
       leftSideViewController: ContentViewController(color: .neonRandom(), title: "left"),
       mainViewController: ContentViewController(color: .neonRandom(), title: "main"),
       rightSideViewController: ContentViewController(color: .neonRandom(), title: "right"),
+      initialSelection: .left,
       onChangeState: { oldValue, newValue in
         print("onChangeState", oldValue, newValue)
       }

@@ -75,6 +75,7 @@ open class FluidStageViewController: UIViewController {
       leftSideViewController: FluidStageChildViewController,
       mainViewController: FluidStageChildViewController,
       rightSideViewController: FluidStageChildViewController,
+      initialSelection: Stage,
       onChangeState: @escaping @MainActor (State?, State) -> Void
     ) {
       self.scrollView = scrollView
@@ -83,7 +84,7 @@ open class FluidStageViewController: UIViewController {
       self.rightSideViewController = rightSideViewController
       self.onChangeState = onChangeState
       
-      self.state = .init(stage: .main)
+      self.state = .init(stage: initialSelection)
 
       super.init(frame: .null)
       
@@ -237,6 +238,7 @@ open class FluidStageViewController: UIViewController {
       leftSideViewController: leftSideViewController,
       mainViewController: mainViewController,
       rightSideViewController: rightSideViewController,
+      initialSelection: initialSelection,
       onChangeState: { [weak self] oldValue, newValue in
         
         guard let self = self else { return }
@@ -260,6 +262,7 @@ open class FluidStageViewController: UIViewController {
   private let leftSideViewController: FluidStageChildViewController
   private let mainViewController: FluidStageChildViewController
   private let rightSideViewController: FluidStageChildViewController
+  private let initialSelection: Stage
   private let onChangeState: @MainActor (State?, State) -> Void
   
   private var internalView: InternalView {
@@ -270,12 +273,14 @@ open class FluidStageViewController: UIViewController {
     leftSideViewController: FluidStageChildViewController,
     mainViewController: FluidStageChildViewController,
     rightSideViewController: FluidStageChildViewController,
+    initialSelection: Stage = .main,
     onChangeState: @escaping @MainActor (State?, State) -> Void
   ) {
 
     self.leftSideViewController = leftSideViewController
     self.mainViewController = mainViewController
     self.rightSideViewController = rightSideViewController
+    self.initialSelection = initialSelection
     self.onChangeState = onChangeState
 
     super.init(nibName: nil, bundle: nil)
