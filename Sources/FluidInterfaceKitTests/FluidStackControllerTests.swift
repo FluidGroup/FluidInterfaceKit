@@ -437,14 +437,14 @@ final class FluidStackControllerTests: XCTestCase {
 
   }
 
-  func testPropagationActions() {
+  func testPropagationActions_push_pop() {
 
     let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
 
-    let otherStack = FluidStackController(configuration: .init(retainsRootViewController: false))
+    let childStack = FluidStackController(configuration: .init(retainsRootViewController: false))
 
-    otherStack.addFluidStackActionHandler { action in
-      XCTFail()
+    childStack.addFluidStackActionHandler { action in
+      XCTFail("Never gets any actions on child")
     }
 
     let expWillPop = expectation(description: "called")
@@ -453,7 +453,7 @@ final class FluidStackControllerTests: XCTestCase {
     let expDidPop = expectation(description: "called")
     expDidPop.expectedFulfillmentCount = 1
 
-    let controller = FluidWrapperViewController(content: .init(bodyViewController: otherStack))
+    let controller = FluidWrapperViewController(content: .init(bodyViewController: childStack))
     controller.addFluidStackActionHandler { action in
       switch action {
       case .willPush:
@@ -464,6 +464,8 @@ final class FluidStackControllerTests: XCTestCase {
         break
       case .didPop:
         expDidPop.fulfill()
+      case .willBecomeTop:
+        break
       }
     }
 
@@ -478,6 +480,48 @@ final class FluidStackControllerTests: XCTestCase {
     stack.topViewController?.fluidPop()
 
     wait(for: [expWillPop, expDidPop], timeout: 1)
+  }
+
+  func testPropagationActions_willBecomeTop() {
+
+    let stack = FluidStackController(configuration: .init(retainsRootViewController: false))
+
+    let expWillBecomeTop = expectation(description: "called")
+    expWillBecomeTop.expectedFulfillmentCount = 2
+
+    let controller_1 = FluidViewController()
+    controller_1.addFluidStackActionHandler { action in
+      switch action {
+      case .willPush:
+        break
+      case .willPop:
+        break
+      case .didPush:
+        break
+      case .didPop:
+        break
+      case .willBecomeTop:
+        expWillBecomeTop.fulfill()
+      }
+    }
+
+    stack.fluidPush(
+      controller_1,
+      target: .current,
+      relation: .modality
+    )
+
+    let controller_2 = FluidViewController()
+
+    stack.fluidPush(
+      controller_2,
+      target: .current,
+      relation: .modality
+    )
+
+    controller_2.fluidPop()
+
+    wait(for: [expWillBecomeTop], timeout: 1)
   }
 
   func test_fluidPush_make_parent_tree_immediately() {
