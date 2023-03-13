@@ -4,13 +4,23 @@ import ResultBuilderKit
 
 /// Actions that comes from ``FluidStackController``
 public enum FluidStackAction {
+
+  /// on started push operation in the stack
   /// dispatches after viewDidLoad, added in hierarchy, before transitioning
   case willPush
+
   /// Potentially it won't be emmited after ``FluidStackAction/willPush``
   case didPush
+
+  /// on started pop operation
   case willPop
+
   /// Potentially it won't be emmited after ``FluidStackAction/willPop``
   case didPop
+
+  /// will become currenty top view controller on the stack.
+  /// that happens on push and pop higher view controller.
+  case willBecomeTop
 }
 
 /// A struct that configures how to display in ``FluidStackController``
@@ -292,6 +302,7 @@ open class FluidStackController: UIViewController {
     
     // propagate after `viewDidLoad`
     viewControllerToAdd.propagateStackAction(.willPush)
+    viewControllerToAdd.propagateStackAction(.willBecomeTop)
         
     // take before modifying.
     let currentTop = stackingItems.last
@@ -449,6 +460,7 @@ open class FluidStackController: UIViewController {
     }()
     
     platterView.viewController.propagateStackAction(.willPop)
+    backView?.viewController.propagateStackAction(.willBecomeTop)
     
     let newTransitionContext = RemovingTransitionContext(
       contentView: platterView,
