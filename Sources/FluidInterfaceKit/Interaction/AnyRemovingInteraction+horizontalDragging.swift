@@ -179,10 +179,12 @@ extension AnyRemovingInteraction {
               
               switch gesture.state {
               case .began:
-                
-                let backwarding = makeBackwarding()
+
+                // trigger willPop before calling makeBackwarding()
                 let transitionContext = context.startRemovingTransition()
-                
+
+                let backwarding = makeBackwarding()
+
                 backwarding.receive(
                   event: .run(
                     transitionContext: transitionContext,
@@ -238,10 +240,11 @@ extension AnyRemovingInteraction {
                  Prepare to interact
                  */
 
+                // trigger willPop before calling makeBackwarding()
+                let transitionContext = context.startRemovingTransition()
+
                 let backwarding = makeBackwarding()
                 backwarding.receive(event: .dragging)
-
-                let transitionContext = context.startRemovingTransition()
 
                 var newTrackingContext = TrackingContext(
                   scrollController: nil,
