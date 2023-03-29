@@ -278,7 +278,7 @@ open class FluidStackController: UIViewController {
     /// Save current first-responder from the current displaying view controller.
     /// To restore it when back to this view controller as the top - ``FluidStackController/StackingPlatterView/restoreResponderState()``
     topItem?.saveResponderState()
-    
+
     // Trigger `viewDidLoad` explicitly.
     viewControllerToAdd.loadViewIfNeeded()
     
@@ -1056,6 +1056,7 @@ extension FluidStackController {
 
     func makeViewControllerFirstResponder() {
       guard viewController.canBecomeFirstResponder else { return }
+      guard viewController.view.currentFirstResponder() == nil else { return }
       viewController.becomeFirstResponder()
     }
     
