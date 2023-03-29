@@ -64,6 +64,18 @@ open class FluidWrapperViewController: UIViewController {
 
   open override func viewDidLoad() {
     super.viewDidLoad()
+
+    // setting up key commands
+    do {
+
+      addKeyCommand(
+        UIKeyCommand(
+          input: UIKeyCommand.inputEscape,
+          modifierFlags: [],
+          action: #selector(actionForKeycommand)
+        )
+      )
+    }
     
     lifecycleEventHandler(self, .viewDidLoad)
 
@@ -105,5 +117,15 @@ open class FluidWrapperViewController: UIViewController {
     
     lifecycleEventHandler(self, .viewDidDisappear)
   }
+
+  @objc
+  private func actionForKeycommand() {
+    fluidPop()
+  }
+
+  open override var canBecomeFirstResponder: Bool {
+    return true
+  }
+
 
 }

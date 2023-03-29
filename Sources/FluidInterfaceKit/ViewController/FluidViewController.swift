@@ -159,12 +159,12 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       }
     }
   }
-  
+
   // MARK: - UIViewController
 
   open override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     // neccessary for using standalone UINavigationBar top-attached.
     // it's weird, specifying topAttached, and setting additionalSafeArea, _UIBarBackground will be extended too long.
     view.clipsToBounds = true

@@ -43,7 +43,10 @@ extension UIView {
       objc_setAssociatedObject(self, &identifierRef, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
     }
   }
-    
+
+  /**
+   Finds the current first responder in this view recursively.
+   */
   func currentFirstResponder() -> UIResponder? {
     if isFirstResponder{
       return self

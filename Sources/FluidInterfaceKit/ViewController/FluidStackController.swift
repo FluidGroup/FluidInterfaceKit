@@ -278,7 +278,7 @@ open class FluidStackController: UIViewController {
     /// Save current first-responder from the current displaying view controller.
     /// To restore it when back to this view controller as the top - ``FluidStackController/StackingPlatterView/restoreResponderState()``
     topItem?.saveResponderState()
-    
+
     // Trigger `viewDidLoad` explicitly.
     viewControllerToAdd.loadViewIfNeeded()
     
@@ -299,6 +299,7 @@ open class FluidStackController: UIViewController {
     }()
     
     view.addSubview(platterView)
+    platterView.makeViewControllerFirstResponder()
     
     // propagate after `viewDidLoad`
     viewControllerToAdd.propagateStackAction(.willPush)
@@ -331,7 +332,7 @@ open class FluidStackController: UIViewController {
         guard let self = self, let platterView = platterView else { return }
         
         defer {
-          
+
           platterView.removeTransitionContext(expect: context)
           
           if self.state.latestTransitionContext == context {
@@ -1051,6 +1052,12 @@ extension FluidStackController {
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
       }
+    }
+
+    func makeViewControllerFirstResponder() {
+      guard viewController.canBecomeFirstResponder else { return }
+      guard viewController.view.currentFirstResponder() == nil else { return }
+      viewController.becomeFirstResponder()
     }
     
     /**
