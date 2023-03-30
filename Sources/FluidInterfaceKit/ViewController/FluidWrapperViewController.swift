@@ -68,13 +68,17 @@ open class FluidWrapperViewController: UIViewController {
     // setting up key commands
     do {
 
-      addKeyCommand(
-        UIKeyCommand(
-          input: UIKeyCommand.inputEscape,
-          modifierFlags: [],
-          action: #selector(actionForKeycommand)
+      if globalConfiguration.escKeyToPop {
+
+        addKeyCommand(
+          UIKeyCommand(
+            input: UIKeyCommand.inputEscape,
+            modifierFlags: [],
+            action: #selector(actionForKeycommand)
+          )
         )
-      )
+        
+      }
     }
     
     lifecycleEventHandler(self, .viewDidLoad)
