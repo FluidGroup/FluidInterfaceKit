@@ -35,8 +35,11 @@ let package = Package(
   ],
   targets: [
     .target(
+      name: "FluidPortal"
+    ),
+    .target(
       name: "FluidInterfaceKit",
-      dependencies: ["MatchedTransition", "GeometryKit", "ResultBuilderKit"]
+      dependencies: ["MatchedTransition", "GeometryKit", "ResultBuilderKit", "FluidPortal"]
     ),
     .target(
       name: "FluidInterfaceKitRideauSupport",

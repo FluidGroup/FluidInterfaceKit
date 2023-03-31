@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 import ResultBuilderKit
+import FluidPortal
 
 /// Actions that comes from ``FluidStackController``
 public enum FluidStackAction {
