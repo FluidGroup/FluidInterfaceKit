@@ -3,6 +3,7 @@ import UIKit
 import FluidRuntime
 
 /// https://github.com/LeoNatan/Apple-Runtime-Headers/blob/master/iOS/PrivateFrameworks/UIKitCore.framework/_UIPortalView.h
+/// https://developer.limneos.net/index.php?ios=12.1&framework=UIKitCore.framework&header=_UIPortalView.h
 public final class NativePortalView: UIView {
 
   private let backingView: UIView
@@ -12,6 +13,8 @@ public final class NativePortalView: UIView {
     let targetClass = NSClassFromString("_" + encodeText("VJQpsubmWjfx", -1)) as! UIView.Type
 
     let instance = makeFromClass(targetClass)!
+
+    instance.isUserInteractionEnabled = true
 
     self.backingView = instance
 

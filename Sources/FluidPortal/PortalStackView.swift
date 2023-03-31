@@ -21,7 +21,7 @@ public final class PortalStackView: UIView {
 
     let newPortalView = NativePortalView(sourceView: view)
     newPortalView.matchesPosition = true
-    newPortalView.hidesSourceView = true
+    newPortalView.hidesSourceView = false
     newPortalView.allowsHitTesting = true
     newPortalView.forwardsClientHitTestingToSourceView = true
     portalViews.append(newPortalView)
