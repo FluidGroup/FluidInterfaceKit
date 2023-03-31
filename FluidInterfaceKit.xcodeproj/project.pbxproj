@@ -50,6 +50,7 @@
 		4BC0A15627C1749100CD3A46 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0A15527C1749100CD3A46 /* RootViewController.swift */; };
 		4BC0A15827C178A300CD3A46 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0A15727C178A300CD3A46 /* FirstViewController.swift */; };
 		4BC0A15A27C178C000CD3A46 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0A15927C178C000CD3A46 /* SecondViewController.swift */; };
+		4BC57A3C29D70A9400CA32A9 /* DemoPortalStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC57A3B29D70A9400CA32A9 /* DemoPortalStackViewController.swift */; };
 		4BC667BA27B2E69C00182E6C /* FluidInterfaceKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */; };
 		4BC667BF27B2E6B300182E6C /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667BE27B2E6B300182E6C /* FluidInterfaceKit */; };
 		4BC667C127B2E6B300182E6C /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC667C027B2E6B300182E6C /* FluidInterfaceKitRideauSupport */; };
@@ -129,6 +130,7 @@
 		4BC0A15527C1749100CD3A46 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		4BC0A15727C178A300CD3A46 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		4BC0A15927C178C000CD3A46 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		4BC57A3B29D70A9400CA32A9 /* DemoPortalStackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPortalStackViewController.swift; sourceTree = "<group>"; };
 		4BC667B727B2E69C00182E6C /* FluidInterfaceKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluidInterfaceKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidInterfaceKitTests.swift; sourceTree = "<group>"; };
 		4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPictureInPictureCoolController.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */,
 				4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */,
 				4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */,
+				4BC57A3B29D70A9400CA32A9 /* DemoPortalStackViewController.swift */,
 				4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */,
 				4B46805B279C58E800625FCB /* DemoSafeAreaViewController.swift */,
 				4B468050279C58E800625FCB /* DemoThreadsMessagesViewController.swift */,
@@ -484,6 +487,7 @@
 				4B46806B279C58E800625FCB /* DemoStackingViewController.swift in Sources */,
 				FCEA76E829349C9C00E8B0E6 /* DemoSnackbarView.swift in Sources */,
 				4B46806E279C58E800625FCB /* Book.swift in Sources */,
+				4BC57A3C29D70A9400CA32A9 /* DemoPortalStackViewController.swift in Sources */,
 				FCEA76E429349BD700E8B0E6 /* DemoFloatingDisplayKit.swift in Sources */,
 				4B468069279C58E800625FCB /* DemoPictureInPictureController.swift in Sources */,
 				4B468071279C58E800625FCB /* DemoSafeAreaViewController.swift in Sources */,

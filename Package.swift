@@ -7,6 +7,7 @@ let package = Package(
     .iOS(.v13)
   ],
   products: [
+    .library(name: "FluidPortal", targets: ["FluidPortal"]),
     .library(name: "FluidInterfaceKit", targets: ["FluidInterfaceKit"]),
     .library(name: "FluidInterfaceKitRideauSupport", targets: ["FluidInterfaceKitRideauSupport"]),
   ],
@@ -35,7 +36,11 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "FluidPortal"
+      name: "FluidPortal",
+      dependencies: ["FluidRuntime"]
+    ),
+    .target(
+      name: "FluidRuntime"
     ),
     .target(
       name: "FluidInterfaceKit",

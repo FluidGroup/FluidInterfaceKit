@@ -9,6 +9,7 @@
 #define CAPortalLayer_h
 
 #import <QuartzCore/QuartzCore.h>
+#import <UIKit/UIKit.h>
 
 CALayer * makePortalLayer();
 

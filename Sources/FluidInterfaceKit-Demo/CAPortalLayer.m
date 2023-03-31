@@ -7,7 +7,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-CALayer * makePortalLayer() {
+CALayer * makePortalLayer(void) {
   
   id class = NSClassFromString(@"CAPortalLayer");
   

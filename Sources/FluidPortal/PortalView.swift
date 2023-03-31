@@ -128,7 +128,7 @@ public final class PortalView: UIView {
   }
 }
 
-private func encodeText(_ string: String, _ key: Int) -> String {
+func encodeText(_ string: String, _ key: Int) -> String {
   var result = ""
   for c in string.unicodeScalars {
     result.append(Character(UnicodeScalar(UInt32(Int(c.value) + key))!))

@@ -103,7 +103,11 @@ let book = Book(title: "FluidInterfaceKit") {
   BookPush(title: "CAPortalLayer") {
     DemoPortalLayerViewController()
   }
-  
+
+  BookPush(title: "PortalStackView") {
+    DemoPortalStackViewController()
+  }
+
   BookPush(title: "Composition") {
     DemoCompositionOrderViewController()
   }
