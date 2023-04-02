@@ -108,6 +108,14 @@ let book = Book(title: "FluidInterfaceKit") {
     DemoPortalStackViewController()
   }
 
+  BookPush(title: "Popover SwiftUI") {
+    DemoPopoverSwiftUIViewController()
+  }
+
+  BookPush(title: "Popover UIKit") {
+    DemoPopoverViewController()
+  }
+
   BookPush(title: "Composition") {
     DemoCompositionOrderViewController()
   }
