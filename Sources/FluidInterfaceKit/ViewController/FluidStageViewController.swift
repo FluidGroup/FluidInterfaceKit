@@ -10,7 +10,11 @@ import UIKit
  */
 
 @MainActor public protocol FluidStageChildViewController where Self: UIViewController {
-  func didMoveToFocusingStage(_ stageViewController: FluidStageViewController) -> Void
+
+  /**
+   The stage view controller, or nil if out of focus
+   */
+  func didMoveToFocusingStage(_ stageViewController: FluidStageViewController?) -> Void
 }
 
 open class FluidStageViewController: UIViewController {
@@ -242,15 +246,34 @@ open class FluidStageViewController: UIViewController {
         guard let self = self else { return }
         
         self.onChangeState(oldValue, newValue)
-        
+
         switch newValue.stage {
         case .left:
           self.leftSideViewController.didMoveToFocusingStage(self)
+          if oldValue?.stage == .main {
+            self.mainViewController.didMoveToFocusingStage(nil)
+          }
+          if oldValue?.stage == .right {
+            self.rightSideViewController.didMoveToFocusingStage(nil)
+          }
         case .main:
           self.mainViewController.didMoveToFocusingStage(self)
+          if oldValue?.stage == .left {
+            self.leftSideViewController.didMoveToFocusingStage(nil)
+          }
+          if oldValue?.stage == .right {
+            self.rightSideViewController.didMoveToFocusingStage(nil)
+          }
         case .right:
           self.rightSideViewController.didMoveToFocusingStage(self)
+          if oldValue?.stage == .main {
+            self.mainViewController.didMoveToFocusingStage(nil)
+          }
+          if oldValue?.stage == .left {
+            self.leftSideViewController.didMoveToFocusingStage(nil)
+          }
         }
+
       }
     )
     
