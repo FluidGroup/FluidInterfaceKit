@@ -101,6 +101,7 @@ struct ScrollViewRepresentation {
   let contentOffset: CGPoint
   let contentSize: CGSize
   let bounds: CGRect
+  let isScrollEnabled: Bool
 
   init(
     from scrollView: UIScrollView
@@ -114,6 +115,7 @@ struct ScrollViewRepresentation {
     }
     self.bounds = scrollView.bounds
     self.contentSize = scrollView.contentSize
+    self.isScrollEnabled = scrollView.isScrollEnabled
   }
 
   func isReachedToEdge(_ edge: Edge) -> Bool {
