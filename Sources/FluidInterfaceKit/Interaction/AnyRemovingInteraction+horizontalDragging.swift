@@ -260,7 +260,7 @@ extension AnyRemovingInteraction {
 
                   let representation = ScrollViewRepresentation(from: scrollView)
 
-                  if representation.isReachedToEdge(.left) {
+                  if representation.isScrollEnabled == false || representation.isReachedToEdge(.left) {
 
                     let newScrollController = ScrollController(scrollView: scrollView)
                     newScrollController.lockScrolling()
@@ -270,6 +270,7 @@ extension AnyRemovingInteraction {
                   } else {
                     gesture.state = .failed
                     transitionContext.notifyCancelled()
+                    newTrackingContext.backwardingMode.receive(event: .cancelled)
                     return
                   }
 
