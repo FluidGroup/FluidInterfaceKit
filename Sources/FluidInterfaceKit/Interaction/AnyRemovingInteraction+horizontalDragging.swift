@@ -136,6 +136,7 @@ extension AnyRemovingInteraction {
    */
   public static func horizontalDragging(
     isEdgeEnabled: Bool = false,
+    isScreenEnabled: Bool = true,
     backwarding makeBackwarding: @escaping () -> Dragging.AnyBackwarding
   ) -> Self {
 
@@ -200,210 +201,212 @@ extension AnyRemovingInteraction {
           )
         }
 
-        .gestureOnScreen(
-          condition: { gesture, event in
-            switch event {
-            case .shouldBeRequiredToFailBy(_, let completion):
-              
-              completion(false)
-              
-            case .shouldRecognizeSimultaneouslyWith(let otherGestureRecognizer, let completion):
-              
-              if otherGestureRecognizer is UIPanGestureRecognizer {
-                // to make ScrollView prior.
+        if isScreenEnabled {
+          .gestureOnScreen(
+            condition: { gesture, event in
+              switch event {
+              case .shouldBeRequiredToFailBy(_, let completion):
+
                 completion(false)
-              } else {
-                completion(true)
+
+              case .shouldRecognizeSimultaneouslyWith(let otherGestureRecognizer, let completion):
+
+                if otherGestureRecognizer is UIPanGestureRecognizer {
+                  // to make ScrollView prior.
+                  completion(false)
+                } else {
+                  completion(true)
+                }
+
               }
-              
-            }
-          },
-          handler: { gesture, context in
+            },
+            handler: { gesture, context in
 
-            let draggingView = context.viewController.view!
-            assert(draggingView == gesture.view)
-                      
-            switch gesture.state {
-            case .possible:
-              break
+              let draggingView = context.viewController.view!
+              assert(draggingView == gesture.view)
 
-            case .began, .changed:
+              switch gesture.state {
+              case .possible:
+                break
 
-              if trackingContext == nil {
+              case .began, .changed:
 
-                guard abs(gesture.translation(in: draggingView).y) <= 10 else {
-                  gesture.state = .failed
-                  return
-                }
+                if trackingContext == nil {
 
-                /**
-                 Prepare to interact
-                 */
-
-                // trigger willPop before calling makeBackwarding()
-                let transitionContext = context.startRemovingTransition()
-
-                let backwarding = makeBackwarding()
-                backwarding.receive(event: .dragging)
-
-                var newTrackingContext = TrackingContext(
-                  scrollController: nil,
-                  backwardingMode: backwarding,
-                  transitionContext: transitionContext
-                )
-
-                transitionContext.addCompletionEventHandler { event in
-                  gesture.view!.layer.cornerRadius = 0
-                }
-
-                if let scrollView = gesture.trackingScrollView {
-
-                  let representation = ScrollViewRepresentation(from: scrollView)
-
-                  if representation.isScrollEnabled == false || representation.isReachedToEdge(.left) {
-
-                    let newScrollController = ScrollController(scrollView: scrollView)
-                    newScrollController.lockScrolling()
-
-                    newTrackingContext.scrollController = newScrollController
-
-                  } else {
+                  guard abs(gesture.translation(in: draggingView).y) <= 10 else {
                     gesture.state = .failed
-                    transitionContext.notifyCancelled()
-                    newTrackingContext.backwardingMode.receive(event: .cancelled)
                     return
                   }
 
+                  /**
+                   Prepare to interact
+                   */
+
+                  // trigger willPop before calling makeBackwarding()
+                  let transitionContext = context.startRemovingTransition()
+
+                  let backwarding = makeBackwarding()
+                  backwarding.receive(event: .dragging)
+
+                  var newTrackingContext = TrackingContext(
+                    scrollController: nil,
+                    backwardingMode: backwarding,
+                    transitionContext: transitionContext
+                  )
+
+                  transitionContext.addCompletionEventHandler { event in
+                    gesture.view!.layer.cornerRadius = 0
+                  }
+
+                  if let scrollView = gesture.trackingScrollView {
+
+                    let representation = ScrollViewRepresentation(from: scrollView)
+
+                    if representation.isScrollEnabled == false || representation.isReachedToEdge(.left) {
+
+                      let newScrollController = ScrollController(scrollView: scrollView)
+                      newScrollController.lockScrolling()
+
+                      newTrackingContext.scrollController = newScrollController
+
+                    } else {
+                      gesture.state = .failed
+                      transitionContext.notifyCancelled()
+                      newTrackingContext.backwardingMode.receive(event: .cancelled)
+                      return
+                    }
+
+                  }
+
+                  trackingContext = newTrackingContext
+
                 }
 
-                trackingContext = newTrackingContext
+                guard trackingContext != nil else {
+                  return
+                }
 
-              }
+                draggingView.layer.masksToBounds = true
+                if #available(iOS 13.0, *) {
+                  draggingView.layer.cornerCurve = .continuous
+                } else {
+                  // Fallback on earlier versions
+                }
 
-              guard trackingContext != nil else {
-                return
-              }
+                let translation = gesture.translation(in: draggingView)
 
-              draggingView.layer.masksToBounds = true
-              if #available(iOS 13.0, *) {
-                draggingView.layer.cornerCurve = .continuous
-              } else {
-                // Fallback on earlier versions
-              }
+                let movingAnimator = UIViewPropertyAnimator(duration: 0.35, dampingRatio: 1)
 
-              let translation = gesture.translation(in: draggingView)
-              
-              let movingAnimator = UIViewPropertyAnimator(duration: 0.35, dampingRatio: 1)
-              
-              movingAnimator.addAnimations {
-                // The reason why it uses `layer` is prevent layout in safe-area.
-                draggingView.layer.position.x += translation.x
-                draggingView.layer.position.y += translation.y
-                draggingView.layer.cornerRadius = 32
-                trackingContext?.transitionContext.contentView.backgroundColor = .init(white: 0, alpha: 0.2)
-              }
-              
-              movingAnimator.startAnimation()
+                movingAnimator.addAnimations {
+                  // The reason why it uses `layer` is prevent layout in safe-area.
+                  draggingView.layer.position.x += translation.x
+                  draggingView.layer.position.y += translation.y
+                  draggingView.layer.cornerRadius = 32
+                  trackingContext?.transitionContext.contentView.backgroundColor = .init(white: 0, alpha: 0.2)
+                }
 
-              gesture.setTranslation(.zero, in: draggingView)
+                movingAnimator.startAnimation()
 
-            case .ended:
+                gesture.setTranslation(.zero, in: draggingView)
 
-              guard let _trackingContext = trackingContext else {
-                return
-              }
+              case .ended:
 
-              let transitionContext = _trackingContext.transitionContext
+                guard let _trackingContext = trackingContext else {
+                  return
+                }
 
-              _trackingContext.scrollController?.unlockScrolling()
-              _trackingContext.scrollController?.endTracking()
+                let transitionContext = _trackingContext.transitionContext
 
-              let velocity = gesture.velocity(in: gesture.view)
+                _trackingContext.scrollController?.unlockScrolling()
+                _trackingContext.scrollController?.endTracking()
 
-              let originalCenter = CGPoint(x: draggingView.bounds.midX, y: draggingView.bounds.midY)
-              let distanceFromCenter = CGPoint(
-                x: originalCenter.x - draggingView.center.x,
-                y: originalCenter.y - draggingView.center.y
-              )
+                let velocity = gesture.velocity(in: gesture.view)
 
-              let startsBackwarding =
+                let originalCenter = CGPoint(x: draggingView.bounds.midX, y: draggingView.bounds.midY)
+                let distanceFromCenter = CGPoint(
+                  x: originalCenter.x - draggingView.center.x,
+                  y: originalCenter.y - draggingView.center.y
+                )
+
+                let startsBackwarding =
                 abs(distanceFromCenter.x) > 80 || abs(distanceFromCenter.y) > 80
                 || abs(velocity.x) > 100 || abs(velocity.y) > 100
 
-              defer {
-                trackingContext = nil
-              }
-
-              if startsBackwarding {
-
-                _trackingContext.backwardingMode.receive(
-                  event: .run(
-                    transitionContext: _trackingContext.transitionContext,
-                    draggingView: draggingView,
-                    gestureVelocity: gesture.velocity(in: gesture.view)
-                  )
-                )
-
-              } else {
-               
-                /// animation for cancel
-
-                let animator = UIViewPropertyAnimator(
-                  duration: 0.62,
-                  timingParameters: UISpringTimingParameters(
-                    dampingRatio: 1,
-                    initialVelocity: .zero
-                  )
-                )
-
-                animator.addAnimations {
-                  draggingView.center = .init(
-                    x: draggingView.bounds.width / 2,
-                    y: draggingView.bounds.height / 2
-                  )
-                  draggingView.transform = .identity
-                  draggingView.layer.cornerRadius = 0
+                defer {
+                  trackingContext = nil
                 }
 
-                animator.addCompletion { position in
-                  if case .end = position {
-                    transitionContext.notifyCancelled()
+                if startsBackwarding {
+
+                  _trackingContext.backwardingMode.receive(
+                    event: .run(
+                      transitionContext: _trackingContext.transitionContext,
+                      draggingView: draggingView,
+                      gestureVelocity: gesture.velocity(in: gesture.view)
+                    )
+                  )
+
+                } else {
+
+                  /// animation for cancel
+
+                  let animator = UIViewPropertyAnimator(
+                    duration: 0.62,
+                    timingParameters: UISpringTimingParameters(
+                      dampingRatio: 1,
+                      initialVelocity: .zero
+                    )
+                  )
+
+                  animator.addAnimations {
+                    draggingView.center = .init(
+                      x: draggingView.bounds.width / 2,
+                      y: draggingView.bounds.height / 2
+                    )
+                    draggingView.transform = .identity
+                    draggingView.layer.cornerRadius = 0
                   }
+
+                  animator.addCompletion { position in
+                    if case .end = position {
+                      transitionContext.notifyCancelled()
+                    }
+                  }
+
+                  animator.startAnimation()
+
+                  _trackingContext.backwardingMode.receive(
+                    event: .cancelled
+                  )
                 }
-                
-                animator.startAnimation()
 
-                _trackingContext.backwardingMode.receive(
-                  event: .cancelled
+              case .cancelled, .failed:
+
+                guard let _trackingContext = trackingContext else {
+                  return
+                }
+
+                _trackingContext.transitionContext.notifyCancelled()
+
+                _trackingContext.scrollController?.unlockScrolling()
+                _trackingContext.scrollController?.endTracking()
+
+                draggingView.center = CGPoint(
+                  x: draggingView.bounds.width / 2,
+                  y: draggingView.bounds.height / 2
                 )
+                draggingView.transform = .identity
+                draggingView.layer.cornerRadius = 0
+
+                trackingContext = nil
+
+                /// restore view state
+              @unknown default:
+                break
               }
-
-            case .cancelled, .failed:
-
-              guard let _trackingContext = trackingContext else {
-                return
-              }
-
-              _trackingContext.transitionContext.notifyCancelled()
-
-              _trackingContext.scrollController?.unlockScrolling()
-              _trackingContext.scrollController?.endTracking()
-
-              draggingView.center = CGPoint(
-                x: draggingView.bounds.width / 2,
-                y: draggingView.bounds.height / 2
-              )
-              draggingView.transform = .identity
-              draggingView.layer.cornerRadius = 0
-
-              trackingContext = nil
-
-            /// restore view state
-            @unknown default:
-              break
             }
-          }
-        )
+          )
+        }
       }
     )
   }
