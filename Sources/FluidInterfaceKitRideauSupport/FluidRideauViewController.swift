@@ -19,6 +19,7 @@ open class FluidRideauViewController: FluidTransitionViewController {
   // MARK: - Properties
 
   public var onWillDismiss: () -> Void = {}
+  public var onDidDismiss: () -> Void = {}
 
   public let rideauView: RideauView
 
@@ -153,17 +154,18 @@ open class FluidRideauViewController: FluidTransitionViewController {
       }
                   
       self.onWillDismiss()
-      
+
+      let onDidDismiss = self.onDidDismiss
       if Self.supportsModalPresentation {
         
         if self.isInFluidStackController {
-          self.fluidStackContext?.removeSelf(transition: .disabled)
+          self.fluidStackContext?.removeSelf(transition: .disabled, completion: { _ in onDidDismiss() })
         } else {
-          self.dismiss(animated: true, completion: nil)
+          self.dismiss(animated: true, completion: onDidDismiss)
         }
               
       } else {
-        self.fluidStackContext?.removeSelf(transition: .disabled)
+        self.fluidStackContext?.removeSelf(transition: .disabled, completion: { _ in onDidDismiss() })
       }
 
     }
@@ -171,21 +173,22 @@ open class FluidRideauViewController: FluidTransitionViewController {
   }
 
   @objc private dynamic func didTapBackdropView(gesture: UITapGestureRecognizer) {
-    
+
+    let onDidDismiss = self.onDidDismiss
     if Self.supportsModalPresentation {
       
       if self.isInFluidStackController {
         assert(fluidStackContext != nil)
         onWillDismiss()
-        fluidPop(transition: nil, completion: nil)
+        fluidPop(transition: nil, completion: { _ in onDidDismiss() })
       } else {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: onDidDismiss)
       }
             
     } else {
       assert(fluidStackContext != nil)
       onWillDismiss()
-      fluidPop(transition: nil, completion: nil)
+      fluidPop(transition: nil, completion: { _ in onDidDismiss() })
     }
     
     
