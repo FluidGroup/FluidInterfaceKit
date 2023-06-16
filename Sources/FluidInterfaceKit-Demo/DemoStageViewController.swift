@@ -54,7 +54,7 @@ final class DemoStageViewController: UIViewController {
 }
 
 private final class ContentViewController: UIViewController, FluidStageChildViewController {
-  
+
   override func viewSafeAreaInsetsDidChange() {
     super.viewSafeAreaInsetsDidChange()
     
@@ -112,8 +112,9 @@ private final class ContentViewController: UIViewController, FluidStageChildView
   //
   //  }
   
-  func didMoveToFocusingStage(_ stageViewController: FluidStageViewController) {
-    print("title: \(_title)")
+  func didMoveToFocusingStage(_ stageViewController: FluidInterfaceKit.FluidStageViewController?) {
+
   }
+
 
 }
