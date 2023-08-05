@@ -45,7 +45,6 @@
 		4BB5B319277077CC00EE1028 /* Ne in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B318277077CC00EE1028 /* Ne */; };
 		4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB5B31B277077EA00EE1028 /* MockKit */; };
 		4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECDF276648FD00982229 /* CompositionKit */; };
-		4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */ = {isa = PBXBuildFile; productRef = 4BBDECE1276648FD00982229 /* MatchedTransition */; };
 		4BC0A14F27C1731D00CD3A46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0A14927C1731D00CD3A46 /* Assets.xcassets */; };
 		4BC0A15027C1731D00CD3A46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0A14A27C1731D00CD3A46 /* LaunchScreen.storyboard */; };
 		4BC0A15127C1731D00CD3A46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0A14C27C1731D00CD3A46 /* AppDelegate.swift */; };
@@ -157,7 +156,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */,
-				4BBDECE2276648FD00982229 /* MatchedTransition in Frameworks */,
 				4BC726342992679F0074A828 /* SwiftUISupport in Frameworks */,
 				4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */,
 				4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */,
@@ -342,7 +340,6 @@
 			name = "FluidInterfaceKit-Demo";
 			packageProductDependencies = (
 				4BBDECDF276648FD00982229 /* CompositionKit */,
-				4BBDECE1276648FD00982229 /* MatchedTransition */,
 				4B658D0E276A59F700A17878 /* Wrap */,
 				4BB5B318277077CC00EE1028 /* Ne */,
 				4BB5B31B277077EA00EE1028 /* MockKit */,
@@ -987,10 +984,6 @@
 		4BBDECDF276648FD00982229 /* CompositionKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CompositionKit;
-		};
-		4BBDECE1276648FD00982229 /* MatchedTransition */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MatchedTransition;
 		};
 		4BC0A15327C1733600CD3A46 /* FluidInterfaceKit */ = {
 			isa = XCSwiftPackageProductDependency;
