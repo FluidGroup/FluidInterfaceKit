@@ -14,11 +14,6 @@ let package = Package(
   ],
   dependencies: [
     .package(
-      name: "MatchedTransition",
-      url: "https://github.com/FluidGroup/MatchedTransition",
-      .upToNextMajor(from: "1.1.0")
-    ),
-    .package(
       name: "GeometryKit",
       url: "https://github.com/FluidGroup/GeometryKit",
       .upToNextMajor(from: "1.1.0")
@@ -49,7 +44,7 @@ let package = Package(
     ),
     .target(
       name: "FluidInterfaceKit",
-      dependencies: ["MatchedTransition", "GeometryKit", "ResultBuilderKit", "FluidPortal"]
+      dependencies: ["GeometryKit", "ResultBuilderKit", "FluidPortal"]
     ),
     .target(
       name: "FluidInterfaceKitRideauSupport",

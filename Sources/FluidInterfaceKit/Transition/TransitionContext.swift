@@ -32,10 +32,36 @@ public class TransitionContext: Equatable {
   
   /// Returns a ``CGRect`` for a given view related to ``contentView``.
   public func frameInContentView(for view: UIView) -> CGRect {
-    view._matchedTransition_relativeFrame(
+    view._relativeFrame(
       in: contentView,
       ignoresTransform: true
     )
   }
   
+}
+
+extension UIView {
+  func _relativeFrame(in view: UICoordinateSpace, ignoresTransform: Bool) -> CGRect {
+
+    if ignoresTransform {
+
+      CATransaction.begin()
+      CATransaction.setDisableActions(true)
+
+      let currentTransform = transform
+      let currentAlpha = alpha
+      self.transform = .identity
+      self.alpha = 0
+      let rect = self.convert(bounds, to: view)
+      self.transform = currentTransform
+      self.alpha = currentAlpha
+
+      CATransaction.commit()
+      return rect
+    } else {
+      let rect = self.convert(bounds, to: view)
+      return rect
+    }
+
+  }
 }

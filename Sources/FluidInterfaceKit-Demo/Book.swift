@@ -1,5 +1,4 @@
 import CompositionKit
-import MatchedTransition
 import MondrianLayout
 import StorybookKit
 import UIKit
