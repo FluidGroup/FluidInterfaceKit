@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4B01AFE1281939CB00A44537 /* DemoSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */; };
+		4B2AFC4A2A7EBF05001B5BEF /* FluidGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 4B2AFC492A7EBF05001B5BEF /* FluidGesture */; };
+		4B2AFC4C2A7EC243001B5BEF /* DemoDragViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */; };
 		4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F619427B818E800363580 /* DemoListContainerViewController.swift */; };
 		4B2F9EA027FC080000F74ADB /* UIKitPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */; };
 		4B3BE33C27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */; };
@@ -96,6 +98,7 @@
 /* Begin PBXFileReference section */
 		4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSheetViewController.swift; sourceTree = "<group>"; };
 		4B259A4327BED2C700F53B4C /* FluidInterfaceKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluidInterfaceKit.podspec; sourceTree = "<group>"; };
+		4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDragViewController.swift; sourceTree = "<group>"; };
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
 		4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitPresentationTests.swift; sourceTree = "<group>"; };
 		4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidLocalEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -166,6 +169,7 @@
 				4B853AB729D9A4E800F62504 /* FluidPopover in Frameworks */,
 				4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */,
 				4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */,
+				4B2AFC4A2A7EBF05001B5BEF /* FluidGesture in Frameworks */,
 				4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,6 +240,7 @@
 				4B4E93DE29810AAC0060C775 /* DemoStageViewController.swift */,
 				4B853AB229D9940100F62504 /* DemoPopoverSwiftUIViewController.swift */,
 				4B853AB429D9A32A00F62504 /* DemoPopoverViewController.swift */,
+				4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */,
 			);
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
@@ -351,6 +356,7 @@
 				4BDDD3CD28DB627500452B7D /* CompositionKit */,
 				4BC726332992679F0074A828 /* SwiftUISupport */,
 				4B853AB629D9A4E800F62504 /* FluidPopover */,
+				4B2AFC492A7EBF05001B5BEF /* FluidGesture */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -507,6 +513,7 @@
 				4BC7B20D284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift in Sources */,
 				4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */,
 				4B468065279C58E800625FCB /* RootContainerViewController.swift in Sources */,
+				4B2AFC4C2A7EC243001B5BEF /* DemoDragViewController.swift in Sources */,
 				4B468063279C58E800625FCB /* DemoTransitionViewController.swift in Sources */,
 				4B468076279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift in Sources */,
 				4B468070279C58E800625FCB /* AppDelegate.swift in Sources */,
@@ -958,6 +965,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4B2AFC492A7EBF05001B5BEF /* FluidGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluidGesture;
+		};
 		4B658D0E276A59F700A17878 /* Wrap */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */;

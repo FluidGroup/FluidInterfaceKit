@@ -8,6 +8,7 @@ let package = Package(
   ],
   products: [
     .library(name: "FluidPortal", targets: ["FluidPortal"]),
+    .library(name: "FluidGesture", targets: ["FluidGesture"]),
     .library(name: "FluidInterfaceKit", targets: ["FluidInterfaceKit"]),
     .library(name: "FluidPopover", targets: ["FluidPopover"]),
     .library(name: "FluidInterfaceKitRideauSupport", targets: ["FluidInterfaceKitRideauSupport"]),
@@ -38,6 +39,7 @@ let package = Package(
     .target(
       name: "FluidRuntime"
     ),
+    .target(name: "FluidGesture"),
     .target(
       name: "FluidPopover",
       dependencies: ["FluidPortal"]

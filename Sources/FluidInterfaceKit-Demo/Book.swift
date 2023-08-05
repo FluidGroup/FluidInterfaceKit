@@ -40,6 +40,12 @@ let book = Book(title: "FluidInterfaceKit") {
 
   }
 
+  BookNavigationLink(title: "Draggable View") {
+    BookPush(title: "Draggable View") {
+      DemoDragViewController()
+    }
+  }
+
   BookNavigationLink(title: "Experiments") {
     if #available(iOS 15, *) {
       BookPush(title: "ContextMenu") {
