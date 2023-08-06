@@ -12,11 +12,16 @@ extension UIView {
     self.addGestureRecognizer(gesture)
 
     var originalPoint: CGPoint = .zero
-    var offset: CGSize = .zero
+    var currentOffset: CGSize = .zero
+    var transactionOffset: CGSize = .zero
 
     gesture.onEvent { [weak self] gesture in
 
       guard let self = self else { return }
+
+      defer {
+        print(currentOffset)
+      }
 
       switch gesture.state {
       case .possible:
@@ -24,15 +29,16 @@ extension UIView {
       case .began:
 
         descriptor.handler.onStartDragging()
-        originalPoint = self.layer.position.applying(.init(translationX: -offset.width, y: -offset.height))
+        transactionOffset = currentOffset
+        originalPoint = self.layer.position.applying(.init(translationX: -currentOffset.width, y: -currentOffset.height))
 
         fallthrough
       case .changed:
 
         if let vertical = descriptor.vertical {
-          let proposed = gesture.translation(in: nil).y
+          let proposed = gesture.translation(in: nil).y + transactionOffset.height
 
-          offset.height = rubberBand(
+          currentOffset.height = rubberBand(
             value: proposed,
             min: vertical.min,
             max: vertical.max,
@@ -42,9 +48,10 @@ extension UIView {
 
         if let horizontal = descriptor.horizontal {
 
-          let proposed = gesture.translation(in: nil).x
+          let proposed = gesture.translation(in: nil).x + transactionOffset.width
+        
 
-          offset.width = rubberBand(
+          currentOffset.width = rubberBand(
             value: proposed,
             min: horizontal.min,
             max: horizontal.max,
@@ -56,8 +63,8 @@ extension UIView {
 
         draggingAnimator.addAnimations {
           self.layer.position = .init(
-            x: originalPoint.x + offset.width,
-            y: originalPoint.y + offset.height
+            x: originalPoint.x + currentOffset.width,
+            y: originalPoint.y + currentOffset.height
           )
         }
         draggingAnimator.startAnimation()
@@ -69,16 +76,16 @@ extension UIView {
 
         let targetOffset: CGSize = descriptor.handler.onEndDragging(
           &velocity,
-          offset,
+          currentOffset,
           self.frame.size
         )
 
         let distance = CGSize(
-          width: targetOffset.width - offset.width,
-          height: targetOffset.height - offset.height
+          width: targetOffset.width - currentOffset.width,
+          height: targetOffset.height - currentOffset.height
         )
 
-        offset = targetOffset
+        currentOffset = targetOffset
 
         var mappedVelocity = CGVector(
           dx: velocity.dx / distance.width,
@@ -101,8 +108,8 @@ extension UIView {
 
         animator.addAnimations {
           self.layer.position = .init(
-            x: originalPoint.x + offset.width,
-            y: originalPoint.y + offset.height
+            x: originalPoint.x + currentOffset.width,
+            y: originalPoint.y + currentOffset.height
           )
         }
 
