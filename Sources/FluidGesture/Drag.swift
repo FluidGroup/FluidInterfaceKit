@@ -24,7 +24,7 @@ extension UIView {
       case .began:
 
         descriptor.handler.onStartDragging()
-        originalPoint = self.layer.position
+        originalPoint = self.layer.position.applying(.init(translationX: -offset.width, y: -offset.height))
 
         fallthrough
       case .changed:
