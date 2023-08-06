@@ -153,13 +153,13 @@ public struct DragDescriptor {
      For example, return CGSize.zero to put it back to the original position.
      */
     public var onEndDragging:
-      (_ velocity: inout CGVector, _ offset: CGSize, _ contentSize: CGSize) -> CGSize
+      @MainActor (_ velocity: inout CGVector, _ offset: CGSize, _ contentSize: CGSize) -> CGSize
 
-    public var onStartDragging: () -> Void
+    public var onStartDragging: @MainActor () -> Void
 
     public init(
-      onStartDragging: @escaping () -> Void = {},
-      onEndDragging: @escaping (_ velocity: inout CGVector, _ offset: CGSize, _ contentSize: CGSize)
+      onStartDragging: @escaping @MainActor () -> Void = {},
+      onEndDragging: @escaping @MainActor (_ velocity: inout CGVector, _ offset: CGSize, _ contentSize: CGSize)
         -> CGSize = { _, _, _ in .zero }
     ) {
       self.onStartDragging = onStartDragging
