@@ -19,10 +19,6 @@ extension UIView {
 
       guard let self = self else { return }
 
-      defer {
-        print(currentOffset)
-      }
-
       switch gesture.state {
       case .possible:
         break
