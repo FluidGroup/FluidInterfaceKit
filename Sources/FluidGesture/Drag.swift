@@ -2,20 +2,61 @@ import UIKit
 
 extension UIView {
 
-  @discardableResult
   public func makeDraggable(
+    context usingContext: DragContext? = nil,
     descriptor: DragDescriptor
-  ) -> UIPanGestureRecognizer {
+  ) {
 
-    let gesture = UIPanGestureRecognizer()
+    let context = usingContext ?? .init()
 
-    self.addGestureRecognizer(gesture)
+    self.addGestureRecognizer(context.gesture)
 
-    var originalPoint: CGPoint = .zero
-    var currentOffset: CGSize = .zero
-    var transactionOffset: CGSize = .zero
+    let _setOffset: (CGSize, CGVector) -> Void = { targetOffset, velocity in
+      let distance = CGSize(
+        width: targetOffset.width - context.currentOffset.width,
+        height: targetOffset.height - context.currentOffset.height
+      )
 
-    gesture.onEvent { [weak self] gesture in
+      context.currentOffset = targetOffset
+
+      var mappedVelocity = CGVector(
+        dx: velocity.dx / distance.width,
+        dy: velocity.dy / distance.height
+      )
+
+      mappedVelocity.formFinited()
+
+      let parameter = descriptor.springParameter
+
+      let animator = UIViewPropertyAnimator(
+        duration: 0,
+        timingParameters: UISpringTimingParameters(
+          mass: parameter.mass,
+          stiffness: parameter.stiffness,
+          damping: parameter.damping,
+          initialVelocity: mappedVelocity
+        )
+      )
+
+      animator.addAnimations {
+        self.layer.position = .init(
+          x: context.originalPoint.x + context.currentOffset.width,
+          y: context.originalPoint.y + context.currentOffset.height
+        )
+      }
+
+      animator.startAnimation()
+    }
+
+    context.onSetOffset = { newOffset, velocity in
+      _setOffset(newOffset, velocity)
+    }
+
+//    var originalPoint: CGPoint = .zero
+//    var currentOffset: CGSize = .zero
+//    var transactionOffset: CGSize = .zero
+
+    context.gesture.onEvent { [weak self] gesture in
 
       guard let self = self else { return }
 
@@ -25,16 +66,21 @@ extension UIView {
       case .began:
 
         descriptor.handler.onStartDragging()
-        transactionOffset = currentOffset
-        originalPoint = self.layer.position.applying(.init(translationX: -currentOffset.width, y: -currentOffset.height))
+        context.transactionOffset = context.currentOffset
+        context.originalPoint = self.layer.position.applying(
+          .init(
+            translationX: -context.currentOffset.width,
+            y: -context.currentOffset.height
+          )
+        )
 
         fallthrough
       case .changed:
 
         if let vertical = descriptor.vertical {
-          let proposed = gesture.translation(in: nil).y + transactionOffset.height
+          let proposed = gesture.translation(in: nil).y + context.transactionOffset.height
 
-          currentOffset.height = rubberBand(
+          context.currentOffset.height = rubberBand(
             value: proposed,
             min: vertical.min,
             max: vertical.max,
@@ -44,10 +90,10 @@ extension UIView {
 
         if let horizontal = descriptor.horizontal {
 
-          let proposed = gesture.translation(in: nil).x + transactionOffset.width
-        
+          let proposed = gesture.translation(in: nil).x + context.transactionOffset.width
 
-          currentOffset.width = rubberBand(
+
+          context.currentOffset.width = rubberBand(
             value: proposed,
             min: horizontal.min,
             max: horizontal.max,
@@ -59,8 +105,8 @@ extension UIView {
 
         draggingAnimator.addAnimations {
           self.layer.position = .init(
-            x: originalPoint.x + currentOffset.width,
-            y: originalPoint.y + currentOffset.height
+            x: context.originalPoint.x + context.currentOffset.width,
+            y: context.originalPoint.y + context.currentOffset.height
           )
         }
         draggingAnimator.startAnimation()
@@ -72,44 +118,12 @@ extension UIView {
 
         let targetOffset: CGSize = descriptor.handler.onEndDragging(
           &velocity,
-          currentOffset,
+          context.currentOffset,
           self.frame.size
         )
 
-        let distance = CGSize(
-          width: targetOffset.width - currentOffset.width,
-          height: targetOffset.height - currentOffset.height
-        )
+        _setOffset(targetOffset, velocity)
 
-        currentOffset = targetOffset
-
-        var mappedVelocity = CGVector(
-          dx: velocity.dx / distance.width,
-          dy: velocity.dy / distance.height
-        )
-
-        mappedVelocity.formFinited()
-
-        let parameter = descriptor.springParameter
-
-        let animator = UIViewPropertyAnimator(
-          duration: 0,
-          timingParameters: UISpringTimingParameters(
-            mass: parameter.mass,
-            stiffness: parameter.stiffness,
-            damping: parameter.damping,
-            initialVelocity: mappedVelocity
-          )
-        )
-
-        animator.addAnimations {
-          self.layer.position = .init(
-            x: originalPoint.x + currentOffset.width,
-            y: originalPoint.y + currentOffset.height
-          )
-        }
-
-        animator.startAnimation()
 
         break
       @unknown default:
@@ -118,8 +132,31 @@ extension UIView {
 
     }
 
-    return gesture
+  }
 
+}
+
+@MainActor
+public final class DragContext {
+
+  public let gesture: UIPanGestureRecognizer = .init()
+
+  internal var originalPoint: CGPoint = .zero
+  internal var currentOffset: CGSize = .zero
+  internal var transactionOffset: CGSize = .zero
+
+  internal var onSetOffset: (CGSize, CGVector) -> Void = { _, _ in assertionFailure("not set yet") }
+
+  public nonisolated init() {
+
+  }
+
+  public func invalidate() {
+    gesture.view?.removeGestureRecognizer(gesture)
+  }
+
+  public func set(offset: CGSize, velocity: CGVector = .zero) {
+    onSetOffset(offset, velocity)
   }
 
 }
