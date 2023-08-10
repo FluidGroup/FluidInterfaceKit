@@ -3,21 +3,21 @@ import UIKit
 extension UIView {
 
   public func makeDraggable(
-    context usingContext: DragContext? = nil,
+    coordinator usingCoordinator: DragCoordinator? = nil,
     descriptor: DragDescriptor
   ) {
 
-    let context = usingContext ?? .init()
+    let coordinator = usingCoordinator ?? .init()
 
-    self.addGestureRecognizer(context.gesture)
+    self.addGestureRecognizer(coordinator.gesture)
 
     let _setOffset: (CGSize, CGVector) -> Void = { targetOffset, velocity in
       let distance = CGSize(
-        width: targetOffset.width - context.currentOffset.width,
-        height: targetOffset.height - context.currentOffset.height
+        width: targetOffset.width - coordinator.currentOffset.width,
+        height: targetOffset.height - coordinator.currentOffset.height
       )
 
-      context.currentOffset = targetOffset
+      coordinator.currentOffset = targetOffset
 
       var mappedVelocity = CGVector(
         dx: velocity.dx / distance.width,
@@ -40,23 +40,19 @@ extension UIView {
 
       animator.addAnimations {
         self.layer.position = .init(
-          x: context.originalPoint.x + context.currentOffset.width,
-          y: context.originalPoint.y + context.currentOffset.height
+          x: coordinator.originalPoint.x + coordinator.currentOffset.width,
+          y: coordinator.originalPoint.y + coordinator.currentOffset.height
         )
       }
 
       animator.startAnimation()
     }
 
-    context.onSetOffset = { newOffset, velocity in
+    coordinator.onSetOffset = { newOffset, velocity in
       _setOffset(newOffset, velocity)
     }
 
-//    var originalPoint: CGPoint = .zero
-//    var currentOffset: CGSize = .zero
-//    var transactionOffset: CGSize = .zero
-
-    context.gesture.onEvent { [weak self] gesture in
+    coordinator.gesture.onEvent { [weak self] gesture in
 
       guard let self = self else { return }
 
@@ -66,11 +62,11 @@ extension UIView {
       case .began:
 
         descriptor.handler.onStartDragging()
-        context.transactionOffset = context.currentOffset
-        context.originalPoint = self.layer.position.applying(
+        coordinator.transactionOffset = coordinator.currentOffset
+        coordinator.originalPoint = self.layer.position.applying(
           .init(
-            translationX: -context.currentOffset.width,
-            y: -context.currentOffset.height
+            translationX: -coordinator.currentOffset.width,
+            y: -coordinator.currentOffset.height
           )
         )
 
@@ -78,9 +74,9 @@ extension UIView {
       case .changed:
 
         if let vertical = descriptor.vertical {
-          let proposed = gesture.translation(in: nil).y + context.transactionOffset.height
+          let proposed = gesture.translation(in: nil).y + coordinator.transactionOffset.height
 
-          context.currentOffset.height = rubberBand(
+          coordinator.currentOffset.height = rubberBand(
             value: proposed,
             min: vertical.min,
             max: vertical.max,
@@ -90,10 +86,9 @@ extension UIView {
 
         if let horizontal = descriptor.horizontal {
 
-          let proposed = gesture.translation(in: nil).x + context.transactionOffset.width
+          let proposed = gesture.translation(in: nil).x + coordinator.transactionOffset.width
 
-
-          context.currentOffset.width = rubberBand(
+          coordinator.currentOffset.width = rubberBand(
             value: proposed,
             min: horizontal.min,
             max: horizontal.max,
@@ -105,8 +100,8 @@ extension UIView {
 
         draggingAnimator.addAnimations {
           self.layer.position = .init(
-            x: context.originalPoint.x + context.currentOffset.width,
-            y: context.originalPoint.y + context.currentOffset.height
+            x: coordinator.originalPoint.x + coordinator.currentOffset.width,
+            y: coordinator.originalPoint.y + coordinator.currentOffset.height
           )
         }
         draggingAnimator.startAnimation()
@@ -118,12 +113,11 @@ extension UIView {
 
         let targetOffset: CGSize = descriptor.handler.onEndDragging(
           &velocity,
-          context.currentOffset,
+          coordinator.currentOffset,
           self.frame.size
         )
 
         _setOffset(targetOffset, velocity)
-
 
         break
       @unknown default:
@@ -137,7 +131,7 @@ extension UIView {
 }
 
 @MainActor
-public final class DragContext {
+public final class DragCoordinator: NSObject, UIGestureRecognizerDelegate {
 
   public let gesture: UIPanGestureRecognizer = .init()
 
@@ -147,8 +141,14 @@ public final class DragContext {
 
   internal var onSetOffset: (CGSize, CGVector) -> Void = { _, _ in assertionFailure("not set yet") }
 
-  public nonisolated init() {
+  private var _gestureRecognizerShouldBegin: (@MainActor (_ gesture: UIPanGestureRecognizer) -> Bool)?
+  private var _gestureRecognizerShouldRequireFailureOf: (@MainActor (_ gesture: UIPanGestureRecognizer, _ otherGesture: UIGestureRecognizer) -> Bool)?
+  private var _gestureRecognizerShouldRecognizeSimultaneouslyWith: (@MainActor (_ gesture: UIPanGestureRecognizer, _ otherGesture: UIGestureRecognizer) -> Bool)?
+  private var _gestureRecognizershouldBeRequiredToFailBy: (@MainActor (_ gesture: UIPanGestureRecognizer, _ otherGesture: UIGestureRecognizer) -> Bool)?
 
+  public override init() {
+    super.init()
+    gesture.delegate = self
   }
 
   public func invalidate() {
@@ -157,6 +157,63 @@ public final class DragContext {
 
   public func set(offset: CGSize, velocity: CGVector = .zero) {
     onSetOffset(offset, velocity)
+  }
+
+  public func setGestureShouldBeginHandler(
+    _ handler: @escaping @MainActor (UIPanGestureRecognizer) -> Bool
+  ) {
+    _gestureRecognizerShouldBegin = handler
+  }
+
+  public func setGestureShouldRequireFailureHandler(
+    _ handler: @escaping @MainActor (_ gesture: UIPanGestureRecognizer, _ otherGesture: UIGestureRecognizer) -> Bool
+  ) {
+    _gestureRecognizerShouldRequireFailureOf = handler
+  }
+
+  public func setGestureShouldRecognizeSimultaneouslyHandler(
+    _ handler: @escaping @MainActor (_ gesture: UIPanGestureRecognizer, _ otherGesture: UIGestureRecognizer) -> Bool
+  ) {
+    _gestureRecognizerShouldRecognizeSimultaneouslyWith = handler
+  }
+
+  public func setGestureShouldBeRequiredToFailHandler(
+    _ handler: @escaping @MainActor (_ gesture: UIPanGestureRecognizer, _ otherGesture: UIGestureRecognizer) -> Bool
+  ) {
+    _gestureRecognizershouldBeRequiredToFailBy = handler
+  }
+
+  @_spi(Internal)
+  @objc
+  public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    _gestureRecognizerShouldBegin?(gestureRecognizer as! UIPanGestureRecognizer) ?? true
+  }
+
+  @_spi(Internal)
+  @objc
+  public func gestureRecognizer(
+    _ gestureRecognizer: UIGestureRecognizer,
+    shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer
+  ) -> Bool {
+    _gestureRecognizerShouldRequireFailureOf?(gestureRecognizer as! UIPanGestureRecognizer, otherGestureRecognizer) ?? false
+  }
+
+  @_spi(Internal)
+  @objc
+  public func gestureRecognizer(
+    _ gestureRecognizer: UIGestureRecognizer,
+    shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+  ) -> Bool {
+    _gestureRecognizerShouldRecognizeSimultaneouslyWith?(gestureRecognizer as! UIPanGestureRecognizer, otherGestureRecognizer) ?? false
+  }
+
+  @_spi(Internal)
+  @objc
+  public func gestureRecognizer(
+    _ gestureRecognizer: UIGestureRecognizer,
+    shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer
+  ) -> Bool {
+    _gestureRecognizershouldBeRequiredToFailBy?(gestureRecognizer as! UIPanGestureRecognizer, otherGestureRecognizer) ?? false
   }
 
 }
@@ -182,7 +239,7 @@ public struct DragDescriptor {
       self.stiffness = stiffness
       self.damping = damping
     }
-  
+
   }
 
   public struct Handler {
@@ -199,7 +256,9 @@ public struct DragDescriptor {
 
     public init(
       onStartDragging: @escaping @MainActor () -> Void = {},
-      onEndDragging: @escaping @MainActor (_ velocity: inout CGVector, _ offset: CGSize, _ contentSize: CGSize)
+      onEndDragging: @escaping @MainActor (
+        _ velocity: inout CGVector, _ offset: CGSize, _ contentSize: CGSize
+      )
         -> CGSize = { _, _, _ in .zero }
     ) {
       self.onStartDragging = onStartDragging
@@ -248,7 +307,8 @@ public struct DragDescriptor {
 
 }
 
-fileprivate func rubberBand(value: CGFloat, min: CGFloat, max: CGFloat, bandLength: CGFloat) -> CGFloat {
+private func rubberBand(value: CGFloat, min: CGFloat, max: CGFloat, bandLength: CGFloat) -> CGFloat
+{
   if value >= min && value <= max {
     // While we're within range we don't rubber band the value.
     return value
