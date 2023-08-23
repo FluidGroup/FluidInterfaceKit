@@ -129,6 +129,12 @@ let book = Book(title: "FluidInterfaceKit") {
     DemoFloatingDisplayKit(rootView: .init())
   }
 
+  if #available(iOS 15, *) {
+    BookPush(title: "KeyboardLayoutGuide") {
+      DemoKeyboardGuideViewController()
+    }
+  }
+
   BookPush(title: "StageViewController") {
     DemoStageViewController()
   }

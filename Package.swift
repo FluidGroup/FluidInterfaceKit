@@ -12,6 +12,7 @@ let package = Package(
     .library(name: "FluidInterfaceKit", targets: ["FluidInterfaceKit"]),
     .library(name: "FluidPopover", targets: ["FluidPopover"]),
     .library(name: "FluidInterfaceKitRideauSupport", targets: ["FluidInterfaceKitRideauSupport"]),
+    .library(name: "FluidKeyboardSupport", targets: ["FluidKeyboardSupport"]),
   ],
   dependencies: [
     .package(
@@ -52,5 +53,6 @@ let package = Package(
       name: "FluidInterfaceKitRideauSupport",
       dependencies: ["FluidInterfaceKit", "Rideau"]
     ),
+    .target(name: "FluidKeyboardSupport")
   ]
 )
