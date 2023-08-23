@@ -48,7 +48,8 @@ final class DemoKeyboardGuideViewController: UIViewController {
       .padding(.bottom, 200)
     }
 
-    scrollView.enableTrackingKeyboard()
+    scrollView.setContentInsetAdjustmentForKeyboard(isActive: true)
+    scrollView.setKeyboardSwipeDownOffscreenGesture(isActive: true)
   }
 
   private var observation: KeyboardObservation?
