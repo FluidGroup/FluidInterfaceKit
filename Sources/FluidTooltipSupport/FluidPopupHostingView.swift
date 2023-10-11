@@ -1,11 +1,11 @@
 import UIKit
 import FluidPortal
 
-public final class FluidPopoverContainerView<ContentView: UIView>: UIView {
+public final class FluidTooltipContainerView<ContentView: UIView>: UIView {
 
   public let contentView: ContentView
 
-  public let hostingView: FluidPopoverHostingView = .init()
+  public let hostingView: FluidTooltipHostingView = .init()
 
   public init(contentView: ContentView) {
     self.contentView = contentView
@@ -37,7 +37,7 @@ public final class FluidPopoverContainerView<ContentView: UIView>: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  public func activate() -> FluidPopoverContentView {
+  public func activate() -> FluidTooltipContentView {
     hostingView.showReparentingView()
   }
 
@@ -46,9 +46,9 @@ public final class FluidPopoverContainerView<ContentView: UIView>: UIView {
   }
 }
 
-public final class FluidPopoverHostingView: UIView {
+public final class FluidTooltipHostingView: UIView {
 
-  private lazy var reparentingView = FluidPopoverContentView()
+  private lazy var reparentingView = FluidTooltipContentView()
   private var usingPortalStackView: PortalStackView?
 
   public init() {
@@ -65,7 +65,7 @@ public final class FluidPopoverHostingView: UIView {
     usingPortalStackView?.remove(view: reparentingView)
   }
 
-  func showReparentingView() -> FluidPopoverContentView {
+  func showReparentingView() -> FluidTooltipContentView {
     if reparentingView.superview == nil {
       addSubview(reparentingView)
     }
@@ -99,7 +99,7 @@ public final class FluidPopoverHostingView: UIView {
 
 }
 
-public final class FluidPopoverContentView: UIView {
+public final class FluidTooltipContentView: UIView {
 
   public let topLayoutGuide = UILayoutGuide()
   public let bottomLayoutGuide = UILayoutGuide()
@@ -216,6 +216,29 @@ public final class FluidPopoverContentView: UIView {
   }
 
   public func addSubviewOnBottom(view: UIView) {
+
+    addSubview(view)
+
+    view.translatesAutoresizingMaskIntoConstraints = false
+
+    let top = view.topAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor)
+
+    let leading = view.leadingAnchor.constraint(greaterThanOrEqualTo: bottomLayoutGuide.leadingAnchor)
+
+    let trailing = view.trailingAnchor.constraint(lessThanOrEqualTo: bottomLayoutGuide.trailingAnchor)
+
+    let centerX = view.centerXAnchor.constraint(equalTo: hostLayoutGuide.centerXAnchor)
+    centerX.priority = .defaultHigh
+
+    let bottom = view.bottomAnchor.constraint(lessThanOrEqualTo: bottomLayoutGuide.bottomAnchor)
+
+    NSLayoutConstraint.activate([
+      top,
+      leading,
+      trailing,
+      bottom,
+      centerX,
+    ])
 
   }
 

@@ -40,7 +40,6 @@
 		4B79ABBD27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */; };
 		4B853AB329D9940100F62504 /* DemoPopoverSwiftUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B853AB229D9940100F62504 /* DemoPopoverSwiftUIViewController.swift */; };
 		4B853AB529D9A32A00F62504 /* DemoPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B853AB429D9A32A00F62504 /* DemoPopoverViewController.swift */; };
-		4B853AB729D9A4E800F62504 /* FluidPopover in Frameworks */ = {isa = PBXBuildFile; productRef = 4B853AB629D9A4E800F62504 /* FluidPopover */; };
 		4B97A9E527B9828E0068B330 /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */; };
 		4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */; };
 		4BB493B0279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB493AF279C6F4700535EC7 /* DemoRideauIntegrationViewController.swift */; };
@@ -72,6 +71,7 @@
 		4BFEC3CD2A963BD400FB8E5D /* FluidKeyboardSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFEC3CC2A963BD400FB8E5D /* FluidKeyboardSupport */; };
 		4BFFBFD12AD6946B0028A73B /* SwiftUIHosting in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFFBFD02AD6946B0028A73B /* SwiftUIHosting */; };
 		4BFFBFD42AD6C1ED0028A73B /* StackScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFFBFD32AD6C1ED0028A73B /* StackScrollView */; };
+		4BFFBFD62AD6C3F10028A73B /* FluidTooltipSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFFBFD52AD6C3F10028A73B /* FluidTooltipSupport */; };
 		FCEA76E429349BD700E8B0E6 /* DemoFloatingDisplayKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E329349BD700E8B0E6 /* DemoFloatingDisplayKit.swift */; };
 		FCEA76E829349C9C00E8B0E6 /* DemoSnackbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E529349C9B00E8B0E6 /* DemoSnackbarView.swift */; };
 		FCEA76E929349C9C00E8B0E6 /* FloatingDisplayKitContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E629349C9B00E8B0E6 /* FloatingDisplayKitContentView.swift */; };
@@ -173,12 +173,12 @@
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
 				4BDDD3CE28DB627500452B7D /* CompositionKit in Frameworks */,
 				4B658D0F276A59F700A17878 /* Wrap in Frameworks */,
-				4B853AB729D9A4E800F62504 /* FluidPopover in Frameworks */,
 				4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */,
 				4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */,
 				4B2AFC4A2A7EBF05001B5BEF /* FluidGesture in Frameworks */,
 				4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */,
 				4BFFBFD42AD6C1ED0028A73B /* StackScrollView in Frameworks */,
+				4BFFBFD62AD6C3F10028A73B /* FluidTooltipSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,11 +364,11 @@
 				4BC8F5F527B6B02300095412 /* StorybookUI */,
 				4BDDD3CD28DB627500452B7D /* CompositionKit */,
 				4BC726332992679F0074A828 /* SwiftUISupport */,
-				4B853AB629D9A4E800F62504 /* FluidPopover */,
 				4B2AFC492A7EBF05001B5BEF /* FluidGesture */,
 				4BFEC3CC2A963BD400FB8E5D /* FluidKeyboardSupport */,
 				4BFFBFD02AD6946B0028A73B /* SwiftUIHosting */,
 				4BFFBFD32AD6C1ED0028A73B /* StackScrollView */,
+				4BFFBFD52AD6C3F10028A73B /* FluidTooltipSupport */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -1005,10 +1005,6 @@
 			package = 4BBDECCF2766238B00982229 /* XCRemoteSwiftPackageReference "Wrap" */;
 			productName = Wrap;
 		};
-		4B853AB629D9A4E800F62504 /* FluidPopover */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FluidPopover;
-		};
 		4B9C2BB4279C6825002FBF0F /* FluidInterfaceKitRideauSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FluidInterfaceKitRideauSupport;
@@ -1080,6 +1076,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4BFFBFD22AD6C1ED0028A73B /* XCRemoteSwiftPackageReference "StackScrollView" */;
 			productName = StackScrollView;
+		};
+		4BFFBFD52AD6C3F10028A73B /* FluidTooltipSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluidTooltipSupport;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

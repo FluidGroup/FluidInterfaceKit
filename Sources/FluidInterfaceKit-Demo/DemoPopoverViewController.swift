@@ -1,5 +1,5 @@
 import CompositionKit
-import FluidPopover
+import FluidTooltipSupport
 import FluidPortal
 import MondrianLayout
 import SwiftUIHosting
@@ -46,7 +46,7 @@ final class DemoPopoverViewController: UIViewController {
 
   private final class Cell: UIView {
 
-    private var hostingView: FluidPopoverContainerView<SwiftUIHostingView>!
+    private var hostingView: FluidTooltipContainerView<SwiftUIHostingView>!
 
     init(offset: CGFloat) {
       super.init(frame: .null)
@@ -64,7 +64,7 @@ final class DemoPopoverViewController: UIViewController {
         )
       }
 
-      let popupHostingView = FluidPopoverContainerView(contentView: _contentView)
+      let popupHostingView = FluidTooltipContainerView(contentView: _contentView)
 
       self.hostingView = popupHostingView
 

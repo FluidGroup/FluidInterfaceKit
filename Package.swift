@@ -10,7 +10,7 @@ let package = Package(
     .library(name: "FluidPortal", targets: ["FluidPortal"]),
     .library(name: "FluidGesture", targets: ["FluidGesture"]),
     .library(name: "FluidInterfaceKit", targets: ["FluidInterfaceKit"]),
-    .library(name: "FluidPopover", targets: ["FluidPopover"]),
+    .library(name: "FluidTooltipSupport", targets: ["FluidTooltipSupport"]),
     .library(name: "FluidInterfaceKitRideauSupport", targets: ["FluidInterfaceKitRideauSupport"]),
     .library(name: "FluidKeyboardSupport", targets: ["FluidKeyboardSupport"]),
   ],
@@ -42,7 +42,7 @@ let package = Package(
     ),
     .target(name: "FluidGesture"),
     .target(
-      name: "FluidPopover",
+      name: "FluidTooltipSupport",
       dependencies: ["FluidPortal"]
     ),
     .target(
