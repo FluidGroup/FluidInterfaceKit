@@ -76,7 +76,7 @@ final class DemoPortalStackViewController: UIViewController {
 
       let dummyBox = UIView()
       dummyBox.frame.size = .init(width: 100, height: 100)
-      dummyBox.backgroundColor = .blue
+      dummyBox.backgroundColor = .blue.withAlphaComponent(0.5)
 
       containerView.platterView.addSubview(dummyBox)
       dummyBox.translatesAutoresizingMaskIntoConstraints = false
@@ -210,15 +210,8 @@ final class TipContainerView<ContentView: UIView>: UIView {
 
     let position = convert(bounds, to: window)
 
-    let frame = CGRect(
-      origin: .init(x: -position.origin.x, y: -position.origin.y),
-      size: window.bounds.size
-    )
-
-    platterViewXAnchor.constant = -(window.bounds.width - (position.origin.x + position.size.width / 2))
+    platterViewXAnchor.constant = -(position.minX - ((window.bounds.width / 2) - (position.size.width / 2)))
     platterViewMaxWidthAnchor.constant = window.bounds.size.width
-
-    print(frame)
 
   }
 }

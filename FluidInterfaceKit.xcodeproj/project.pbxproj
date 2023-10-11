@@ -70,6 +70,7 @@
 		4BFC696627A7F46D0011238E /* DemoPortalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */; };
 		4BFEC3CB2A9630EA00FB8E5D /* DemoKeyboardGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFEC3CA2A9630EA00FB8E5D /* DemoKeyboardGuideViewController.swift */; };
 		4BFEC3CD2A963BD400FB8E5D /* FluidKeyboardSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFEC3CC2A963BD400FB8E5D /* FluidKeyboardSupport */; };
+		4BFFBFD12AD6946B0028A73B /* SwiftUIHosting in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFFBFD02AD6946B0028A73B /* SwiftUIHosting */; };
 		FCEA76E429349BD700E8B0E6 /* DemoFloatingDisplayKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E329349BD700E8B0E6 /* DemoFloatingDisplayKit.swift */; };
 		FCEA76E829349C9C00E8B0E6 /* DemoSnackbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E529349C9B00E8B0E6 /* DemoSnackbarView.swift */; };
 		FCEA76E929349C9C00E8B0E6 /* FloatingDisplayKitContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E629349C9B00E8B0E6 /* FloatingDisplayKitContentView.swift */; };
@@ -161,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BFFBFD12AD6946B0028A73B /* SwiftUIHosting in Frameworks */,
 				4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */,
 				4BC726342992679F0074A828 /* SwiftUISupport in Frameworks */,
 				4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */,
@@ -363,6 +365,7 @@
 				4B853AB629D9A4E800F62504 /* FluidPopover */,
 				4B2AFC492A7EBF05001B5BEF /* FluidGesture */,
 				4BFEC3CC2A963BD400FB8E5D /* FluidKeyboardSupport */,
+				4BFFBFD02AD6946B0028A73B /* SwiftUIHosting */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -449,6 +452,7 @@
 				4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */,
 				4BDDD3CC28DB627500452B7D /* XCRemoteSwiftPackageReference "CompositionKit" */,
 				4BC726322992679F0074A828 /* XCRemoteSwiftPackageReference "swiftui-support" */,
+				4BFFBFCF2AD6946B0028A73B /* XCRemoteSwiftPackageReference "swiftui-hosting" */,
 			);
 			productRefGroup = 4B959AF92764F7180003FFB6 /* Products */;
 			projectDirPath = "";
@@ -969,6 +973,14 @@
 				kind = branch;
 			};
 		};
+		4BFFBFCF2AD6946B0028A73B /* XCRemoteSwiftPackageReference "swiftui-hosting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FluidGroup/swiftui-hosting.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1046,6 +1058,11 @@
 		4BFEC3CC2A963BD400FB8E5D /* FluidKeyboardSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FluidKeyboardSupport;
+		};
+		4BFFBFD02AD6946B0028A73B /* SwiftUIHosting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BFFBFCF2AD6946B0028A73B /* XCRemoteSwiftPackageReference "swiftui-hosting" */;
+			productName = SwiftUIHosting;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

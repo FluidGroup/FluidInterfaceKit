@@ -2,7 +2,9 @@ import CompositionKit
 import FluidPopover
 import FluidPortal
 import MondrianLayout
+import SwiftUIHosting
 import UIKit
+import SwiftUI
 
 final class DemoPopoverViewController: UIViewController {
 
@@ -52,7 +54,7 @@ final class DemoPopoverViewController: UIViewController {
 
     private let button = UIButton(type: .system)
 
-    private var hostingView: FluidPopoverHostingView<AnyUIView>!
+    private var hostingView: FluidPopoverContainerView<SwiftUIHostingView>!
 
     override init(frame: CGRect) {
       super.init(frame: frame)
@@ -60,21 +62,26 @@ final class DemoPopoverViewController: UIViewController {
       contentView.backgroundColor = .white
       label.backgroundColor = .yellow
 
-      let popupHostingView = FluidPopoverHostingView(
-        content:
-          AnyUIView { _ in
-            VStackBlock {
-              label
-            }
-            .padding(20)
+      let _contentView = SwiftUIHostingView {
+        Button(
+          action: {
+
+          },
+          label: {
+            Text("📱")
           }
-      )
+        )
+      }
+
+      let popupHostingView = FluidPopoverContainerView(contentView: _contentView)
 
       self.hostingView = popupHostingView
 
       Mondrian.buildSubviews(on: contentView) {
         ZStackBlock(alignment: .attach(.all)) {
+
           popupHostingView
+            .viewBlock.padding(20)
         }
       }
     }
@@ -84,13 +91,27 @@ final class DemoPopoverViewController: UIViewController {
     }
 
     func setData(_ string: String, stack: PortalStackView) {
-      self.label.text = string
       self.button.setTitle(string, for: .normal)
 
-      let r = hostingView.showReparentingView()
-      r.backgroundColor = .init(white: 0.5, alpha: 0.5)
+      let view = hostingView.activate()
 
-//      stack.register(view: button)
+      let content = SwiftUIHostingView {
+        Text(string)
+          .background(Color.purple)
+      }
+
+      view.addSubview(content)
+
+      content.translatesAutoresizingMaskIntoConstraints = false
+
+      NSLayoutConstraint.activate([
+        content.topAnchor.constraint(equalTo: view.topLayoutGuide.topAnchor),
+        content.bottomAnchor.constraint(equalTo: view.topLayoutGuide.bottomAnchor),
+        content.leadingAnchor.constraint(equalTo: view.topLayoutGuide.leadingAnchor),
+        content.trailingAnchor.constraint(equalTo: view.topLayoutGuide.trailingAnchor),
+      ])
+
     }
+
   }
 }

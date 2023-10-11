@@ -1,20 +1,57 @@
 import UIKit
+import FluidPortal
 
-public final class FluidPopoverHostingView<Content: UIView>: UIView {
+public final class FluidPopoverContainerView<ContentView: UIView>: UIView {
 
-  private lazy var reparentingView = _ReparentingView()
+  public let contentView: ContentView
 
-  public init(content: Content) {
-    self.content = content
-    super.init(frame: .zero)
-    addSubview(content)
-    content.translatesAutoresizingMaskIntoConstraints = false
+  public let hostingView: FluidPopoverHostingView = .init()
+
+  public init(contentView: ContentView) {
+    self.contentView = contentView
+
+    super.init(frame: .null)
+
+    addSubview(hostingView)
+    addSubview(contentView)
+    contentView.translatesAutoresizingMaskIntoConstraints = false
+    hostingView.translatesAutoresizingMaskIntoConstraints = false
+
     NSLayoutConstraint.activate([
-      content.topAnchor.constraint(equalTo: topAnchor),
-      content.bottomAnchor.constraint(equalTo: bottomAnchor),
-      content.leadingAnchor.constraint(equalTo: leadingAnchor),
-      content.trailingAnchor.constraint(equalTo: trailingAnchor),
+      contentView.topAnchor.constraint(equalTo: topAnchor),
+      contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
     ])
+
+    NSLayoutConstraint.activate([
+      hostingView.topAnchor.constraint(equalTo: topAnchor),
+      hostingView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      hostingView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      hostingView.trailingAnchor.constraint(equalTo: trailingAnchor),
+    ])
+
+  }
+  
+  public required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  public func activate() -> FluidPopoverContentView {
+    hostingView.showReparentingView()
+  }
+
+  public func deactivate() {
+    hostingView.hide()
+  }
+}
+
+public final class FluidPopoverHostingView: UIView {
+
+  private lazy var reparentingView = FluidPopoverContentView()
+
+  public init() {
+    super.init(frame: .null)
   }
 
   @available(*, unavailable)
@@ -22,24 +59,83 @@ public final class FluidPopoverHostingView<Content: UIView>: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  public let content: Content
+  func hide() {
+    reparentingView.removeFromSuperview()
+  }
 
-  @discardableResult
-  public func showReparentingView() -> UIView {
+  func showReparentingView() -> FluidPopoverContentView {
     if reparentingView.superview == nil {
       addSubview(reparentingView)
     }
     return reparentingView
   }
+
+  private func targetPortalStackView() -> PortalStackView? {
+
+    func find(parent: UIView) -> PortalStackView? {
+      for view in parent.subviews {
+        if let portal = view as? PortalStackView {
+          return portal
+        }
+      }
+      guard let superview = parent.superview else { return nil }
+      return find(parent: superview)
+    }
+
+    guard let superview = superview else { return nil }
+
+    return find(parent: superview)
+
+  }
+
 }
 
-fileprivate final class _ReparentingView: UIView {
+public final class FluidPopoverContentView: UIView {
 
-  private var widthConstraint: NSLayoutConstraint!
+  public let topLayoutGuide = UILayoutGuide()
+  public let bottomLayoutGuide = UILayoutGuide()
+
+  public let hostLayoutGuide = UILayoutGuide()
+
+  private var hostLayoutGuideX: NSLayoutConstraint! = nil
+  private var hostLayoutGuideY: NSLayoutConstraint! = nil
+
+  private var hostLayoutGuideWidth: NSLayoutConstraint! = nil
+  private var hostLayoutGuideHeight: NSLayoutConstraint! = nil
 
   init() {
     super.init(frame: .null)
 
+    addLayoutGuide(hostLayoutGuide)
+    addLayoutGuide(topLayoutGuide)
+    addLayoutGuide(bottomLayoutGuide)
+
+    hostLayoutGuideX = hostLayoutGuide.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0)
+    hostLayoutGuideY = hostLayoutGuide.topAnchor.constraint(equalTo: topAnchor, constant: 0)
+
+    hostLayoutGuideWidth = hostLayoutGuide.widthAnchor.constraint(equalToConstant: 0)
+    hostLayoutGuideHeight = hostLayoutGuide.heightAnchor.constraint(equalToConstant: 0)
+
+    NSLayoutConstraint.activate([
+      hostLayoutGuideX,
+      hostLayoutGuideY,
+      hostLayoutGuideWidth,
+      hostLayoutGuideHeight
+    ])
+
+    NSLayoutConstraint.activate([
+      topLayoutGuide.topAnchor.constraint(equalTo: topAnchor),
+      topLayoutGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
+      topLayoutGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
+      topLayoutGuide.bottomAnchor.constraint(equalTo: hostLayoutGuide.topAnchor),
+    ])
+
+    NSLayoutConstraint.activate([
+      bottomLayoutGuide.topAnchor.constraint(equalTo: hostLayoutGuide.bottomAnchor),
+      bottomLayoutGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
+      bottomLayoutGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
+      bottomLayoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor),
+    ])
 
   }
 
@@ -47,29 +143,29 @@ fileprivate final class _ReparentingView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  override var center: CGPoint {
+  public override var center: CGPoint {
     didSet {
       updateFrame()
     }
   }
 
-  override var bounds: CGRect {
+  public override var bounds: CGRect {
     didSet {
       updateFrame()
     }
   }
 
-  override func didMoveToWindow() {
+  public override func didMoveToWindow() {
     super.didMoveToWindow()
     updateFrame()
   }
 
-  override func layoutSubviews() {
+  public override func layoutSubviews() {
     super.layoutSubviews()
     updateFrame()
   }
 
-  override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+  public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 
     let view = super.hitTest(point, with: event)
     if view == self {
@@ -89,12 +185,20 @@ fileprivate final class _ReparentingView: UIView {
       return
     }
 
-    let position = superview.convert(superview.bounds, to: window)
+    let host = superview.bounds
+
+    let position = superview.convert(host, to: window)
 
     let frame = CGRect(
-      origin: .init(x: -position.origin.x, y: 0),
-      size: .init(width: window.bounds.size.width, height: 30)
+      origin: .init(x: -position.origin.x, y: -position.origin.y),
+      size: window.bounds.size
     )
+
+    hostLayoutGuideX.constant = position.origin.x
+    hostLayoutGuideY.constant = position.origin.y
+
+    hostLayoutGuideWidth.constant = position.size.width
+    hostLayoutGuideHeight.constant = position.size.height
 
     if self.frame != frame {
       self.frame = frame
