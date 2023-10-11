@@ -5,6 +5,10 @@ public final class FluidTooltipContainerView<ContentView: UIView>: UIView {
 
   public let contentView: ContentView
 
+  public var tooltipContentView: FluidTooltipContentView {
+    hostingView.contentView
+  }
+
   public let hostingView: FluidTooltipHostingView = .init()
 
   public init(contentView: ContentView) {
@@ -37,22 +41,17 @@ public final class FluidTooltipContainerView<ContentView: UIView>: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  public func activate() -> FluidTooltipContentView {
-    hostingView.showReparentingView()
-  }
-
-  public func deactivate() {
-    hostingView.hide()
-  }
 }
 
 public final class FluidTooltipHostingView: UIView {
 
-  private lazy var reparentingView = FluidTooltipContentView()
+  public let contentView = FluidTooltipContentView()
   private var usingPortalStackView: PortalStackView?
 
   public init() {
     super.init(frame: .null)
+
+    addSubview(contentView)
   }
 
   @available(*, unavailable)
@@ -60,23 +59,17 @@ public final class FluidTooltipHostingView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func hide() {
-    reparentingView.removeFromSuperview()
-    usingPortalStackView?.remove(view: reparentingView)
-  }
-
-  func showReparentingView() -> FluidTooltipContentView {
-    if reparentingView.superview == nil {
-      addSubview(reparentingView)
-    }
-    return reparentingView
-  }
-
   public override func didMoveToWindow() {
     super.didMoveToWindow()
-    let portalStackView = targetPortalStackView()
-    self.usingPortalStackView = portalStackView
-    portalStackView?.register(view: reparentingView)
+
+    if window != nil {
+      let portalStackView = targetPortalStackView()
+      self.usingPortalStackView = portalStackView
+      portalStackView?.register(view: contentView)
+    } else {
+      usingPortalStackView?.remove(view: contentView)
+      usingPortalStackView = nil
+    }
   }
 
   private func targetPortalStackView() -> PortalStackView? {

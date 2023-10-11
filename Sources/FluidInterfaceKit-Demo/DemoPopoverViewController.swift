@@ -35,11 +35,18 @@ final class DemoPopoverViewController: UIViewController {
     }
 
     listView.append(views: [
-      Cell(offset: 0),
-      Cell(offset: 200),
-      Cell(offset: 260),
-      Cell(offset: 300),
-      Cell(offset: 350),
+      Cell(offset: 0, isTop: true),
+      Cell(offset: 0, isTop: false),
+
+      Cell(offset: 200, isTop: true),
+      Cell(offset: 200, isTop: false),
+
+      Cell(offset: 260, isTop: true),
+      Cell(offset: 260, isTop: false),
+
+      Cell(offset: 330, isTop: true),
+      Cell(offset: 330, isTop: false),
+
     ])
 
   }
@@ -48,7 +55,7 @@ final class DemoPopoverViewController: UIViewController {
 
     private var hostingView: FluidTooltipContainerView<SwiftUIHostingView>!
 
-    init(offset: CGFloat) {
+    init(offset: CGFloat, isTop: Bool) {
       super.init(frame: .null)
 
       let _contentView = SwiftUIHostingView {
@@ -77,8 +84,15 @@ final class DemoPopoverViewController: UIViewController {
         }
       }
 
-      let view = hostingView.activate()
-      view.addSubviewOnTop(view: tipContent)
+      let view = hostingView.tooltipContentView
+
+      if isTop {
+        view.addSubviewOnTop(view: tipContent)
+      } else {
+        view.addSubviewOnBottom(view: tipContent)
+      }
+
+      backgroundColor = .systemBackground
     }
 
     required init?(coder: NSCoder) {
