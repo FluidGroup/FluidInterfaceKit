@@ -119,6 +119,15 @@
         }
       },
       {
+        "package": "StackScrollView",
+        "repositoryURL": "https://github.com/FluidGroup/StackScrollView.git",
+        "state": {
+          "branch": null,
+          "revision": "c7d2950cdaee7f4aa0dfd1a1364d352f841c9954",
+          "version": "1.6.3"
+        }
+      },
+      {
         "package": "Storybook",
         "repositoryURL": "https://github.com/eure/Storybook-ios",
         "state": {
@@ -143,6 +152,15 @@
           "branch": "main",
           "revision": "b45d1f2ed151d057b54504d653e0da5552844e34",
           "version": null
+        }
+      },
+      {
+        "package": "swiftui-hosting",
+        "repositoryURL": "https://github.com/FluidGroup/swiftui-hosting.git",
+        "state": {
+          "branch": null,
+          "revision": "064204fab9a34aeb267b2418e1037006d043c147",
+          "version": "1.1.0"
         }
       },
       {

@@ -1,12 +1,20 @@
 import CompositionKit
-import FluidPopover
+import FluidTooltipSupport
 import FluidPortal
 import MondrianLayout
+import SwiftUIHosting
 import UIKit
+import SwiftUI
+import StackScrollView
 
 final class DemoPopoverViewController: UIViewController {
 
-  private let listView = DynamicCompositionalLayoutView<String, String>(scrollDirection: .vertical)
+  struct Item: Hashable {
+    let id: UUID = .init()
+    let offset: CGFloat
+  }
+
+  private let listView = StackScrollView()
   private let portalStackView = PortalStackView()
 
   override func viewDidLoad() {
@@ -26,71 +34,81 @@ final class DemoPopoverViewController: UIViewController {
 
     }
 
-    listView.registerCell(Cell.self)
+    listView.append(views: [
+      Cell(offset: 0, isTop: true),
+      Cell(offset: 0, isTop: false),
 
-    listView.setUp(
-      cellProvider: .init({ [portalStackView] context in
+      Cell(offset: 200, isTop: true),
+      Cell(offset: 200, isTop: false),
 
-        let cell = context.dequeueReusableCell(Cell.self)
-        cell.setData(context.data, stack: portalStackView)
+      Cell(offset: 260, isTop: true),
+      Cell(offset: 260, isTop: false),
 
-        return cell
-      }),
-      actionHandler: { action in }
-    )
+      Cell(offset: 330, isTop: true),
+      Cell(offset: 330, isTop: false),
 
-    listView.setContents(
-      (0..<30).map { $0.description },
-      inSection: "A"
-    )
+    ])
 
   }
 
-  private final class Cell: UICollectionViewCell {
+  private final class Cell: UIView {
 
-    private let label = UILabel()
+    private var hostingView: FluidTooltipContainerView<SwiftUIHostingView>!
 
-    private let button = UIButton(type: .system)
+    init(offset: CGFloat, isTop: Bool) {
+      super.init(frame: .null)
 
-    private var hostingView: FluidPopoverHostingView<AnyUIView>!
+      let _contentView = SwiftUIHostingView {
+        Button(
+          action: {
 
-    override init(frame: CGRect) {
-      super.init(frame: frame)
-
-      contentView.backgroundColor = .white
-      label.backgroundColor = .yellow
-
-      let popupHostingView = FluidPopoverHostingView(
-        content:
-          AnyUIView { _ in
-            VStackBlock {
-              label
-            }
-            .padding(20)
+          },
+          label: {
+            Text("📱 Content")
+              .padding(2)
+              .background(RoundedRectangle(cornerRadius: 16).fill(Color.purple))
           }
-      )
+        )
+      }
+
+      let popupHostingView = FluidTooltipContainerView(contentView: _contentView)
 
       self.hostingView = popupHostingView
 
-      Mondrian.buildSubviews(on: contentView) {
+      Mondrian.buildSubviews(on: self) {
         ZStackBlock(alignment: .attach(.all)) {
           popupHostingView
+            .viewBlock
+            .padding(20)
+            .padding(.leading, offset)
         }
       }
+
+      let view = hostingView.tooltipContentView
+
+      if isTop {
+        view.addSubviewOnTop(view: tipContent)
+      } else {
+        view.addSubviewOnBottom(view: tipContent)
+      }
+
+      backgroundColor = .systemBackground
     }
 
     required init?(coder: NSCoder) {
       fatalError()
     }
 
-    func setData(_ string: String, stack: PortalStackView) {
-      self.label.text = string
-      self.button.setTitle(string, for: .normal)
-
-      let r = hostingView.showReparentingView()
-      r.backgroundColor = .init(white: 0.5, alpha: 0.5)
-
-//      stack.register(view: button)
+    let tipContent = SwiftUIHostingView {
+      HStack {
+        Button("tip") {
+          print("tap : tip")
+        }
+        Text("string")
+      }
+      .padding(8)
+      .background(RoundedRectangle(cornerRadius: 16).fill(Color.red))
     }
+
   }
 }
