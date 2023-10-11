@@ -71,6 +71,7 @@
 		4BFEC3CB2A9630EA00FB8E5D /* DemoKeyboardGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFEC3CA2A9630EA00FB8E5D /* DemoKeyboardGuideViewController.swift */; };
 		4BFEC3CD2A963BD400FB8E5D /* FluidKeyboardSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFEC3CC2A963BD400FB8E5D /* FluidKeyboardSupport */; };
 		4BFFBFD12AD6946B0028A73B /* SwiftUIHosting in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFFBFD02AD6946B0028A73B /* SwiftUIHosting */; };
+		4BFFBFD42AD6C1ED0028A73B /* StackScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFFBFD32AD6C1ED0028A73B /* StackScrollView */; };
 		FCEA76E429349BD700E8B0E6 /* DemoFloatingDisplayKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E329349BD700E8B0E6 /* DemoFloatingDisplayKit.swift */; };
 		FCEA76E829349C9C00E8B0E6 /* DemoSnackbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E529349C9B00E8B0E6 /* DemoSnackbarView.swift */; };
 		FCEA76E929349C9C00E8B0E6 /* FloatingDisplayKitContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA76E629349C9B00E8B0E6 /* FloatingDisplayKitContentView.swift */; };
@@ -177,6 +178,7 @@
 				4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */,
 				4B2AFC4A2A7EBF05001B5BEF /* FluidGesture in Frameworks */,
 				4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */,
+				4BFFBFD42AD6C1ED0028A73B /* StackScrollView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +368,7 @@
 				4B2AFC492A7EBF05001B5BEF /* FluidGesture */,
 				4BFEC3CC2A963BD400FB8E5D /* FluidKeyboardSupport */,
 				4BFFBFD02AD6946B0028A73B /* SwiftUIHosting */,
+				4BFFBFD32AD6C1ED0028A73B /* StackScrollView */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -453,6 +456,7 @@
 				4BDDD3CC28DB627500452B7D /* XCRemoteSwiftPackageReference "CompositionKit" */,
 				4BC726322992679F0074A828 /* XCRemoteSwiftPackageReference "swiftui-support" */,
 				4BFFBFCF2AD6946B0028A73B /* XCRemoteSwiftPackageReference "swiftui-hosting" */,
+				4BFFBFD22AD6C1ED0028A73B /* XCRemoteSwiftPackageReference "StackScrollView" */,
 			);
 			productRefGroup = 4B959AF92764F7180003FFB6 /* Products */;
 			projectDirPath = "";
@@ -981,6 +985,14 @@
 				minimumVersion = 1.1.0;
 			};
 		};
+		4BFFBFD22AD6C1ED0028A73B /* XCRemoteSwiftPackageReference "StackScrollView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FluidGroup/StackScrollView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1063,6 +1075,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4BFFBFCF2AD6946B0028A73B /* XCRemoteSwiftPackageReference "swiftui-hosting" */;
 			productName = SwiftUIHosting;
+		};
+		4BFFBFD32AD6C1ED0028A73B /* StackScrollView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BFFBFD22AD6C1ED0028A73B /* XCRemoteSwiftPackageReference "StackScrollView" */;
+			productName = StackScrollView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

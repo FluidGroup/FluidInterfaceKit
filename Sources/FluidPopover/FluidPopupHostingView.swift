@@ -49,6 +49,7 @@ public final class FluidPopoverContainerView<ContentView: UIView>: UIView {
 public final class FluidPopoverHostingView: UIView {
 
   private lazy var reparentingView = FluidPopoverContentView()
+  private var usingPortalStackView: PortalStackView?
 
   public init() {
     super.init(frame: .null)
@@ -61,6 +62,7 @@ public final class FluidPopoverHostingView: UIView {
 
   func hide() {
     reparentingView.removeFromSuperview()
+    usingPortalStackView?.remove(view: reparentingView)
   }
 
   func showReparentingView() -> FluidPopoverContentView {
@@ -68,6 +70,13 @@ public final class FluidPopoverHostingView: UIView {
       addSubview(reparentingView)
     }
     return reparentingView
+  }
+
+  public override func didMoveToWindow() {
+    super.didMoveToWindow()
+    let portalStackView = targetPortalStackView()
+    self.usingPortalStackView = portalStackView
+    portalStackView?.register(view: reparentingView)
   }
 
   private func targetPortalStackView() -> PortalStackView? {
@@ -105,6 +114,10 @@ public final class FluidPopoverContentView: UIView {
 
   init() {
     super.init(frame: .null)
+
+    hostLayoutGuide.identifier = "host"
+    topLayoutGuide.identifier = "top"
+    bottomLayoutGuide.identifier = "bottom"
 
     addLayoutGuide(hostLayoutGuide)
     addLayoutGuide(topLayoutGuide)
@@ -175,6 +188,37 @@ public final class FluidPopoverContentView: UIView {
     }
   }
 
+  public func addSubviewOnTop(view: UIView) {
+
+    addSubview(view)
+
+    view.translatesAutoresizingMaskIntoConstraints = false
+
+    let top = view.topAnchor.constraint(greaterThanOrEqualTo: topLayoutGuide.topAnchor)
+
+    let leading = view.leadingAnchor.constraint(greaterThanOrEqualTo: topLayoutGuide.leadingAnchor)
+
+    let trailing = view.trailingAnchor.constraint(lessThanOrEqualTo: topLayoutGuide.trailingAnchor)
+
+    let centerX = view.centerXAnchor.constraint(equalTo: hostLayoutGuide.centerXAnchor)
+    centerX.priority = .defaultHigh
+
+    let bottom = view.bottomAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+
+    NSLayoutConstraint.activate([
+      top,
+      leading,
+      trailing,
+      bottom,
+      centerX,
+    ])
+
+  }
+
+  public func addSubviewOnBottom(view: UIView) {
+
+  }
+
   private func updateFrame() {
 
     guard let window = window else {
@@ -190,19 +234,23 @@ public final class FluidPopoverContentView: UIView {
     let position = superview.convert(host, to: window)
 
     let frame = CGRect(
-      origin: .init(x: -position.origin.x, y: -position.origin.y),
+      origin: .init(x: -position.origin.x, y: window.bounds.height / -2),
       size: window.bounds.size
     )
-
-    hostLayoutGuideX.constant = position.origin.x
-    hostLayoutGuideY.constant = position.origin.y
-
-    hostLayoutGuideWidth.constant = position.size.width
-    hostLayoutGuideHeight.constant = position.size.height
 
     if self.frame != frame {
       self.frame = frame
     }
+
+    let guideFrame = superview.convert(host, to: self)
+
+    hostLayoutGuideX.constant = guideFrame.origin.x
+    hostLayoutGuideY.constant = guideFrame.origin.y
+
+    hostLayoutGuideWidth.constant = guideFrame.size.width
+    hostLayoutGuideHeight.constant = guideFrame.size.height
+
+
   }
 
 }

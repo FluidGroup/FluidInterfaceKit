@@ -5,10 +5,16 @@ import MondrianLayout
 import SwiftUIHosting
 import UIKit
 import SwiftUI
+import StackScrollView
 
 final class DemoPopoverViewController: UIViewController {
 
-  private let listView = DynamicCompositionalLayoutView<String, String>(scrollDirection: .vertical)
+  struct Item: Hashable {
+    let id: UUID = .init()
+    let offset: CGFloat
+  }
+
+  private let listView = StackScrollView()
   private let portalStackView = PortalStackView()
 
   override func viewDidLoad() {
@@ -28,39 +34,22 @@ final class DemoPopoverViewController: UIViewController {
 
     }
 
-    listView.registerCell(Cell.self)
-
-    listView.setUp(
-      cellProvider: .init({ [portalStackView] context in
-
-        let cell = context.dequeueReusableCell(Cell.self)
-        cell.setData(context.data, stack: portalStackView)
-
-        return cell
-      }),
-      actionHandler: { action in }
-    )
-
-    listView.setContents(
-      (0..<30).map { $0.description },
-      inSection: "A"
-    )
+    listView.append(views: [
+      Cell(offset: 0),
+      Cell(offset: 200),
+      Cell(offset: 260),
+      Cell(offset: 300),
+      Cell(offset: 350),
+    ])
 
   }
 
-  private final class Cell: UICollectionViewCell {
-
-    private let label = UILabel()
-
-    private let button = UIButton(type: .system)
+  private final class Cell: UIView {
 
     private var hostingView: FluidPopoverContainerView<SwiftUIHostingView>!
 
-    override init(frame: CGRect) {
-      super.init(frame: frame)
-
-      contentView.backgroundColor = .white
-      label.backgroundColor = .yellow
+    init(offset: CGFloat) {
+      super.init(frame: .null)
 
       let _contentView = SwiftUIHostingView {
         Button(
@@ -68,7 +57,9 @@ final class DemoPopoverViewController: UIViewController {
 
           },
           label: {
-            Text("📱")
+            Text("📱 Content")
+              .padding(2)
+              .background(RoundedRectangle(cornerRadius: 16).fill(Color.purple))
           }
         )
       }
@@ -77,40 +68,32 @@ final class DemoPopoverViewController: UIViewController {
 
       self.hostingView = popupHostingView
 
-      Mondrian.buildSubviews(on: contentView) {
+      Mondrian.buildSubviews(on: self) {
         ZStackBlock(alignment: .attach(.all)) {
-
           popupHostingView
-            .viewBlock.padding(20)
+            .viewBlock
+            .padding(20)
+            .padding(.leading, offset)
         }
       }
+
+      let view = hostingView.activate()
+      view.addSubviewOnTop(view: tipContent)
     }
 
     required init?(coder: NSCoder) {
       fatalError()
     }
 
-    func setData(_ string: String, stack: PortalStackView) {
-      self.button.setTitle(string, for: .normal)
-
-      let view = hostingView.activate()
-
-      let content = SwiftUIHostingView {
-        Text(string)
-          .background(Color.purple)
+    let tipContent = SwiftUIHostingView {
+      HStack {
+        Button("tip") {
+          print("tap : tip")
+        }
+        Text("string")
       }
-
-      view.addSubview(content)
-
-      content.translatesAutoresizingMaskIntoConstraints = false
-
-      NSLayoutConstraint.activate([
-        content.topAnchor.constraint(equalTo: view.topLayoutGuide.topAnchor),
-        content.bottomAnchor.constraint(equalTo: view.topLayoutGuide.bottomAnchor),
-        content.leadingAnchor.constraint(equalTo: view.topLayoutGuide.leadingAnchor),
-        content.trailingAnchor.constraint(equalTo: view.topLayoutGuide.trailingAnchor),
-      ])
-
+      .padding(8)
+      .background(RoundedRectangle(cornerRadius: 16).fill(Color.red))
     }
 
   }
