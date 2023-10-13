@@ -103,7 +103,6 @@
 
 /* Begin PBXFileReference section */
 		4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSheetViewController.swift; sourceTree = "<group>"; };
-		4B259A4327BED2C700F53B4C /* FluidInterfaceKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluidInterfaceKit.podspec; sourceTree = "<group>"; };
 		4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDragViewController.swift; sourceTree = "<group>"; };
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
 		4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitPresentationTests.swift; sourceTree = "<group>"; };
@@ -150,6 +149,7 @@
 		4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeBuilder.swift; sourceTree = "<group>"; };
 		4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidStackControllerTests.swift; sourceTree = "<group>"; };
 		4BE0AAC4277FD5620086FD7E /*  */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ""; sourceTree = "<group>"; };
+		4BF417742AD910E700F6E561 /* FluidInterfaceKit-work1 */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "FluidInterfaceKit-work1"; path = ..; sourceTree = "<group>"; };
 		4BFC696127A7F3BA0011238E /* FluidInterfaceKit-Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FluidInterfaceKit-Demo-Bridging-Header.h"; sourceTree = "<group>"; };
 		4BFC696227A7F3BB0011238E /* CAPortalLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAPortalLayer.m; sourceTree = "<group>"; };
 		4BFC696427A7F3DB0011238E /* CAPortalLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAPortalLayer.h; sourceTree = "<group>"; };
@@ -261,7 +261,7 @@
 		4B959AEE2764F7180003FFB6 = {
 			isa = PBXGroup;
 			children = (
-				4B259A4327BED2C700F53B4C /* FluidInterfaceKit.podspec */,
+				4BF417742AD910E700F6E561 /* FluidInterfaceKit-work1 */,
 				4BBDECDC276646E300982229 /* Packages */,
 				4B468046279C588E00625FCB /* Sources */,
 				4B959AF92764F7180003FFB6 /* Products */,
