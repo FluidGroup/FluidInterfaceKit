@@ -65,6 +65,8 @@
 		4BDDD3CE28DB627500452B7D /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDD3CD28DB627500452B7D /* CompositionKit */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF26C277F553200636B00 /* FluidInterfaceKit */; };
+		4BFB8FA22AD90E8100F0048D /* FluidPictureInPicture in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFB8FA12AD90E8100F0048D /* FluidPictureInPicture */; };
+		4BFB8FA42AD90E8100F0048D /* FluidSnackbar in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFB8FA32AD90E8100F0048D /* FluidSnackbar */; };
 		4BFC696327A7F3BB0011238E /* CAPortalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696227A7F3BB0011238E /* CAPortalLayer.m */; };
 		4BFC696627A7F46D0011238E /* DemoPortalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC696527A7F46D0011238E /* DemoPortalLayer.swift */; };
 		4BFEC3CB2A9630EA00FB8E5D /* DemoKeyboardGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFEC3CA2A9630EA00FB8E5D /* DemoKeyboardGuideViewController.swift */; };
@@ -167,6 +169,8 @@
 				4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */,
 				4BC726342992679F0074A828 /* SwiftUISupport in Frameworks */,
 				4B9C2BB5279C6825002FBF0F /* FluidInterfaceKitRideauSupport in Frameworks */,
+				4BFB8FA42AD90E8100F0048D /* FluidSnackbar in Frameworks */,
+				4BFB8FA22AD90E8100F0048D /* FluidPictureInPicture in Frameworks */,
 				4BDDF26D277F553200636B00 /* FluidInterfaceKit in Frameworks */,
 				4BFEC3CD2A963BD400FB8E5D /* FluidKeyboardSupport in Frameworks */,
 				4BB5B319277077CC00EE1028 /* Ne in Frameworks */,
@@ -369,6 +373,8 @@
 				4BFFBFD02AD6946B0028A73B /* SwiftUIHosting */,
 				4BFFBFD32AD6C1ED0028A73B /* StackScrollView */,
 				4BFFBFD52AD6C3F10028A73B /* FluidTooltipSupport */,
+				4BFB8FA12AD90E8100F0048D /* FluidPictureInPicture */,
+				4BFB8FA32AD90E8100F0048D /* FluidSnackbar */,
 			);
 			productName = "FluidUIKit-Demo";
 			productReference = 4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */;
@@ -1062,6 +1068,14 @@
 		4BDDF26C277F553200636B00 /* FluidInterfaceKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FluidInterfaceKit;
+		};
+		4BFB8FA12AD90E8100F0048D /* FluidPictureInPicture */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluidPictureInPicture;
+		};
+		4BFB8FA32AD90E8100F0048D /* FluidSnackbar */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluidSnackbar;
 		};
 		4BFEC3CC2A963BD400FB8E5D /* FluidKeyboardSupport */ = {
 			isa = XCSwiftPackageProductDependency;

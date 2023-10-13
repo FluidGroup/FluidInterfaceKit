@@ -1,5 +1,6 @@
 
 import UIKit
+import FluidCore
 
 public final class FloatingDisplayTarget {
   

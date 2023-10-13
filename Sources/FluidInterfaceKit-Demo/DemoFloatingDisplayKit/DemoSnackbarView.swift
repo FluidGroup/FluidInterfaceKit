@@ -1,7 +1,6 @@
-
-import UIKit
-import FluidInterfaceKit
+import FluidSnackbar
 import MondrianLayout
+import UIKit
 
 final class DemoSnackbarView: SnackbarPlainBase {
 
