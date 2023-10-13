@@ -16,7 +16,7 @@ jobs:
           xcode-version: "14.3"
       - uses: actions/checkout@v2
       - name: Install xcbeautify
-        run: brea install xcbeautify
+        run: brew install xcbeautify
       - name: Test
         run: set -o pipefail && xcodebuild -scheme "FluidInterfaceKit-Package" -destination 'generic/platform=iOS Simulator' | xcbeautify
 
@@ -31,7 +31,7 @@ jobs:
         with:
           submodules: true
       - name: Install xcbeautify
-        run: brea install xcbeautify
+        run: brew install xcbeautify
       - name: Test
         run: set -o pipefail && xcodebuild -scheme "FluidInterfaceKit-Package" -destination 'generic/platform=iOS Simulator' -resultBundlePath results/FluidInterfaceKitTests.xcresult | xcbeautify
 
