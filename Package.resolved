@@ -1,0 +1,52 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "GeometryKit",
+        "repositoryURL": "https://github.com/FluidGroup/GeometryKit",
+        "state": {
+          "branch": null,
+          "revision": "6cf96dcb220e1b612ba57a717234cbdbf877c009",
+          "version": "1.1.0"
+        }
+      },
+      {
+        "package": "ResultBuilderKit",
+        "repositoryURL": "https://github.com/FluidGroup/ResultBuilderKit.git",
+        "state": {
+          "branch": null,
+          "revision": "34aa57fcee5ec3ee0f368b05cb53c7919c188ab2",
+          "version": "1.3.0"
+        }
+      },
+      {
+        "package": "Rideau",
+        "repositoryURL": "https://github.com/FluidGroup/Rideau.git",
+        "state": {
+          "branch": null,
+          "revision": "f803dc498fe79da483173daf3b04a2a23ef1a9c2",
+          "version": "2.2.0"
+        }
+      },
+      {
+        "package": "SwiftDocCPlugin",
+        "repositoryURL": "https://github.com/apple/swift-docc-plugin.git",
+        "state": {
+          "branch": "main",
+          "revision": "6a6577adb48651a1ca7dee6861c894ee6ca66021",
+          "version": null
+        }
+      },
+      {
+        "package": "SymbolKit",
+        "repositoryURL": "https://github.com/apple/swift-docc-symbolkit",
+        "state": {
+          "branch": "main",
+          "revision": "b45d1f2ed151d057b54504d653e0da5552844e34",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

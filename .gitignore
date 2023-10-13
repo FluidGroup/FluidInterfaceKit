@@ -88,4 +88,5 @@ iOSInjectionProject/
 
 .DS_Store
 test_output
+.swiftpm
 # End of https://www.toptal.com/developers/gitignore/api/swift
