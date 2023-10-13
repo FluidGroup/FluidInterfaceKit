@@ -3,6 +3,7 @@ import MondrianLayout
 import StorybookKit
 import UIKit
 import FluidInterfaceKit
+import FluidPictureInPicture
 
 @MainActor
 let book = Book(title: "FluidInterfaceKit") {

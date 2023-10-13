@@ -7,24 +7,25 @@
 
 import CompositionKit
 import FluidInterfaceKit
+import FluidPictureInPicture
 import Foundation
 import MondrianLayout
 import UIKit
 
 final class DemoPictureInPictureCoolController: FluidPictureInPictureController {
-  
+
   init() {
     super.init(content: nil)
   }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     view.backgroundColor = .black
-    
+
     let backgroundView = UIView()
     backgroundView.backgroundColor = .neon(.violet)
-    
+
     let content = CompositionKit.AnyView { _ in
       ZStackBlock {
         VStackBlock {
@@ -33,20 +34,20 @@ final class DemoPictureInPictureCoolController: FluidPictureInPictureController 
       }
       .background(backgroundView)
     }
-    
+
     let interactiveView = InteractiveView(
       animation: .bodyShrink,
       haptics: .impactOnTouchUpInside(),
       useLongPressGesture: false,
       contentView: content
     )
-    
+
     content.layer.cornerCurve = .continuous
     content.layer.masksToBounds = true
     content.layer.cornerRadius = 8
-    
+
     interactiveView.handlers.onTap = { [unowned self] in
-      
+
       switch state.mode {
       case .maximizing:
         setMode(.floating)
@@ -57,10 +58,10 @@ final class DemoPictureInPictureCoolController: FluidPictureInPictureController 
       case .hiding:
         break
       }
-      
+
     }
-    
+
     setContent(interactiveView)
-       
+
   }
 }

@@ -1,5 +1,7 @@
 import GeometryKit
 import UIKit
+import FluidInterfaceKit
+import FluidCore
 
 /**
  A container view controller that manages a view to be floating, maximizing, hiding, etc.
@@ -77,7 +79,6 @@ extension FluidPictureInPictureController {
 
     public override func action(for layer: CALayer, forKey event: String) -> CAAction? {
       let action = super.action(for: layer, forKey: event)
-      Log.debug(.pip, "action for \(layer), key: \(event), action: \(action as Any)")
       return action
     }
   }
@@ -291,20 +292,13 @@ extension FluidPictureInPictureController {
         if isHidden {
           containerView.alpha = 0
           containerView.transform = .init(scaleX: 0.8, y: 0.8)
-//          containerView.blurLayer.blurRadius = 80
-//          containerView.blurLayer.makeBlurAction(from: 0).map { action in
-//            containerView.blurLayer.add(action, forKey: "blurRadius")
-//          }
         } else {
           containerView.alpha = 1
           containerView.transform = .identity
-//          containerView.blurLayer.blurRadius = 0
         }
       }
 
       animator.startAnimation()
-
-      containerView.layer.dumpAllAnimations()
 
     }
 

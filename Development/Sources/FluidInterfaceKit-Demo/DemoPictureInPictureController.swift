@@ -7,12 +7,13 @@
 
 import CompositionKit
 import FluidInterfaceKit
+import FluidPictureInPicture
 import Foundation
 import MondrianLayout
 import UIKit
 
 final class DemoPictureInPictureController: FluidPictureInPictureController {
-  
+
   init() {
     super.init(content: nil)
   }
@@ -80,7 +81,7 @@ final class DemoPictureInPictureController: FluidPictureInPictureController {
           UIButton.make(title: "folding") { [unowned self] in
             setMode(.folding)
           }
-          
+
           UIButton.make(title: "Add safeArea") { [unowned self] in
             additionalSafeAreaInsets.bottom += 20
           }

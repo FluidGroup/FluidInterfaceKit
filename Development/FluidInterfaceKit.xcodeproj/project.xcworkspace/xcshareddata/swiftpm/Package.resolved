@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/FluidGroup/Rideau.git",
         "state": {
           "branch": null,
-          "revision": "f803dc498fe79da483173daf3b04a2a23ef1a9c2",
-          "version": "2.2.0"
+          "revision": "fa560b52c246863dee5ab4b03197f6e4a9794607",
+          "version": "2.3.1"
         }
       },
       {
@@ -141,7 +141,7 @@
         "repositoryURL": "https://github.com/apple/swift-docc-plugin.git",
         "state": {
           "branch": "main",
-          "revision": "6a6577adb48651a1ca7dee6861c894ee6ca66021",
+          "revision": "3aad4aabc42835f09f600bb17070f6a11bc84180",
           "version": null
         }
       },
@@ -149,9 +149,9 @@
         "package": "SymbolKit",
         "repositoryURL": "https://github.com/apple/swift-docc-symbolkit",
         "state": {
-          "branch": "main",
+          "branch": null,
           "revision": "b45d1f2ed151d057b54504d653e0da5552844e34",
-          "version": null
+          "version": "1.0.0"
         }
       },
       {

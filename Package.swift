@@ -10,6 +10,8 @@ let package = Package(
     .library(name: "FluidPortal", targets: ["FluidPortal"]),
     .library(name: "FluidGesture", targets: ["FluidGesture"]),
     .library(name: "FluidInterfaceKit", targets: ["FluidInterfaceKit"]),
+    .library(name: "FluidSnackbar", targets: ["FluidSnackbar"]),
+    .library(name: "FluidPictureInPicture", targets: ["FluidPictureInPicture"]),
     .library(name: "FluidTooltipSupport", targets: ["FluidTooltipSupport"]),
     .library(name: "FluidInterfaceKitRideauSupport", targets: ["FluidInterfaceKitRideauSupport"]),
     .library(name: "FluidKeyboardSupport", targets: ["FluidKeyboardSupport"]),
@@ -34,6 +36,9 @@ let package = Package(
   ],
   targets: [
     .target(
+      name: "FluidCore"
+    ),
+    .target(
       name: "FluidPortal",
       dependencies: ["FluidRuntime"]
     ),
@@ -47,7 +52,15 @@ let package = Package(
     ),
     .target(
       name: "FluidInterfaceKit",
-      dependencies: ["GeometryKit", "ResultBuilderKit", "FluidPortal"]
+      dependencies: ["GeometryKit", "ResultBuilderKit", "FluidPortal", "FluidCore"]
+    ),
+    .target(
+      name: "FluidSnackbar",
+      dependencies: ["FluidCore"]
+    ),
+    .target(
+      name: "FluidPictureInPicture",
+      dependencies: ["FluidCore", "FluidInterfaceKit"]
     ),
     .target(
       name: "FluidInterfaceKitRideauSupport",

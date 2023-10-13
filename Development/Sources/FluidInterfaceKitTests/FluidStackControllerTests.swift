@@ -107,7 +107,7 @@ final class FluidStackControllerTests: XCTestCase {
 
     let controller = UIViewController()
 
-    _ = VC(FluidStackController()) {
+    let instance = VC(FluidStackController()) {
       VC(.init()) {
         VC(.init()) {
           VC(controller) {
@@ -118,6 +118,8 @@ final class FluidStackControllerTests: XCTestCase {
     }
 
     XCTAssertNotNil(controller.fluidStackContext)
+
+    withExtendedLifetime(instance, {})
 
   }
 
