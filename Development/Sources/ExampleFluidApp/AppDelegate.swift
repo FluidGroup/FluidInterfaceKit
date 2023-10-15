@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import FluidInterfaceKit
+import FluidStack
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

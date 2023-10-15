@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@v1.1
         with:
-          xcode-version: "14.3"
+          xcode-version: "15.0"
       - uses: actions/checkout@v2
       - name: Install xcbeautify
         run: brew install xcbeautify
@@ -26,14 +26,14 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@v1.1
         with:
-          xcode-version: "14.3"
+          xcode-version: "15.0"
       - uses: actions/checkout@v2
         with:
           submodules: true
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Test
-        run: set -o pipefail && xcodebuild -scheme "FluidInterfaceKit-Package" -destination 'generic/platform=iOS Simulator' -resultBundlePath results/FluidInterfaceKitTests.xcresult | xcbeautify
+        run: set -o pipefail && xcodebuild -scheme "FluidInterfaceKit-Package" test -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.0' -resultBundlePath results/FluidInterfaceKitTests.xcresult | xcbeautify
 
       - uses: kishikawakatsumi/xcresulttool@v1
         with:

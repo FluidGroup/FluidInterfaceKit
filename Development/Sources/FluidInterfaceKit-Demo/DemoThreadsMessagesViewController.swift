@@ -6,7 +6,7 @@
 //
 
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import Foundation
 import MondrianLayout
 import StorybookKit
@@ -40,7 +40,7 @@ final class DemoThreadsMessagesViewController: FluidStackController {
         }
       )
 
-      return AnyView { view in
+      return AnyUIView { view in
 
         ZStackBlock {
           HStackBlock {
@@ -61,7 +61,7 @@ final class DemoThreadsMessagesViewController: FluidStackController {
 
     var viewControllerCache: [Int: UIViewController] = [:]
 
-    let content = CompositionKit.AnyView.init { view in
+    let content = CompositionKit.AnyUIView.init { view in
 
       VStackBlock(alignment: .fill) {
         header
@@ -165,7 +165,7 @@ private func makeListCell(color: UIColor, onTap: @escaping (UIView) -> Void) -> 
   }
   backgroundView.layer.cornerRadius = 16
 
-  let body = AnyView { _ in
+  let body = AnyUIView { _ in
 
     VStackBlock {
       StyledEdgeView(cornerRadius: .circular, cornerRoundingStrategy: .mask, content: imageView)
@@ -234,7 +234,7 @@ final class DemoThreadsDetailViewController: UIViewController {
         }
       }
 
-      return AnyView { _ in
+      return AnyUIView { _ in
         HStackBlock {
           label
             .viewBlock
@@ -264,7 +264,7 @@ final class DemoThreadsDetailViewController: UIViewController {
         }
         backgroundView.layer.cornerRadius = 16
 
-        let cell = AnyView { _ in
+        let cell = AnyUIView { _ in
           HStackBlock {
 
             StackingSpacer(minLength: 0, expands: true)
@@ -284,7 +284,7 @@ final class DemoThreadsDetailViewController: UIViewController {
 
       }
 
-      let content = CompositionKit.AnyView.init { view in
+      let content = CompositionKit.AnyUIView.init { view in
         VStackBlock {
           (0..<10).map { _ in
             makeCell()
@@ -310,7 +310,7 @@ final class DemoThreadsDetailViewController: UIViewController {
       }
     }
 
-    let navigationContentView = AnyView { view in
+    let navigationContentView = AnyUIView { view in
 
       let backButton = UIButton(type: .system)&>.do {
         $0.setImage(UIImage(systemName: "chevron.backward"), for: .normal)

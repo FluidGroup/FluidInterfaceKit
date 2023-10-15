@@ -5,7 +5,7 @@
 //  Created by Muukii on 2022/02/11.
 //
 
-import FluidInterfaceKit
+import FluidStack
 import Foundation
 import XCTest
 

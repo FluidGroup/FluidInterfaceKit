@@ -1,4 +1,4 @@
-import FluidInterfaceKit
+import FluidStack
 import ResultBuilderKit
 import UIKit
 

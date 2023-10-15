@@ -1,4 +1,4 @@
-import FluidInterfaceKit
+import FluidStack
 import XCTest
 
 @MainActor

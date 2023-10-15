@@ -5,8 +5,8 @@
 //  Created by Muukii on 2021/12/12.
 //
 
-import FluidInterfaceKit
-import FluidInterfaceKitRideauSupport
+import FluidStack
+import FluidStackRideauSupport
 import Foundation
 import MondrianLayout
 import StorybookKit

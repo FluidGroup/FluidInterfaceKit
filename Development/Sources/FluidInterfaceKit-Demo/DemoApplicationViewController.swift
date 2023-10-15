@@ -1,5 +1,5 @@
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import MondrianLayout
 import UIKit
 import ResultBuilderKit

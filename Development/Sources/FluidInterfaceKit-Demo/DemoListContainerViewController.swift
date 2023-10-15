@@ -1,5 +1,5 @@
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import MondrianLayout
 import StorybookKit
 import UIKit
@@ -89,7 +89,7 @@ final class DemoListViewController: UIViewController {
       )
     }
 
-    let content = AnyView { view in
+    let content = AnyUIView { view in
       
       VStackBlock(alignment: .fill) {
         
@@ -226,7 +226,7 @@ private func makeListCell(viewModel: ViewModel, onTap: @escaping (ContextualTran
   }
   backgroundView.layer.cornerRadius = 16
 
-  let body = AnyView { _ in
+  let body = AnyUIView { _ in
 
     VStackBlock {
 
