@@ -59,17 +59,34 @@ public final class FluidTooltipHostingView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
+  public override func didMoveToSuperview() {
+    if superview != nil {
+      update()
+    } else {
+      cleanup()
+    }
+  }
+
   public override func didMoveToWindow() {
     super.didMoveToWindow()
 
     if window != nil {
-      let portalStackView = targetPortalStackView()
-      self.usingPortalStackView = portalStackView
-      portalStackView?.register(view: contentView)
+      update()
     } else {
-      usingPortalStackView?.remove(view: contentView)
-      usingPortalStackView = nil
+      cleanup()
     }
+  }
+
+  private func update() {
+    cleanup()
+    let portalStackView = targetPortalStackView()
+    self.usingPortalStackView = portalStackView
+    portalStackView?.register(view: contentView)
+  }
+
+  private func cleanup() {
+    usingPortalStackView?.remove(view: contentView)
+    usingPortalStackView = nil
   }
 
   private func targetPortalStackView() -> PortalStackView? {
