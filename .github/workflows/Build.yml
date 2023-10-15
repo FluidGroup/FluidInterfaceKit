@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@v1.1
         with:
-          xcode-version: "14.3"
+          xcode-version: "15.0"
       - uses: actions/checkout@v2
       - name: Install xcbeautify
         run: brew install xcbeautify
@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@v1.1
         with:
-          xcode-version: "14.3"
+          xcode-version: "15.0"
       - uses: actions/checkout@v2
         with:
           submodules: true
