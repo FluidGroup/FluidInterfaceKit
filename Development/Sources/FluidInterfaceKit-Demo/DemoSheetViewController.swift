@@ -1,6 +1,6 @@
 import CompositionKit
-import FluidInterfaceKit
-import FluidInterfaceKitRideauSupport
+import FluidStack
+import FluidStackRideauSupport
 import Foundation
 import MondrianLayout
 import StorybookKit
@@ -50,7 +50,7 @@ private final class ListViewController: CodeBasedViewController {
         animation: .bodyShrink,
         haptics: .impactOnTouchUpInside(),
         useLongPressGesture: false,
-        contentView: AnyView { _ in
+        contentView: AnyUIView { _ in
 
           VStackBlock {
             

@@ -2,7 +2,7 @@
 import Foundation
 import XCTest
 
-@testable import FluidInterfaceKit
+@testable import FluidStack
 
 final class FluidLocalEnvironmentTests: XCTestCase {
   

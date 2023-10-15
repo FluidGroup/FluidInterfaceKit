@@ -1,5 +1,5 @@
 #if !COCOAPODS
-import FluidInterfaceKit
+import FluidStack
 #endif
 
 import Rideau

@@ -2,7 +2,7 @@ import CompositionKit
 import MondrianLayout
 import StorybookKit
 import UIKit
-import FluidInterfaceKit
+import FluidStack
 import FluidPictureInPicture
 
 @MainActor
@@ -182,7 +182,7 @@ func makeButtonView(title: String, onTap: @escaping () -> Void) -> UIView {
     onTap()
   }
 
-  return AnyView { _ in
+  return AnyUIView { _ in
     VStackBlock {
       button
     }

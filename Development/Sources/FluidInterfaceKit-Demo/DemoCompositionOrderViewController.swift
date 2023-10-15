@@ -1,5 +1,5 @@
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import Foundation
 import MondrianLayout
 import UIKit
@@ -29,7 +29,7 @@ final class DemoCompositionOrderViewController: UIViewController {
 
     let entrypoint = UIView()
 
-    let contentView = AnyView { _ in
+    let contentView = AnyUIView { _ in
       VStackBlock {
         VStackBlock {
           ZStackBlock {

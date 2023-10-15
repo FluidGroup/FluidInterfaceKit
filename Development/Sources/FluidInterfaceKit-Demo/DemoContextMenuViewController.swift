@@ -1,5 +1,5 @@
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import Foundation
 import MondrianLayout
 import StorybookKit
@@ -23,7 +23,7 @@ final class DemoContextMenuViewController: UIViewController {
 
       let interaction = UIContextMenuInteraction(delegate: self)
 
-      let view = AnyView { _ in
+      let view = AnyUIView { _ in
         ZStackBlock {
           colorBox
             .viewBlock
