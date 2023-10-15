@@ -20,11 +20,11 @@ jobs:
           submodules: true  # Fetch Hugo themes (true OR recursive)
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
       - name: Build
-        run: xcodebuild docbuild -scheme FluidInterfaceKit -derivedDataPath .build -destination 'generic/platform=iOS'
+        run: xcodebuild docbuild -scheme FluidStack -derivedDataPath .build -destination 'generic/platform=iOS'
       - name: Generate
         run: |
           $(xcrun --find docc) process-archive \
-            transform-for-static-hosting ".build/Build/Products/Debug-iphoneos/FluidInterfaceKit.doccarchive" \
+            transform-for-static-hosting ".build/Build/Products/Debug-iphoneos/FluidStack.doccarchive" \
             --output-path public \
             --hosting-base-path "FluidInterfaceKit"
       - name: Deploy
