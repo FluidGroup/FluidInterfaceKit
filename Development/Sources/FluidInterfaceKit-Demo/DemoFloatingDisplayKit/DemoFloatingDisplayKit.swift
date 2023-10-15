@@ -6,7 +6,7 @@
 //
 
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import Foundation
 import MondrianLayout
 import StorybookKit

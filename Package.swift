@@ -9,11 +9,11 @@ let package = Package(
   products: [
     .library(name: "FluidPortal", targets: ["FluidPortal"]),
     .library(name: "FluidGesture", targets: ["FluidGesture"]),
-    .library(name: "FluidInterfaceKit", targets: ["FluidInterfaceKit"]),
+    .library(name: "FluidStack", targets: ["FluidStack"]),
     .library(name: "FluidSnackbar", targets: ["FluidSnackbar"]),
     .library(name: "FluidPictureInPicture", targets: ["FluidPictureInPicture"]),
     .library(name: "FluidTooltipSupport", targets: ["FluidTooltipSupport"]),
-    .library(name: "FluidInterfaceKitRideauSupport", targets: ["FluidInterfaceKitRideauSupport"]),
+    .library(name: "FluidStackRideauSupport", targets: ["FluidStackRideauSupport"]),
     .library(name: "FluidKeyboardSupport", targets: ["FluidKeyboardSupport"]),
   ],
   dependencies: [
@@ -51,7 +51,7 @@ let package = Package(
       dependencies: ["FluidPortal"]
     ),
     .target(
-      name: "FluidInterfaceKit",
+      name: "FluidStack",
       dependencies: ["GeometryKit", "ResultBuilderKit", "FluidPortal", "FluidCore"]
     ),
     .target(
@@ -60,12 +60,14 @@ let package = Package(
     ),
     .target(
       name: "FluidPictureInPicture",
-      dependencies: ["FluidCore", "FluidInterfaceKit"]
+      dependencies: ["FluidCore", "FluidStack", "GeometryKit"]
     ),
     .target(
-      name: "FluidInterfaceKitRideauSupport",
-      dependencies: ["FluidInterfaceKit", "Rideau"]
+      name: "FluidStackRideauSupport",
+      dependencies: ["FluidStack", "Rideau"]
     ),
-    .target(name: "FluidKeyboardSupport")
+    .target(name: "FluidKeyboardSupport"),
+
+    .testTarget(name: "FluidStackTests", dependencies: ["FluidStack"])
   ]
 )

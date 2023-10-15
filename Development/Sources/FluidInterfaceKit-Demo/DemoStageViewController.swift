@@ -1,7 +1,8 @@
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import MondrianLayout
 import SwiftUI
+import SwiftUIHosting
 import UIKit
 
 final class DemoStageViewController: UIViewController {
@@ -20,8 +21,8 @@ final class DemoStageViewController: UIViewController {
 
     addChild(spaceViewController)
     
-    let controlView = HostingView(ignoringSafeAreaEdges: []) { [spaceViewController] state in
-      
+    let controlView = SwiftUIHostingView { [spaceViewController] in
+
       HStack {
         Button("Left") {
           spaceViewController.select(stage: .left, animated: true)
@@ -112,7 +113,7 @@ private final class ContentViewController: UIViewController, FluidStageChildView
   //
   //  }
   
-  func didMoveToFocusingStage(_ stageViewController: FluidInterfaceKit.FluidStageViewController?) {
+  func didMoveToFocusingStage(_ stageViewController: FluidStageViewController?) {
 
   }
 

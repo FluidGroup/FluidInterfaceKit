@@ -1,4 +1,4 @@
-import FluidInterfaceKit
+import FluidStack
 
 final class FirstViewController: FluidViewController {
     

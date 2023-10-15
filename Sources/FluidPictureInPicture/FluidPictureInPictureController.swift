@@ -1,7 +1,7 @@
-import GeometryKit
+import FluidStack
 import UIKit
-import FluidInterfaceKit
 import FluidCore
+import GeometryKit
 
 /**
  A container view controller that manages a view to be floating, maximizing, hiding, etc.

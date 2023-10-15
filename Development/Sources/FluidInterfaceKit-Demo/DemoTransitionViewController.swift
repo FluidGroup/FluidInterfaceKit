@@ -1,5 +1,5 @@
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import Foundation
 import MondrianLayout
 import ResultBuilderKit
@@ -112,7 +112,7 @@ final class DemoTransitionViewController: FluidStackController {
       onTap()
     }
 
-    return AnyView { _ in
+    return AnyUIView { _ in
       VStackBlock {
         button
       }

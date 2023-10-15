@@ -9,7 +9,7 @@ import CompositionKit
 import Foundation
 import MondrianLayout
 import UIKit
-import FluidInterfaceKit
+import FluidStack
 
 final class DemoPortalLayerViewController: UIViewController {
   
@@ -44,7 +44,7 @@ final class DemoPortalLayerViewController: UIViewController {
 
     }
 
-    let contentView = AnyView { _ in
+    let contentView = AnyUIView { _ in
       label
         .viewBlock
         .padding(8)

@@ -3,7 +3,7 @@ import MondrianLayout
 import Ne
 import UIKit
 
-@testable import FluidInterfaceKit
+@testable import FluidStack
 
 final class AnimatorPlaygroundViewController: UIViewController {
 

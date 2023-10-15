@@ -5,7 +5,7 @@
 //  Created by Muukii on 2021/04/24.
 //
 
-import FluidInterfaceKit
+import FluidStack
 import FluidSnackbar
 import SwiftUI
 

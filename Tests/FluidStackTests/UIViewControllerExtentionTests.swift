@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 
-@testable import FluidInterfaceKit
+@testable import FluidStack
 
 @MainActor
 final class UIViewControllerExtensionTests: XCTestCase {

@@ -6,7 +6,7 @@
 //
 
 import CompositionKit
-import FluidInterfaceKit
+import FluidStack
 import FluidPictureInPicture
 import Foundation
 import MondrianLayout
@@ -26,7 +26,7 @@ final class DemoPictureInPictureCoolController: FluidPictureInPictureController 
     let backgroundView = UIView()
     backgroundView.backgroundColor = .neon(.violet)
 
-    let content = CompositionKit.AnyView { _ in
+    let content = AnyUIView { _ in
       ZStackBlock {
         VStackBlock {
 
