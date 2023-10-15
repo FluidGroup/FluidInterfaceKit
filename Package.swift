@@ -32,7 +32,6 @@ let package = Package(
       url: "https://github.com/FluidGroup/Rideau.git",
       .upToNextMajor(from: "2.1.0")
     ),
-    .package(url: "https://github.com/apple/swift-docc-plugin.git", branch: "main"),    
   ],
   targets: [
     .target(
