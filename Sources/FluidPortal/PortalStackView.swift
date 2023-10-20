@@ -23,6 +23,7 @@ public final class PortalStackView: UIView {
     newPortalView.matchesPosition = true
     newPortalView.hidesSourceView = true
     newPortalView.allowsHitTesting = true
+    newPortalView.matchesAlpha = true
     newPortalView.forwardsClientHitTestingToSourceView = true
     portalViews.append(newPortalView)
 
