@@ -50,9 +50,9 @@ public final class NativePortalView: UIView {
   }
 
   /// Default: false
-  public var matchesOpacity: Bool {
-    get { backingView.value(forKey: "matchesOpacity") as? Bool ?? false }
-    set { backingView.setValue(newValue, forKey: "matchesOpacity") }
+  public var matchesAlpha: Bool {
+    get { backingView.value(forKey: "matchesAlpha") as? Bool ?? false }
+    set { backingView.setValue(newValue, forKey: "matchesAlpha") }
   }
 
   public var matchesPosition: Bool {
