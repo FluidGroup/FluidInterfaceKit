@@ -36,6 +36,8 @@ public final class PortalStackView: UIView {
       .forEach { view in
         view.removeFromSuperview()
       }
+    portalViews
+      .removeAll { $0.sourceView == view }
   }
 
   private func update() {
