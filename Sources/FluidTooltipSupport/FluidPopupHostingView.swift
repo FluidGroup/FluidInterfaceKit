@@ -1,57 +1,6 @@
 import UIKit
 import FluidPortal
 
-public final class FluidTooltipContainerView<ContentView: UIView>: UIView {
-
-  public let contentView: ContentView
-
-  public var tooltipContentView: FluidTooltipContentView {
-    hostingView.contentView
-  }
-
-  public let hostingView: FluidTooltipHostingView = .init()
-
-  public init(contentView: ContentView) {
-    self.contentView = contentView
-
-    super.init(frame: .null)
-
-    addSubview(contentView)
-    contentView.translatesAutoresizingMaskIntoConstraints = false
-
-    NSLayoutConstraint.activate([
-      contentView.topAnchor.constraint(equalTo: topAnchor),
-      contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-    ])
-
-  }
-
-  public func activate() {
-    insertSubview(hostingView, at: 0)
-
-    hostingView.translatesAutoresizingMaskIntoConstraints = false
-
-    NSLayoutConstraint.activate([
-      hostingView.topAnchor.constraint(equalTo: topAnchor),
-      hostingView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      hostingView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      hostingView.trailingAnchor.constraint(equalTo: trailingAnchor),
-    ])
-    
-  }
-
-  public func deactivate() {
-    hostingView.removeFromSuperview()
-  }
-
-  public required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-}
-
 public final class FluidTooltipHostingView: UIView {
 
   public let contentView = FluidTooltipContentView()
