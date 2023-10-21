@@ -91,6 +91,7 @@ final class DemoPopoverViewController: UIViewController {
       } else {
         view.addSubviewOnBottom(view: tipContent)
       }
+      popupHostingView.activate()
 
       backgroundColor = .systemBackground
     }

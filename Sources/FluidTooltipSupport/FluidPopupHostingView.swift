@@ -16,10 +16,8 @@ public final class FluidTooltipContainerView<ContentView: UIView>: UIView {
 
     super.init(frame: .null)
 
-    addSubview(hostingView)
     addSubview(contentView)
     contentView.translatesAutoresizingMaskIntoConstraints = false
-    hostingView.translatesAutoresizingMaskIntoConstraints = false
 
     NSLayoutConstraint.activate([
       contentView.topAnchor.constraint(equalTo: topAnchor),
@@ -28,15 +26,26 @@ public final class FluidTooltipContainerView<ContentView: UIView>: UIView {
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
     ])
 
+  }
+
+  public func activate() {
+    insertSubview(hostingView, at: 0)
+
+    hostingView.translatesAutoresizingMaskIntoConstraints = false
+
     NSLayoutConstraint.activate([
       hostingView.topAnchor.constraint(equalTo: topAnchor),
       hostingView.bottomAnchor.constraint(equalTo: bottomAnchor),
       hostingView.leadingAnchor.constraint(equalTo: leadingAnchor),
       hostingView.trailingAnchor.constraint(equalTo: trailingAnchor),
     ])
-
+    
   }
-  
+
+  public func deactivate() {
+    hostingView.removeFromSuperview()
+  }
+
   public required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
