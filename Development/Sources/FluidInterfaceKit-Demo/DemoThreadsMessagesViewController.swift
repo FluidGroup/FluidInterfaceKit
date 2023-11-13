@@ -116,6 +116,8 @@ final class DemoThreadsMessagesViewController: FluidStackController {
                       topBar: .navigation
                     )
                   )
+                
+                  controller.setupNonDraggableArea(edge: .init(top: 0, left: 20, bottom: 0, right: 0))
 
                   viewControllerCache[index] = controller
 
