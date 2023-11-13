@@ -109,15 +109,28 @@ extension UIView {
 }
 
 public struct FluidViewIdentifier: Hashable {
-  
-  public var rawIdentifier: String
-  
-  public init(_ raw: String) {
-    self.rawIdentifier = raw
+
+  public enum Base: Hashable {
+    case string(String)
+    case any(AnyHashable)
   }
 
-  public func combined(_ raw: String) -> Self {
-    return .init("\(rawIdentifier)|\(raw)")
+  public private(set) var bases: Set<Base>
+
+  public init(_ raw: String) {
+    self.bases = .init(arrayLiteral: .string(raw))
+  }
+
+  public init(_ object: some Hashable) {
+    self.bases = .init(arrayLiteral: .any(object))
+  }
+
+  private init(bases: Set<Base>) {
+    self.bases = bases
+  }
+
+  public consuming func combined(_ other: FluidViewIdentifier) -> Self {
+    self.bases = bases.union(other.bases)
+    return self
   }
 }
-
