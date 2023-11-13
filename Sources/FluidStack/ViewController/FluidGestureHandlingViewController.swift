@@ -37,6 +37,8 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
   )
 
   private var registeredGestures: [UIGestureRecognizer] = []
+  private var shouldIgnorePanGesture: Bool = false
+  private weak var weakIgnorePanGestureView: UIView?
 
   public var removingInteraction: AnyRemovingInteraction? {
     didSet {
@@ -84,6 +86,7 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     
     assert(Thread.isMainThread)
 
+    weakIgnorePanGestureView?.removeFromSuperview()
     registeredGestures.forEach {
       view.removeGestureRecognizer($0)
     }
@@ -116,6 +119,24 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     
     fluidPanGesture.require(toFail: fluidScreenEdgePanGesture)
       
+  }
+    
+  public func setupNonDraggableArea(edge: UIEdgeInsets) {
+    let ignorePanGestureView = _IgnorePanGestureView { [weak self] shouldIgnore in
+      self?.shouldIgnorePanGesture = shouldIgnore
+    }
+    weakIgnorePanGestureView = ignorePanGestureView
+    view.addSubview(ignorePanGestureView)
+    ignorePanGestureView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate(
+     [
+       ignorePanGestureView.topAnchor.constraint(equalTo: view.topAnchor, constant: edge.top),
+       ignorePanGestureView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -edge.bottom),
+       ignorePanGestureView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -edge.right),
+       ignorePanGestureView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: edge.left),
+
+     ]
+    )
   }
 
   @objc
@@ -154,6 +175,9 @@ open class FluidGestureHandlingViewController: FluidTransitionViewController, UI
     
     switch gestureRecognizer {
     case fluidPanGesture, fluidScreenEdgePanGesture:
+      guard shouldIgnorePanGesture == false else {
+        return false
+      }
       let isDirectDescendant = parent is FluidStackController
       return isDirectDescendant
     default:
@@ -308,6 +332,31 @@ final class _EdgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer {
     super.touchesCancelled(touches, with: event)
   }
 
+}
+
+final class _IgnorePanGestureView: UIView {
+    
+    private let onIgnorePanGesture: (Bool) -> Void
+    
+    init(onIgnorePanGesture: @escaping (Bool) -> Void) {
+        self.onIgnorePanGesture = onIgnorePanGesture
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let view = super.hitTest(point, with: event)
+        if view == self {
+            onIgnorePanGesture(true)
+            return self
+        }
+        onIgnorePanGesture(false)
+        return nil
+    }
+    
 }
 
 public final class FluidPanGestureRecognizer: UIPanGestureRecognizer {
