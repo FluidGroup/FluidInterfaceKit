@@ -233,6 +233,11 @@ extension AnyRemovingInteraction {
 
                 if trackingContext == nil {
 
+                  guard gesture.location(in: draggingView).x <= 80 else {
+                    gesture.state = .failed
+                    return
+                  }
+                  
                   guard abs(gesture.translation(in: draggingView).y) <= 10 else {
                     gesture.state = .failed
                     return
