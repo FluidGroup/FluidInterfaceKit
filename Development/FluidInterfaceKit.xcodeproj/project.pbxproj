@@ -74,8 +74,6 @@
 		4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSheetViewController.swift; sourceTree = "<group>"; };
 		4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDragViewController.swift; sourceTree = "<group>"; };
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
-		4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitPresentationTests.swift; sourceTree = "<group>"; };
-		4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidLocalEnvironmentTests.swift; sourceTree = "<group>"; };
 		4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
 		4B46804D279C58E800625FCB /* AnimatorPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatorPlaygroundViewController.swift; sourceTree = "<group>"; };
@@ -96,10 +94,7 @@
 		4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoApplicationViewController.swift; sourceTree = "<group>"; };
 		4B468060279C58E800625FCB /* ScalingVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalingVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B4E93DE29810AAC0060C775 /* DemoStageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoStageViewController.swift; sourceTree = "<group>"; };
-		4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidViewControllerTests.swift; sourceTree = "<group>"; };
-		4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemTests.swift; sourceTree = "<group>"; };
 		4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCompositionOrderViewController.swift; sourceTree = "<group>"; };
-		4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtentionTests.swift; sourceTree = "<group>"; };
 		4B853AB229D9940100F62504 /* DemoPopoverSwiftUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPopoverSwiftUIViewController.swift; sourceTree = "<group>"; };
 		4B853AB429D9A32A00F62504 /* DemoPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPopoverViewController.swift; sourceTree = "<group>"; };
 		4B959B062764F77E0003FFB6 /* FluidInterfaceKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FluidInterfaceKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,10 +107,7 @@
 		4BC0A15727C178A300CD3A46 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		4BC0A15927C178C000CD3A46 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		4BC57A3B29D70A9400CA32A9 /* DemoPortalStackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPortalStackViewController.swift; sourceTree = "<group>"; };
-		4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidInterfaceKitTests.swift; sourceTree = "<group>"; };
 		4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPictureInPictureCoolController.swift; sourceTree = "<group>"; };
-		4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeBuilder.swift; sourceTree = "<group>"; };
-		4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidStackControllerTests.swift; sourceTree = "<group>"; };
 		4BE0AAC4277FD5620086FD7E /*  */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ""; sourceTree = "<group>"; };
 		4BF417742AD910E700F6E561 /* FluidInterfaceKit-work1 */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "FluidInterfaceKit-work1"; path = ..; sourceTree = "<group>"; };
 		4BFC696127A7F3BA0011238E /* FluidInterfaceKit-Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FluidInterfaceKit-Demo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -171,7 +163,6 @@
 			children = (
 				4BC0A14727C1731D00CD3A46 /* ExampleFluidApp */,
 				4B468049279C58E800625FCB /* FluidInterfaceKit-Demo */,
-				4BC667B827B2E69C00182E6C /* FluidInterfaceKitTests */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -264,21 +255,6 @@
 				4BC0A15927C178C000CD3A46 /* SecondViewController.swift */,
 			);
 			path = ExampleFluidApp;
-			sourceTree = "<group>";
-		};
-		4BC667B827B2E69C00182E6C /* FluidInterfaceKitTests */ = {
-			isa = PBXGroup;
-			children = (
-				4BC8F5F727B6B1DA00095412 /* TreeBuilder.swift */,
-				4BC667B927B2E69C00182E6C /* FluidInterfaceKitTests.swift */,
-				4B6F87C927B599B100216F4E /* UINavigationItemTests.swift */,
-				4B69049527B6685F0088FDDD /* FluidViewControllerTests.swift */,
-				4BD2A2B627B6A9AC00E20F07 /* FluidStackControllerTests.swift */,
-				4B79ABBC27E7CB9A008DE44F /* UIViewControllerExtentionTests.swift */,
-				4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */,
-				4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */,
-			);
-			path = FluidInterfaceKitTests;
 			sourceTree = "<group>";
 		};
 		FCEA76EB29349CA600E8B0E6 /* DemoFloatingDisplayKit */ = {

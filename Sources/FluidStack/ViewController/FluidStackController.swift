@@ -41,6 +41,7 @@ public struct FluidStackContentConfiguration {
 
 }
 
+
 /// A container view controller that manages view controller and view as child view controllers.
 /// It provides transitions when adding and removing.
 ///
@@ -55,7 +56,9 @@ open class FluidStackController: UIViewController {
   }
 
   // MARK: - Properties
-  
+
+  public private(set) var path: FluidStackPath = .init()
+
   /// A closure that receives ``Action``
   public final var stackActionHandler: (Action) -> Void = { _ in }
 
@@ -87,7 +90,17 @@ open class FluidStackController: UIViewController {
     didSet {
       
       if stackingItems != oldValue {
-        
+
+        let components = stackingItems.map { item -> FluidStackPath.Component in
+          if let identifiable = item.viewController as? (any FluidIdentifiableViewController) {
+            return .identifiable(.init(identifiable))
+          } else {
+            return .volatile(.init(objectIdentifier: .init(item.viewController), ref: item.viewController))
+          }
+        }
+
+        self.path = .init(components: components)
+
         // TODO: Update with animation
         UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1) {
           self.setNeedsStatusBarAppearanceUpdate()
