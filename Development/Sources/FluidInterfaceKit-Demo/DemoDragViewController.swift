@@ -21,8 +21,13 @@ final class DemoDragViewController: UIViewController {
       descriptor: .init(
         horizontal: .init(min: -200, max: 200, bandLength: 30),
         vertical: .init(min: -200, max: 200, bandLength: 30),
-        handler: .init(onEndDragging: { _, _, _ in .init(width: 30, height: 0) })
+        handler: .init(onEndDragging: { _, _, _ in .init(width: 0, height: 0) })
       )
     )
   }
 }
+
+@available(iOS 17, *)
+#Preview(traits: .defaultLayout, body: {
+  DemoDragViewController()
+})

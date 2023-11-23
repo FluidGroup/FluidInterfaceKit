@@ -11,6 +11,7 @@
 		4B2AFC4A2A7EBF05001B5BEF /* FluidGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 4B2AFC492A7EBF05001B5BEF /* FluidGesture */; };
 		4B2AFC4C2A7EC243001B5BEF /* DemoDragViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */; };
 		4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2F619427B818E800363580 /* DemoListContainerViewController.swift */; };
+		4B33622B2B0FBABA00A7D094 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B33622A2B0FBABA00A7D094 /* Color.swift */; };
 		4B369B5C2ADBBA3B008CDE4A /* FluidPortal in Frameworks */ = {isa = PBXBuildFile; productRef = 4B369B5B2ADBBA3B008CDE4A /* FluidPortal */; };
 		4B369B5E2ADBBA3B008CDE4A /* FluidStack in Frameworks */ = {isa = PBXBuildFile; productRef = 4B369B5D2ADBBA3B008CDE4A /* FluidStack */; };
 		4B369B602ADBBA3B008CDE4A /* FluidStackRideauSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4B369B5F2ADBBA3B008CDE4A /* FluidStackRideauSupport */; };
@@ -75,6 +76,7 @@
 		4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDragViewController.swift; sourceTree = "<group>"; };
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
 		4B2F9E9F27FC080000F74ADB /* UIKitPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitPresentationTests.swift; sourceTree = "<group>"; };
+		4B33622A2B0FBABA00A7D094 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4B3BE33B27EDF6370060BAD3 /* FluidLocalEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluidLocalEnvironmentTests.swift; sourceTree = "<group>"; };
 		4B46804B279C58E800625FCB /* TranslationVelocityPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationVelocityPlaygroundViewController.swift; sourceTree = "<group>"; };
 		4B46804C279C58E800625FCB /* DemoTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTransitionViewController.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				4B853AB429D9A32A00F62504 /* DemoPopoverViewController.swift */,
 				4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */,
 				4BFEC3CA2A9630EA00FB8E5D /* DemoKeyboardGuideViewController.swift */,
+				4B33622A2B0FBABA00A7D094 /* Color.swift */,
 			);
 			path = "FluidInterfaceKit-Demo";
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				4B7410B927ACE975003D8AB5 /* DemoCompositionOrderViewController.swift in Sources */,
 				FCEA76E929349C9C00E8B0E6 /* FloatingDisplayKitContentView.swift in Sources */,
 				4B468064279C58E800625FCB /* AnimatorPlaygroundViewController.swift in Sources */,
+				4B33622B2B0FBABA00A7D094 /* Color.swift in Sources */,
 				4B468067279C58E800625FCB /* DemoThreadsMessagesViewController.swift in Sources */,
 				4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */,
 				4BC7B20D284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift in Sources */,
