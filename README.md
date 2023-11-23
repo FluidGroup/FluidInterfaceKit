@@ -18,7 +18,7 @@ FluidInterfaceKit's essential component is `FluidStackController`, which stacks 
 Apps run with this component, only stacking but it can get flexibility instead.
 
 > 💔
-> Please take care of the risks to using this framework; the meaning of using this detaches from Apple's UIKit eco-system.
+> Please take care of the risks to using this framework; the meaning of using this detaches from Apple's UIKit ecosystem.
 For instance: the history menu of the back bar button, page-sheet modal, and accessibility.
 > This framework tries to follow the updates of UIKit as long as.
 
@@ -36,9 +36,9 @@ For instance: the history menu of the back bar button, page-sheet modal, and acc
 
 # Motivation
 
-Normally, UIKit offers us to get screen management with `UIViewController.present`, `UIViewController.dismiss`, `UINavigationController.push`, `UINavigationController.pop`.
+Normally, UIKit allows us to get screen management with `UIViewController.present`, `UIViewController.dismiss`, `UINavigationController.push`, `UINavigationController.pop`.
 
-In the case of a view controller that needs to display on modal and navigation, that view controller requires to supports both.  
+In the case of a view controller that needs to display on modal and navigation, that view controller requires to support both.  
 In modal, what if it uses `navigationItem`, should be wrapped with `UINavigationController` to display.
 
 Moreover, that view controller would consider how to dismiss itself unless handled by outside.  
@@ -110,7 +110,7 @@ final class FirstViewController: FluidViewController {
 
 **SecondViewController**
 
-To dimisss itself, call `fluidPop()`
+To dismiss itself, call `fluidPop()`
 
 ---
 
@@ -121,9 +121,9 @@ To dimisss itself, call `fluidPop()`
 <img width="120" alt="yellow-button" src="https://user-images.githubusercontent.com/1888355/146226808-eb2e9ee0-c6bd-44a2-a330-3bbc8a6244cf.png">
 </a>
 
-# Muukii sponsers your contributions
+# Muukii sponsors your contributions
 
-I sponsor you with one-time sponser tiers if you could have contributions.
+I sponsor you with one-time sponsor tiers if you could have contributions.
 - Improvement core components
 - Improvement documentations
 - Growing demo applications
