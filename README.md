@@ -123,7 +123,7 @@ To dimisss itself, call `fluidPop()`
 
 # Muukii sponsers your contributions
 
-I sponser you with one-time sponser tiers if you could have contributions.
+I sponsor you with one-time sponser tiers if you could have contributions.
 - Improvement core components
 - Improvement documentations
 - Growing demo applications
