@@ -33,7 +33,7 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Test
-        run: set -o pipefail && xcodebuild -scheme "FluidInterfaceKit-Package" test -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.0' -resultBundlePath results/FluidInterfaceKitTests.xcresult | xcbeautify
+        run: set -o pipefail && xcodebuild -scheme "FluidInterfaceKit-Package" test -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.0.1' -resultBundlePath results/FluidInterfaceKitTests.xcresult | xcbeautify
 
       - uses: kishikawakatsumi/xcresulttool@v1
         with:
