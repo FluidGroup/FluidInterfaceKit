@@ -109,7 +109,7 @@ extension AnyRemovingInteraction {
           do {
                         
             let translation = Geometry.centerAndScale(
-              from: fromViewSnapshot.frame,
+              from: disclosedView.layer.activeLayer().frame,
               to: CGRect(
                 origin: transitionContext.frameInContentView(for: destinationComponent.contentView).origin,
                 size: Geometry.sizeThatAspectFill(
@@ -127,7 +127,7 @@ extension AnyRemovingInteraction {
               
               let targetCenter = translation.center
 
-              let draggingViewCenter = disclosedView.layer.presentation()?.position ?? disclosedView.layer.position
+              let draggingViewCenter = disclosedView.layer.activeLayer().position
 
               let delta = CGPoint(
                 x: targetCenter.x - draggingViewCenter.x,
