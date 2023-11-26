@@ -29,6 +29,7 @@ extension AnyRemovingTransition {
 extension AnyRemovingInteraction {
   public enum Contextual {
         
+    // dismissing semantics
     // TODO: naming
     @MainActor
     public static func runEnclosing(
@@ -37,22 +38,21 @@ extension AnyRemovingInteraction {
       destinationComponent: ContextualTransitionSourceComponentType,
       gestureVelocity: CGPoint?
     ) {
+
+      let fromViewSnapshotMaskView = UIView()
+      fromViewSnapshotMaskView.backgroundColor = .black
+      fromViewSnapshotMaskView.frame = transitionContext.fromViewController.view.bounds
       
-      let draggingView = disclosedView
-                 
-      let maskView = UIView()
-      maskView.backgroundColor = .black
-      maskView.frame = transitionContext.fromViewController.view.bounds
-      
-      let fromViewMirror = AnyMirrorViewProvider.snapshot(
+      // the reason why making snapshot is the from view will be removed from tree
+      let fromViewSnapshot = AnyMirrorViewProvider.snapshot(
         caches: true,
         viewProvider: { transitionContext.fromViewController.view! }
       ).view()
                   
-      fromViewMirror.mask = maskView
-      fromViewMirror.alpha = 1
-      fromViewMirror.frame = transitionContext.fromViewController.view.frame
-                        
+      fromViewSnapshot.mask = fromViewSnapshotMaskView
+      fromViewSnapshot.alpha = 1
+      fromViewSnapshot.frame = transitionContext.fromViewController.view.layer.activeLayer().frame
+
       let entrypointMirrorView = AnyMirrorViewProvider.portal(
         view: destinationComponent.contentView,
         hidesSourceOnUsing: true
@@ -71,7 +71,7 @@ extension AnyRemovingInteraction {
       // layering
       do {
         reparentingView.addSubview(entrypointMirrorView)
-        reparentingView.addSubview(fromViewMirror)
+        reparentingView.addSubview(fromViewSnapshot)
       }
         
       // places entrypoint mirror view in the current moving view to make cross-fade
@@ -96,7 +96,7 @@ extension AnyRemovingInteraction {
       transitionContext.addCompletionEventHandler { _ in
         reparentingView.removeFromSuperview()
         entrypointMirrorView.removeFromSuperview()
-        fromViewMirror.removeFromSuperview()
+        fromViewSnapshot.removeFromSuperview()
         displayingSubscription.dispose()
       }
       
@@ -109,11 +109,11 @@ extension AnyRemovingInteraction {
           do {
                         
             let translation = Geometry.centerAndScale(
-              from: fromViewMirror.frame,
+              from: fromViewSnapshot.frame,
               to: CGRect(
                 origin: transitionContext.frameInContentView(for: destinationComponent.contentView).origin,
                 size: Geometry.sizeThatAspectFill(
-                  aspectRatio: fromViewMirror.bounds.size,
+                  aspectRatio: fromViewSnapshot.bounds.size,
                   minimumSize: destinationComponent.contentView.bounds.size
                 )
               )
@@ -126,9 +126,12 @@ extension AnyRemovingInteraction {
               }
               
               let targetCenter = translation.center
+
+              let draggingViewCenter = disclosedView.layer.presentation()?.position ?? disclosedView.layer.position
+
               let delta = CGPoint(
-                x: targetCenter.x - draggingView.center.x,
-                y: targetCenter.y - draggingView.center.y
+                x: targetCenter.x - draggingViewCenter.x,
+                y: targetCenter.y - draggingViewCenter.y
               )
               
               var velocity = CGVector.init(
@@ -149,7 +152,7 @@ extension AnyRemovingInteraction {
             }()
             
             Fluid.makePropertyAnimatorsForTranformUsingCenter(
-              view: fromViewMirror,
+              view: fromViewSnapshot,
               duration: movingDuration,
               position: .custom(translation.center),
               scale: translation.scale,
@@ -163,11 +166,11 @@ extension AnyRemovingInteraction {
             
             // mask
             UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-              maskView.frame = transitionContext.fromViewController.view.bounds
-              maskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
-              maskView.layer.cornerRadius = 36
+              fromViewSnapshotMaskView.frame = transitionContext.fromViewController.view.bounds
+              fromViewSnapshotMaskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
+              fromViewSnapshotMaskView.layer.cornerRadius = 36
               if #available(iOS 13.0, *) {
-                maskView.layer.cornerCurve = .continuous
+                fromViewSnapshotMaskView.layer.cornerCurve = .continuous
               } else {
                 // Fallback on earlier versions
               }
@@ -225,7 +228,7 @@ extension AnyRemovingInteraction {
           // cross-fade content
           do {
             UIViewPropertyAnimator(duration: movingDuration, dampingRatio: 1) {
-              fromViewMirror.alpha = 0
+              fromViewSnapshot.alpha = 0
               entrypointMirrorView.alpha = 1
             }
           }
