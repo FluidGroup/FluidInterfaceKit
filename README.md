@@ -1,7 +1,14 @@
-# 🌧 FluidInterfaceKit - A framework that provides the advanced infrastructure for your iPhone apps (UIKit)
+# 🌧 FluidInterfaceKit - A set of frameworks that provides advanced infrastructures for your iPhone apps (UIKit based)
 
-> ⚡️ For SwiftUI,  
-> https://github.com/FluidGroup/swiftui-stack
+- FluidCore - a set of utilities
+- FluidRuntime - a runtime library to enable hidden powers
+- FluidGesture
+- FluidKeyboardSupport
+- FluidPictureInPicture
+- FluidSnackbar
+- FluidStack
+- FluidStackRideauSupport
+- FluidTooltipSupport
 
 # Overview
 
