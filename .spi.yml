@@ -4,6 +4,7 @@ builder:
     - documentation_targets: 
       - FluidCore
       - FluidRuntime
+      - FluidSnackbar
       - FluidStack
       - FluidStackRideauSupport
       - FluidTooltipSupport
