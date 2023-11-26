@@ -1,4 +1,4 @@
-# ``FluidInterfaceKit``
+# ``FluidStack``
 
 **FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.
 
@@ -15,6 +15,8 @@ Apps run with this component, only stacking but it can get flexibility instead.
 - [About Fluid Interfaces](https://medium.com/@nathangitter/building-fluid-interfaces-ios-swift-9732bb934bf5)
 
 - [Instagram Threads engineering article](https://about.instagram.com/blog/engineering/on-building-a-fluid-user-interface)
+
+![image](FluidStack)
 
 
 ## Requirements

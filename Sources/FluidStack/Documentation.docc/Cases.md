@@ -1,4 +1,6 @@
-#  Cases
+# Cases
+
+Here is a list of common use cases and how to achieve them.
 
 Q. How to disable offloading when the view controller needs to be transparent?
 
