@@ -1,0 +1,13 @@
+version: 1
+builder:
+  configs:
+    - documentation_targets: 
+      - FluidCore
+      - FluidRuntime
+      - FluidStack
+      - FluidStackRideauSupport
+      - FluidTooltipSupport
+      - FluidGesture 
+      - FluidPortal
+      - FluidPictureInPicture
+      - FluidKeyboardSupport
