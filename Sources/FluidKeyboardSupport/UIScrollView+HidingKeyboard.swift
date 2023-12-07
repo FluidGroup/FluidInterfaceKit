@@ -32,7 +32,7 @@ extension UIScrollView {
 @MainActor
 private final class PanGestureCoordinator: NSObject, UIGestureRecognizerDelegate {
 
-  private let scrollView: UIScrollView
+  private weak var scrollView: UIScrollView?
   private let panGesture: UIPanGestureRecognizer
 
   init(scrollView: UIScrollView, panGesture: UIPanGestureRecognizer) {
@@ -46,8 +46,8 @@ private final class PanGestureCoordinator: NSObject, UIGestureRecognizerDelegate
   }
 
   deinit {
-    Task { @MainActor [scrollView, panGesture] in
-      scrollView.removeGestureRecognizer(panGesture)
+    Task { @MainActor [weak scrollView, panGesture] in
+      scrollView?.removeGestureRecognizer(panGesture)
     }
   }
 
