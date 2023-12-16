@@ -84,7 +84,14 @@ final class ScrollController {
 
     previousValue = scrollView.contentOffset
 
+    scrollObserver.invalidate()
+
     scrollView.setContentOffset(oldValue, animated: false)
+
+    scrollObserver = scrollView.observe(\.contentOffset, options: .old) { [weak self, weak _scrollView = scrollView] scrollView, change in
+      guard let scrollView = _scrollView, let self = self else { return }
+      self.handleScrollViewEvent(scrollView: scrollView, change: change)
+    }
   }
 
 }
