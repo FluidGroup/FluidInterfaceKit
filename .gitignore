@@ -89,4 +89,9 @@ iOSInjectionProject/
 .DS_Store
 test_output
 .swiftpm
+
+# Tuist
+/Derived
+/*.xcodeproj
+
 # End of https://www.toptal.com/developers/gitignore/api/swift
