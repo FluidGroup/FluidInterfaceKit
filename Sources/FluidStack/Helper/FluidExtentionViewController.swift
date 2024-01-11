@@ -207,6 +207,7 @@ extension FluidExtentionViewController {
    Removes this view controller (receiver) from the target ``FluidStackController``.
    
    - Parameters:
+   - keepViewControllersStackedAbove: if true and if there are view controllers stacked above this view controller, they will be kept
    - transition: You may set ``AnyRemovingTransition/noAnimation`` to disable animation, nil runs transition given view controller provides (if it's ``FluidTransitionViewController``).
    - fowardingToParent: Forwards to parent to pop if current stack do not have view controller to pop. No effects if the current stack prevents it by ``FluidStackController/Configuration-swift.struct/preventsFowardingPop``
    
@@ -217,6 +218,7 @@ extension FluidExtentionViewController {
    ```
    */
   public func fluidPop(
+    keepViewControllersStackedAbove: Bool = false,
     transition: AnyRemovingTransition? = nil,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
     forwardingToParent: Bool = true,
@@ -233,6 +235,7 @@ extension FluidExtentionViewController {
     }
     
     _fluidPop(
+      keepViewControllersStackedAbove: keepViewControllersStackedAbove,
       transition: transition,
       transitionForBatch: transitionForBatch,
       forwardingToParent: forwardingToParent,
@@ -275,6 +278,7 @@ extension FluidExtentionViewController {
   }
   
   private func _fluidPop(
+    keepViewControllersStackedAbove: Bool,
     transition: AnyRemovingTransition?,
     transitionForBatch: AnyBatchRemovingTransition?,
     forwardingToParent: Bool,
@@ -299,6 +303,7 @@ extension FluidExtentionViewController {
       // forwards to the parent attempt to pop itself in the stack
       
       stack._fluidPop(
+        keepViewControllersStackedAbove: keepViewControllersStackedAbove,
         transition: transition,
         transitionForBatch: transitionForBatch,
         forwardingToParent: forwardingToParent,
@@ -309,6 +314,7 @@ extension FluidExtentionViewController {
       
       fluidStackContext
         .removeSelf(
+          keepViewControllersStackedAbove: keepViewControllersStackedAbove,
           transition: transition,
           transitionForBatch: transitionForBatch,
           completion: completion

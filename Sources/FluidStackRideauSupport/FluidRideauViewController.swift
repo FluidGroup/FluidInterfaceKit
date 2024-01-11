@@ -159,13 +159,13 @@ open class FluidRideauViewController: FluidTransitionViewController {
       if Self.supportsModalPresentation {
         
         if self.isInFluidStackController {
-          self.fluidStackContext?.removeSelf(transition: .disabled, completion: { _ in onDidDismiss() })
+          self.fluidStackContext?.removeSelf(keepViewControllersStackedAbove: false, transition: .disabled, completion: { _ in onDidDismiss() })
         } else {
           self.dismiss(animated: true, completion: onDidDismiss)
         }
               
       } else {
-        self.fluidStackContext?.removeSelf(transition: .disabled, completion: { _ in onDidDismiss() })
+        self.fluidStackContext?.removeSelf(keepViewControllersStackedAbove: false, transition: .disabled, completion: { _ in onDidDismiss() })
       }
 
     }

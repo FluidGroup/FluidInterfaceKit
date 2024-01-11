@@ -223,6 +223,7 @@ open class FluidStackController: UIViewController {
 
     removeViewController(
       wrapperView.viewController,
+      keepViewControllersStackedAbove: false,
       transition: transition,
       completion: completion
     )
@@ -556,9 +557,12 @@ open class FluidStackController: UIViewController {
    Removes given view controller with transition.
    
    Switches to batch removing if there are multiple view controllers on top of the given view controller.
+   - Parameters:
+   - keepViewControllersStackedAbove: if true and if there are view controllers stacked above ``viewControllerToRemove``, they will be kept
    */
   public func removeViewController(
     _ viewControllerToRemove: UIViewController,
+    keepViewControllersStackedAbove: Bool,
     transition: AnyRemovingTransition?,
     transitionForBatch: @autoclosure @escaping () -> AnyBatchRemovingTransition? = .crossDissolve,
     completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)? = nil
@@ -579,8 +583,10 @@ open class FluidStackController: UIViewController {
       return
     }
     
-    if stackingItems.last?.viewController != viewControllerToRemove {
-      
+
+    if stackingItems.last?.viewController != viewControllerToRemove,
+       keepViewControllersStackedAbove == false {
+
       // Removes view controllers with batch
       
       let transition = transitionForBatch()
