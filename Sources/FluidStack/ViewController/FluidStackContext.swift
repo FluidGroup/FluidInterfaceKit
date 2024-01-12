@@ -51,9 +51,9 @@ public final class FluidStackContext: Equatable {
   ///
   /// See detail in ``FluidStackController/removeViewController(_:transition:transitionForBatch:cascadesToChildren:completion:)``
   public func removeSelf(
+    removingRule: RemovingRule = .cascade,
     transition: AnyRemovingTransition?,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
-    cascadesToChildren: Bool,
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     guard let targetViewController = targetViewController else {
@@ -61,9 +61,9 @@ public final class FluidStackContext: Equatable {
     }
     fluidStackController?.removeViewController(
       targetViewController,
+      removingRule: removingRule,
       transition: transition,
       transitionForBatch: transitionForBatch,
-      cascadesToChildren: cascadesToChildren,
       completion: completion
     )
   }

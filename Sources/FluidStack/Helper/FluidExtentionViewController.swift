@@ -221,7 +221,7 @@ extension FluidExtentionViewController {
     transition: AnyRemovingTransition? = nil,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
     forwardingToParent: Bool = true,
-    cascadesToChildren: Bool = true,
+    removingRule: RemovingRule = .cascade,
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
      
@@ -237,8 +237,8 @@ extension FluidExtentionViewController {
     _fluidPop(
       transition: transition,
       transitionForBatch: transitionForBatch,
-      forwardingToParent: forwardingToParent,
-      cascadesToChildren: cascadesToChildren,
+      forwardingToParent: forwardingToParent, 
+      removingRule: removingRule,
       completion: completion
     )
     
@@ -263,7 +263,7 @@ extension FluidExtentionViewController {
     transition: AnyRemovingTransition? = nil,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
     forwardingToParent: Bool = true,
-    cascadesToChildren: Bool = true
+    removingRule: RemovingRule = .cascade
   ) async -> RemovingTransitionContext.CompletionEvent {
     
     await withCheckedContinuation { continuation in
@@ -272,7 +272,7 @@ extension FluidExtentionViewController {
         transition: transition,
         transitionForBatch: transitionForBatch,
         forwardingToParent: forwardingToParent,
-        cascadesToChildren: cascadesToChildren,
+        removingRule: removingRule,
         completion: { event in
           continuation.resume(returning: event)
       })
@@ -284,7 +284,7 @@ extension FluidExtentionViewController {
     transition: AnyRemovingTransition?,
     transitionForBatch: AnyBatchRemovingTransition?,
     forwardingToParent: Bool,
-    cascadesToChildren: Bool,
+    removingRule: RemovingRule,
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)?
   ) {
         
@@ -309,7 +309,7 @@ extension FluidExtentionViewController {
         transition: transition,
         transitionForBatch: transitionForBatch,
         forwardingToParent: forwardingToParent,
-        cascadesToChildren: cascadesToChildren,
+        removingRule: removingRule,
         completion: completion
       )
       
@@ -317,9 +317,9 @@ extension FluidExtentionViewController {
       
       fluidStackContext
         .removeSelf(
+          removingRule: removingRule,
           transition: transition,
           transitionForBatch: transitionForBatch,
-          cascadesToChildren: cascadesToChildren,
           completion: completion
         )
       

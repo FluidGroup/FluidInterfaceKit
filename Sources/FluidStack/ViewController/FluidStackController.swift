@@ -24,6 +24,11 @@ public enum FluidStackAction {
   case willBecomeTop
 }
 
+public enum RemovingRule {
+  case cascade
+  case single
+}
+
 /// A struct that configures how to display in ``FluidStackController``
 public struct FluidStackContentConfiguration {
   
@@ -223,8 +228,8 @@ open class FluidStackController: UIViewController {
 
     removeViewController(
       wrapperView.viewController,
+      removingRule: .cascade,
       transition: transition,
-      cascadesToChildren: true,
       completion: completion
     )
   }
@@ -562,9 +567,9 @@ open class FluidStackController: UIViewController {
    */
   public func removeViewController(
     _ viewControllerToRemove: UIViewController,
+    removingRule: RemovingRule = .cascade,
     transition: AnyRemovingTransition?,
     transitionForBatch: @autoclosure @escaping () -> AnyBatchRemovingTransition? = .crossDissolve,
-    cascadesToChildren: Bool,
     completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
 
@@ -582,37 +587,42 @@ open class FluidStackController: UIViewController {
       assertionFailure("Not found wrapper view to manage \(viewControllerToRemove)")
       return
     }
-    
 
-    if stackingItems.last?.viewController != viewControllerToRemove,
-       cascadesToChildren == true {
+    switch removingRule {
+    case .cascade:
 
-      // Removes view controllers with batch
-      
-      let transition = transitionForBatch()
-      
-      Log.debug(
-        .stack,
-        "The removing view controller is not displaying on top. it's behind of the other view controllers. Switches to batch-removing using transition: \(transition as Any)"
-      )
-      
-      removeAllViewController(
-        from: viewToRemove.viewController,
-        transition: transition,
-        completion: { event in
-          
-          switch event {
-          case .succeeded:
-            completion?(.succeeded)
-          case .interrupted:
-            completion?(.interrupted)
+      if stackingItems.last?.viewController != viewControllerToRemove {
+
+        // Removes view controllers with batch
+
+        let transition = transitionForBatch()
+
+        Log.debug(
+          .stack,
+          "The removing view controller is not displaying on top. it's behind of the other view controllers. Switches to batch-removing using transition: \(transition as Any)"
+        )
+
+        removeAllViewController(
+          from: viewToRemove.viewController,
+          transition: transition,
+          completion: { event in
+
+            switch event {
+            case .succeeded:
+              completion?(.succeeded)
+            case .interrupted:
+              completion?(.interrupted)
+            }
+
           }
-          
-        }
-      )
-      return
+        )
+        return
+      }
+
+    case .single:
+      break
     }
-    
+
     // Removes view controller
       
     let transitionContext = _startRemoving(viewToRemove, completion: completion)
