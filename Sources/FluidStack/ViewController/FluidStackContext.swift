@@ -49,8 +49,9 @@ public final class FluidStackContext: Equatable {
   /// Removes the target view controller in ``FluidStackController``.
   /// - Parameter transition: if not nil, it would be used override parameter.
   ///
-  /// See detail in ``FluidStackController/removeViewController(_:transition:)``
+  /// See detail in ``FluidStackController/removeViewController(_:transition:transitionForBatch:cascadesToChildren:completion:)``
   public func removeSelf(
+    removingRule: RemovingRule = .cascade,
     transition: AnyRemovingTransition?,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
     completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
@@ -60,6 +61,7 @@ public final class FluidStackContext: Equatable {
     }
     fluidStackController?.removeViewController(
       targetViewController,
+      removingRule: removingRule,
       transition: transition,
       transitionForBatch: transitionForBatch,
       completion: completion
