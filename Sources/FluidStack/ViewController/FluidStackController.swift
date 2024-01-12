@@ -25,7 +25,9 @@ public enum FluidStackAction {
 }
 
 public enum RemovingRule {
+  /// Removes all of view controllers above itself.
   case cascade
+  /// Removes only itself, leaving view controllers above itself.
   case single
 }
 
@@ -563,7 +565,6 @@ open class FluidStackController: UIViewController {
    
    Switches to batch removing if there are multiple view controllers on top of the given view controller.
    - Parameters:
-   - cascadesToChildren: if true and if there are view controllers stacked above ``viewControllerToRemove``, they will be removed as well
    */
   public func removeViewController(
     _ viewControllerToRemove: UIViewController,
