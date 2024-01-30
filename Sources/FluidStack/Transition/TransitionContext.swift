@@ -21,7 +21,7 @@ public class TransitionContext: Equatable {
   public let contentView: FluidStackController.StackingPlatterView
 
   public internal(set) var isInvalidated: Bool = false
-  
+
   init(contentView: FluidStackController.StackingPlatterView) {
     self.contentView = contentView
   }

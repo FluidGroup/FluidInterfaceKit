@@ -51,12 +51,7 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   }
 
   deinit {
-    Task { [isInvalidated, isCompleted] in
-      assert(
-        isInvalidated == true || isCompleted == true,
-        "BatchRemovingTransitionContext is deallocated without appropriate operation. Call `notifyAnimationCompleted()` or `notifyCancelled()`"
-      )
-    }
+
   }
   
   public func notifyCompleted() {
