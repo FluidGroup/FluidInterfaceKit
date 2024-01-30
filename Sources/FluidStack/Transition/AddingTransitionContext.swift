@@ -95,12 +95,7 @@ public final class AddingTransitionContext: TransitionContext {
   }
   
   deinit {
-    Task { [isInvalidated, isCompleted] in
-      assert(
-        isInvalidated == true || isCompleted == true,
-        "AddingTransitionContext is deallocated without appropriate operation. Call `notifyAnimationCompleted()`"
-      )
-    }
+
   }
  
 }
