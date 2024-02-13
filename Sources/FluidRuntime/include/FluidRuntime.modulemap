@@ -1,0 +1,6 @@
+framework module FluidRuntime {
+  umbrella header "FluidRuntime.h"
+
+  export *
+  module * { export * }
+}
