@@ -1,18 +1,24 @@
-# 🌧 FluidInterfaceKit - A set of frameworks that provides advanced infrastructures for your iPhone apps (UIKit based)
+# 🌧 FluidInterfaceKit - A set of frameworks that provides advanced infrastructures for your iPhone apps (UIKit-based)
 
-- FluidCore - a set of utilities
-- FluidRuntime - a runtime library to enable hidden powers
+- FluidCore
+  - A set of utilities
+- FluidRuntime
+  - A runtime library to enable hidden powers
 - FluidGesture
+  - Makes a view draggable
 - FluidKeyboardSupport
+  - Integrates the area of the keyboard with the contents of a view
 - FluidPictureInPicture
 - FluidSnackbar
 - FluidStack
+  - Replacement for UINavigationController
 - FluidStackRideauSupport
 - FluidTooltipSupport
+  - Floating view over the specific point
 
-# Overview
+# FluidStack
 
-**FluidInterfaceKit** provides the advanced infrastructure for your iPhone apps.  
+**FluidStack** provides the advanced infrastructure for your iPhone apps.  
 
 Built on top of UIKit, replace UIKit standard transitions with the custom components.
 
@@ -37,7 +43,7 @@ For instance: the history menu of the back bar button, page-sheet modal, and acc
 |---|---|
 |<img width=200px src=https://user-images.githubusercontent.com/1888355/147848629-031e1c5c-0c52-4674-8d9a-dad034b6e87f.gif />| <img width=200px src=https://user-images.githubusercontent.com/1888355/147852736-9e926a14-d30f-40ad-9733-c92546d4f8b6.gif /> |
 
-# Structure of App with FluidInterfaceKit
+# Structure of App with FluidStack
 
 <img width="882" alt="CleanShot 2022-02-13 at 01 55 46@2x" src="https://user-images.githubusercontent.com/1888355/153720497-91eff2cc-890c-4b7b-b194-ab558c82829a.png">
 
