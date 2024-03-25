@@ -26,7 +26,8 @@ final class DemoContextMenuViewController: FluidStackController {
       }
 
       let interaction = StandaloneContextMenuInteraction.init(
-        targetStackController: self,
+        entryViewController: self,
+        targetStackController: .current,
         destinationViewController: {
           DemoListDetailViewController(
             viewModel: .init(),

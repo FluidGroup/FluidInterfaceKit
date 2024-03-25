@@ -1,9 +1,7 @@
 import UIKit
 
-/**
- It runs standalone, without using delegate.
- Passing any actions distinguished each interaction
- */
+/// It runs standalone, without using delegate.
+/// Passing any actions distinguished each interaction
 public final class StandaloneContextMenuInteraction: UIContextMenuInteraction {
 
   private let proxy: _InteractionDelegateProxy
@@ -27,7 +25,8 @@ public final class StandaloneContextMenuInteraction: UIContextMenuInteraction {
    Convenience inititalizer for FluidStackController
    */
   public init(
-    targetStackController: FluidStackController,
+    entryViewController: UIViewController,
+    targetStackController: UIViewController.FluidStackFindStrategy,
     destinationViewController: @escaping @MainActor () -> FluidViewController
   ) {
 
@@ -46,17 +45,15 @@ public final class StandaloneContextMenuInteraction: UIContextMenuInteraction {
         )
       },
       willPerformPreviewAction: {
-        [weak targetStackController] configuration,
+        [weak entryViewController]
+        configuration,
         animator in
-        
-        guard let targetStackController else {
-          return
-        }
-        
+
         animator.addCompletion {
-          targetStackController.fluidPush(
+
+          entryViewController?.fluidPush(
             animator.previewViewController as! FluidViewController,
-            target: .current,
+            target: targetStackController,
             relation: .modality,
             transition: nil,
             completion: nil
@@ -76,7 +73,7 @@ private final class _InteractionDelegateProxy: NSObject, UIContextMenuInteractio
 
   private let makeConfiguration: @MainActor (CGPoint) -> UIContextMenuConfiguration
   private let willPerformPreviewAction:
-  @MainActor (UIContextMenuConfiguration, any UIContextMenuInteractionCommitAnimating) -> Void
+    @MainActor (UIContextMenuConfiguration, any UIContextMenuInteractionCommitAnimating) -> Void
 
   init(
     makeConfiguration: @escaping @MainActor (CGPoint) -> UIContextMenuConfiguration,
