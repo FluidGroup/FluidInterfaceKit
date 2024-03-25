@@ -6,7 +6,11 @@ import StorybookKit
 import UIKit
 
 @available(iOS 15, *)
-final class DemoContextMenuViewController: UIViewController {
+final class DemoContextMenuViewController: FluidStackController {
+
+  init() {
+    super.init(configuration: .init(retainsRootViewController: false))
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -21,7 +25,16 @@ final class DemoContextMenuViewController: UIViewController {
         $0.backgroundColor = .neon(.yellow)
       }
 
-      let interaction = UIContextMenuInteraction(delegate: self)
+      let interaction = StandaloneContextMenuInteraction.init(
+        targetStackController: self,
+        destinationViewController: {
+          DemoListDetailViewController(
+            viewModel: .init(),
+            removingTransitionProvider: { .vanishing }
+          )
+          .fluidWrapped(configuration: .init(transition: .empty, topBar: .hidden))
+        }
+      )
 
       let view = AnyUIView { _ in
         ZStackBlock {
@@ -45,57 +58,11 @@ final class DemoContextMenuViewController: UIViewController {
 
     gridView.setContents(cells)
 
-    Mondrian.buildSubviews(on: view) {
+    Mondrian.buildSubviews(on: contentView) {
       ZStackBlock {
         gridView.viewBlock.alignSelf(.attach(.all))
       }
     }
 
   }
-}
-
-@available(iOS 15, *)
-extension DemoContextMenuViewController: UIContextMenuInteractionDelegate {
-  func contextMenuInteraction(
-    _ interaction: UIContextMenuInteraction,
-    configurationForMenuAtLocation location: CGPoint
-  ) -> UIContextMenuConfiguration? {
-    
-    return UIContextMenuConfiguration(
-      identifier: nil,
-      previewProvider: {
-        DemoListDetailViewController(viewModel: .init(), removingTransitionProvider: { fatalError() })
-      },
-      actionProvider: {
-        suggestedActions in
-        let inspectAction =
-          UIAction(
-            title: NSLocalizedString("InspectTitle", comment: ""),
-            image: UIImage(systemName: "arrow.up.square")
-          ) { action in
-
-          }
-
-        let duplicateAction =
-          UIAction(
-            title: NSLocalizedString("DuplicateTitle", comment: ""),
-            image: UIImage(systemName: "plus.square.on.square")
-          ) { action in
-
-          }
-
-        let deleteAction =
-          UIAction(
-            title: NSLocalizedString("DeleteTitle", comment: ""),
-            image: UIImage(systemName: "trash"),
-            attributes: .destructive
-          ) { action in
-
-          }
-
-        return UIMenu(title: "", children: [inspectAction, duplicateAction, deleteAction])
-      }
-    )
-  }
-
 }
