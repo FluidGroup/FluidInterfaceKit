@@ -154,6 +154,8 @@ draggableView.makeDraggable(
 )
 ```
 
+[SwiftUI Version](https://github.com/FluidGroup/swiftui-snap-dragging-modifier)
+
 ---
 
 [🔗 **Detailed Documentation**](https://fluidgroup.github.io/FluidInterfaceKit/documentation/fluidinterfacekit/)
