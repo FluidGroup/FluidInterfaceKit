@@ -125,6 +125,34 @@ final class FirstViewController: FluidViewController {
 
 To dismiss itself, call `fluidPop()`
 
+## FluidGesture
+
+![CleanShot 2024-03-29 at 04 11 57](https://github.com/FluidGroup/FluidInterfaceKit/assets/1888355/46087985-a052-4c87-b5ef-d5d0061b1ef9)
+
+Making a view can be draggable in an easier way.  
+Supports dragging finished animation with moving another position respecting gesture's velocity using spring animation.  
+Rubber banding effect is built-in.
+
+```swift
+let draggableView: UIView
+
+draggableView.makeDraggable(
+  descriptor: .init(
+    horizontal: .init(min: -200, max: 200, bandLength: 30),
+    vertical: .init(min: -200, max: 200, bandLength: 30),
+    handler: .init(
+      onStartDragging: {
+
+      },
+      onEndDragging: { velocity, offset, contentSize in
+        // return proposed offset to finish dragging
+        return .init(width: 0, height: 0)
+      }
+    )
+  )
+)
+```
+
 ---
 
 [🔗 **Detailed Documentation**](https://fluidgroup.github.io/FluidInterfaceKit/documentation/fluidinterfacekit/)
