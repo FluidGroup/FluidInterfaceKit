@@ -164,3 +164,8 @@ public final class FluidTooltipContainerView<ContentView: UIView>: UIView {
   }
 
 }
+
+@available(iOS 17, *)
+#Preview {
+  DemoPopoverViewController()
+}

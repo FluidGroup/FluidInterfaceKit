@@ -7,7 +7,7 @@ final class DemoDragViewController: UIViewController {
     super.viewDidLoad()
 
     let draggableView = UIView()
-    draggableView.backgroundColor = .blue
+    draggableView.backgroundColor = .systemBlue
 
     Mondrian.buildSubviews(on: self.view) {
       ZStackBlock {
@@ -21,7 +21,15 @@ final class DemoDragViewController: UIViewController {
       descriptor: .init(
         horizontal: .init(min: -200, max: 200, bandLength: 30),
         vertical: .init(min: -200, max: 200, bandLength: 30),
-        handler: .init(onEndDragging: { _, _, _ in .init(width: 0, height: 0) })
+        handler: .init(
+          onStartDragging: {
+
+          },
+          onEndDragging: { velocity, offset, contentSize in
+            // return proposed offset to finish dragging
+            return .init(width: 0, height: 0)
+          }
+        )
       )
     )
   }
