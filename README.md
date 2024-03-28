@@ -15,6 +15,7 @@
 - FluidStackRideauSupport
 - FluidTooltipSupport
   - Floating view over the specific point
+  - Displaying any target layer with touch event handling
 
 # FluidStack
 
