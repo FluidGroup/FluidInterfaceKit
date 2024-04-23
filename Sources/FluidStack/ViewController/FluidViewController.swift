@@ -436,7 +436,7 @@ extension FluidViewController {
 
         public let navigationBarClass: UINavigationBar.Type
 
-        let _activityHandler: (Activity<UINavigationBar>) -> Void
+        let _activityHandler: @MainActor (Activity<UINavigationBar>) -> Void
 
         /// Initializer
         ///
@@ -446,7 +446,7 @@ extension FluidViewController {
           displayMode: DisplayMode = .automatic,
           usesBodyViewController: Bool = true,
           navigationBarClass: NavigationBar.Type,
-          activityHandler: @escaping (Activity<NavigationBar>) -> Void = { _ in }
+          activityHandler: @escaping @MainActor (Activity<NavigationBar>) -> Void = { _ in }
         ) {
           self.displayMode = displayMode
           self.usesBodyViewController = usesBodyViewController
