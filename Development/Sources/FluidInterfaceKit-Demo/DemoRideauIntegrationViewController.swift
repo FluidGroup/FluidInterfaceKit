@@ -141,16 +141,23 @@ final class DemoRideauIntegrationViewController: FluidStackController {
 
 import SwiftUI
 import SwiftUISupport
+import SwiftUIHosting
 
 private final class SwiftUIContentViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let hostingView = HostingView { _ in
+    let hostingView = SwiftUIHostingView {
       ZStack {
         Color.red
         VStack(spacing: 0) {
+          LocalState(initial: "") { $state in
+            TextField("Hello", text: $state)
+          }
+          .padding()
+          .background(Color(white: 0.5, opacity: 0.5))
+          .padding()
           ForEach.inefficient(items: [Color.orange, .yellow, .purple]) { view in
             view.frame(width: 100, height: 100)
           }
