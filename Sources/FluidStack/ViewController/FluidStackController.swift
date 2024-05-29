@@ -236,6 +236,7 @@ open class FluidStackController: UIViewController {
     )
   }
 
+  @discardableResult
   @MainActor
   public func removeLastViewController(
     transition: AnyRemovingTransition?
