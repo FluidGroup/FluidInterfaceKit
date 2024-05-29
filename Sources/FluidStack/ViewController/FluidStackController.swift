@@ -216,15 +216,15 @@ open class FluidStackController: UIViewController {
   /**
    Removes the view controller displayed on most top.
    */
+  @MainActor
   public func removeLastViewController(
     transition: AnyRemovingTransition?,
     completion: @MainActor @escaping (RemovingTransitionContext.CompletionEvent) -> Void = { _ in }
   ) {
 
-    assert(Thread.isMainThread)
-
     guard let wrapperView = stackingItems.last else {
       Log.error(.stack, "The last view controller was not found to remove")
+      completion(.succeeded)
       return
     }
 
@@ -235,6 +235,21 @@ open class FluidStackController: UIViewController {
       completion: completion
     )
   }
+
+  @MainActor
+  public func removeLastViewController(
+    transition: AnyRemovingTransition?
+  ) async -> RemovingTransitionContext.CompletionEvent {
+
+    await withCheckedContinuation { continuation in
+
+      removeLastViewController(transition: transition) { event in
+        continuation.resume(returning: event)
+      }
+    }
+
+  }
+
 
   /**
    Add a view controller to display.
