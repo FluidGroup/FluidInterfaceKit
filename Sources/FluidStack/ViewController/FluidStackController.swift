@@ -236,6 +236,26 @@ open class FluidStackController: UIViewController {
     )
   }
 
+  public func removeLastViewController(
+    transition: AnyRemovingTransition?
+  ) async {
+
+    assert(Thread.isMainThread)
+
+    guard let wrapperView = stackingItems.last else {
+      Log.error(.stack, "The last view controller was not found to remove")
+      return
+    }
+
+    await removeViewController(
+      wrapperView.viewController,
+      removingRule: .cascade,
+      transition: transition,
+      completion: completion
+    )
+  }
+
+
   /**
    Add a view controller to display.
    This is a primitive operation to add view controller to display.
