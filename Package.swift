@@ -18,20 +18,18 @@ let package = Package(
   ],
   dependencies: [
     .package(
-      name: "GeometryKit",
       url: "https://github.com/FluidGroup/GeometryKit",
       .upToNextMajor(from: "1.1.0")
     ),
     .package(
-      name: "ResultBuilderKit",
       url: "https://github.com/FluidGroup/ResultBuilderKit.git",
       .upToNextMajor(from: "1.2.0")
     ),
     .package(
-      name: "Rideau",
       url: "https://github.com/FluidGroup/Rideau.git",
       .upToNextMajor(from: "2.1.0")
     ),
+    .package(url: "https://github.com/FluidGroup/swiftui-Hosting", from: "1.2.0"),
   ],
   targets: [
     .target(
@@ -55,7 +53,10 @@ let package = Package(
     ),
     .target(
       name: "FluidSnackbar",
-      dependencies: ["FluidCore"]
+      dependencies: [
+        "FluidCore",
+        .product(name: "SwiftUIHosting", package: "swiftui-Hosting")
+      ]
     ),
     .target(
       name: "FluidPictureInPicture",
@@ -67,6 +68,6 @@ let package = Package(
     ),
     .target(name: "FluidKeyboardSupport"),
 
-    .testTarget(name: "FluidStackTests", dependencies: ["FluidStack"])
+    .testTarget(name: "FluidStackTests", dependencies: ["FluidStack"]),
   ]
 )

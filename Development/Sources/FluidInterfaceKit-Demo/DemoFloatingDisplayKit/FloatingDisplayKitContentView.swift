@@ -5,10 +5,11 @@
 //  Created by Muukii on 2021/04/24.
 //
 
-import FluidStack
 import FluidSnackbar
+import FluidStack
 import SwiftUI
 
+@MainActor
 let snackbarController = FloatingDisplayController(
   edgeTargetSafeArea: .init(
     top: .notificationWindow,
@@ -20,14 +21,41 @@ let snackbarController = FloatingDisplayController(
 
 struct FloatingDisplayKitContentView: View {
   var body: some View {
-    VStack {
-      Button("Display Bar") {
-        snackbarController.deliver(
-          notification: .init {
-            DemoSnackbarView(text: "Hello")
-          },
-          animator: FloatingDisplaySlideInTrantision()
+    Form {
+
+      Button("Display Bar + SwiftUI content") {
+
+        snackbarController.display(
+          context: .init(
+            position: .top,
+            transition: .slideIn,
+            content: {
+              ZStack {
+                Image(systemName: "star")
+                  .resizable()
+                  .frame(width: 24, height: 24)
+              }
+              .background(Color.red)
+            }
+          ),
+          waitsInQueue: false
         )
+
+      }
+
+      Button("Display Bar") {
+
+        snackbarController.display(
+          context: .init(
+            viewBuilder: {
+              DemoSnackbarView(text: "Hello")
+            },
+            position: .top, 
+            transition: .slideIn
+          ),
+          waitsInQueue: false
+        )
+
       }
 
       Button("Display Popup") {
