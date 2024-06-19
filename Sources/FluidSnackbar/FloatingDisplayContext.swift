@@ -39,12 +39,13 @@ extension FloatingDisplayContext {
   public convenience init<Content: View>(
     position: FloatingDisplayController.DisplayPosition,
     transition: FloatingDisplayTransitionType,
+    onTap: @escaping @MainActor () -> Void,
     @ViewBuilder content: @escaping () -> Content
   ) {
 
     self.init(
       viewBuilder: {
-        _HostingWrapperView(hostingView: SwiftUIHostingView(content: content))
+        _HostingWrapperView(hostingView: SwiftUIHostingView(content: content), onTap: onTap)
       },
       position: position,
       transition: transition
@@ -58,7 +59,7 @@ private final class _HostingWrapperView: SnackbarDraggableBase {
 
   private let hostingView: SwiftUIHostingView
 
-  init(hostingView: SwiftUIHostingView) {
+  init(hostingView: SwiftUIHostingView, onTap: @escaping @MainActor () -> Void) {
     self.hostingView = hostingView
     super.init(topMargin: .zero)
     contentView.addSubview(hostingView)
@@ -69,6 +70,8 @@ private final class _HostingWrapperView: SnackbarDraggableBase {
       hostingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       hostingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
     ])
+
+    self.onTap = onTap
   }
 
 }
