@@ -27,6 +27,15 @@
           "revision": "fa560b52c246863dee5ab4b03197f6e4a9794607",
           "version": "2.3.1"
         }
+      },
+      {
+        "package": "swiftui-hosting",
+        "repositoryURL": "https://github.com/FluidGroup/swiftui-Hosting",
+        "state": {
+          "branch": null,
+          "revision": "7e8eaca72eae910d6d3b6272c263c6c3a10b755c",
+          "version": "1.2.0"
+        }
       }
     ]
   },

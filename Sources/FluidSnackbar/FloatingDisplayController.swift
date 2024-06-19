@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 open class FloatingDisplayController {
 
   private struct State: Equatable {
@@ -95,17 +96,6 @@ open class FloatingDisplayController {
 
   }
 
-  @available(*, deprecated)
-  open func deliver(
-    notification context: FloatingDisplayContext,
-    animator: FloatingDisplayTransitionType
-  ) {
-    assert(Thread.isMainThread)
-
-    context.transition = animator
-    enqueue(context: context)
-  }
-
   private func _display(
     context: FloatingDisplayContext,
     onDidDismiss: @escaping (FloatingDisplayViewType) -> Void
@@ -181,7 +171,6 @@ open class FloatingDisplayController {
     }
 
     let notificationView = context.makeView()
-    context.setView(notificationView)
 
     let position = context.position
     let transition = context.transition

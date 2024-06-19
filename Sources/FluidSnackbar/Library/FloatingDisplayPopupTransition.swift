@@ -38,3 +38,11 @@ public struct FloatingDisplayPopupTransition: FloatingDisplayTransitionType {
     animator.startAnimation()
   }
 }
+
+extension FloatingDisplayTransitionType where Self == FloatingDisplayPopupTransition {
+
+  public static var popup: Self {
+    .init()
+  }
+
+}

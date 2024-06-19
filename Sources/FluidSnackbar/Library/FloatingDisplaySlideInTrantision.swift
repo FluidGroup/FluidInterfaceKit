@@ -103,3 +103,19 @@ public struct FloatingDisplayFloatUpTrantision: FloatingDisplayTransitionType {
 
   }
 }
+
+extension FloatingDisplayTransitionType where Self == FloatingDisplaySlideInTrantision {
+
+  public static var slideIn: Self {
+    FloatingDisplaySlideInTrantision()
+  }
+
+}
+
+extension FloatingDisplayTransitionType where Self == FloatingDisplayFloatUpTrantision {
+
+  public static var floatUp: Self {
+    FloatingDisplayFloatUpTrantision()
+  }
+
+}

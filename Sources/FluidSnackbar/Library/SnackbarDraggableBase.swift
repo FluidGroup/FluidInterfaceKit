@@ -1,5 +1,6 @@
 
 import UIKit
+import RubberBanding
 
 open class SnackbarDraggableBase : UIView, FloatingDisplayViewType {
 
@@ -14,7 +15,7 @@ open class SnackbarDraggableBase : UIView, FloatingDisplayViewType {
     func apply(view: UIView) {
       var t = transform
       if t.ty > 0 {
-        t.ty = pow(t.ty, 0.7)
+        t.ty = rubberBand(value: t.ty, min: 0, max: 0, bandLength: 50)
       }
       view.transform = t
     }
@@ -216,5 +217,6 @@ open class SnackbarDraggableBase : UIView, FloatingDisplayViewType {
 
     gesture.setTranslation(CGPoint.zero, in: self)
   }
+
 }
 

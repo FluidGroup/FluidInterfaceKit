@@ -141,13 +141,14 @@ final class DemoRideauIntegrationViewController: FluidStackController {
 
 import SwiftUI
 import SwiftUISupport
+import SwiftUIHosting
 
 private final class SwiftUIContentViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let hostingView = HostingView { _ in
+    let hostingView = SwiftUIHostingView {
       ZStack {
         Color.red
         VStack(spacing: 0) {
