@@ -31,9 +31,16 @@ struct FloatingDisplayKitContentView: View {
             transition: .slideIn,
             content: {
               ZStack {
-                Image(systemName: "star")
-                  .resizable()
-                  .frame(width: 24, height: 24)
+                HStack {
+                  Image(systemName: "star")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+
+                  Button("Dismiss") {
+                    
+                  }
+
+                }
               }
               .background(Color.red)
             }

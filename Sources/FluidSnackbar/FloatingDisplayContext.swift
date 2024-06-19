@@ -54,39 +54,21 @@ extension FloatingDisplayContext {
 
 }
 
-private final class _HostingWrapperView: UIView, FloatingDisplayViewType {
+private final class _HostingWrapperView: SnackbarDraggableBase {
 
   private let hostingView: SwiftUIHostingView
 
   init(hostingView: SwiftUIHostingView) {
     self.hostingView = hostingView
-    super.init(frame: .zero)
-    addSubview(hostingView)
+    super.init(topMargin: .zero)
+    contentView.addSubview(hostingView)
     hostingView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      hostingView.topAnchor.constraint(equalTo: topAnchor),
-      hostingView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      hostingView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      hostingView.trailingAnchor.constraint(equalTo: trailingAnchor)
+      hostingView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      hostingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+      hostingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      hostingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
     ])
   }
 
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  func didPrepare(dismissClosure: @escaping (Bool) -> Void) {
-  }
-
-  func willAppear() {
-  }
-
-  func didAppear() {
-  }
-
-  func willDisappear() {
-  }
-
-  func didDisappear() {
-  }
 }
