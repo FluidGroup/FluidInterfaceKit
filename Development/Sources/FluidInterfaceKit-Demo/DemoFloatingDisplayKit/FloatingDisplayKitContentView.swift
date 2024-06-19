@@ -29,6 +29,9 @@ struct FloatingDisplayKitContentView: View {
           context: .init(
             position: .top,
             transition: .slideIn,
+            onTap: {
+              print("tap")
+            },
             content: {
               ZStack {
                 HStack {
