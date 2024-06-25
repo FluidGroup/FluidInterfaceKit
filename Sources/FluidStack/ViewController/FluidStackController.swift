@@ -178,7 +178,7 @@ open class FluidStackController: UIViewController {
   // MARK: - Functions
   
   open func stackingViewControllersDidChange(_ viewControllers: [UIViewController]) {
-    
+    UIAccessibility.post(notification: .screenChanged, argument: nil)
   }
   
   public func stackingDescription() -> String {
@@ -385,6 +385,7 @@ open class FluidStackController: UIViewController {
 
     newTransitionContext.addCompletionEventHandler { event in
       completion?(event)
+      UIAccessibility.post(notification: .screenChanged, argument: nil)
     }
 
     platterView.swapTransitionContext(newTransitionContext)
@@ -953,11 +954,10 @@ open class PresentationFluidStackController: FluidStackController {
   }
   
   open override func stackingViewControllersDidChange(_ viewControllers: [UIViewController]) {
-    
     if viewControllers.isEmpty {
       dismiss(animated: false)
     }
-    
+    UIAccessibility.post(notification: .screenChanged, argument: nil)
   }
   
 }
