@@ -4,6 +4,7 @@ import UIKit
 extension UIView {
 
   @available(iOS 15, *)
+  @MainActor
   public func observeKeyboard(handler: @escaping @MainActor (KeyboardFrameInfo) -> Void) -> KeyboardObservation {
 
     let dummyView = UIView()
@@ -21,8 +22,10 @@ extension UIView {
       dummyView.trailingAnchor.constraint(equalTo: trailingAnchor),
     ])
 
-    let token = dummyView.observe(\.bounds) { @MainActor view, _ in
-      handler(.init(height: view.bounds.height))
+    let token = dummyView.observe(\.bounds) { view, _ in
+      MainActor.assumeIsolated {
+        handler(.init(height: view.bounds.height))
+      }
     }
 
     return .init(keyValueObservation: token) { [weak dummyView] in

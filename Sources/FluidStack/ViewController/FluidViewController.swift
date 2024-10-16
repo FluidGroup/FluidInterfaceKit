@@ -284,28 +284,38 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
   private static func observeNavigationItem(
     navigationItem: UINavigationItem,
-    onUpdated: @escaping (UINavigationItem) -> Void
+    onUpdated: @escaping @MainActor (UINavigationItem) -> Void
   ) -> [NSKeyValueObservation] {
 
     let tokens = buildArray {
       navigationItem.observe(\.fluidIsEnabled, options: [.new]) { item, _ in
-        onUpdated(item)
+        MainActor.assumeIsolated {
+          onUpdated(item)
+        }
       }
       
       navigationItem.observe(\.titleView, options: [.new]) { item, _ in
-        onUpdated(item)
+        MainActor.assumeIsolated {          
+          onUpdated(item)
+        }
       }
 
       navigationItem.observe(\.leftBarButtonItems, options: [.new]) { item, _ in
-        onUpdated(item)
+        MainActor.assumeIsolated {
+          onUpdated(item)
+        }
       }
 
       navigationItem.observe(\.rightBarButtonItems, options: [.new]) { item, _ in
-        onUpdated(item)
+        MainActor.assumeIsolated {
+          onUpdated(item)        
+        }
       }
 
       navigationItem.observe(\.title, options: [.new]) { item, _ in
-        onUpdated(item)
+        MainActor.assumeIsolated {
+          onUpdated(item)
+        }
       }
     }
 
@@ -314,17 +324,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
     return tokens
 
   }
-     
-  open override var debugDescription: String {
-    
-    Fluid.renderOnelineDescription(subject: self) { s in
-      [
-        ("content.bodyViewController", content.bodyViewController?.debugDescription ?? "null"),
-        ("content.view", content.view?.debugDescription ?? "null"),
-      ]
-    }
-     
-  }
+      
 }
 
 extension FluidViewController {
@@ -369,7 +369,7 @@ extension FluidViewController {
 
       /**
        push, pop, Edge pan gesture to pop
-       */
+       */      
       public static var navigationStyle: Self {
         return .init(
           addingTransition: .navigationStyle,
@@ -499,8 +499,16 @@ extension FluidViewController {
       self.topBar = topBar
     }
     
-    public static let defaultModal = Self.init(transition: .modalStyle, topBar: .navigation)
-    public static let defaultNavigation = Self.init(transition: .navigationStyle, topBar: .navigation)
+    public static var defaultModal: Self {
+      Self.init(transition: .modalStyle, topBar: .navigation)
+    }
+    
+    public static var defaultNavigation: Self {
+      Self.init(
+        transition: .navigationStyle,
+        topBar: .navigation
+      )
+    }
 
   }
 

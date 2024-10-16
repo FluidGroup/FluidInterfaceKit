@@ -33,8 +33,8 @@ extension AnyRemovingTransition {
    */
   public static func throwing(
     name: String = "\(#file),\(#line)",
-    backup: Self,
-    startTransition: @escaping (RemovingTransitionContext) throws -> Void
+    backup: sending Self,
+    startTransition: sending @escaping @MainActor (RemovingTransitionContext) throws -> Void    
   ) -> Self {
     
     return .init(name: name) { context in
@@ -53,7 +53,7 @@ extension AnyRemovingTransition {
    */
   public static func `dynamic`(
     name: String = "dynamic \(#file),\(#line)",
-    transition: @escaping () -> Self
+    transition: sending @escaping () -> Self
   ) -> Self {
     return .init(name: name) { context in
       let _transition = transition()

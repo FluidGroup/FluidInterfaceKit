@@ -4,6 +4,7 @@ import RubberBanding
 
 open class SnackbarDraggableBase : UIView, FloatingDisplayViewType {
 
+  @MainActor
   private struct RubberbandTranslationModel {
 
     var transform: CGAffineTransform

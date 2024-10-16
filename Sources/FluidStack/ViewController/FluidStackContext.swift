@@ -2,9 +2,10 @@ import UIKit
 
 /// A context object that communicates with ``FluidStackController``.
 /// Associated with the view controller displayed on the stack.
+@MainActor
 public final class FluidStackContext: Equatable {
   
-  public static func == (lhs: FluidStackContext, rhs: FluidStackContext) -> Bool {
+  nonisolated public static func == (lhs: FluidStackContext, rhs: FluidStackContext) -> Bool {
     lhs === rhs
   }
   
@@ -25,7 +26,7 @@ public final class FluidStackContext: Equatable {
   public func addContentViewController(
     _ viewController: UIViewController,
     transition: AnyAddingTransition?,
-    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: @escaping @MainActor (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
   ) {
     fluidStackController?.addContentViewController(
       viewController,
@@ -37,7 +38,7 @@ public final class FluidStackContext: Equatable {
   public func addContentView(
     _ view: UIView,
     transition: AnyAddingTransition?,
-    completion: @escaping (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
+    completion: @escaping @MainActor (AddingTransitionContext.CompletionEvent) -> Void = { _ in }
   ) {
     fluidStackController?.addContentView(
       view,
@@ -54,7 +55,7 @@ public final class FluidStackContext: Equatable {
     removingRule: RemovingRule = .cascade,
     transition: AnyRemovingTransition?,
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     guard let targetViewController = targetViewController else {
       return

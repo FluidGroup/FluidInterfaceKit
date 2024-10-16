@@ -29,20 +29,20 @@ extension UIViewController {
 
     public let name: String
     
-    let pick: ([FluidStackController]) -> FluidStackController?
+    let pick: @MainActor ([FluidStackController]) -> FluidStackController?
 
     /// Creates an instance
     /// - Parameter where: Solves find by return true. Given instances come from the nearest one.
     public init(
       name: String,
-      pick: @escaping ([FluidStackController]) -> FluidStackController?
+      pick: @escaping @MainActor ([FluidStackController]) -> FluidStackController?
     ) {
       self.name = name
       self.pick = pick
     }
 
     /// Finds by identifier
-    public static func identifier(_ identifier: FluidStackController.Identifier) -> Self {
+    public static func identifier(_ identifier: sending FluidStackController.Identifier) -> Self {
       .init(name: "identifier.\(identifier)") { stackControllers in
         stackControllers.first { $0.stackIdentifier == identifier }
       }
@@ -51,34 +51,40 @@ extension UIViewController {
     /**
      Finds a nearest ``FluidStackController`` including itself
      */
-    public static let current: Self = {
-      .init(name: "current") { controllers in
-        controllers.first
-      }
-    }()
-
+    public static var current: Self { 
+      {
+        .init(name: "current") { controllers in
+          controllers.first
+        }
+      }()
+    }
+    
     /**
      Finds a nearest ``FluidStackController`` excluding itself
      */
-    public static let nearestAncestor: Self = {
-      .init(name: "nearestAncestor") { controllers in
-        controllers.dropFirst(1).first
-      }
-    }()
+    public static var nearestAncestor: Self {
+      {
+        .init(name: "nearestAncestor") { controllers in
+          controllers.dropFirst(1).first
+        }
+      }()
+    }
 
     /**
      Finds a root ``FluidStackController`` in the UIWindow.
      */
-    public static let root: Self = {
-      .init(name: "root") { controllers in
-        controllers.last
-      }
-    }()
+    public static var root: Self {
+      {
+        .init(name: "root") { controllers in
+          controllers.last
+        }
+      }()
+    }
 
     /// Finds by composed strategy
     public static func matching(
       name: String,
-      strategies: [FluidStackFindStrategy]
+      strategies: sending [FluidStackFindStrategy]
     ) -> Self {
       return .init(name: name) { stackControllers in
         for strategy in strategies {
@@ -107,6 +113,7 @@ extension UIViewController {
 
 }
 
+@MainActor
 private var _fluid_associated_key: Void?
 
 private final class _Associated {

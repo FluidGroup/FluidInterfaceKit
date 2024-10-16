@@ -5,6 +5,7 @@ import UIKit
  
  Implemented class: ``ContextualTransitionSourceView``
  */
+@MainActor
 public protocol ContextualTransitionSourceComponentType {
   
   /// Should returns a view that used for disclosing source view.

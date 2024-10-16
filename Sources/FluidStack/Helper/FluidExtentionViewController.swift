@@ -21,7 +21,7 @@ extension FluidExtentionViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
     afterViewDidLoad: @escaping @MainActor () -> Void = {},
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     let controller = viewController
@@ -70,7 +70,7 @@ extension FluidExtentionViewController {
         target: strategy,
         transition: transition,
         afterViewDidLoad: afterViewDidLoad,
-        completion: { event in
+        completion: { event in          
           continuation.resume(returning: event)
       })
     }
@@ -90,7 +90,7 @@ extension FluidExtentionViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     relation: StackingRelation?,
     transition: AnyAddingTransition? = nil,
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     let transaction = Fluid.Transaction.current
@@ -154,7 +154,7 @@ extension FluidExtentionViewController {
     _ viewController: FluidPopoverViewController,
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
-    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     let transaction = Fluid.Transaction.current

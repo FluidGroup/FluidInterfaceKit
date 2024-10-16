@@ -10,6 +10,7 @@ extension UIView {
 
 }
 
+@MainActor
 private var identifierRef: Void?
 
 extension UIView {

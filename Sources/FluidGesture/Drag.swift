@@ -308,6 +308,7 @@ public struct DragDescriptor {
 
 }
 
+@MainActor
 private var ref: Void?
 
 extension UIPanGestureRecognizer {

@@ -29,6 +29,7 @@ extension UIBarButtonItem {
   
 }
 
+@MainActor
 private var ref: Void?
 
 extension UIBarButtonItem {

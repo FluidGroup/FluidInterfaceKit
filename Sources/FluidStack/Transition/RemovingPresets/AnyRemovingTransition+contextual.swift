@@ -6,7 +6,7 @@ import FluidPortal
 extension AnyRemovingTransition {
 
   public static func contextual(
-    destinationComponent: ContextualTransitionSourceComponentType
+    destinationComponent: sending ContextualTransitionSourceComponentType
   ) -> Self {
     
     return .init { context in
@@ -35,7 +35,7 @@ extension AnyRemovingInteraction {
     public static func runEnclosing(
       transitionContext: RemovingTransitionContext,
       disclosedView: UIView,
-      destinationComponent: ContextualTransitionSourceComponentType,
+      destinationComponent: sending ContextualTransitionSourceComponentType,
       gestureVelocity: CGPoint?
     ) {
 

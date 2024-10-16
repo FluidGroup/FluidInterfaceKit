@@ -1,6 +1,7 @@
 
 import UIKit
 
+@MainActor
 public protocol FloatingDisplayTransitionType {
 
   func applyPresentAnimation(notificationView: FloatingDisplayViewType, completion: @escaping () -> Void)

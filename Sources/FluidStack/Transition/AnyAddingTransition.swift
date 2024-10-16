@@ -3,6 +3,7 @@ import ResultBuilderKit
 import UIKit
 
 /// A transition for adding in ``FluidStackController`` or ``TransitionViewController``
+/// 
 public struct AnyAddingTransition {
 
   public let name: String
@@ -10,7 +11,7 @@ public struct AnyAddingTransition {
 
   public init(
     name: String = "\(#file),\(#line)",
-    startTransition: @escaping @MainActor (AddingTransitionContext) -> Void
+    startTransition: sending @escaping @MainActor (AddingTransitionContext) -> Void
   ) {
     self.name = name
     self._startTransition = startTransition
@@ -31,8 +32,8 @@ extension AnyAddingTransition {
    */
   public static func throwing(
     name: String = "\(#file),\(#line)",
-    backup: Self,
-    startTransition: @escaping @MainActor (AddingTransitionContext) throws -> Void
+    backup: sending Self,
+    startTransition: sending @escaping @MainActor (AddingTransitionContext) throws -> Void
   ) -> Self {
     
     return .init(name: name) { context in
@@ -51,7 +52,7 @@ extension AnyAddingTransition {
    */
   public static func `dynamic`(
     name: String = "dynamic \(#file),\(#line)",
-    transition: @escaping @MainActor () -> Self
+    transition: sending @escaping @MainActor () -> Self
   ) -> Self {
     return .init(name: name) { context in
       let _transition = transition()

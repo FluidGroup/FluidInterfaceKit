@@ -7,7 +7,7 @@ public final class StandaloneContextMenuInteraction: UIContextMenuInteraction {
   private let proxy: _InteractionDelegateProxy
 
   public init(
-    makeConfiguration: @escaping (CGPoint) -> UIContextMenuConfiguration,
+    makeConfiguration: @escaping @MainActor (CGPoint) -> UIContextMenuConfiguration,
     willPerformPreviewAction: @escaping @MainActor (
       UIContextMenuConfiguration, any UIContextMenuInteractionCommitAnimating
     ) -> Void

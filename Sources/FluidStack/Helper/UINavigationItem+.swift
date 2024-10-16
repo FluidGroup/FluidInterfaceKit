@@ -1,6 +1,7 @@
 
 import UIKit
 
+@MainActor
 private var ref: Void?
 
 extension UINavigationItem {

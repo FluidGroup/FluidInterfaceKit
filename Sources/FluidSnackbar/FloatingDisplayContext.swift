@@ -13,14 +13,14 @@ open class FloatingDisplayContext: Hashable {
     ObjectIdentifier(self).hash(into: &hasher)
   }
 
-  private let factory: () -> FloatingDisplayViewType
+  private let factory: @MainActor () -> FloatingDisplayViewType
 
   public let transition: FloatingDisplayTransitionType
 
   public let position: FloatingDisplayController.DisplayPosition
 
   public init(
-    viewBuilder: @escaping () -> FloatingDisplayViewType,
+    viewBuilder: @escaping @MainActor () -> FloatingDisplayViewType,
     position: FloatingDisplayController.DisplayPosition,
     transition: FloatingDisplayTransitionType
   ) {
@@ -29,6 +29,7 @@ open class FloatingDisplayContext: Hashable {
     self.position = position
   }
 
+  @MainActor
   func makeView() -> FloatingDisplayViewType {
     factory()
   }
@@ -40,7 +41,7 @@ extension FloatingDisplayContext {
     position: FloatingDisplayController.DisplayPosition,
     transition: FloatingDisplayTransitionType,
     onTap: @escaping @MainActor () -> Void,
-    @ViewBuilder content: @escaping () -> Content
+    @ViewBuilder content: sending @escaping () -> Content
   ) {
 
     self.init(

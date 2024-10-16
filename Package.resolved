@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "RubberBanding",
+        "repositoryURL": "https://github.com/FluidGroup/swift-rubber-banding",
+        "state": {
+          "branch": null,
+          "revision": "f2dbd09829c6267db0a769e7c37fe332dab0b675",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "swiftui-hosting",
         "repositoryURL": "https://github.com/FluidGroup/swiftui-Hosting",
         "state": {
