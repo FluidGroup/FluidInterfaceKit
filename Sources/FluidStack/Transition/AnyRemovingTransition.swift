@@ -12,7 +12,7 @@ public struct AnyRemovingTransition {
 
   public init(
     name: String = "\(#file),\(#line)",
-    startTransition: @escaping @MainActor (RemovingTransitionContext) -> Void
+    startTransition: sending @escaping @MainActor (RemovingTransitionContext) -> Void
   ) {
     self.name = name
     self._startTransition = startTransition
@@ -53,7 +53,7 @@ extension AnyRemovingTransition {
    */
   public static func `dynamic`(
     name: String = "dynamic \(#file),\(#line)",
-    transition: sending @escaping () -> Self
+    transition: sending @escaping @MainActor () -> Self
   ) -> Self {
     return .init(name: name) { context in
       let _transition = transition()
