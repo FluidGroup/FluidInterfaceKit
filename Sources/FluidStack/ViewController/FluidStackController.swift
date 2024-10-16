@@ -962,20 +962,6 @@ open class PresentationFluidStackController: FluidStackController {
   
 }
 
-extension FluidStackController {
-  
-  open override var debugDescription: String {
-    
-    Fluid.renderOnelineDescription(subject: self) { s in
-      [
-        ("stackIdentifier", stackIdentifier?.rawValue ?? "null"),
-      ]
-    }
-     
-  }
-  
-}
-
 // MARK: - Nested types
 extension FluidStackController {
 

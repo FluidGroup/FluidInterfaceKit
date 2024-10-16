@@ -5,7 +5,7 @@ import FluidPortal
 @MainActor
 public final class RemovingTransitionContext: TransitionContext {
 
-  public enum CompletionEvent {
+  public enum CompletionEvent: Sendable {
     /// Transition has been finished (no interruption was in there)
     case succeeded
     /// Transition has been interrupted

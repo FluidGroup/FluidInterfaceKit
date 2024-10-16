@@ -4,8 +4,8 @@ import UIKit
 @_exported import MockKit
 @_exported import Ne
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+@main
+final class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 

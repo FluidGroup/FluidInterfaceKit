@@ -3,9 +3,10 @@ import ResultBuilderKit
 import UIKit
 
 extension AnyRemovingInteraction {
-
+  
   public enum Dragging {
 
+    @MainActor
     public struct AnyBackwarding {
 
       public enum Event {
@@ -137,7 +138,7 @@ extension AnyRemovingInteraction {
   public static func horizontalDragging(
     isEdgeEnabled: Bool = false,
     isScreenEnabled: Bool = true,
-    backwarding makeBackwarding: @escaping () -> Dragging.AnyBackwarding
+    backwarding makeBackwarding: @escaping @MainActor () -> Dragging.AnyBackwarding
   ) -> Self {
 
     struct TrackingContext {
@@ -149,7 +150,7 @@ extension AnyRemovingInteraction {
     }
 
     /// a shared state
-    var trackingContext: TrackingContext?
+    let trackingContext: UnsafeSendableBox<TrackingContext?> = .init(value: nil)
 
     return .init(
       handlers: buildArray {
@@ -176,7 +177,7 @@ extension AnyRemovingInteraction {
                 
               }
             },
-            handler: { gesture, context in
+            handler: { @MainActor gesture, context in
               
               switch gesture.state {
               case .began:
@@ -220,7 +221,9 @@ extension AnyRemovingInteraction {
 
               }
             },
-            handler: { gesture, context in
+            handler: {
+ @MainActor gesture,
+ context in
 
               let draggingView = context.viewController.view!
               assert(draggingView == gesture.view)
@@ -229,9 +232,10 @@ extension AnyRemovingInteraction {
               case .possible:
                 break
 
-              case .began, .changed:
+              case .began,
+ .changed:
 
-                if trackingContext == nil {
+                if trackingContext.value == nil {
 
                   guard abs(gesture.translation(in: draggingView).y) <= 10 else {
                     gesture.state = .failed
@@ -278,11 +282,11 @@ extension AnyRemovingInteraction {
 
                   }
 
-                  trackingContext = newTrackingContext
+                  trackingContext.value = newTrackingContext
 
                 }
 
-                guard trackingContext != nil else {
+                guard trackingContext.value != nil else {
                   return
                 }
 
@@ -302,7 +306,10 @@ extension AnyRemovingInteraction {
                   draggingView.layer.position.x += translation.x
                   draggingView.layer.position.y += translation.y
                   draggingView.layer.cornerRadius = 32
-                  trackingContext?.transitionContext.contentView.backgroundColor = .init(white: 0, alpha: 0.2)
+                  trackingContext.value?.transitionContext.contentView.backgroundColor = .init(
+                    white: 0,
+                    alpha: 0.2
+                  )
                 }
 
                 movingAnimator.startAnimation()
@@ -311,7 +318,7 @@ extension AnyRemovingInteraction {
 
               case .ended:
 
-                guard let _trackingContext = trackingContext else {
+                guard let _trackingContext = trackingContext.value else {
                   return
                 }
 
@@ -333,7 +340,7 @@ extension AnyRemovingInteraction {
                 || abs(velocity.x) > 100 || abs(velocity.y) > 100
 
                 defer {
-                  trackingContext = nil
+                  trackingContext.value = nil
                 }
 
                 if startsBackwarding {
@@ -382,7 +389,7 @@ extension AnyRemovingInteraction {
 
               case .cancelled, .failed:
 
-                guard let _trackingContext = trackingContext else {
+                guard let _trackingContext = trackingContext.value else {
                   return
                 }
 
@@ -398,7 +405,7 @@ extension AnyRemovingInteraction {
                 draggingView.transform = .identity
                 draggingView.layer.cornerRadius = 0
 
-                trackingContext = nil
+                trackingContext.value = nil
 
                 /// restore view state
               @unknown default:
@@ -409,5 +416,13 @@ extension AnyRemovingInteraction {
         }
       }
     )
+  }
+}
+
+private final class UnsafeSendableBox<T>: @unchecked Sendable {
+  var value: T
+  
+  init(value: T) {
+    self.value = value
   }
 }

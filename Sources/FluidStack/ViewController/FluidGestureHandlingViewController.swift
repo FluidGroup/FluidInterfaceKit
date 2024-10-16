@@ -349,6 +349,7 @@ extension UIEvent {
           return false
         }
 
+        @MainActor
         func isScrollable(scrollView: UIScrollView) -> Bool {
 
           let contentInset: UIEdgeInsets

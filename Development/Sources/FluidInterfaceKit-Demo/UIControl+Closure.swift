@@ -51,7 +51,7 @@ extension UIButton {
   static func make(
     title: String,
     color: UIColor? = nil,
-    onTap: @escaping () -> Void
+    onTap: @escaping @MainActor () -> Void
   ) -> UIButton {
     let button = UIButton(type: .system)
     button.setAttributedTitle(

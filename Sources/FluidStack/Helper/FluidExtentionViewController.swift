@@ -70,7 +70,7 @@ extension FluidExtentionViewController {
         target: strategy,
         transition: transition,
         afterViewDidLoad: afterViewDidLoad,
-        completion: { event in
+        completion: { event in          
           continuation.resume(returning: event)
       })
     }
@@ -221,7 +221,7 @@ extension FluidExtentionViewController {
     transitionForBatch: AnyBatchRemovingTransition? = .crossDissolve,
     forwardingToParent: Bool = true,
     removingRule: RemovingRule = .cascade,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
      
     guard
@@ -283,7 +283,7 @@ extension FluidExtentionViewController {
     transitionForBatch: AnyBatchRemovingTransition?,
     forwardingToParent: Bool,
     removingRule: RemovingRule,
-    completion: ((RemovingTransitionContext.CompletionEvent) -> Void)?
+    completion: (@MainActor (RemovingTransitionContext.CompletionEvent) -> Void)?
   ) {
         
     guard      

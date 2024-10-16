@@ -9,6 +9,7 @@ import UIKit
  */
 public struct AnyRemovingInteraction {
 
+  @MainActor
   public struct Context {
     /// a ``FluidViewController`` that runs ``AnyRemovingInteraction``
     public let viewController: FluidGestureHandlingViewController

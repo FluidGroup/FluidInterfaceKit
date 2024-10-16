@@ -22,9 +22,10 @@
 
 import UIKit
 
+@MainActor
 final class ScrollController {
 
-  private var scrollObserver: NSKeyValueObservation!
+  nonisolated(unsafe) private var scrollObserver: NSKeyValueObservation!
   private(set) var isLocking: Bool = false
   private var previousValue: CGPoint?
   let scrollView: UIScrollView
@@ -35,12 +36,17 @@ final class ScrollController {
 
       guard let scrollView = _scrollView else { return }
       guard let self = self else { return }
-      self.handleScrollViewEvent(scrollView: scrollView, change: change)
+      
+      MainActor.assumeIsolated {
+        self.handleScrollViewEvent(scrollView: scrollView, change: change)
+      }
     }
   }
 
   deinit {
-    endTracking()
+    MainActor.assumeIsolated {
+      endTracking()
+    }
   }
 
   func lockScrolling() {
@@ -88,6 +94,7 @@ final class ScrollController {
   }
 
 }
+
 struct ScrollViewRepresentation {
 
   enum Edge {
@@ -103,6 +110,7 @@ struct ScrollViewRepresentation {
   let bounds: CGRect
   let isScrollEnabled: Bool
 
+  @MainActor
   init(
     from scrollView: UIScrollView
   ) {

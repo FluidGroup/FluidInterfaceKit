@@ -6,11 +6,11 @@ import UIKit
 @MainActor
 public final class AddingTransitionContext: TransitionContext {
     
-  public enum CompletionEvent {
+  public enum CompletionEvent: Sendable {
     /// Transition has been finished (no interruption was in there)
     case succeeded
     /// Transition has been interrupted
-    case interrupted
+    case interrupted    
   }
 
   public private(set) var isCompleted: Bool = false
@@ -21,7 +21,7 @@ public final class AddingTransitionContext: TransitionContext {
   
   private let onAnimationCompleted: (AddingTransitionContext) -> Void
 
-  private var callbacks: [(CompletionEvent) -> Void] = []
+  private var callbacks: [@MainActor (CompletionEvent) -> Void] = []
 
   init(
     contentView: FluidStackController.StackingPlatterView,
@@ -59,7 +59,7 @@ public final class AddingTransitionContext: TransitionContext {
   /**
    Adds closure that handles completion events (``CompletionEvent``)
    */
-  public func addCompletionEventHandler(_ closure: @escaping (CompletionEvent) -> Void) {
+  public func addCompletionEventHandler(_ closure: @escaping @MainActor (CompletionEvent) -> Void) {
     assert(Thread.isMainThread)
     callbacks.append(closure)
   }

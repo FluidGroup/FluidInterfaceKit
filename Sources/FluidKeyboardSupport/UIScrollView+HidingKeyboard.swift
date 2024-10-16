@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 fileprivate var ref: Void?
 
 extension UIScrollView {

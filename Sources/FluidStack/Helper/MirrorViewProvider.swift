@@ -2,10 +2,11 @@
 import UIKit
 import FluidPortal
 
+@MainActor
 public final class AnyMirrorViewProvider {
       
   public struct Handlers {
-    public var make: ((_ cached: UIView?) -> UIView)?
+    public var make: (@MainActor (_ cached: UIView?) -> UIView)?
   }
   
   private let handlers: Handlers
@@ -129,8 +130,10 @@ private final class StretchView: UIView {
     
     observation = contentView.observe(\.bounds) { [weak self] contentView, _ in
       guard let self = self else { return }
-      self.invalidateIntrinsicContentSize()
-      self.originalSize = contentView.bounds.size
+      MainActor.assumeIsolated {
+        self.invalidateIntrinsicContentSize()
+        self.originalSize = contentView.bounds.size
+      }
     }
   }
   

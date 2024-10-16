@@ -8,10 +8,12 @@
 import UIKit
 
 /// This class is a helper for finding current safe area insets when they are not available in the direct view hierarchy
+@MainActor
 public final class SafeAreaFinder: NSObject {
 
   public static let notificationName = Notification.Name(rawValue: "app.muukii.fluid.SafeAreaInsetsManager")
-
+  
+  @MainActor
   public static let shared = SafeAreaFinder()
 
   private var currentInsets: UIEdgeInsets? = nil
@@ -26,7 +28,7 @@ public final class SafeAreaFinder: NSObject {
     }
   }
 
-  private var currentDisplayLink: CADisplayLink!
+  private nonisolated(unsafe) var currentDisplayLink: CADisplayLink!
 
   private override init() {
 
@@ -53,8 +55,8 @@ public final class SafeAreaFinder: NSObject {
   }
 
   deinit {
-    currentDisplayLink.isPaused = true
-    currentDisplayLink.invalidate()
+    currentDisplayLink?.isPaused = true
+    currentDisplayLink?.invalidate()
   }
 
   @objc private dynamic func handle() {

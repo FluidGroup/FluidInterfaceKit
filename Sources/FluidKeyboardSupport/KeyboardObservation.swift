@@ -12,6 +12,6 @@ public final class KeyboardObservation {
 
   deinit {
     keyValueObservation.invalidate()
-  onInvalidate()
+    onInvalidate()
   }
 }

@@ -10,12 +10,14 @@ extension AnyRemovingInteraction {
       let viewFrame: CGRect
       let beganPoint: CGPoint
       let animator: UIViewPropertyAnimator
-
+      
+      @MainActor
       func normalizedVelocity(gesture: UIPanGestureRecognizer) -> CGFloat {
         let velocityX = gesture.velocity(in: gesture.view).x
         return velocityX / viewFrame.width
       }
-
+      
+      @MainActor
       func calulateProgress(gesture: UIPanGestureRecognizer) -> CGFloat {
         let targetView = gesture.view!
         let t = targetView.transform
@@ -228,11 +230,13 @@ extension AnyRemovingInteraction {
       let beganPoint: CGPoint
       let animator: UIViewPropertyAnimator
 
+      @MainActor
       func normalizedVelocity(gesture: UIPanGestureRecognizer) -> CGFloat {
         let velocityX = gesture.velocity(in: gesture.view).x
         return velocityX / viewFrame.width
       }
-
+      
+      @MainActor
       func calulateProgress(gesture: UIPanGestureRecognizer) -> CGFloat {
         let targetView = gesture.view!
         let t = targetView.transform

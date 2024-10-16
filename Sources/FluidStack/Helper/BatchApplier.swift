@@ -18,6 +18,7 @@ import UIKit
 extension BatchApplier where T : UIView {
 
   /// Controls alpha value with touch handlings living.
+  @MainActor
   public func setInvisible(_ value: Bool) {
     if value {
       apply { $0.layer.opacity = 0.010001 }
