@@ -21,7 +21,7 @@ extension FluidExtentionViewController {
     target strategy: UIViewController.FluidStackFindStrategy,
     transition: AnyAddingTransition? = nil,
     afterViewDidLoad: @escaping @MainActor () -> Void = {},
-    completion: ((AddingTransitionContext.CompletionEvent) -> Void)? = nil
+    completion: (@MainActor (AddingTransitionContext.CompletionEvent) -> Void)? = nil
   ) {
     
     let controller = viewController
