@@ -1,52 +1,51 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "GeometryKit",
-        "repositoryURL": "https://github.com/FluidGroup/GeometryKit",
-        "state": {
-          "branch": null,
-          "revision": "6cf96dcb220e1b612ba57a717234cbdbf877c009",
-          "version": "1.1.0"
-        }
-      },
-      {
-        "package": "ResultBuilderKit",
-        "repositoryURL": "https://github.com/FluidGroup/ResultBuilderKit.git",
-        "state": {
-          "branch": null,
-          "revision": "34aa57fcee5ec3ee0f368b05cb53c7919c188ab2",
-          "version": "1.3.0"
-        }
-      },
-      {
-        "package": "Rideau",
-        "repositoryURL": "https://github.com/FluidGroup/Rideau.git",
-        "state": {
-          "branch": null,
-          "revision": "fa560b52c246863dee5ab4b03197f6e4a9794607",
-          "version": "2.3.1"
-        }
-      },
-      {
-        "package": "RubberBanding",
-        "repositoryURL": "https://github.com/FluidGroup/swift-rubber-banding",
-        "state": {
-          "branch": null,
-          "revision": "f2dbd09829c6267db0a769e7c37fe332dab0b675",
-          "version": "1.0.0"
-        }
-      },
-      {
-        "package": "swiftui-hosting",
-        "repositoryURL": "https://github.com/FluidGroup/swiftui-Hosting",
-        "state": {
-          "branch": null,
-          "revision": "7e8eaca72eae910d6d3b6272c263c6c3a10b755c",
-          "version": "1.2.0"
-        }
+  "originHash" : "57a7705cf6c833c58baaa027efe647ad29d4daf011f75d018704be9f85ff3d23",
+  "pins" : [
+    {
+      "identity" : "geometrykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/GeometryKit",
+      "state" : {
+        "revision" : "6cf96dcb220e1b612ba57a717234cbdbf877c009",
+        "version" : "1.1.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "resultbuilderkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/ResultBuilderKit.git",
+      "state" : {
+        "revision" : "34aa57fcee5ec3ee0f368b05cb53c7919c188ab2",
+        "version" : "1.3.0"
+      }
+    },
+    {
+      "identity" : "rideau",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/Rideau.git",
+      "state" : {
+        "revision" : "fa560b52c246863dee5ab4b03197f6e4a9794607",
+        "version" : "2.3.1"
+      }
+    },
+    {
+      "identity" : "swift-rubber-banding",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/swift-rubber-banding",
+      "state" : {
+        "revision" : "f2dbd09829c6267db0a769e7c37fe332dab0b675",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swiftui-hosting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/swiftui-Hosting",
+      "state" : {
+        "revision" : "da41d5b6298b9e754936c5e114721d9acf4e83cd",
+        "version" : "2.0.0"
+      }
+    }
+  ],
+  "version" : 3
 }

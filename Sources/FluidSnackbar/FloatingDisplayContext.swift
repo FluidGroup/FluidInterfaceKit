@@ -56,11 +56,11 @@ extension FloatingDisplayContext {
 
 }
 
-private final class _HostingWrapperView: SnackbarDraggableBase {
+private final class _HostingWrapperView<Content: View>: SnackbarDraggableBase {
 
-  private let hostingView: SwiftUIHostingView
+  private let hostingView: SwiftUIHostingView<Content>
 
-  init(hostingView: SwiftUIHostingView, onTap: @escaping @MainActor () -> Void) {
+  init(hostingView: SwiftUIHostingView<Content>, onTap: @escaping @MainActor () -> Void) {
     self.hostingView = hostingView
     super.init(topMargin: .zero)
     contentView.addSubview(hostingView)
