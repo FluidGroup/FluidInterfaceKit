@@ -29,7 +29,7 @@ let package = Package(
       url: "https://github.com/FluidGroup/Rideau.git",
       .upToNextMajor(from: "2.1.0")
     ),
-    .package(url: "https://github.com/FluidGroup/swiftui-Hosting", from: "1.2.0"),
+    .package(url: "https://github.com/FluidGroup/swiftui-Hosting", from: "2.0.0"),
     .package(url: "https://github.com/FluidGroup/swift-rubber-banding", from: "1.0.0"),
   ],
   targets: [
