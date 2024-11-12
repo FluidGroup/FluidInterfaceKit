@@ -980,7 +980,7 @@ extension FluidStackController {
   }
 
   /// A wrapper object that stores an string value that identifies a instance of ``FluidStackController``.
-  public struct Identifier: Hashable {
+  public struct Identifier: Hashable, Sendable {
 
     public let rawValue: String
 
