@@ -1,205 +1,204 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "CompositionKit",
-        "repositoryURL": "https://github.com/FluidGroup/CompositionKit.git",
-        "state": {
-          "branch": "main",
-          "revision": "3382c98ff9778136b6a21667d8152faa452658e0",
-          "version": null
-        }
-      },
-      {
-        "package": "Descriptors",
-        "repositoryURL": "https://github.com/FluidGroup/Descriptors",
-        "state": {
-          "branch": null,
-          "revision": "f41ce2605a76c5d378fe8c5e8c5c98b544dfd108",
-          "version": "0.2.3"
-        }
-      },
-      {
-        "package": "GeometryKit",
-        "repositoryURL": "https://github.com/FluidGroup/GeometryKit",
-        "state": {
-          "branch": null,
-          "revision": "6cf96dcb220e1b612ba57a717234cbdbf877c009",
-          "version": "1.1.0"
-        }
-      },
-      {
-        "package": "IGListKit",
-        "repositoryURL": "https://github.com/3a4oT/IGListKit",
-        "state": {
-          "branch": "spmNumber10",
-          "revision": "979eca9b2da15e35af36f4613452dd6e07641969",
-          "version": null
-        }
-      },
-      {
-        "package": "libwebp",
-        "repositoryURL": "https://github.com/SDWebImage/libwebp-Xcode",
-        "state": {
-          "branch": null,
-          "revision": "0f3bdb28a1edc5e8e43876d3835d20c601ef331f",
-          "version": "1.2.3"
-        }
-      },
-      {
-        "package": "MockKit",
-        "repositoryURL": "https://github.com/muukii/MockKit.git",
-        "state": {
-          "branch": "main",
-          "revision": "facff4540318d08f5f00c2b363abc640be3452f8",
-          "version": null
-        }
-      },
-      {
-        "package": "MondrianLayout",
-        "repositoryURL": "https://github.com/muukii/MondrianLayout.git",
-        "state": {
-          "branch": null,
-          "revision": "5f00b13984fe08316fc5b5be06e2f41c14a3befa",
-          "version": "0.10.0"
-        }
-      },
-      {
-        "package": "Ne",
-        "repositoryURL": "https://github.com/muukii/Ne.git",
-        "state": {
-          "branch": "main",
-          "revision": "864edeb19072716f2fdc7061bf346aa3fe4d06c6",
-          "version": null
-        }
-      },
-      {
-        "package": "PINCache",
-        "repositoryURL": "https://github.com/pinterest/PINCache.git",
-        "state": {
-          "branch": null,
-          "revision": "875c654984fb52b47ca65ae70d24852b0003ccd9",
-          "version": "3.0.3"
-        }
-      },
-      {
-        "package": "PINOperation",
-        "repositoryURL": "https://github.com/pinterest/PINOperation.git",
-        "state": {
-          "branch": null,
-          "revision": "44d8ca154a4e75a028a5548c31ff3a53b90cef15",
-          "version": "1.2.1"
-        }
-      },
-      {
-        "package": "PINRemoteImage",
-        "repositoryURL": "https://github.com/pinterest/PINRemoteImage.git",
-        "state": {
-          "branch": "master",
-          "revision": "18637e4414d77fbc95cd7d499179a9880e9a78d8",
-          "version": null
-        }
-      },
-      {
-        "package": "ResultBuilderKit",
-        "repositoryURL": "https://github.com/FluidGroup/ResultBuilderKit.git",
-        "state": {
-          "branch": null,
-          "revision": "34aa57fcee5ec3ee0f368b05cb53c7919c188ab2",
-          "version": "1.3.0"
-        }
-      },
-      {
-        "package": "Rideau",
-        "repositoryURL": "https://github.com/FluidGroup/Rideau.git",
-        "state": {
-          "branch": null,
-          "revision": "fa560b52c246863dee5ab4b03197f6e4a9794607",
-          "version": "2.3.1"
-        }
-      },
-      {
-        "package": "StackScrollView",
-        "repositoryURL": "https://github.com/FluidGroup/StackScrollView.git",
-        "state": {
-          "branch": null,
-          "revision": "c7d2950cdaee7f4aa0dfd1a1364d352f841c9954",
-          "version": "1.6.3"
-        }
-      },
-      {
-        "package": "Storybook",
-        "repositoryURL": "https://github.com/eure/Storybook-ios",
-        "state": {
-          "branch": "main",
-          "revision": "051236b8432513370a0dfa65dd8dcfc660613426",
-          "version": null
-        }
-      },
-      {
-        "package": "RubberBanding",
-        "repositoryURL": "https://github.com/FluidGroup/swift-rubber-banding",
-        "state": {
-          "branch": null,
-          "revision": "f2dbd09829c6267db0a769e7c37fe332dab0b675",
-          "version": "1.0.0"
-        }
-      },
-      {
-        "package": "swiftui-hosting",
-        "repositoryURL": "https://github.com/FluidGroup/swiftui-hosting.git",
-        "state": {
-          "branch": null,
-          "revision": "7e8eaca72eae910d6d3b6272c263c6c3a10b755c",
-          "version": "1.2.0"
-        }
-      },
-      {
-        "package": "SwiftUISupport",
-        "repositoryURL": "https://github.com/FluidGroup/swiftui-support.git",
-        "state": {
-          "branch": "main",
-          "revision": "78c2d634a3f6255c04e405e32bb7584207e7906f",
-          "version": null
-        }
-      },
-      {
-        "package": "Texture",
-        "repositoryURL": "https://github.com/FluidGroup/Texture.git",
-        "state": {
-          "branch": "spm",
-          "revision": "5d03875bcfb0d87f8057ebeb5f2f6e4527e18128",
-          "version": null
-        }
-      },
-      {
-        "package": "TextureBridging",
-        "repositoryURL": "https://github.com/FluidGroup/TextureBridging.git",
-        "state": {
-          "branch": "main",
-          "revision": "ed8d3ac84c3fda90832c793fdeb8972154bd15fe",
-          "version": null
-        }
-      },
-      {
-        "package": "TextureSwiftSupport",
-        "repositoryURL": "https://github.com/FluidGroup/TextureSwiftSupport.git",
-        "state": {
-          "branch": "main",
-          "revision": "23c2df6dace4e4be8231f23becc5fc51d26dfa47",
-          "version": null
-        }
-      },
-      {
-        "package": "Wrap",
-        "repositoryURL": "https://github.com/VergeGroup/Wrap.git",
-        "state": {
-          "branch": "main",
-          "revision": "68191d84e48723cb5cd9f6432862b9f22438b0a2",
-          "version": null
-        }
+  "originHash" : "a52be0dfd401b4bb508dedd71b3711b09cdd898c2ffa3b9f6aae5abeb69fd509",
+  "pins" : [
+    {
+      "identity" : "compositionkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/CompositionKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "3382c98ff9778136b6a21667d8152faa452658e0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "descriptors",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/Descriptors",
+      "state" : {
+        "revision" : "f41ce2605a76c5d378fe8c5e8c5c98b544dfd108",
+        "version" : "0.2.3"
+      }
+    },
+    {
+      "identity" : "geometrykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/GeometryKit",
+      "state" : {
+        "revision" : "6cf96dcb220e1b612ba57a717234cbdbf877c009",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "iglistkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/3a4oT/IGListKit",
+      "state" : {
+        "branch" : "spmNumber10",
+        "revision" : "979eca9b2da15e35af36f4613452dd6e07641969"
+      }
+    },
+    {
+      "identity" : "libwebp-xcode",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/libwebp-Xcode",
+      "state" : {
+        "revision" : "0f3bdb28a1edc5e8e43876d3835d20c601ef331f",
+        "version" : "1.2.3"
+      }
+    },
+    {
+      "identity" : "mockkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muukii/MockKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "facff4540318d08f5f00c2b363abc640be3452f8"
+      }
+    },
+    {
+      "identity" : "mondrianlayout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muukii/MondrianLayout.git",
+      "state" : {
+        "revision" : "5f00b13984fe08316fc5b5be06e2f41c14a3befa",
+        "version" : "0.10.0"
+      }
+    },
+    {
+      "identity" : "ne",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muukii/Ne.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "864edeb19072716f2fdc7061bf346aa3fe4d06c6"
+      }
+    },
+    {
+      "identity" : "pincache",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pinterest/PINCache.git",
+      "state" : {
+        "revision" : "875c654984fb52b47ca65ae70d24852b0003ccd9",
+        "version" : "3.0.3"
+      }
+    },
+    {
+      "identity" : "pinoperation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pinterest/PINOperation.git",
+      "state" : {
+        "revision" : "44d8ca154a4e75a028a5548c31ff3a53b90cef15",
+        "version" : "1.2.1"
+      }
+    },
+    {
+      "identity" : "pinremoteimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pinterest/PINRemoteImage.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "18637e4414d77fbc95cd7d499179a9880e9a78d8"
+      }
+    },
+    {
+      "identity" : "resultbuilderkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/ResultBuilderKit.git",
+      "state" : {
+        "revision" : "34aa57fcee5ec3ee0f368b05cb53c7919c188ab2",
+        "version" : "1.3.0"
+      }
+    },
+    {
+      "identity" : "rideau",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/Rideau.git",
+      "state" : {
+        "revision" : "fa560b52c246863dee5ab4b03197f6e4a9794607",
+        "version" : "2.3.1"
+      }
+    },
+    {
+      "identity" : "stackscrollview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/StackScrollView.git",
+      "state" : {
+        "revision" : "c7d2950cdaee7f4aa0dfd1a1364d352f841c9954",
+        "version" : "1.6.3"
+      }
+    },
+    {
+      "identity" : "storybook-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/eure/Storybook-ios",
+      "state" : {
+        "branch" : "main",
+        "revision" : "051236b8432513370a0dfa65dd8dcfc660613426"
+      }
+    },
+    {
+      "identity" : "swift-rubber-banding",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/swift-rubber-banding",
+      "state" : {
+        "revision" : "f2dbd09829c6267db0a769e7c37fe332dab0b675",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swiftui-hosting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/swiftui-hosting.git",
+      "state" : {
+        "revision" : "975f2565cff7625f610c36cd7c146d8ab104a1dc",
+        "version" : "2.3.0"
+      }
+    },
+    {
+      "identity" : "swiftui-support",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/swiftui-support.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "78c2d634a3f6255c04e405e32bb7584207e7906f"
+      }
+    },
+    {
+      "identity" : "texture",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/Texture.git",
+      "state" : {
+        "branch" : "spm",
+        "revision" : "5d03875bcfb0d87f8057ebeb5f2f6e4527e18128"
+      }
+    },
+    {
+      "identity" : "texturebridging",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/TextureBridging.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ed8d3ac84c3fda90832c793fdeb8972154bd15fe"
+      }
+    },
+    {
+      "identity" : "textureswiftsupport",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FluidGroup/TextureSwiftSupport.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "23c2df6dace4e4be8231f23becc5fc51d26dfa47"
+      }
+    },
+    {
+      "identity" : "wrap",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/VergeGroup/Wrap.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "68191d84e48723cb5cd9f6432862b9f22438b0a2"
+      }
+    }
+  ],
+  "version" : 3
 }

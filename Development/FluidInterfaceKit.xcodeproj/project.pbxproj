@@ -853,7 +853,7 @@
 			repositoryURL = "https://github.com/FluidGroup/swiftui-hosting.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.0;
+				minimumVersion = 2.3.0;
 			};
 		};
 		4BFFBFD22AD6C1ED0028A73B /* XCRemoteSwiftPackageReference "StackScrollView" */ = {
