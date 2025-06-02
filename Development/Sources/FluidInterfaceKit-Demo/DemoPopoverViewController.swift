@@ -53,12 +53,12 @@ final class DemoPopoverViewController: UIViewController {
 
   private final class Cell: UIView {
 
-    private var hostingView: FluidTooltipContainerView<SwiftUIHostingView>!
+    private var hostingView: FluidTooltipContainerView<AnySwiftUIHostingView>!
 
     init(offset: CGFloat, isTop: Bool) {
       super.init(frame: .null)
 
-      let _contentView = SwiftUIHostingView {
+      let _contentView = AnySwiftUIHostingView {
         Button(
           action: {
 
@@ -100,7 +100,7 @@ final class DemoPopoverViewController: UIViewController {
       fatalError()
     }
 
-    let tipContent = SwiftUIHostingView {
+    let tipContent = AnySwiftUIHostingView {
       HStack {
         Button("tip") {
           print("tap : tip")
