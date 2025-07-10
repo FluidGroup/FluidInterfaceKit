@@ -161,7 +161,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   }
 
   // MARK: - UIViewController
-
+  
   open override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -175,6 +175,13 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       let navigationBar = navigation.navigationBarClass.init()
 
       navigationBar.delegate = self
+      
+      subscriptions.append(
+        navigationBar.observe(\.bounds, options: [.initial, .old, .new]) { [weak self] view, _ in
+          guard let self else { return }
+          self.additionalSafeAreaInsets.top = view.frame.height
+        }
+      )
 
       view.addSubview(navigationBar)
 
