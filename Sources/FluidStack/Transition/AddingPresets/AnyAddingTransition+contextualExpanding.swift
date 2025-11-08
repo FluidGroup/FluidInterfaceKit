@@ -9,16 +9,16 @@ extension AnyAddingTransition {
   ) -> Self {
 
     return .init { (context: AddingTransitionContext) in
-      
+
       let entrypointSnapshotView = AnyMirrorViewProvider.portal(view: entrypointView, hidesSourceOnUsing: true).view()
-    
+
       let maskView = UIView()
       maskView.backgroundColor = .black
 
       if context.contentView.backgroundColor == nil {
         context.contentView.backgroundColor = .clear
       }
-      
+
       //Fluid.doIfNotAnimating(view: context.toViewController.view) { _ in
       do {
         maskView.frame = context.toViewController.view.bounds
@@ -51,8 +51,18 @@ extension AnyAddingTransition {
         /// make initial state for displaying view
         let translation = Geometry.centerAndScale(from: context.contentView.bounds, to: fromFrame)
 
-        context.toViewController.view.transform = .init(scaleX: translation.scale.x, y: translation.scale.y)
-        context.toViewController.view.center = translation.center
+        // Use transform translation instead of view.center to avoid breaking UIKeyboardLayoutGuide
+        let currentCenter = context.toViewController.view.center
+        let offset = CGPoint(
+          x: translation.center.x - currentCenter.x,
+          y: translation.center.y - currentCenter.y
+        )
+
+        // Combine scale and translation
+        // Note: translate amount is scaled, so we need to divide by scale
+        context.toViewController.view.transform = CGAffineTransform(scaleX: translation.scale.x, y: translation.scale.y)
+          .translatedBy(x: offset.x / translation.scale.x, y: offset.y / translation.scale.y)
+
         context.toViewController.view.alpha = 0.2
 
         // fix visually height against transforming
