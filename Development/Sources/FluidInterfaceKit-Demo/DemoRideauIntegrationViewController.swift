@@ -62,6 +62,13 @@ final class DemoRideauIntegrationViewController: FluidStackController {
             _display_present()
           }
         )
+
+        Self.makeCell(
+          title: "System Sheet + UINavigationController",
+          onTap: { [unowned self] in
+            _display_systemSheet_navigationController()
+          }
+        )
       }
     )
 
@@ -108,17 +115,48 @@ final class DemoRideauIntegrationViewController: FluidStackController {
   }
   
   private func _display_swiftui() {
-    
+
     let body = SwiftUIContentViewController()
-    
+
     let rideauController = FluidRideauViewController(
       bodyViewController: body.fluidWrapped(configuration: .defaultModal),
       configuration: .init(snapPoints: [.autoPointsFromBottom]),
       initialSnapPoint: .autoPointsFromBottom,
       resizingOption: .noResize
     )
-    
+
     fluidPush(rideauController, target: .current)
+  }
+
+  private func _display_systemSheet_navigationController() {
+    let content = SimpleContentViewController()
+    content.navigationItem.title = "System Sheet"
+    content.navigationItem.rightBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .done,
+      target: self,
+      action: #selector(_dismissSheet)
+    )
+    content.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .close,
+      target: self,
+      action: #selector(_dismissSheet)
+    )
+
+    let nav = UINavigationController(rootViewController: content)
+    nav.modalPresentationStyle = .pageSheet
+
+    if #available(iOS 15.0, *) {
+      if let sheet = nav.sheetPresentationController {
+        sheet.detents = [.medium(), .large()]
+        sheet.prefersGrabberVisible = true
+      }
+    }
+
+    present(nav, animated: true)
+  }
+
+  @objc private func _dismissSheet() {
+    dismiss(animated: true)
   }
 
   private static func makeCell(title: String, onTap: @escaping () -> Void) -> UIView {
@@ -142,6 +180,14 @@ final class DemoRideauIntegrationViewController: FluidStackController {
 import SwiftUI
 import SwiftUISupport
 import SwiftUIHosting
+
+private final class SimpleContentViewController: UIViewController {
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    view.backgroundColor = .neonRandom()
+  }
+}
 
 private final class SwiftUIContentViewController: UIViewController {
   
@@ -178,8 +224,18 @@ private final class ContentViewController: FluidStackController {
   ) {
     self._dismiss = dismiss
     super.init()
-    
+
     navigationItem.title = "Rideau"
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .done,
+      target: nil,
+      action: nil
+    )
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .close,
+      target: nil,
+      action: nil
+    )
   }
 
   required init?(

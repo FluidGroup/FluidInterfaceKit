@@ -179,20 +179,34 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       subscriptions.append(
         navigationBar.observe(\.bounds, options: [.initial, .old, .new]) { [weak self] view, _ in
           guard let self else { return }
-          self.additionalSafeAreaInsets.top = view.frame.height
+          MainActor.assumeIsolated {
+            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height
+            view.invalidateIntrinsicContentSize()
+          }
+        }
+       
+      )
+      
+      subscriptions.append(
+        navigationBar.observe(\.intrinsicContentSize, options: [.initial, .old, .new]) { [weak self] view, _ in
+          guard let self else { return }
+          MainActor.assumeIsolated {
+            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height
+            view.invalidateIntrinsicContentSize()
+          }
         }
       )
-
-      view.addSubview(navigationBar)
-
+      
       navigationBar.translatesAutoresizingMaskIntoConstraints = false
+      
+      view.addSubview(navigationBar)
 
       NSLayoutConstraint.activate([
         navigationBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
         navigationBar.rightAnchor.constraint(equalTo: view.rightAnchor),
         navigationBar.leftAnchor.constraint(equalTo: view.leftAnchor),
       ])
-
+            
       let targetNavigationItem =
         navigation.usesBodyViewController
         ? (content.bodyViewController?.navigationItem ?? navigationItem) : navigationItem
@@ -274,7 +288,8 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
       if !state.isTopBarHidden && state.isTopBarAvailable {
         topBar.isHidden = false
-        additionalSafeAreaInsets.top = topBar.frame.height
+        additionalSafeAreaInsets.top = topBar.intrinsicContentSize.height
+        topBar.invalidateIntrinsicContentSize()
       } else {
         topBar.isHidden = true
         additionalSafeAreaInsets.top = 0
