@@ -80,8 +80,17 @@ final class DemoRideauIntegrationViewController: FluidStackController {
       instance.fluidPop(transition: nil, completion: nil)
     }
 
+    // Use topPadding: 12 to match System Sheet's 56pt (44pt + 12pt)
+    let fluidConfig = FluidViewController.Configuration(
+      transition: .modalStyle,
+      topBar: .navigation(.init(
+        navigationBarClass: UINavigationBar.self,
+        topPadding: 12
+      ))
+    )
+
     let rideauController = FluidRideauViewController(
-      bodyViewController: body.fluidWrapped(configuration: .defaultModal),
+      bodyViewController: body.fluidWrapped(configuration: fluidConfig),
       configuration: .init(
         snapPoints: [.pointsFromTop(200)],
         topMarginOption: .fromSafeArea(0)
@@ -89,7 +98,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
       initialSnapPoint: .pointsFromTop(200),
       resizingOption: .noResize
     )
-    
+
     fluidPush(rideauController, target: .current)
 
   }

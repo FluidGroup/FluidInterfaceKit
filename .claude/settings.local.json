@@ -8,7 +8,8 @@
       "mcp__plugin_ios_mobile-mcp__mobile_list_apps",
       "mcp__plugin_ios_mobile-mcp__mobile_launch_app",
       "mcp__plugin_ios_mobile-mcp__mobile_list_elements_on_screen",
-      "mcp__plugin_ios_mobile-mcp__mobile_click_on_screen_at_coordinates"
+      "mcp__plugin_ios_mobile-mcp__mobile_click_on_screen_at_coordinates",
+      "Bash(xcbeautify)"
     ]
   }
 }

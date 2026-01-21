@@ -177,21 +177,21 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       navigationBar.delegate = self
       
       subscriptions.append(
-        navigationBar.observe(\.bounds, options: [.initial, .old, .new]) { [weak self] view, _ in
+        navigationBar.observe(\.bounds, options: [.initial, .old, .new]) { [weak self, topPadding = navigation.topPadding] view, _ in
           guard let self else { return }
           MainActor.assumeIsolated {
-            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height
+            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height + topPadding
             view.invalidateIntrinsicContentSize()
           }
         }
-       
+
       )
-      
+
       subscriptions.append(
-        navigationBar.observe(\.intrinsicContentSize, options: [.initial, .old, .new]) { [weak self] view, _ in
+        navigationBar.observe(\.intrinsicContentSize, options: [.initial, .old, .new]) { [weak self, topPadding = navigation.topPadding] view, _ in
           guard let self else { return }
           MainActor.assumeIsolated {
-            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height
+            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height + topPadding
             view.invalidateIntrinsicContentSize()
           }
         }
@@ -288,7 +288,11 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
       if !state.isTopBarHidden && state.isTopBarAvailable {
         topBar.isHidden = false
-        additionalSafeAreaInsets.top = topBar.intrinsicContentSize.height
+        if case .navigation(let nav) = configuration.topBar {
+          additionalSafeAreaInsets.top = topBar.intrinsicContentSize.height + nav.topPadding
+        } else {
+          additionalSafeAreaInsets.top = topBar.intrinsicContentSize.height
+        }
         topBar.invalidateIntrinsicContentSize()
       } else {
         topBar.isHidden = true
@@ -458,6 +462,10 @@ extension FluidViewController {
 
         public let navigationBarClass: UINavigationBar.Type
 
+        /// Additional value to add to `additionalSafeAreaInsets.top`.
+        /// Use this to match System Sheet's UINavigationBar height (56pt vs 44pt).
+        public var topPadding: CGFloat
+
         let _activityHandler: @Sendable @MainActor (Activity<UINavigationBar>) -> Void
 
         /// Initializer
@@ -468,11 +476,13 @@ extension FluidViewController {
           displayMode: DisplayMode = .automatic,
           usesBodyViewController: Bool = true,
           navigationBarClass: NavigationBar.Type,
+          topPadding: CGFloat = 0,
           activityHandler: @escaping @MainActor (Activity<NavigationBar>) -> Void = { _ in }
         ) {
           self.displayMode = displayMode
           self.usesBodyViewController = usesBodyViewController
           self.navigationBarClass = navigationBarClass
+          self.topPadding = topPadding
           self._activityHandler = { activity in
             switch activity {
             case .didLoad(let controller, let navigationBar):
@@ -487,8 +497,9 @@ extension FluidViewController {
           displayMode: .automatic,
           usesBodyViewController: true,
           navigationBarClass: UINavigationBar.self,
+          topPadding: 0,
           activityHandler: { _ in
-            
+
           }
         )
 
