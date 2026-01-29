@@ -94,4 +94,5 @@ test_output
 /Derived
 /*.xcodeproj
 
+.claude/settings.local.json
 # End of https://www.toptal.com/developers/gitignore/api/swift
