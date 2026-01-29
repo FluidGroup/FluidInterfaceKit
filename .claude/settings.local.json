@@ -11,5 +11,12 @@
       "mcp__plugin_ios_mobile-mcp__mobile_click_on_screen_at_coordinates",
       "Bash(xcbeautify)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "XcodeBuildMCP",
+    "mobile-mcp",
+    "atlassian",
+    "maestro"
+  ],
+  "enableAllProjectMcpServers": true
 }

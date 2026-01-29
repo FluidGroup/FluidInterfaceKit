@@ -102,7 +102,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   }
 
   // MARK: - Functions
-  
+
   @objc
   open func triggerFluidPop() {
     fluidPop(transition: nil)
@@ -161,7 +161,7 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
   }
 
   // MARK: - UIViewController
-  
+
   open override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -177,10 +177,10 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       navigationBar.delegate = self
       
       subscriptions.append(
-        navigationBar.observe(\.bounds, options: [.initial, .old, .new]) { [weak self, topPadding = navigation.topPadding] view, _ in
+        navigationBar.observe(\.bounds, options: [.initial, .old, .new]) { [weak self] view, _ in
           guard let self else { return }
           MainActor.assumeIsolated {
-            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height + topPadding
+            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height + navigation._topPaddingProvider(self)
             view.invalidateIntrinsicContentSize()
           }
         }
@@ -188,10 +188,10 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
       )
 
       subscriptions.append(
-        navigationBar.observe(\.intrinsicContentSize, options: [.initial, .old, .new]) { [weak self, topPadding = navigation.topPadding] view, _ in
+        navigationBar.observe(\.intrinsicContentSize, options: [.initial, .old, .new]) { [weak self] view, _ in
           guard let self else { return }
           MainActor.assumeIsolated {
-            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height + topPadding
+            self.additionalSafeAreaInsets.top = view.intrinsicContentSize.height + navigation._topPaddingProvider(self)
             view.invalidateIntrinsicContentSize()
           }
         }
@@ -288,10 +288,8 @@ open class FluidViewController: FluidGestureHandlingViewController, UINavigation
 
       if !state.isTopBarHidden && state.isTopBarAvailable {
         topBar.isHidden = false
-        if case .navigation(let nav) = configuration.topBar {
-          additionalSafeAreaInsets.top = topBar.intrinsicContentSize.height + nav.topPadding
-        } else {
-          additionalSafeAreaInsets.top = topBar.intrinsicContentSize.height
+        if case .navigation(let navigation) = configuration.topBar {
+          additionalSafeAreaInsets.top = topBar.intrinsicContentSize.height + navigation._topPaddingProvider(self)
         }
         topBar.invalidateIntrinsicContentSize()
       } else {
@@ -462,27 +460,29 @@ extension FluidViewController {
 
         public let navigationBarClass: UINavigationBar.Type
 
-        /// Additional value to add to `additionalSafeAreaInsets.top`.
-        /// Use this to match System Sheet's UINavigationBar height (56pt vs 44pt).
-        public var topPadding: CGFloat
-
         let _activityHandler: @Sendable @MainActor (Activity<UINavigationBar>) -> Void
+
+        let _topPaddingProvider: @Sendable @MainActor (FluidViewController) -> CGFloat
 
         /// Initializer
         ///
         /// - Parameters:
-        ///   - updateNavigationBar: A closure to update the navigation bar with the owner.
+        ///   - displayMode: Controls when the navigation bar is visible.
+        ///   - usesBodyViewController: Whether to use the body view controller's navigation item.
+        ///   - navigationBarClass: The class of navigation bar to use.
+        ///   - topPaddingProvider: A closure that returns additional top padding above the navigation bar.
+        ///   - activityHandler: A closure called when navigation bar lifecycle events occur.
         public init<NavigationBar: UINavigationBar>(
           displayMode: DisplayMode = .automatic,
           usesBodyViewController: Bool = true,
           navigationBarClass: NavigationBar.Type,
-          topPadding: CGFloat = 0,
+          topPaddingProvider: @escaping @MainActor @Sendable (FluidViewController) -> CGFloat = { _ in 0 },
           activityHandler: @escaping @MainActor (Activity<NavigationBar>) -> Void = { _ in }
         ) {
           self.displayMode = displayMode
           self.usesBodyViewController = usesBodyViewController
           self.navigationBarClass = navigationBarClass
-          self.topPadding = topPadding
+          self._topPaddingProvider = topPaddingProvider
           self._activityHandler = { activity in
             switch activity {
             case .didLoad(let controller, let navigationBar):
@@ -492,15 +492,13 @@ extension FluidViewController {
             }
           }
         }
-        
+
         public static let `default`: Self = .init(
           displayMode: .automatic,
           usesBodyViewController: true,
           navigationBarClass: UINavigationBar.self,
-          topPadding: 0,
-          activityHandler: { _ in
-
-          }
+          topPaddingProvider: { _ in 0 },
+          activityHandler: { _ in }
         )
 
       }
