@@ -566,13 +566,14 @@ final class FluidStackControllerTests: XCTestCase {
   }
 
   /// Tests that batch removing completion is called exactly once.
-  /// Previously, when multiple StackingPlatterViews shared the same
-  /// BatchRemovingTransitionContext, each swapTransitionContext call
-  /// would fire invalidate() on the shared context, causing completion
-  /// to be called N times.
+  /// When fluidPop triggers batch removing (VC is not on top),
+  /// the completion must fire exactly once after the batch transition completes.
   func testBatchRemovingCompletionCalledOnce() {
 
+    let window = UIWindow()
     let stack = FluidStackController()
+    window.rootViewController = stack
+    window.makeKeyAndVisible()
 
     let vc1 = UIViewController()
     let vc2 = UIViewController()
@@ -586,17 +587,16 @@ final class FluidStackControllerTests: XCTestCase {
 
     XCTAssertEqual(stack.stackingViewControllers.count, 4)
 
+    let exp = expectation(description: "completion called")
+    exp.assertForOverFulfill = true
     var completionCallCount = 0
 
-    // Remove vc2, which is not on top -> triggers batch removing of [vc2, vc3, vc4]
-    stack.removeViewController(
-      vc2,
-      transition: nil,
-      transitionForBatch: .disabled,
-      completion: { event in
-        completionCallCount += 1
-      }
-    )
+    vc2.fluidPop { _ in
+      completionCallCount += 1
+      exp.fulfill()
+    }
+
+    wait(for: [exp], timeout: 2)
 
     XCTAssertEqual(stack.stackingViewControllers.count, 1)
     XCTAssertEqual(completionCallCount, 1, "Completion should be called exactly once")
