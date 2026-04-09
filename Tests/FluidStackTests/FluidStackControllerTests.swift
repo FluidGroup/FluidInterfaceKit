@@ -565,6 +565,68 @@ final class FluidStackControllerTests: XCTestCase {
 
   }
 
+  /// Tests that batch removing completion is called exactly once.
+  /// Previously, when multiple StackingPlatterViews shared the same
+  /// BatchRemovingTransitionContext, each swapTransitionContext call
+  /// would fire invalidate() on the shared context, causing completion
+  /// to be called N times.
+  func testBatchRemovingCompletionCalledOnce() {
+
+    let stack = FluidStackController()
+
+    let vc1 = UIViewController()
+    let vc2 = UIViewController()
+    let vc3 = UIViewController()
+    let vc4 = UIViewController()
+
+    stack.addContentViewController(vc1, transition: .disabled)
+    stack.addContentViewController(vc2, transition: .disabled)
+    stack.addContentViewController(vc3, transition: .disabled)
+    stack.addContentViewController(vc4, transition: .disabled)
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 4)
+
+    var completionCallCount = 0
+
+    // Remove vc2, which is not on top -> triggers batch removing of [vc2, vc3, vc4]
+    stack.removeViewController(
+      vc2,
+      transition: nil,
+      transitionForBatch: .disabled,
+      completion: { event in
+        completionCallCount += 1
+      }
+    )
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 1)
+    XCTAssertEqual(completionCallCount, 1, "Completion should be called exactly once")
+  }
+
+  /// Tests that removeAllViewController completion is called exactly once.
+  func testRemoveAllViewControllerCompletionCalledOnce() {
+
+    let stack = FluidStackController()
+
+    stack.addContentViewController(UIViewController(), transition: .disabled)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 4)
+
+    var completionCallCount = 0
+
+    stack.removeAllViewController(
+      transition: .disabled,
+      completion: { event in
+        completionCallCount += 1
+      }
+    )
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 1)
+    XCTAssertEqual(completionCallCount, 1, "Completion should be called exactly once")
+  }
+
   final class ContentTypeOption: UIViewController {
     init(contentType: FluidStackContentConfiguration.ContentType) {
       super.init(nibName: nil, bundle: nil)

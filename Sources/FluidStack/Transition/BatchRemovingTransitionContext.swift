@@ -36,6 +36,7 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   
   private let onCompleted: (BatchRemovingTransitionContext) -> Void
   private var childContexts: [ChildContext] = []
+  private var hasNotifiedCompletion: Bool = false
   private var callbacks: [(CompletionEvent) -> Void] = []
 
   init(
@@ -56,6 +57,7 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   
   public func notifyCompleted() {
     assert(Thread.isMainThread)
+    guard isInvalidated == false, isCompleted == false else { return }
     isCompleted = true
     onCompleted(self)
   }
@@ -91,6 +93,8 @@ public final class BatchRemovingTransitionContext: TransitionContext {
   override func invalidate() {
     assert(Thread.isMainThread)
     isInvalidated = true
+    guard hasNotifiedCompletion == false else { return }
+    hasNotifiedCompletion = true
     callbacks.forEach { $0(.interrupted) }
   }
   
@@ -106,6 +110,9 @@ public final class BatchRemovingTransitionContext: TransitionContext {
    Triggers ``addCompletionEventHandler(_:)`` with ``TransitionContext/CompletionEvent/succeeded``
    */
   func transitionSucceeded() {
-    callbacks.forEach{ $0(.succeeded) }
+    assert(Thread.isMainThread)
+    guard hasNotifiedCompletion == false else { return }
+    hasNotifiedCompletion = true
+    callbacks.forEach { $0(.succeeded) }
   }
 }
