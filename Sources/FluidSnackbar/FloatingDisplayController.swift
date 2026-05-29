@@ -37,6 +37,17 @@ open class FloatingDisplayController {
     self.displayTarget = .init(edgeTargetSafeArea: edgeTargetSafeArea)
   }
 
+  @available(iOS 13.0, *)
+  public init(
+    edgeTargetSafeArea: FloatingDisplayTarget.EdgeTargetSafeArea,
+    windowScene: UIWindowScene
+  ) {
+    self.displayTarget = .init(
+      edgeTargetSafeArea: edgeTargetSafeArea,
+      windowScene: windowScene
+    )
+  }
+
 // MARK: - Functions
 
   private func drain() {

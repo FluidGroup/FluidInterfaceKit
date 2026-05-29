@@ -104,6 +104,7 @@ extension FluidPictureInPictureController {
     let containerView: ContainerView = .init()
 
     let sizeForFloating = CGSize(width: 100, height: 140)
+    let safeAreaFinder = SafeAreaFinder()
         
     private(set) var state: State = .init() {
       didSet {
@@ -145,6 +146,7 @@ extension FluidPictureInPictureController {
     }
     
     @objc private func handleInsetsUpdate(notification: Notification) {
+      guard notification.userInfo?["finder"] as? SafeAreaFinder === safeAreaFinder else { return }
       let inset = notification.object as! UIEdgeInsets
       state.inset = inset
       setNeedsLayout()
@@ -229,11 +231,13 @@ extension FluidPictureInPictureController {
     
     override func didMoveToWindow() {
       super.didMoveToWindow()
-      
+
+      safeAreaFinder.window = window
+
       if window != nil {
-        SafeAreaFinder.shared.start()
+        safeAreaFinder.start()
       } else {
-        SafeAreaFinder.shared.pause()
+        safeAreaFinder.pause()
       }
     }
     
