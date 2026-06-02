@@ -12,9 +12,11 @@ import UIKit
 public final class SafeAreaFinder: NSObject {
 
   public static let notificationName = Notification.Name(rawValue: "app.muukii.fluid.SafeAreaInsetsManager")
-  
-  @MainActor
-  public static let shared = SafeAreaFinder()
+
+  @available(iOS 13.0, *)
+  public weak var windowScene: UIWindowScene?
+
+  public weak var window: UIWindow?
 
   private var currentInsets: UIEdgeInsets? = nil
 
@@ -30,10 +32,31 @@ public final class SafeAreaFinder: NSObject {
 
   private nonisolated(unsafe) var currentDisplayLink: CADisplayLink!
 
-  private override init() {
+  public override init() {
 
     super.init()
 
+    setUpDisplayLink()
+  }
+
+  @available(iOS 13.0, *)
+  public init(windowScene: UIWindowScene) {
+    self.windowScene = windowScene
+
+    super.init()
+
+    setUpDisplayLink()
+  }
+
+  public init(window: UIWindow) {
+    self.window = window
+
+    super.init()
+
+    setUpDisplayLink()
+  }
+
+  private func setUpDisplayLink() {
     currentDisplayLink = .init(target: self, selector: #selector(handle))
     currentDisplayLink.preferredFramesPerSecond = 1
     currentDisplayLink.add(to: .main, forMode: .default)
@@ -60,6 +83,19 @@ public final class SafeAreaFinder: NSObject {
   }
 
   @objc private dynamic func handle() {
+    if let window {
+      _handle(in: window)
+      return
+    }
+
+    if #available(iOS 13.0, *), let windowScene {
+      guard let window = windowScene.windows.first(where: \.isKeyWindow) ?? windowScene.windows.first else {
+        return
+      }
+      _handle(in: window)
+      return
+    }
+
     guard let window = UIApplication.shared.delegate?.window ?? nil else {
       return
     }
@@ -134,7 +170,7 @@ public final class SafeAreaFinder: NSObject {
 
     if currentInsets != maximumInsets {
       currentInsets = maximumInsets
-      NotificationCenter.default.post(name: Self.notificationName, object: maximumInsets)
+      NotificationCenter.default.post(name: Self.notificationName, object: maximumInsets, userInfo: ["finder": self])
     }
   }
 
