@@ -40,14 +40,22 @@ public final class FloatingDisplayTarget {
         left: .activeWindow
       )
     }
+
+    fileprivate var containsActiveWindowEdge: Bool {
+      top == .activeWindow
+        || right == .activeWindow
+        || bottom == .activeWindow
+        || left == .activeWindow
+    }
   }
 
-  public enum TargetSafeArea {
+  public enum TargetSafeArea: Equatable {
     case notificationWindow
     case activeWindow
   }
 
   private let notificationWindow: NotificationWindow
+  private let safeAreaFinder: SafeAreaFinder
   private let notificationViewController: NotificationViewController
 
   public var additionalSafeAreaInsets: UIEdgeInsets {
@@ -69,35 +77,31 @@ public final class FloatingDisplayTarget {
   }
 
   public func makeWindowVisible() {
+    _ = notificationViewController.view
     notificationWindow.isHidden = false
+
+    if notificationViewController.needsActiveWindowSafeArea {
+      safeAreaFinder.start()
+    }
   }
 
   public func hideWindow() {
     notificationWindow.isHidden = true
+    safeAreaFinder.stop()
   }
 
-  public init(edgeTargetSafeArea: EdgeTargetSafeArea) {
+  @available(iOS 13.0, *)
+  public init(
+    edgeTargetSafeArea: EdgeTargetSafeArea,
+    windowScene: UIWindowScene
+  ) {
 
-    self.notificationViewController = .init(edgeTargetSafeArea: edgeTargetSafeArea)
-
-    if #available(iOS 13, *) {
-
-      let windowScene = UIApplication.shared
-        .connectedScenes
-        .lazy
-        .filter { $0.activationState == .foregroundActive }
-        .compactMap { $0 as? UIWindowScene }
-        .first
-
-      if let windowScene = windowScene {
-        notificationWindow = .init(windowScene: windowScene)
-      } else {
-        notificationWindow = .init(frame: .zero)
-      }
-
-    } else {
-      notificationWindow = .init(frame: .zero)
-    }
+    self.safeAreaFinder = .init(windowScene: windowScene)
+    self.notificationViewController = .init(
+      edgeTargetSafeArea: edgeTargetSafeArea,
+      safeAreaFinder: safeAreaFinder
+    )
+    self.notificationWindow = .init(windowScene: windowScene)
 
     notificationWindow.windowLevel = UIWindow.Level(rawValue: 5)
     notificationWindow.isHidden = true
@@ -108,11 +112,11 @@ public final class FloatingDisplayTarget {
     notificationViewController.endAppearanceTransition()
   }
 
-  deinit {      
-    Task { @MainActor [notificationWindow] in      
+  deinit {
+    Task { @MainActor [safeAreaFinder, notificationWindow] in
+      safeAreaFinder.stop()
       notificationWindow.isHidden = false
     }
-    
   }
 
 }
@@ -149,9 +153,18 @@ extension FloatingDisplayTarget {
   fileprivate final class NotificationViewController: UIViewController {
 
     private let edgeTargetSafeArea: EdgeTargetSafeArea
+    private let safeAreaFinder: SafeAreaFinder
 
-    init(edgeTargetSafeArea: EdgeTargetSafeArea) {
+    fileprivate var needsActiveWindowSafeArea: Bool {
+      edgeTargetSafeArea.containsActiveWindowEdge
+    }
+
+    init(
+      edgeTargetSafeArea: EdgeTargetSafeArea,
+      safeAreaFinder: SafeAreaFinder
+    ) {
       self.edgeTargetSafeArea = edgeTargetSafeArea
+      self.safeAreaFinder = safeAreaFinder
       super.init(nibName: nil, bundle: nil)
     }
 
@@ -160,7 +173,10 @@ extension FloatingDisplayTarget {
     }
 
     override fileprivate func loadView() {
-      view = View(edgeTargetSafeArea: edgeTargetSafeArea)
+      view = View(
+        edgeTargetSafeArea: edgeTargetSafeArea,
+        safeAreaFinder: safeAreaFinder
+      )
     }
 
     override fileprivate func viewDidLoad() {
@@ -172,6 +188,7 @@ extension FloatingDisplayTarget {
     fileprivate class View: UIView {
 
       private let edgeTargetSafeArea: EdgeTargetSafeArea
+      private let safeAreaFinder: SafeAreaFinder
 
       private var _safeAreaLayoutGuide: UILayoutGuide = .init()
       private var activeWindowSafeAreaLayoutGuideConstraintLeft: NSLayoutConstraint?
@@ -181,15 +198,19 @@ extension FloatingDisplayTarget {
 
       private var hasSafeAreaFinderActivated: Bool = false
 
-      init(edgeTargetSafeArea: EdgeTargetSafeArea) {
+      init(
+        edgeTargetSafeArea: EdgeTargetSafeArea,
+        safeAreaFinder: SafeAreaFinder
+      ) {
 
         self.edgeTargetSafeArea = edgeTargetSafeArea
+        self.safeAreaFinder = safeAreaFinder
 
         super.init(frame: .zero)
 
         addLayoutGuide(_safeAreaLayoutGuide)
 
-        var containsActievWindowSafeAreaEdge: Bool = false
+        var containsActiveWindowSafeAreaEdge: Bool = false
 
         switch edgeTargetSafeArea.top {
         case .notificationWindow:
@@ -198,7 +219,7 @@ extension FloatingDisplayTarget {
         case .activeWindow:
           activeWindowSafeAreaLayoutGuideConstraintTop = topAnchor.constraint(
             equalTo: _safeAreaLayoutGuide.topAnchor)
-          containsActievWindowSafeAreaEdge = true
+          containsActiveWindowSafeAreaEdge = true
         }
 
         switch edgeTargetSafeArea.right {
@@ -209,7 +230,7 @@ extension FloatingDisplayTarget {
         case .activeWindow:
           activeWindowSafeAreaLayoutGuideConstraintRight = rightAnchor.constraint(
             equalTo: _safeAreaLayoutGuide.rightAnchor)
-          containsActievWindowSafeAreaEdge = true
+          containsActiveWindowSafeAreaEdge = true
         }
 
         switch edgeTargetSafeArea.bottom {
@@ -220,7 +241,7 @@ extension FloatingDisplayTarget {
         case .activeWindow:
           activeWindowSafeAreaLayoutGuideConstraintBottom = bottomAnchor.constraint(
             equalTo: _safeAreaLayoutGuide.bottomAnchor)
-          containsActievWindowSafeAreaEdge = true
+          containsActiveWindowSafeAreaEdge = true
         }
 
         switch edgeTargetSafeArea.left {
@@ -230,10 +251,10 @@ extension FloatingDisplayTarget {
         case .activeWindow:
           activeWindowSafeAreaLayoutGuideConstraintLeft = leftAnchor.constraint(
             equalTo: _safeAreaLayoutGuide.leftAnchor)
-          containsActievWindowSafeAreaEdge = true
+          containsActiveWindowSafeAreaEdge = true
         }
 
-        if containsActievWindowSafeAreaEdge {
+        if containsActiveWindowSafeAreaEdge {
 
           NSLayoutConstraint.activate(
             [
@@ -248,13 +269,13 @@ extension FloatingDisplayTarget {
           NotificationCenter.default.addObserver(
             self, selector: #selector(handleInsetsUpdate), name: SafeAreaFinder.notificationName,
             object: nil)
-          SafeAreaFinder.shared.start()
         }
       }
 
       @objc private func handleInsetsUpdate(notification: Notification) {
 
         guard hasSafeAreaFinderActivated else { return }
+        guard notification.userInfo?["finder"] as? SafeAreaFinder === safeAreaFinder else { return }
 
         let insets = notification.object as! UIEdgeInsets
         self.activeWindowSafeAreaLayoutGuideConstraintLeft?.constant = insets.left
@@ -287,10 +308,9 @@ extension FloatingDisplayTarget {
       }
 
       deinit {
-        Task { @MainActor [hasSafeAreaFinderActivated] in 
-          if hasSafeAreaFinderActivated {
-            SafeAreaFinder.shared.pause()
-          }
+        NotificationCenter.default.removeObserver(self)
+        Task { @MainActor [safeAreaFinder] in
+          safeAreaFinder.stop()
         }
       }
     }
