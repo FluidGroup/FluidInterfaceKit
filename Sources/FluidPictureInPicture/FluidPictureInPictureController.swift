@@ -104,7 +104,7 @@ extension FluidPictureInPictureController {
     let containerView: ContainerView = .init()
 
     let sizeForFloating = CGSize(width: 100, height: 140)
-    let safeAreaFinder = SafeAreaFinder()
+    let safeAreaFinder: SafeAreaFinder
         
     private(set) var state: State = .init() {
       didSet {
@@ -124,6 +124,9 @@ extension FluidPictureInPictureController {
     override init(
       frame: CGRect
     ) {
+
+      self.safeAreaFinder = .init(windowScene: nil)
+
       super.init(frame: frame)
 
       let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
@@ -232,7 +235,7 @@ extension FluidPictureInPictureController {
     override func didMoveToWindow() {
       super.didMoveToWindow()
 
-      safeAreaFinder.window = window
+      safeAreaFinder.windowScene = window?.windowScene
 
       if window != nil {
         safeAreaFinder.start()

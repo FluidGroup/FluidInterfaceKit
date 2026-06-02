@@ -16,51 +16,28 @@ public final class SafeAreaFinder: NSObject {
   @available(iOS 13.0, *)
   public weak var windowScene: UIWindowScene?
 
-  public weak var window: UIWindow?
-
   private var currentInsets: UIEdgeInsets? = nil
 
-  private var referenceCounter: Int = 0 {
-    didSet {
-      if referenceCounter > 0 {
-        currentDisplayLink.isPaused = false
-      } else {
-        currentDisplayLink.isPaused = true
-      }
-    }
-  }
+  private var isRunning: Bool = false
 
-  private nonisolated(unsafe) var currentDisplayLink: CADisplayLink!
-
-  public override init() {
-
-    super.init()
-
-    setUpDisplayLink()
-  }
+  private nonisolated(unsafe) var currentDisplayLink: CADisplayLink?
 
   @available(iOS 13.0, *)
-  public init(windowScene: UIWindowScene) {
+  public init(windowScene: UIWindowScene?) {
     self.windowScene = windowScene
 
     super.init()
-
-    setUpDisplayLink()
-  }
-
-  public init(window: UIWindow) {
-    self.window = window
-
-    super.init()
-
-    setUpDisplayLink()
   }
 
   private func setUpDisplayLink() {
+    guard currentDisplayLink == nil else {
+      return
+    }
+
     currentDisplayLink = .init(target: self, selector: #selector(handle))
-    currentDisplayLink.preferredFramesPerSecond = 1
-    currentDisplayLink.add(to: .main, forMode: .default)
-    currentDisplayLink.isPaused = true
+    currentDisplayLink?.preferredFramesPerSecond = 1
+    currentDisplayLink?.add(to: .main, forMode: .default)
+    currentDisplayLink?.isPaused = false
   }
 
   public func request() {
@@ -69,36 +46,47 @@ public final class SafeAreaFinder: NSObject {
   }
 
   public func start() {
-    referenceCounter += 1
+    guard isRunning == false else {
+      request()
+      return
+    }
+
+    isRunning = true
+    setUpDisplayLink()
     request()
   }
 
+  /// Stops polling and releases the display link so the finder can deallocate when its owner goes away.
+  public func stop() {
+    guard isRunning || currentDisplayLink != nil else {
+      return
+    }
+
+    isRunning = false
+    currentInsets = nil
+    currentDisplayLink?.invalidate()
+    currentDisplayLink = nil
+  }
+
+  /// Stops polling. Kept as a compatibility alias for older callers that used the reference-counted API.
   public func pause() {
-    referenceCounter -= 1
+    stop()
   }
 
   deinit {
-    currentDisplayLink?.isPaused = true
     currentDisplayLink?.invalidate()
   }
 
   @objc private dynamic func handle() {
-    if let window {
-      _handle(in: window)
+
+    guard let windowScene else {
       return
     }
 
-    if #available(iOS 13.0, *), let windowScene {
-      guard let window = windowScene.windows.first(where: \.isKeyWindow) ?? windowScene.windows.first else {
-        return
-      }
-      _handle(in: window)
+    guard let window = windowScene.windows.first(where: \.isKeyWindow) ?? windowScene.windows.first else {
       return
     }
 
-    guard let window = UIApplication.shared.delegate?.window ?? nil else {
-      return
-    }
     _handle(in: window)
   }
 
