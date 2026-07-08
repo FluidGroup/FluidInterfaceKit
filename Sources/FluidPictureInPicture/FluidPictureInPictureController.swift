@@ -8,6 +8,16 @@ import GeometryKit
  */
 open class FluidPictureInPictureController: FluidWrapperViewController {
 
+  private let configuration: Configuration
+
+  public init(
+    configuration: Configuration = .init(),
+    content: Content? = nil
+  ) {
+    self.configuration = configuration
+    super.init(content: content)
+  }
+
   public final var state: State {
     customView.state
   }
@@ -17,7 +27,7 @@ open class FluidPictureInPictureController: FluidWrapperViewController {
   }
 
   public final override func loadView() {
-    view = View()
+    view = View(configuration: configuration)
   }
  
   open override func viewDidLoad() {
@@ -58,8 +68,22 @@ extension FluidPictureInPictureController {
     case hiding
   }
 
+  /// Layout values used while the content is floating above its background.
   public struct Configuration {
 
+    /// The fixed size used for the floating content container.
+    public var sizeForFloating: CGSize
+
+    /// The spacing between the floating content and the visible/safe screen edges.
+    public var floatingContentInset: CGFloat
+
+    public init(
+      sizeForFloating: CGSize = .init(width: 100, height: 140),
+      floatingContentInset: CGFloat = 12
+    ) {
+      self.sizeForFloating = sizeForFloating
+      self.floatingContentInset = floatingContentInset
+    }
   }
 
   public final class ContainerView: UIView {
@@ -103,7 +127,7 @@ extension FluidPictureInPictureController {
 
     let containerView: ContainerView = .init()
 
-    let sizeForFloating = CGSize(width: 100, height: 140)
+    let configuration: Configuration
     let safeAreaFinder: SafeAreaFinder
         
     private(set) var state: State = .init() {
@@ -121,10 +145,12 @@ extension FluidPictureInPictureController {
       }
     }
 
-    override init(
-      frame: CGRect
+    init(
+      configuration: Configuration,
+      frame: CGRect = .zero
     ) {
 
+      self.configuration = configuration
       self.safeAreaFinder = .init(windowScene: nil)
 
       super.init(frame: frame)
@@ -262,13 +288,16 @@ extension FluidPictureInPictureController {
       for state: State
     ) -> CGRect {
 
-      let containerSize = sizeForFloating
+      let containerSize = configuration.sizeForFloating
       let baseFrame = bounds
 
       let insetFrame =
         baseFrame
         .inset(by: state.inset)
-        .insetBy(dx: 12, dy: 12)
+        .insetBy(
+          dx: configuration.floatingContentInset,
+          dy: configuration.floatingContentInset
+        )
 
       var origin = CGPoint(x: 0, y: 0)
 
@@ -294,8 +323,9 @@ extension FluidPictureInPictureController {
 
     func setIsHidden(_ isHidden: Bool, animated: Bool) {
 
-      let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 0.8) { [self] in
+      containerView.isUserInteractionEnabled = !isHidden
 
+      let updates = { [self] in
         if isHidden {
           containerView.alpha = 0
           containerView.transform = .init(scaleX: 0.8, y: 0.8)
@@ -305,7 +335,12 @@ extension FluidPictureInPictureController {
         }
       }
 
-      animator.startAnimation()
+      if animated {
+        let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 0.8, animations: updates)
+        animator.startAnimation()
+      } else {
+        updates()
+      }
 
     }
 
