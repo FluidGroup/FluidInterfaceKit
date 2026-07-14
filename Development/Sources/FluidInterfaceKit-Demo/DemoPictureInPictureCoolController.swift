@@ -46,21 +46,6 @@ final class DemoPictureInPictureCoolController: FluidPictureInPictureController 
     content.layer.masksToBounds = true
     content.layer.cornerRadius = 8
 
-    interactiveView.handlers.onTap = { [unowned self] in
-
-      switch state.mode {
-      case .maximizing:
-        setMode(.floating)
-      case .folding:
-        break
-      case .floating:
-        setMode(.maximizing)
-      case .hiding:
-        break
-      }
-
-    }
-
     setContent(interactiveView)
 
   }

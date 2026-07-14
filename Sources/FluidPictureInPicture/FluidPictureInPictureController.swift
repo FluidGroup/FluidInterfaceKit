@@ -4,9 +4,19 @@ import FluidCore
 import GeometryKit
 
 /**
- A container view controller that manages a view to be floating, maximizing, hiding, etc.
+ A container view controller that presents content as a movable picture-in-picture view.
  */
 open class FluidPictureInPictureController: FluidWrapperViewController {
+
+  private let configuration: Configuration
+
+  public init(
+    configuration: Configuration = .init(),
+    content: Content? = nil
+  ) {
+    self.configuration = configuration
+    super.init(content: content)
+  }
 
   public final var state: State {
     customView.state
@@ -17,7 +27,7 @@ open class FluidPictureInPictureController: FluidWrapperViewController {
   }
 
   public final override func loadView() {
-    view = View()
+    view = View(configuration: configuration)
   }
  
   open override func viewDidLoad() {
@@ -52,14 +62,26 @@ extension FluidPictureInPictureController {
   }
 
   public enum Mode {
-    case maximizing
-    case folding
     case floating
     case hiding
   }
 
+  /// Layout values used while the content is floating above its background.
   public struct Configuration {
 
+    /// The fixed size used for the floating content container.
+    public var sizeForFloating: CGSize
+
+    /// The spacing between the floating content and the visible/safe screen edges.
+    public var floatingContentInset: CGFloat
+
+    public init(
+      sizeForFloating: CGSize = .init(width: 100, height: 140),
+      floatingContentInset: CGFloat = 12
+    ) {
+      self.sizeForFloating = sizeForFloating
+      self.floatingContentInset = floatingContentInset
+    }
   }
 
   public final class ContainerView: UIView {
@@ -103,7 +125,7 @@ extension FluidPictureInPictureController {
 
     let containerView: ContainerView = .init()
 
-    let sizeForFloating = CGSize(width: 100, height: 140)
+    let configuration: Configuration
     let safeAreaFinder: SafeAreaFinder
         
     private(set) var state: State = .init() {
@@ -121,10 +143,12 @@ extension FluidPictureInPictureController {
       }
     }
 
-    override init(
-      frame: CGRect
+    init(
+      configuration: Configuration,
+      frame: CGRect = .zero
     ) {
 
+      self.configuration = configuration
       self.safeAreaFinder = .init(windowScene: nil)
 
       super.init(frame: frame)
@@ -135,7 +159,12 @@ extension FluidPictureInPictureController {
 
       addSubview(containerView)
   
-      NotificationCenter.default.addObserver(self, selector: #selector(handleInsetsUpdate), name: SafeAreaFinder.notificationName, object: nil)
+      NotificationCenter.default.addObserver(
+        self,
+        selector: #selector(handleInsetsUpdate),
+        name: SafeAreaFinder.notificationName,
+        object: nil
+      )
     }
 
     required init?(
@@ -162,76 +191,34 @@ extension FluidPictureInPictureController {
     func setMode(_ mode: Mode, animated: Bool) {
       state.mode = mode
       setNeedsLayout()
+      layoutIfNeeded()
 
       switch mode {
-      case .maximizing:
-        setIsHidden(false, animated: animated)
-      case .folding:
-        setIsHidden(false, animated: animated)
       case .floating:
         setIsHidden(false, animated: animated)
       case .hiding:
         setIsHidden(true, animated: animated)
       }
-
-      if animated {
-
-        let animator = UIViewPropertyAnimator(
-          duration: 0.6,
-          timingParameters: UISpringTimingParameters(
-            dampingRatio: 0.9,
-            initialVelocity: .zero
-          )
-        )
-
-        animator.addAnimations {
-          self.layoutIfNeeded()
-        }
-
-        animator.startAnimation()
-
-      } else {
-
-        layoutIfNeeded()
-
-      }
-
     }
 
     override func layoutSubviews() {
       super.layoutSubviews()
 
-      switch state.mode {
-      case .hiding:
-        break
-      case .maximizing:
-        containerView.frame = bounds
-        state.conditionToLayout = nil
-      case .folding:
-        break
-      case .floating:
-        let proposedCondition = State.ConditionToLayout(
-          bounds: bounds,
-          inset: state.inset,
-          safeAreaInsets: safeAreaInsets,
-          layoutMargins: layoutMargins
-        )
+      let proposedCondition = State.ConditionToLayout(
+        bounds: bounds,
+        inset: state.inset,
+        safeAreaInsets: safeAreaInsets,
+        layoutMargins: layoutMargins
+      )
 
-        switch state.conditionToLayout {
-        case .some(let condition) where condition != proposedCondition:
-          state.conditionToLayout = proposedCondition
-        case .none:
-          state.conditionToLayout = proposedCondition
-        default:
-          
-          return
-        }
-
-        Fluid.setFrameAsIdentity(calculateFrameForFloating(for: state), for: containerView)
+      guard state.conditionToLayout != proposedCondition else {
+        return
       }
 
+      state.conditionToLayout = proposedCondition
+      Fluid.setFrameAsIdentity(calculateFrameForFloating(for: state), for: containerView)
     }
-    
+
     override func didMoveToWindow() {
       super.didMoveToWindow()
 
@@ -262,13 +249,16 @@ extension FluidPictureInPictureController {
       for state: State
     ) -> CGRect {
 
-      let containerSize = sizeForFloating
+      let containerSize = configuration.sizeForFloating
       let baseFrame = bounds
 
       let insetFrame =
         baseFrame
         .inset(by: state.inset)
-        .insetBy(dx: 12, dy: 12)
+        .insetBy(
+          dx: configuration.floatingContentInset,
+          dy: configuration.floatingContentInset
+        )
 
       var origin = CGPoint(x: 0, y: 0)
 
@@ -294,8 +284,9 @@ extension FluidPictureInPictureController {
 
     func setIsHidden(_ isHidden: Bool, animated: Bool) {
 
-      let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 0.8) { [self] in
+      containerView.isUserInteractionEnabled = !isHidden
 
+      let updates = { [self] in
         if isHidden {
           containerView.alpha = 0
           containerView.transform = .init(scaleX: 0.8, y: 0.8)
@@ -305,7 +296,12 @@ extension FluidPictureInPictureController {
         }
       }
 
-      animator.startAnimation()
+      if animated {
+        let animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 0.8, animations: updates)
+        animator.startAnimation()
+      } else {
+        updates()
+      }
 
     }
 
