@@ -16,10 +16,12 @@ let snackbarController = FloatingDisplayController(
     right: .activeWindow,
     bottom: .activeWindow,
     left: .activeWindow
-  )
+  ), 
+  windowScene: UIApplication.shared.connectedScenes.first! as! UIWindowScene
 )
 
 struct FloatingDisplayKitContentView: View {
+    
   var body: some View {
     Form {
 
