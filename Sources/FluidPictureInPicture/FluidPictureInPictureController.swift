@@ -4,7 +4,7 @@ import FluidCore
 import GeometryKit
 
 /**
- A container view controller that manages a view to be floating, maximizing, hiding, etc.
+ A container view controller that presents content as a movable picture-in-picture view.
  */
 open class FluidPictureInPictureController: FluidWrapperViewController {
 
@@ -62,8 +62,6 @@ extension FluidPictureInPictureController {
   }
 
   public enum Mode {
-    case maximizing
-    case folding
     case floating
     case hiding
   }
@@ -161,7 +159,12 @@ extension FluidPictureInPictureController {
 
       addSubview(containerView)
   
-      NotificationCenter.default.addObserver(self, selector: #selector(handleInsetsUpdate), name: SafeAreaFinder.notificationName, object: nil)
+      NotificationCenter.default.addObserver(
+        self,
+        selector: #selector(handleInsetsUpdate),
+        name: SafeAreaFinder.notificationName,
+        object: nil
+      )
     }
 
     required init?(
@@ -188,76 +191,34 @@ extension FluidPictureInPictureController {
     func setMode(_ mode: Mode, animated: Bool) {
       state.mode = mode
       setNeedsLayout()
+      layoutIfNeeded()
 
       switch mode {
-      case .maximizing:
-        setIsHidden(false, animated: animated)
-      case .folding:
-        setIsHidden(false, animated: animated)
       case .floating:
         setIsHidden(false, animated: animated)
       case .hiding:
         setIsHidden(true, animated: animated)
       }
-
-      if animated {
-
-        let animator = UIViewPropertyAnimator(
-          duration: 0.6,
-          timingParameters: UISpringTimingParameters(
-            dampingRatio: 0.9,
-            initialVelocity: .zero
-          )
-        )
-
-        animator.addAnimations {
-          self.layoutIfNeeded()
-        }
-
-        animator.startAnimation()
-
-      } else {
-
-        layoutIfNeeded()
-
-      }
-
     }
 
     override func layoutSubviews() {
       super.layoutSubviews()
 
-      switch state.mode {
-      case .hiding:
-        break
-      case .maximizing:
-        containerView.frame = bounds
-        state.conditionToLayout = nil
-      case .folding:
-        break
-      case .floating:
-        let proposedCondition = State.ConditionToLayout(
-          bounds: bounds,
-          inset: state.inset,
-          safeAreaInsets: safeAreaInsets,
-          layoutMargins: layoutMargins
-        )
+      let proposedCondition = State.ConditionToLayout(
+        bounds: bounds,
+        inset: state.inset,
+        safeAreaInsets: safeAreaInsets,
+        layoutMargins: layoutMargins
+      )
 
-        switch state.conditionToLayout {
-        case .some(let condition) where condition != proposedCondition:
-          state.conditionToLayout = proposedCondition
-        case .none:
-          state.conditionToLayout = proposedCondition
-        default:
-          
-          return
-        }
-
-        Fluid.setFrameAsIdentity(calculateFrameForFloating(for: state), for: containerView)
+      guard state.conditionToLayout != proposedCondition else {
+        return
       }
 
+      state.conditionToLayout = proposedCondition
+      Fluid.setFrameAsIdentity(calculateFrameForFloating(for: state), for: containerView)
     }
-    
+
     override func didMoveToWindow() {
       super.didMoveToWindow()
 

@@ -47,18 +47,7 @@ final class DemoPictureInPictureController: FluidPictureInPictureController {
     )
 
     interactiveView.handlers.onTap = { [unowned self] in
-
-      switch state.mode {
-      case .maximizing:
-        setMode(.floating)
-      case .folding:
-        break
-      case .floating:
-        setMode(.maximizing)
-      case .hiding:
-        break
-      }
-
+      setMode(.hiding)
     }
 
     setContent(interactiveView)
@@ -70,16 +59,8 @@ final class DemoPictureInPictureController: FluidPictureInPictureController {
             setMode(.hiding)
           }
 
-          UIButton.make(title: "maximizing") { [unowned self] in
-            setMode(.maximizing)
-          }
-
           UIButton.make(title: "floating") { [unowned self] in
             setMode(.floating)
-          }
-
-          UIButton.make(title: "folding") { [unowned self] in
-            setMode(.folding)
           }
 
           UIButton.make(title: "Add safeArea") { [unowned self] in
