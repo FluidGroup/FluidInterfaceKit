@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
   name: "FluidInterfaceKit",
   platforms: [
-    .iOS(.v13)
+    .iOS(.v17)
   ],
   products: [
     .library(name: "FluidPortal", targets: ["FluidPortal"]),
