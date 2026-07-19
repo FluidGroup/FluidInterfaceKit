@@ -565,6 +565,68 @@ final class FluidStackControllerTests: XCTestCase {
 
   }
 
+  /// Tests that batch removing completion is called exactly once.
+  /// When fluidPop triggers batch removing (VC is not on top),
+  /// the completion must fire exactly once after the batch transition completes.
+  func testBatchRemovingCompletionCalledOnce() {
+
+    let window = UIWindow()
+    let stack = FluidStackController()
+    window.rootViewController = stack
+    window.makeKeyAndVisible()
+
+    let vc1 = UIViewController()
+    let vc2 = UIViewController()
+    let vc3 = UIViewController()
+    let vc4 = UIViewController()
+
+    stack.addContentViewController(vc1, transition: .disabled)
+    stack.addContentViewController(vc2, transition: .disabled)
+    stack.addContentViewController(vc3, transition: .disabled)
+    stack.addContentViewController(vc4, transition: .disabled)
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 4)
+
+    let exp = expectation(description: "completion called")
+    exp.assertForOverFulfill = true
+    var completionCallCount = 0
+
+    vc2.fluidPop { _ in
+      completionCallCount += 1
+      exp.fulfill()
+    }
+
+    wait(for: [exp], timeout: 2)
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 1)
+    XCTAssertEqual(completionCallCount, 1, "Completion should be called exactly once")
+  }
+
+  /// Tests that removeAllViewController completion is called exactly once.
+  func testRemoveAllViewControllerCompletionCalledOnce() {
+
+    let stack = FluidStackController()
+
+    stack.addContentViewController(UIViewController(), transition: .disabled)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
+    stack.addContentViewController(UIViewController(), transition: .disabled)
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 4)
+
+    var completionCallCount = 0
+
+    stack.removeAllViewController(
+      transition: .disabled,
+      completion: { event in
+        completionCallCount += 1
+      }
+    )
+
+    XCTAssertEqual(stack.stackingViewControllers.count, 1)
+    XCTAssertEqual(completionCallCount, 1, "Completion should be called exactly once")
+  }
+
   final class ContentTypeOption: UIViewController {
     init(contentType: FluidStackContentConfiguration.ContentType) {
       super.init(nibName: nil, bundle: nil)

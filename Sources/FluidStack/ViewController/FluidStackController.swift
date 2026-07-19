@@ -718,13 +718,17 @@ open class FluidStackController: UIViewController {
       fromViewControllers: itemsToRemove.map(\.viewController),
       toViewController: targetTopItem?.viewController,
       onCompleted: { [weak self] context in
-        
+
         assert(Thread.isMainThread)
-        
+
         guard let self = self else {
-          return          
+          return
         }
-        
+
+        guard context.isInvalidated == false else {
+          return
+        }
+
         /**
          Completion of transition, cleaning up
          */
