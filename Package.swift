@@ -1,10 +1,10 @@
-// swift-tools-version:6.0
+// swift-tools-version:6.3
 import PackageDescription
 
 let package = Package(
   name: "FluidInterfaceKit",
   platforms: [
-    .iOS(.v13)
+    .iOS(.v17)
   ],
   products: [
     .library(name: "FluidPortal", targets: ["FluidPortal"]),
@@ -29,7 +29,7 @@ let package = Package(
       url: "https://github.com/FluidGroup/Rideau.git",
       .upToNextMajor(from: "2.1.0")
     ),
-    .package(url: "https://github.com/FluidGroup/swiftui-Hosting", from: "2.0.0"),
+    .package(url: "https://github.com/FluidGroup/swiftui-Hosting", from: "3.0.0"),
     .package(url: "https://github.com/FluidGroup/swift-rubber-banding", from: "1.0.0"),
   ],
   targets: [
