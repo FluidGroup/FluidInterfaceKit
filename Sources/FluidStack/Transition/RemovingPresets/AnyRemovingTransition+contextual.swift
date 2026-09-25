@@ -39,19 +39,20 @@ extension AnyRemovingInteraction {
       gestureVelocity: CGPoint?
     ) {
 
-      let fromViewSnapshotMaskView = UIView()
-      fromViewSnapshotMaskView.backgroundColor = .black
-      fromViewSnapshotMaskView.frame = transitionContext.fromViewController.view.bounds
+      let fromViewMirrorMaskView = UIView()
+      fromViewMirrorMaskView.backgroundColor = .black
+      fromViewMirrorMaskView.frame = transitionContext.fromViewController.view.bounds
       
-      // the reason why making snapshot is the from view will be removed from tree
-      let fromViewSnapshot = AnyMirrorViewProvider.snapshot(
-        caches: true,
-        viewProvider: { transitionContext.fromViewController.view! }
+      // Mirror the live layer tree so capture-protected content keeps its on-screen appearance.
+      // The source must remain in the hierarchy until this transition completes.
+      let fromViewMirror = AnyMirrorViewProvider.portal(
+        view: transitionContext.fromViewController.view!,
+        hidesSourceOnUsing: true
       ).view()
                   
-      fromViewSnapshot.mask = fromViewSnapshotMaskView
-      fromViewSnapshot.alpha = 1
-      fromViewSnapshot.frame = transitionContext.fromViewController.view.layer.activeLayer().frame
+      fromViewMirror.mask = fromViewMirrorMaskView
+      fromViewMirror.alpha = 1
+      fromViewMirror.frame = transitionContext.fromViewController.view.layer.activeLayer().frame
 
       let entrypointMirrorView = AnyMirrorViewProvider.portal(
         view: destinationComponent.contentView,
@@ -65,13 +66,15 @@ extension AnyRemovingInteraction {
        with this, animations runs correctly including on scroll view.
        */
       let reparentingView = destinationComponent.requestReparentView()
+      // The mirrors only draw; touches should reach the destination content underneath.
+      reparentingView.isUserInteractionEnabled = false
       
       let displayingSubscription = transitionContext.requestDisplayOnTop(.view(reparentingView))
 
       // layering
       do {
         reparentingView.addSubview(entrypointMirrorView)
-        reparentingView.addSubview(fromViewSnapshot)
+        reparentingView.addSubview(fromViewMirror)
       }
         
       // places entrypoint mirror view in the current moving view to make cross-fade
@@ -85,18 +88,21 @@ extension AnyRemovingInteraction {
         entrypointMirrorView.center = translation.center
         entrypointMirrorView.alpha = 0
       }
-                
-      transitionContext.fromViewController.view.isHidden = true
-      
-      transitionContext.addCompletionEventHandler { [weak transitionContext] _ in
-        transitionContext?.fromViewController.view.isHidden = false
+
+      // Hiding the source layer does not remove its view from hit testing.
+      let fromView = transitionContext.fromViewController.view!
+      let wasUserInteractionEnabled = fromView.isUserInteractionEnabled
+      fromView.isUserInteractionEnabled = false
+
+      transitionContext.addCompletionEventHandler { [weak fromView] _ in
+        fromView?.isUserInteractionEnabled = wasUserInteractionEnabled
       }
 
       // setup housekeeping
       transitionContext.addCompletionEventHandler { _ in
         reparentingView.removeFromSuperview()
         entrypointMirrorView.removeFromSuperview()
-        fromViewSnapshot.removeFromSuperview()
+        fromViewMirror.removeFromSuperview()
         displayingSubscription.dispose()
       }
       
@@ -113,7 +119,7 @@ extension AnyRemovingInteraction {
               to: CGRect(
                 origin: transitionContext.frameInContentView(for: destinationComponent.contentView).origin,
                 size: Geometry.sizeThatAspectFill(
-                  aspectRatio: fromViewSnapshot.bounds.size,
+                  aspectRatio: fromViewMirror.bounds.size,
                   minimumSize: destinationComponent.contentView.bounds.size
                 )
               )
@@ -152,7 +158,7 @@ extension AnyRemovingInteraction {
             }()
             
             Fluid.makePropertyAnimatorsForTranformUsingCenter(
-              view: fromViewSnapshot,
+              view: fromViewMirror,
               duration: movingDuration,
               position: .custom(translation.center),
               scale: translation.scale,
@@ -166,11 +172,11 @@ extension AnyRemovingInteraction {
             
             // mask
             UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-              fromViewSnapshotMaskView.frame = transitionContext.fromViewController.view.bounds
-              fromViewSnapshotMaskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
-              fromViewSnapshotMaskView.layer.cornerRadius = 36
+              fromViewMirrorMaskView.frame = transitionContext.fromViewController.view.bounds
+              fromViewMirrorMaskView.frame.size.height = destinationComponent.contentView.bounds.height / translation.scale.y
+              fromViewMirrorMaskView.layer.cornerRadius = 36
               if #available(iOS 13.0, *) {
-                fromViewSnapshotMaskView.layer.cornerCurve = .continuous
+                fromViewMirrorMaskView.layer.cornerCurve = .continuous
               } else {
                 // Fallback on earlier versions
               }
@@ -228,7 +234,7 @@ extension AnyRemovingInteraction {
           // cross-fade content
           do {
             UIViewPropertyAnimator(duration: movingDuration, dampingRatio: 1) {
-              fromViewSnapshot.alpha = 0
+              fromViewMirror.alpha = 0
               entrypointMirrorView.alpha = 1
             }
           }
