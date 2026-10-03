@@ -42,7 +42,7 @@ final class AppSearchViewController: FluidStackController {
 
     view.backgroundColor = .neon(.cyan)
 
-    let list = VGridView(numberOfColumns: 1)
+    let list = DemoGridView(numberOfColumns: 1)
 
     Mondrian.buildSubviews(on: view) {
       ZStackBlock(alignment: .attach(.all)) {
@@ -85,7 +85,7 @@ final class AppOptionsController: CodeBasedViewController {
 
     view.backgroundColor = .neon(.red)
 
-    let list = VGridView(numberOfColumns: 1)
+    let list = DemoGridView(numberOfColumns: 1)
 
     Mondrian.buildSubviews(on: view) {
       ZStackBlock(alignment: .attach(.all)) {
@@ -136,7 +136,7 @@ final class AppOtherController: CodeBasedViewController {
 
     view.backgroundColor = .neon(.blue)
     
-    let list = VGridView(numberOfColumns: 1)
+    let list = DemoGridView(numberOfColumns: 1)
 
     Mondrian.buildSubviews(on: view) {
       ZStackBlock(alignment: .attach(.all)) {
@@ -181,7 +181,7 @@ final class NavigationChildViewController: UIViewController {
     
     view.backgroundColor = .systemBackground
     
-    let list = VGridView(numberOfColumns: 1)
+    let list = DemoGridView(numberOfColumns: 1)
 
     Mondrian.buildSubviews(on: view) {
       ZStackBlock(alignment: .attach(.all)) {

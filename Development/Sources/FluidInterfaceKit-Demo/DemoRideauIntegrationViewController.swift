@@ -26,7 +26,7 @@ final class DemoRideauIntegrationViewController: FluidStackController {
 
     view.backgroundColor = .systemBackground
 
-    let list = VGridView(numberOfColumns: 1)
+    let list = DemoGridView(numberOfColumns: 1)
 
     Mondrian.buildSubviews(on: view) {
       ZStackBlock(alignment: .attach(.all)) {

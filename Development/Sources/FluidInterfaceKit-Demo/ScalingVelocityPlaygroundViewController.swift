@@ -3,7 +3,7 @@ import MondrianLayout
 import Ne
 import UIKit
 
-@testable import FluidStack
+import FluidStack
 
 final class ScalingVelocityPlaygroundViewController: UIViewController {
 

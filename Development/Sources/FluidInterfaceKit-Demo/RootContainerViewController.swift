@@ -1,21 +1,25 @@
 import StorybookKit
-import StorybookUI
+import SwiftUI
 import UIKit
 
+/// Hosts the demo catalog and its UIKit presentation context.
 final class RootContainerViewController: UIViewController {
 
   init() {
     super.init(nibName: nil, bundle: nil)
 
-    let child = StorybookViewController(
-      book: book,
-      dismissHandler: nil
+    let child = UIHostingController(
+      rootView: StorybookDisplayRootView(
+        bookStore: BookStore(book: book),
+        launchRequest: .catalog
+      )
     )
 
     addChild(child)
     view.addSubview(child.view)
     child.view.frame = view.bounds
     child.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    child.didMove(toParent: self)
 
   }
 

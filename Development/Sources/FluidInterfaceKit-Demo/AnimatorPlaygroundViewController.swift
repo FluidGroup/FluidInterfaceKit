@@ -3,7 +3,12 @@ import MondrianLayout
 import Ne
 import UIKit
 
+// Internal animation dumps are available only when FluidStack enables testing.
+#if DEBUG
 @testable import FluidStack
+#else
+import FluidStack
+#endif
 
 final class AnimatorPlaygroundViewController: UIViewController {
 
@@ -83,7 +88,9 @@ final class AnimatorPlaygroundViewController: UIViewController {
 
                     animator.startAnimation()
                   }
+                  #if DEBUG
                   view.layer.dumpAllAnimations()
+                  #endif
                 }
               }
               .viewBlock
@@ -98,7 +105,9 @@ final class AnimatorPlaygroundViewController: UIViewController {
                     view.layer.add(e, forKey: i)
                   }
 
+                  #if DEBUG
                   view.layer.dumpAllAnimations()
+                  #endif
                 }
               }
               .viewBlock
@@ -134,7 +143,9 @@ final class AnimatorPlaygroundViewController: UIViewController {
               }
               a.startAnimation()
 
+              #if DEBUG
               box1.layer.dumpAllAnimations()
+              #endif
 
               state.alphaFlag.toggle()
 
@@ -159,7 +170,9 @@ final class AnimatorPlaygroundViewController: UIViewController {
               }
 
 
+              #if DEBUG
               box2.layer.dumpAllAnimations()
+              #endif
 
               state.positionFlag.toggle()
 

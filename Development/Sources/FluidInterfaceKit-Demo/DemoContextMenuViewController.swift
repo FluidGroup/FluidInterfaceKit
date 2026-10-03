@@ -17,7 +17,7 @@ final class DemoContextMenuViewController: FluidStackController {
 
     view.backgroundColor = .systemBackground
 
-    let gridView = VGridView(numberOfColumns: 3)
+    let gridView = DemoGridView(numberOfColumns: 3)
 
     let makeCell: () -> UIView = {
 

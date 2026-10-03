@@ -24,7 +24,7 @@ final class DemoTransitionViewController: FluidStackController {
 
     addContentViewController(rootController, transition: .disabled)
 
-    let list = VGridView(numberOfColumns: 1)
+    let list = DemoGridView(numberOfColumns: 1)
 
     Mondrian.buildSubviews(on: rootController.view) {
       ZStackBlock(alignment: .attach(.all)) {
