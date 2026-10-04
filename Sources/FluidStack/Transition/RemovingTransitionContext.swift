@@ -26,6 +26,7 @@ public final class RemovingTransitionContext: TransitionContext {
   private let onRequestedDisplayOnTop:
     (DisplaySource) -> FluidStackController.DisplayingOnTopSubscription
 
+  private var hasNotifiedCompletion: Bool = false
   private var callbacks: [(CompletionEvent) -> Void] = []
 
   init(
@@ -57,6 +58,7 @@ public final class RemovingTransitionContext: TransitionContext {
     assert(Thread.isMainThread)
     guard isInvalidated == false, isCompleted == false else { return }
     isInvalidated = true
+    hasNotifiedCompletion = true
     callbacks.forEach { $0(.cancelled) }
     onAnimationCompleted(self)
   }
@@ -97,6 +99,8 @@ public final class RemovingTransitionContext: TransitionContext {
   override func invalidate() {
     assert(Thread.isMainThread)
     isInvalidated = true
+    guard hasNotifiedCompletion == false else { return }
+    hasNotifiedCompletion = true
     callbacks.forEach { $0(.interrupted) }
   }
 
@@ -115,6 +119,8 @@ public final class RemovingTransitionContext: TransitionContext {
    Triggers ``addCompletionEventHandler(_:)`` with ``TransitionContext/CompletionEvent/succeeded``
    */
   func transitionSucceeded() {
+    guard hasNotifiedCompletion == false else { return }
+    hasNotifiedCompletion = true
     callbacks.forEach { $0(.succeeded) }
   }
 
