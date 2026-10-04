@@ -32,7 +32,7 @@ final class DemoPopoverSwiftUIViewController: UIViewController {
         ForEach.inefficient(
           items: [
 
-            HostingEdge(
+            PopoverAnchor(
               content: {
                 Button(
                   "Hello",
@@ -40,9 +40,6 @@ final class DemoPopoverSwiftUIViewController: UIViewController {
 
                   }
                 )
-              },
-              reference: { hoge in
-
               }
             ),
 
@@ -54,5 +51,28 @@ final class DemoPopoverSwiftUIViewController: UIViewController {
 
     }
 
+  }
+}
+
+/// Hosts a SwiftUI popover anchor in its own UIKit view controller.
+///
+/// SwiftUI owns the controller's containment and lifetime. Content updates reuse
+/// that controller so the anchor keeps its UIKit identity across view updates.
+fileprivate struct PopoverAnchor<Content: View>: UIViewControllerRepresentable {
+
+  private let content: Content
+
+  init(@ViewBuilder content: () -> Content) {
+    self.content = content()
+  }
+
+  func makeUIViewController(context: Context) -> UIHostingController<Content> {
+    UIHostingController(rootView: content)
+  }
+
+  func updateUIViewController(_ uiViewController: UIHostingController<Content>, context: Context) {
+    withTransaction(context.transaction) {
+      uiViewController.rootView = content
+    }
   }
 }

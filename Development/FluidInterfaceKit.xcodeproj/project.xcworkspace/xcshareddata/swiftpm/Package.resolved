@@ -1,5 +1,5 @@
 {
-  "originHash" : "a52be0dfd401b4bb508dedd71b3711b09cdd898c2ffa3b9f6aae5abeb69fd509",
+  "originHash" : "e862f02838e0a0bfd2b40a598ccf4171e031f5d2d683210cdc85ae569b000be7",
   "pins" : [
     {
       "identity" : "compositionkit",
@@ -7,16 +7,16 @@
       "location" : "https://github.com/FluidGroup/CompositionKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "3382c98ff9778136b6a21667d8152faa452658e0"
+        "revision" : "083e8b59b8b14aee3f0476ec9919ee2d1ae4e81c"
       }
     },
     {
       "identity" : "descriptors",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FluidGroup/Descriptors",
+      "location" : "https://github.com/muukii/Descriptors.git",
       "state" : {
-        "revision" : "f41ce2605a76c5d378fe8c5e8c5c98b544dfd108",
-        "version" : "0.2.3"
+        "revision" : "1ec4fcd01b7e3a6df9dfafcca8155e297a7a1d9f",
+        "version" : "0.3.0"
       }
     },
     {
@@ -26,24 +26,6 @@
       "state" : {
         "revision" : "6cf96dcb220e1b612ba57a717234cbdbf877c009",
         "version" : "1.1.0"
-      }
-    },
-    {
-      "identity" : "iglistkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/3a4oT/IGListKit",
-      "state" : {
-        "branch" : "spmNumber10",
-        "revision" : "979eca9b2da15e35af36f4613452dd6e07641969"
-      }
-    },
-    {
-      "identity" : "libwebp-xcode",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/libwebp-Xcode",
-      "state" : {
-        "revision" : "0f3bdb28a1edc5e8e43876d3835d20c601ef331f",
-        "version" : "1.2.3"
       }
     },
     {
@@ -74,33 +56,6 @@
       }
     },
     {
-      "identity" : "pincache",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pinterest/PINCache.git",
-      "state" : {
-        "revision" : "875c654984fb52b47ca65ae70d24852b0003ccd9",
-        "version" : "3.0.3"
-      }
-    },
-    {
-      "identity" : "pinoperation",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pinterest/PINOperation.git",
-      "state" : {
-        "revision" : "44d8ca154a4e75a028a5548c31ff3a53b90cef15",
-        "version" : "1.2.1"
-      }
-    },
-    {
-      "identity" : "pinremoteimage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pinterest/PINRemoteImage.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "18637e4414d77fbc95cd7d499179a9880e9a78d8"
-      }
-    },
-    {
       "identity" : "resultbuilderkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FluidGroup/ResultBuilderKit.git",
@@ -114,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FluidGroup/Rideau.git",
       "state" : {
-        "revision" : "fa560b52c246863dee5ab4b03197f6e4a9794607",
-        "version" : "2.3.1"
+        "revision" : "cc8c18213a3cb4196ebb0d20a61f2dbf65b8cbf3",
+        "version" : "2.4.2"
       }
     },
     {
@@ -133,7 +88,7 @@
       "location" : "https://github.com/eure/Storybook-ios",
       "state" : {
         "branch" : "main",
-        "revision" : "051236b8432513370a0dfa65dd8dcfc660613426"
+        "revision" : "9d1c4ba4b829a57c9571f4561199d979dd17f55f"
       }
     },
     {
@@ -150,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FluidGroup/swiftui-hosting.git",
       "state" : {
-        "revision" : "975f2565cff7625f610c36cd7c146d8ab104a1dc",
-        "version" : "2.3.0"
+        "revision" : "9714566b32f84b3edce049ca3b0df06ecd0ec0c2",
+        "version" : "3.0.0"
       }
     },
     {
@@ -160,34 +115,7 @@
       "location" : "https://github.com/FluidGroup/swiftui-support.git",
       "state" : {
         "branch" : "main",
-        "revision" : "78c2d634a3f6255c04e405e32bb7584207e7906f"
-      }
-    },
-    {
-      "identity" : "texture",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FluidGroup/Texture.git",
-      "state" : {
-        "branch" : "spm",
-        "revision" : "5d03875bcfb0d87f8057ebeb5f2f6e4527e18128"
-      }
-    },
-    {
-      "identity" : "texturebridging",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FluidGroup/TextureBridging.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "ed8d3ac84c3fda90832c793fdeb8972154bd15fe"
-      }
-    },
-    {
-      "identity" : "textureswiftsupport",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FluidGroup/TextureSwiftSupport.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "23c2df6dace4e4be8231f23becc5fc51d26dfa47"
+        "revision" : "f8058066c1d310458390d6c73462bf6722b71fc9"
       }
     },
     {
@@ -196,7 +124,7 @@
       "location" : "https://github.com/VergeGroup/Wrap.git",
       "state" : {
         "branch" : "main",
-        "revision" : "68191d84e48723cb5cd9f6432862b9f22438b0a2"
+        "revision" : "3b731a14d9ee74b80bd781bba8c4baac6510d51b"
       }
     }
   ],

@@ -1,155 +1,169 @@
 import CompositionKit
 import MondrianLayout
 import StorybookKit
+import SwiftUI
 import UIKit
 import FluidStack
 import FluidPictureInPicture
 
+/// The demo pages registered with Storybook's catalog, search, and history.
 @MainActor
 let book = Book(title: "FluidInterfaceKit") {
 
-  BookCallout(
-    symbol: "💡",
-    text: """
-      This is a demo application to see FluidInterfaceKit.
-      """
-  )
+  BookPage(title: "About") {
+    BookText("💡 This is a demo application to see FluidInterfaceKit.")
+  }
 
-  BookNavigationLink(title: "Velocity Playground") {
+  Book(title: "Velocity Playground") {
 
-    BookPush(title: "Scaling") {
-      ScalingVelocityPlaygroundViewController()
+    BookPage(title: "Scaling", usesScrollView: false) {
+      DemoControllerPreview { ScalingVelocityPlaygroundViewController() }
     }
 
-    BookPush(title: "Translation") {
-      TranslationVelocityPlaygroundViewController()
+    BookPage(title: "Translation", usesScrollView: false) {
+      DemoControllerPreview { TranslationVelocityPlaygroundViewController() }
     }
   }
 
-  BookNavigationLink(title: "Transition") {
-    BookPresent(title: "Adding - in fluid stack") {
-      DemoTransitionViewController()
-    }
-  }
-
-  BookNavigationLink(title: "App") {
-    BookPresent(title: "Launch") {
-      let controller = DemoApplicationController()
-      controller.modalPresentationStyle = .fullScreen
-      return controller
-    }
-
-  }
-
-  BookNavigationLink(title: "Draggable View") {
-    BookPush(title: "Draggable View") {
-      DemoDragViewController()
-    }
-  }
-
-  BookNavigationLink(title: "Experiments") {
-    if #available(iOS 15, *) {
-      BookPush(title: "ContextMenu") {
-        DemoContextMenuViewController()
+  Book(title: "Transition") {
+    BookPage(title: "Adding - in fluid stack") {
+      BookPresent(title: "Adding - in fluid stack") {
+        DemoTransitionViewController()
       }
     }
   }
 
-  BookNavigationLink(title: "PiP") {
-    BookPush(title: "Push") {
-      DemoPictureInPictureController()
+  Book(title: "App") {
+    BookPage(title: "Launch") {
+      BookPresent(title: "Launch") {
+        let controller = DemoApplicationController()
+        controller.modalPresentationStyle = .fullScreen
+        return controller
+      }
     }
-    BookPush(title: "Push - Cool") {
-      DemoPictureInPictureCoolController()
+
+  }
+
+  Book(title: "Draggable View") {
+    BookPage(title: "Draggable View", usesScrollView: false) {
+      DemoControllerPreview { DemoDragViewController() }
     }
   }
 
-  BookPush(title: "SafeArea") {
-    DemoSafeAreaViewController()
+  Book(title: "Experiments") {
+    if #available(iOS 15, *) {
+      BookPage(title: "ContextMenu", usesScrollView: false) {
+        DemoControllerPreview { DemoContextMenuViewController() }
+      }
+    }
   }
 
-  BookPush(title: "ControlCenter") {
-    DemoControlCenterViewController()
+  Book(title: "PiP") {
+    BookPage(title: "Push", usesScrollView: false) {
+      DemoControllerPreview { DemoPictureInPictureController() }
+    }
+    BookPage(title: "Push - Cool", usesScrollView: false) {
+      DemoControllerPreview { DemoPictureInPictureCoolController() }
+    }
   }
 
-  BookPush(title: "AnimatorPlayground") {
-    AnimatorPlaygroundViewController()
+  BookPage(title: "SafeArea", usesScrollView: false) {
+    DemoControllerPreview { DemoSafeAreaViewController() }
   }
 
-  BookPresent(title: "Instagram Threads") {
-    let controller = DemoThreadsMessagesViewController()
-    controller.modalPresentationStyle = .fullScreen
-    return controller
+  BookPage(title: "ControlCenter", usesScrollView: false) {
+    DemoControllerPreview { DemoControlCenterViewController() }
   }
 
-  BookPresent(title: "List + ZStack") {
-    let controller = DemoListContainerViewController()
-    controller.modalPresentationStyle = .fullScreen
-    return controller
+  BookPage(title: "AnimatorPlayground", usesScrollView: false) {
+    DemoControllerPreview { AnimatorPlaygroundViewController() }
+  }
+
+  BookPage(title: "Instagram Threads") {
+    BookPresent(title: "Instagram Threads") {
+      let controller = DemoThreadsMessagesViewController()
+      controller.modalPresentationStyle = .fullScreen
+      return controller
+    }
+  }
+
+  BookPage(title: "List + ZStack") {
+    BookPresent(title: "List + ZStack") {
+      let controller = DemoListContainerViewController()
+      controller.modalPresentationStyle = .fullScreen
+      return controller
+    }
   }
   
-  BookPresent(title: "+ Rideau") {
-    let controller = DemoRideauIntegrationViewController()
-    controller.modalPresentationStyle = .fullScreen
-    return controller
+  BookPage(title: "+ Rideau") {
+    BookPresent(title: "+ Rideau") {
+      let controller = DemoRideauIntegrationViewController()
+      controller.modalPresentationStyle = .fullScreen
+      return controller
+    }
   }
   
-  BookPresent(title: "Sheet") {
-    let controller = DemoSheetViewController()
-    controller.modalPresentationStyle = .fullScreen
-    return controller
+  BookPage(title: "Sheet") {
+    BookPresent(title: "Sheet") {
+      let controller = DemoSheetViewController()
+      controller.modalPresentationStyle = .fullScreen
+      return controller
+    }
   }
 
-  BookPresent(title: "Stacking") {
-    let controller = DemoStackingViewController()
-    controller.modalPresentationStyle = .fullScreen
-    return controller
+  BookPage(title: "Stacking") {
+    BookPresent(title: "Stacking") {
+      let controller = DemoStackingViewController()
+      controller.modalPresentationStyle = .fullScreen
+      return controller
+    }
   }
   
-  BookPush(title: "CAPortalLayer") {
-    DemoPortalLayerViewController()
+  BookPage(title: "CAPortalLayer", usesScrollView: false) {
+    DemoControllerPreview { DemoPortalLayerViewController() }
   }
 
-  BookPush(title: "PortalStackView") {
-    DemoPortalStackViewController()
+  BookPage(title: "PortalStackView", usesScrollView: false) {
+    DemoControllerPreview { DemoPortalStackViewController() }
   }
 
-  BookPush(title: "Popover SwiftUI") {
-    DemoPopoverSwiftUIViewController()
+  BookPage(title: "Popover SwiftUI", usesScrollView: false) {
+    DemoControllerPreview { DemoPopoverSwiftUIViewController() }
   }
 
-  BookPush(title: "Popover UIKit") {
-    DemoPopoverViewController()
+  BookPage(title: "Popover UIKit", usesScrollView: false) {
+    DemoControllerPreview { DemoPopoverViewController() }
   }
 
-  BookPush(title: "Composition") {
-    DemoCompositionOrderViewController()
+  BookPage(title: "Composition", usesScrollView: false) {
+    DemoControllerPreview { DemoCompositionOrderViewController() }
   }
 
-  BookPush(title: "FloatingDisplayKit") {
-    DemoFloatingDisplayKit(rootView: .init())
+  BookPage(title: "FloatingDisplayKit", usesScrollView: false) {
+    DemoControllerPreview { DemoFloatingDisplayKit(rootView: .init()) }
   }
 
   if #available(iOS 15, *) {
-    BookPush(title: "KeyboardLayoutGuide") {
-      DemoKeyboardGuideViewController()
+    BookPage(title: "KeyboardLayoutGuide", usesScrollView: false) {
+      DemoControllerPreview { DemoKeyboardGuideViewController() }
     }
   }
 
-  BookPush(title: "StageViewController") {
-    DemoStageViewController()
+  BookPage(title: "StageViewController", usesScrollView: false) {
+    DemoControllerPreview { DemoStageViewController() }
   }
 
-  BookNavigationLink(title: "iOS 14 Pickers") {
+  BookPage(title: "iOS 14 Pickers") {
     
-    BookPreview(expandsWidth: true, maxHeight: 400, minHeight: 400) {
+    BookPreview { _ in
       UIView()&>.do {
         $0.backgroundColor = .white
       }
     }
+    .previewFrame(maxWidth: .infinity, minHeight: 400, idealHeight: 400, maxHeight: 400)
   
     BookSection(title: "Time picker .compact") {
-      BookPreview {
+      BookPreview { _ in
         let datePicker = UIDatePicker()
         datePicker.date = Date()
         if #available(iOS 13.4, *) {
@@ -164,14 +178,32 @@ let book = Book(title: "FluidInterfaceKit") {
       }
     }
     
-    BookPreview(expandsWidth: true, maxHeight: 800, minHeight: 800) {
+    BookPreview { _ in
       UIView()&>.do {
         $0.backgroundColor = .white
       }
     }
+    .previewFrame(maxWidth: .infinity, minHeight: 800, idealHeight: 800, maxHeight: 800)
 
   }
 
+}
+
+/// Embeds a UIKit demo directly in a Storybook page without another launch link.
+///
+/// SwiftUI owns containment and keeps the controller alive for the page's
+/// lifetime. The factory runs only when SwiftUI creates the represented controller.
+fileprivate struct DemoControllerPreview<Controller: UIViewController>: UIViewControllerRepresentable {
+
+  let makeController: @MainActor () -> Controller
+
+  func makeUIViewController(context: Context) -> Controller {
+    makeController()
+  }
+
+  func updateUIViewController(_ uiViewController: Controller, context: Context) {
+    // These demos own their state; view updates must not replace their controller.
+  }
 }
 
 @MainActor

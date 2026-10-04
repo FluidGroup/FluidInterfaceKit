@@ -166,7 +166,7 @@ final class DemoListDetailViewController: UIViewController {
         UILabel()&>.do {
           $0.text = "Detail"
           $0.font = UIFont.preferredFont(forTextStyle: .headline)
-          $0.textColor = UIColor.appBlack
+          $0.textColor = .label
         }
 
         UIView()&>.do {

@@ -72,7 +72,8 @@ private final class ContentViewController: UIViewController, FluidStageChildView
     
     super.init(nibName: nil, bundle: nil)
     
-    let hostingView = HostingView(ignoringSafeAreaEdges: []) { state in
+    // Stage children inherit safe-area insets from their container.
+    let hostingView = SwiftUIHostingView(configuration: .init(safeAreaRegions: .all)) {
       ZStack {
 
         Color.init(color)

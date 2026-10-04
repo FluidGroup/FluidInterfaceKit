@@ -11,6 +11,7 @@ import MondrianLayout
 import UIKit
 import FluidStack
 
+/// Demonstrates live portal projections, including one stretched to fill its container.
 final class DemoPortalLayerViewController: UIViewController {
   
   private let debuggingLabel = UILabel()
@@ -58,7 +59,7 @@ final class DemoPortalLayerViewController: UIViewController {
     
     let portalView2 = PortalView()
     
-    let stretchView = StretchView(contentView: portalView2)
+    let stretchView = StretchedPortalView(portalView: portalView2)
         
     Mondrian.buildSubviews(on: view) {
 
@@ -149,4 +150,68 @@ final class DemoPortalLayerViewController: UIViewController {
     
   }
   
+}
+
+/// Scales a portal's source-sized bounds to fill this view independently on each axis.
+///
+/// The embedded portal retains its original bounds so its source projection stays
+/// intact. This container observes those bounds and clips the stretched rendering.
+fileprivate final class StretchedPortalView: UIView {
+
+  private let portalView: PortalView
+  private var boundsObservation: NSKeyValueObservation?
+
+  init(portalView: PortalView) {
+    self.portalView = portalView
+    super.init(frame: .zero)
+
+    clipsToBounds = true
+    addSubview(portalView)
+
+    boundsObservation = portalView.observe(\.bounds) { [weak self] _, _ in
+      // UIKit changes bounds on the main actor; KVO delivers synchronously.
+      MainActor.assumeIsolated {
+        self?.invalidateIntrinsicContentSize()
+        self?.setNeedsLayout()
+      }
+    }
+  }
+
+  @available(*, unavailable)
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  deinit {
+    boundsObservation?.invalidate()
+  }
+
+  override var intrinsicContentSize: CGSize {
+    portalView.bounds.size
+  }
+
+  override func sizeThatFits(_ size: CGSize) -> CGSize {
+    portalView.sizeThatFits(size)
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+
+    let originalSize = portalView.bounds.size
+    guard
+      bounds.width > 0,
+      bounds.height > 0,
+      originalSize.width > 0,
+      originalSize.height > 0
+    else {
+      return
+    }
+
+    portalView.transform = CGAffineTransform(
+      scaleX: bounds.width / originalSize.width,
+      y: bounds.height / originalSize.height
+    )
+    // Position through center because frame is undefined while a transform is applied.
+    portalView.center = CGPoint(x: bounds.midX, y: bounds.midY)
+  }
 }

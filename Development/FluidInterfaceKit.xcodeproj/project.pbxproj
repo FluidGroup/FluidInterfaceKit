@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F182100300000001A0000002 /* DemoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F182100300000001A0000001 /* DemoGridView.swift */; };
 		4B01AFE1281939CB00A44537 /* DemoSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */; };
 		4B2AFC4A2A7EBF05001B5BEF /* FluidGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 4B2AFC492A7EBF05001B5BEF /* FluidGesture */; };
 		4B2AFC4C2A7EC243001B5BEF /* DemoDragViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */; };
@@ -54,7 +55,6 @@
 		4BC726342992679F0074A828 /* SwiftUISupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC726332992679F0074A828 /* SwiftUISupport */; };
 		4BC7B20D284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B20C284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift */; };
 		4BC8F5F427B6B02300095412 /* StorybookKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F327B6B02300095412 /* StorybookKit */; };
-		4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4BC8F5F527B6B02300095412 /* StorybookUI */; };
 		4BDDD3CE28DB627500452B7D /* CompositionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDD3CD28DB627500452B7D /* CompositionKit */; };
 		4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 4BDDF268277F50C100636B00 /* MondrianLayout */; };
 		4BFB8FA22AD90E8100F0048D /* FluidPictureInPicture in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFB8FA12AD90E8100F0048D /* FluidPictureInPicture */; };
@@ -72,6 +72,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F182100300000001A0000003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F182100300000001A0000001 /* DemoGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGridView.swift; sourceTree = "<group>"; };
 		4B01AFE0281939CB00A44537 /* DemoSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSheetViewController.swift; sourceTree = "<group>"; };
 		4B2AFC4B2A7EC243001B5BEF /* DemoDragViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDragViewController.swift; sourceTree = "<group>"; };
 		4B2F619427B818E800363580 /* DemoListContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoListContainerViewController.swift; sourceTree = "<group>"; };
@@ -147,7 +149,6 @@
 				4BBDECE0276648FD00982229 /* CompositionKit in Frameworks */,
 				4BDDD3CE28DB627500452B7D /* CompositionKit in Frameworks */,
 				4B658D0F276A59F700A17878 /* Wrap in Frameworks */,
-				4BC8F5F627B6B02300095412 /* StorybookUI in Frameworks */,
 				4BDDF269277F50C100636B00 /* MondrianLayout in Frameworks */,
 				4B2AFC4A2A7EBF05001B5BEF /* FluidGesture in Frameworks */,
 				4BB5B31C277077EA00EE1028 /* MockKit in Frameworks */,
@@ -190,6 +191,8 @@
 				4B46805F279C58E800625FCB /* DemoApplicationViewController.swift */,
 				4B7410B827ACE975003D8AB5 /* DemoCompositionOrderViewController.swift */,
 				4B46805C279C58E800625FCB /* DemoContextMenuViewController.swift */,
+				F182100300000001A0000001 /* DemoGridView.swift */,
+				F182100300000001A0000003 /* Info.plist */,
 				4B46804F279C58E800625FCB /* DemoControlCenterViewController.swift */,
 				4B2F619427B818E800363580 /* DemoListContainerViewController.swift */,
 				4B468052279C58E800625FCB /* DemoPictureInPictureController.swift */,
@@ -325,7 +328,6 @@
 				4BB5B31B277077EA00EE1028 /* MockKit */,
 				4BDDF268277F50C100636B00 /* MondrianLayout */,
 				4BC8F5F327B6B02300095412 /* StorybookKit */,
-				4BC8F5F527B6B02300095412 /* StorybookUI */,
 				4BDDD3CD28DB627500452B7D /* CompositionKit */,
 				4BC726332992679F0074A828 /* SwiftUISupport */,
 				4B2AFC492A7EBF05001B5BEF /* FluidGesture */,
@@ -461,6 +463,7 @@
 				4B33622B2B0FBABA00A7D094 /* Color.swift in Sources */,
 				4B468067279C58E800625FCB /* DemoThreadsMessagesViewController.swift in Sources */,
 				4B468072279C58E800625FCB /* DemoContextMenuViewController.swift in Sources */,
+				F182100300000001A0000002 /* DemoGridView.swift in Sources */,
 				4BC7B20D284E3C7F0087BC7A /* DemoPictureInPictureCoolController.swift in Sources */,
 				4B2F619527B818E800363580 /* DemoListContainerViewController.swift in Sources */,
 				4B468065279C58E800625FCB /* RootContainerViewController.swift in Sources */,
@@ -674,7 +677,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				INFOPLIST_FILE = "Sources/FluidInterfaceKit-Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -703,7 +707,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				INFOPLIST_FILE = "Sources/FluidInterfaceKit-Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -853,7 +858,7 @@
 			repositoryURL = "https://github.com/FluidGroup/swiftui-hosting.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.3.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 		4BFFBFD22AD6C1ED0028A73B /* XCRemoteSwiftPackageReference "StackScrollView" */ = {
@@ -915,11 +920,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
 			productName = StorybookKit;
-		};
-		4BC8F5F527B6B02300095412 /* StorybookUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4BC8F5F227B6B02300095412 /* XCRemoteSwiftPackageReference "Storybook-ios" */;
-			productName = StorybookUI;
 		};
 		4BDDD3CD28DB627500452B7D /* CompositionKit */ = {
 			isa = XCSwiftPackageProductDependency;
