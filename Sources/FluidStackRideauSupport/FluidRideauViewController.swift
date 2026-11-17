@@ -18,10 +18,11 @@ open class FluidRideauViewController: FluidTransitionViewController {
 
   // MARK: - Properties
 
-  /// Called once when the sheet starts dismissing by a backdrop tap, a swipe,
+  /// Called once when a dismissal moves the sheet to `.hidden`: a swipe, a backdrop tap,
   /// or a removal that runs the sheet's own transition, such as `fluidPop()` or `dismiss(animated:)`.
+  /// Removals that do not move the sheet, such as removing its parent, do not call it.
   public var onWillDismiss: () -> Void = {}
-  /// Called once when the dismissal that ``onWillDismiss`` reported finishes.
+  /// Called once after the sheet is removed for the dismissal that ``onWillDismiss`` reported.
   public var onDidDismiss: () -> Void = {}
 
   public let rideauView: RideauView
@@ -156,18 +157,22 @@ open class FluidRideauViewController: FluidTransitionViewController {
         return
       }
 
-      // The sheet's own removing transitions also move it to `.hidden`.
-      // They notify the dismissal themselves and have already removed the sheet by this point,
-      // so only a swipe on a sheet that is still presented starts dismissing here.
+      // This handler is the only reporter of dismissals that move the sheet to `.hidden`.
+      // A swipe arrives while the sheet is still presented, so the handler removes it first.
+      // A removing transition, such as a backdrop tap or `fluidPop()`, arrives after Rideau has
+      // finished the removal in the move completion, so only the callbacks remain.
+      self.onWillDismiss()
+
+      let onDidDismiss = self.onDidDismiss
       if self.isInFluidStackController {
-        self.onWillDismiss()
-        let onDidDismiss = self.onDidDismiss
         self.fluidStackContext?.removeSelf(transition: .disabled, completion: { _ in onDidDismiss() })
       } else if Self.supportsModalPresentation,
         self.presentingViewController != nil,
         self.isBeingDismissed == false
       {
-        self.dismiss(animated: true)
+        self.dismiss(animated: true, completion: onDidDismiss)
+      } else {
+        onDidDismiss()
       }
 
     }
@@ -176,7 +181,7 @@ open class FluidRideauViewController: FluidTransitionViewController {
 
   @objc private dynamic func didTapBackdropView(gesture: UITapGestureRecognizer) {
 
-    // The sheet's removing transition notifies `onWillDismiss` and `onDidDismiss`.
+    // The `didMoveTo(.hidden)` handler reports the dismissal when the removing transition finishes.
     if Self.supportsModalPresentation {
 
       if self.isInFluidStackController {
@@ -251,8 +256,7 @@ extension FluidRideauViewController: UIViewControllerTransitioningDelegate {
 
   public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-    // WORKAROUND: Currently, we can not get the timing of beginning dismissal.
-    onWillDismiss()
+    // The dismiss transition moves the sheet to `.hidden`, and the `didMoveTo` handler reports the dismissal.
     return __RideauDismissTransitionController()
   }
 
@@ -272,15 +276,7 @@ extension AnyRemovingTransition {
         context.notifyAnimationCompleted()
         return
       }
-
-      controller.onWillDismiss()
-      let onDidDismiss = controller.onDidDismiss
-      context.addCompletionEventHandler { event in
-        // A cancelled removal keeps the sheet displayed.
-        guard event != .cancelled else { return }
-        onDidDismiss()
-      }
-
+          
       // TODO: Use rideauView.handlers.animatorsAlongsideMoving instead
       UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
         controller.backgroundView.backgroundColor = .clear
@@ -394,11 +390,7 @@ fileprivate final class __RideauDismissTransitionController: NSObject, UIViewCon
         controller.backgroundView.backgroundColor = UIColor(white: 0, alpha: 0)
       },
       completion: { _ in
-        let didDismiss = transitionContext.transitionWasCancelled == false
-        transitionContext.completeTransition(didDismiss)
-        if didDismiss {
-          controller.onDidDismiss()
-        }
+        transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
       }
     )
 
