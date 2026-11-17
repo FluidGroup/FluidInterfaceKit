@@ -18,7 +18,10 @@ open class FluidRideauViewController: FluidTransitionViewController {
 
   // MARK: - Properties
 
+  /// Called once when the sheet starts dismissing by a backdrop tap, a swipe,
+  /// or a removal that runs the sheet's own transition, such as `fluidPop()` or `dismiss(animated:)`.
   public var onWillDismiss: () -> Void = {}
+  /// Called once when the dismissal that ``onWillDismiss`` reported finishes.
   public var onDidDismiss: () -> Void = {}
 
   public let rideauView: RideauView
@@ -152,20 +155,19 @@ open class FluidRideauViewController: FluidTransitionViewController {
       guard point == .hidden else {
         return
       }
-                  
-      self.onWillDismiss()
 
-      let onDidDismiss = self.onDidDismiss
-      if Self.supportsModalPresentation {
-        
-        if self.isInFluidStackController {
-          self.fluidStackContext?.removeSelf(transition: .disabled, completion: { _ in onDidDismiss() })
-        } else {
-          self.dismiss(animated: true, completion: onDidDismiss)
-        }
-              
-      } else {
+      // The sheet's own removing transitions also move it to `.hidden`.
+      // They notify the dismissal themselves and have already removed the sheet by this point,
+      // so only a swipe on a sheet that is still presented starts dismissing here.
+      if self.isInFluidStackController {
+        self.onWillDismiss()
+        let onDidDismiss = self.onDidDismiss
         self.fluidStackContext?.removeSelf(transition: .disabled, completion: { _ in onDidDismiss() })
+      } else if Self.supportsModalPresentation,
+        self.presentingViewController != nil,
+        self.isBeingDismissed == false
+      {
+        self.dismiss(animated: true)
       }
 
     }
@@ -174,24 +176,20 @@ open class FluidRideauViewController: FluidTransitionViewController {
 
   @objc private dynamic func didTapBackdropView(gesture: UITapGestureRecognizer) {
 
-    let onDidDismiss = self.onDidDismiss
+    // The sheet's removing transition notifies `onWillDismiss` and `onDidDismiss`.
     if Self.supportsModalPresentation {
-      
+
       if self.isInFluidStackController {
         assert(fluidStackContext != nil)
-        onWillDismiss()
-        fluidPop(transition: nil, completion: { _ in onDidDismiss() })
+        fluidPop(transition: nil)
       } else {
-        self.dismiss(animated: true, completion: onDidDismiss)
+        self.dismiss(animated: true)
       }
-            
+
     } else {
       assert(fluidStackContext != nil)
-      onWillDismiss()
-      fluidPop(transition: nil, completion: { _ in onDidDismiss() })
+      fluidPop(transition: nil)
     }
-    
-    
 
   }
 }
@@ -274,7 +272,15 @@ extension AnyRemovingTransition {
         context.notifyAnimationCompleted()
         return
       }
-          
+
+      controller.onWillDismiss()
+      let onDidDismiss = controller.onDidDismiss
+      context.addCompletionEventHandler { event in
+        // A cancelled removal keeps the sheet displayed.
+        guard event != .cancelled else { return }
+        onDidDismiss()
+      }
+
       // TODO: Use rideauView.handlers.animatorsAlongsideMoving instead
       UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
         controller.backgroundView.backgroundColor = .clear
@@ -388,7 +394,11 @@ fileprivate final class __RideauDismissTransitionController: NSObject, UIViewCon
         controller.backgroundView.backgroundColor = UIColor(white: 0, alpha: 0)
       },
       completion: { _ in
-        transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        let didDismiss = transitionContext.transitionWasCancelled == false
+        transitionContext.completeTransition(didDismiss)
+        if didDismiss {
+          controller.onDidDismiss()
+        }
       }
     )
 
